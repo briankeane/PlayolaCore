@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
     s.default_subspec = 'Full'
 
     s.subspec 'Core' do |core|
-        core.source_files  = 'Sources/*.{h,m,swift}'
+        core.source_files  = 'Sources/*.swift'
     end
 
     s.subspec 'Full' do |full|

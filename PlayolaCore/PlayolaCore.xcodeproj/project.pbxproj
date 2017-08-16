@@ -123,8 +123,8 @@
 		4B361B591F44661A00654968 = {
 			isa = PBXGroup;
 			children = (
-				4B361BBB1F44686D00654968 /* Tests */,
 				4B361BB51F44676B00654968 /* Sources */,
+				4B361BBB1F44686D00654968 /* Tests */,
 				4B361B831F44663D00654968 /* PlayolaCoreIOS */,
 				4B361B8E1F44663D00654968 /* PlayolaCoreIOSTests */,
 				4B361B9F1F44664B00654968 /* PlayolaCoreOSX */,
@@ -898,6 +898,7 @@
 				4B361B951F44663D00654968 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4B361B961F44663D00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreIOSTests" */ = {
 			isa = XCConfigurationList;
@@ -906,6 +907,7 @@
 				4B361B981F44663D00654968 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4B361BAF1F44664B00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreOSX" */ = {
 			isa = XCConfigurationList;
@@ -914,6 +916,7 @@
 				4B361BB11F44664B00654968 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4B361BB21F44664B00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreOSXTests" */ = {
 			isa = XCConfigurationList;
@@ -922,6 +925,7 @@
 				4B361BB41F44664B00654968 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
