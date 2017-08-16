@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */; };
 		4B361B8B1F44663D00654968 /* PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B361B821F44663D00654968 /* PlayolaCoreIOS.framework */; };
 		4B361B901F44663D00654968 /* PlayolaCoreIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361B8F1F44663D00654968 /* PlayolaCoreIOSTests.swift */; };
 		4B361B921F44663D00654968 /* PlayolaCoreIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B361B841F44663D00654968 /* PlayolaCoreIOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -19,6 +20,9 @@
 		4B361BBE1F4468FD00654968 /* CarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BBC1F4468FD00654968 /* CarTest.swift */; };
 		4B361BBF1F44693D00654968 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BB81F44681100654968 /* Car.swift */; };
 		4B361BC01F44693E00654968 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BB81F44681100654968 /* Car.swift */; };
+		4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */; };
+		8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */; };
+		B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +43,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		012DB980C9EC63C62555145D /* Pods-PlayolaCoreIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.release.xcconfig"; sourceTree = "<group>"; };
+		43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B361B821F44663D00654968 /* PlayolaCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayolaCoreIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B361B841F44663D00654968 /* PlayolaCoreIOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayolaCoreIOS.h; sourceTree = "<group>"; };
 		4B361B851F44663D00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,6 +61,14 @@
 		4B361BAD1F44664B00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B361BB81F44681100654968 /* Car.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Car.swift; path = ../Sources/Car.swift; sourceTree = "<group>"; };
 		4B361BBC1F4468FD00654968 /* CarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarTest.swift; path = ../Tests/CarTest.swift; sourceTree = "<group>"; };
+		79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
+		8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
+		BB8D2BD2B70914F0D783C26E /* Pods-PlayolaCoreIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.debug.xcconfig"; sourceTree = "<group>"; };
+		CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreOSXTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D907DE16E56F2E4F4D68C322 /* Pods-PlayolaCoreOSXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.release.xcconfig"; sourceTree = "<group>"; };
+		E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B361B8B1F44663D00654968 /* PlayolaCoreIOS.framework in Frameworks */,
+				4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,12 +102,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B361BA71F44664B00654968 /* PlayolaCoreOSX.framework in Frameworks */,
+				8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03BD8008700CDB5A9CF46102 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */,
+				8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */,
+				EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */,
+				CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4B361B591F44661A00654968 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +130,8 @@
 				4B361B9F1F44664B00654968 /* PlayolaCoreOSX */,
 				4B361BAA1F44664B00654968 /* PlayolaCoreOSXTests */,
 				4B361B641F44661A00654968 /* Products */,
+				AAE24683FD508079C36DEDDD /* Pods */,
+				03BD8008700CDB5A9CF46102 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,6 +198,21 @@
 			name = Tests;
 			sourceTree = "<group>";
 		};
+		AAE24683FD508079C36DEDDD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BB8D2BD2B70914F0D783C26E /* Pods-PlayolaCoreIOS.debug.xcconfig */,
+				A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */,
+				43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */,
+				012DB980C9EC63C62555145D /* Pods-PlayolaCoreIOSTests.release.xcconfig */,
+				79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */,
+				2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */,
+				2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */,
+				D907DE16E56F2E4F4D68C322 /* Pods-PlayolaCoreOSXTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -191,10 +239,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361B931F44663D00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreIOS" */;
 			buildPhases = (
+				0E427BE043D0E20714B3FE83 /* [CP] Check Pods Manifest.lock */,
 				4B361B7D1F44663D00654968 /* Sources */,
 				4B361B7E1F44663D00654968 /* Frameworks */,
 				4B361B7F1F44663D00654968 /* Headers */,
 				4B361B801F44663D00654968 /* Resources */,
+				94C6C09F0ED416562909CDC9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,9 +259,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361B961F44663D00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreIOSTests" */;
 			buildPhases = (
+				666F8F9B06025D0CF3E1893E /* [CP] Check Pods Manifest.lock */,
 				4B361B861F44663D00654968 /* Sources */,
 				4B361B871F44663D00654968 /* Frameworks */,
 				4B361B881F44663D00654968 /* Resources */,
+				636227E4C788BDCBFB998DB9 /* [CP] Embed Pods Frameworks */,
+				3064FB190118801FB060C5AB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -227,10 +280,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361BAF1F44664B00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreOSX" */;
 			buildPhases = (
+				CB74D5FDA2EECB1EA24598AC /* [CP] Check Pods Manifest.lock */,
 				4B361B991F44664B00654968 /* Sources */,
 				4B361B9A1F44664B00654968 /* Frameworks */,
 				4B361B9B1F44664B00654968 /* Headers */,
 				4B361B9C1F44664B00654968 /* Resources */,
+				E9973C8DF411BA369B277400 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -245,9 +300,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361BB21F44664B00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreOSXTests" */;
 			buildPhases = (
+				D984E74CA874E385A627AE3A /* [CP] Check Pods Manifest.lock */,
 				4B361BA21F44664B00654968 /* Sources */,
 				4B361BA31F44664B00654968 /* Frameworks */,
 				4B361BA41F44664B00654968 /* Resources */,
+				8B7152DFD907BC7A09B76356 /* [CP] Embed Pods Frameworks */,
+				BD00ABEB1BFFFFCC9A3290E2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -343,6 +401,171 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E427BE043D0E20714B3FE83 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreIOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3064FB190118801FB060C5AB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		636227E4C788BDCBFB998DB9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		666F8F9B06025D0CF3E1893E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreIOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B7152DFD907BC7A09B76356 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		94C6C09F0ED416562909CDC9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD00ABEB1BFFFFCC9A3290E2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB74D5FDA2EECB1EA24598AC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreOSX-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D984E74CA874E385A627AE3A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreOSXTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9973C8DF411BA369B277400 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4B361B7D1F44663D00654968 /* Sources */ = {
@@ -500,6 +723,7 @@
 		};
 		4B361B941F44663D00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB8D2BD2B70914F0D783C26E /* Pods-PlayolaCoreIOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -521,6 +745,7 @@
 		};
 		4B361B951F44663D00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -541,6 +766,7 @@
 		};
 		4B361B971F44663D00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
@@ -554,6 +780,7 @@
 		};
 		4B361B981F44663D00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 012DB980C9EC63C62555145D /* Pods-PlayolaCoreIOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
@@ -567,6 +794,7 @@
 		};
 		4B361BB01F44664B00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -592,6 +820,7 @@
 		};
 		4B361BB11F44664B00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -616,6 +845,7 @@
 		};
 		4B361BB31F44664B00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -633,6 +863,7 @@
 		};
 		4B361BB41F44664B00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D907DE16E56F2E4F4D68C322 /* Pods-PlayolaCoreOSXTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";

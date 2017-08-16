@@ -1,0 +1,844 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04024F631EEDA9C8C23971BEDAC1F72D /* Pods-PlayolaCoreIOSTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A7E32C0A018B97D233A3E9A14DA5A4DB /* Pods-PlayolaCoreIOSTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		084C976722334B30F48513EE62024BAC /* Pods-PlayolaCoreIOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 31136DF5867DD71F993AF9574BEB92F7 /* Pods-PlayolaCoreIOS-dummy.m */; };
+		11F43DD3E78BF9F4452177F9A49FC5D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDAA23DDA8E082FC77E38FA01601C8F /* Cocoa.framework */; };
+		21396B097F7015901D89FE347B6007CB /* Pods-PlayolaCoreOSXTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B5C5D5219999293319465B84A0BC4D8 /* Pods-PlayolaCoreOSXTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2680F9BAC2327527D62CC01153E63015 /* Pods-PlayolaCoreIOSTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A08AA0B01D7E756862DA2AC25FE66A7 /* Pods-PlayolaCoreIOSTests-dummy.m */; };
+		3ED8E6708D1461BFA59EEA25BA8EBAC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8E2D632CADFEBE217900FD1D4F3ABF /* Foundation.framework */; };
+		3EE18D36D162868E40B9F6BF0F6E0DFE /* Pods-PlayolaCoreOSX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 810D5DD30A86F1EE68EE3D22CDAD7D2C /* Pods-PlayolaCoreOSX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7F435F727E3D1B0200609BA7EC524FDA /* Pods-PlayolaCoreOSXTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADC4BA81782CFF86471ABA0782201DA /* Pods-PlayolaCoreOSXTests-dummy.m */; };
+		904140692E47F4081705631DC8CE89C7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8E2D632CADFEBE217900FD1D4F3ABF /* Foundation.framework */; };
+		CB7A5C348EE24EFA035AF8DB94AF41E8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDAA23DDA8E082FC77E38FA01601C8F /* Cocoa.framework */; };
+		F3BEB3E36BAF20E89B3AE5166409AFDD /* Pods-PlayolaCoreIOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DC7D6FF24D7D53FC85D847CDBD669132 /* Pods-PlayolaCoreIOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F400AF2222BE46C16603D7EEAC14EFEA /* Pods-PlayolaCoreOSX-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C1A47CFB40BF850D3E4EF2DCA68AEE9F /* Pods-PlayolaCoreOSX-dummy.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		014E690776B5BB8806554BB081577472 /* Pods-PlayolaCoreIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreIOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		0183C92C49D1B9F0A0A512E5E0EBC5D8 /* Pods-PlayolaCoreOSXTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PlayolaCoreOSXTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		0ABDC2C204169701F4CD3C16DCB63094 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreOSXTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0D4E1267C1CBF73BA8411A1D002677CB /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
+		2A08AA0B01D7E756862DA2AC25FE66A7 /* Pods-PlayolaCoreIOSTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PlayolaCoreIOSTests-dummy.m"; sourceTree = "<group>"; };
+		2B5C5D5219999293319465B84A0BC4D8 /* Pods-PlayolaCoreOSXTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PlayolaCoreOSXTests-umbrella.h"; sourceTree = "<group>"; };
+		2C9757FF987127C255C27979ED5E6429 /* Pods-PlayolaCoreIOSTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlayolaCoreIOSTests-frameworks.sh"; sourceTree = "<group>"; };
+		2E2B713CC60228958B5591DA3B98636B /* Pods_PlayolaCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PlayolaCoreIOS.framework; path = "Pods-PlayolaCoreIOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FB94D262986A4FEB4FD9C8CFDF9EBAB /* Pods-PlayolaCoreOSX-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PlayolaCoreOSX-acknowledgements.markdown"; sourceTree = "<group>"; };
+		31136DF5867DD71F993AF9574BEB92F7 /* Pods-PlayolaCoreIOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PlayolaCoreIOS-dummy.m"; sourceTree = "<group>"; };
+		33FADEC6F585272EF2772F51A99071C2 /* Pods-PlayolaCoreOSXTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlayolaCoreOSXTests-resources.sh"; sourceTree = "<group>"; };
+		3A4E56958347B420166A9D69DC465824 /* Pods-PlayolaCoreIOSTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PlayolaCoreIOSTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		3ADC4BA81782CFF86471ABA0782201DA /* Pods-PlayolaCoreOSXTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PlayolaCoreOSXTests-dummy.m"; sourceTree = "<group>"; };
+		3C8BA1712A42112F3C4E2DCDA91BF7EF /* Pods-PlayolaCoreOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreOSX.release.xcconfig"; sourceTree = "<group>"; };
+		454EF01470216A0D96D292411A89126F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		499761984462BB335CFBDB847E0CB2E8 /* Pods_PlayolaCoreOSXTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PlayolaCoreOSXTests.framework; path = "Pods-PlayolaCoreOSXTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BF143B9BD553A8873B93EE365710330 /* Pods-PlayolaCoreIOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PlayolaCoreIOS-acknowledgements.markdown"; sourceTree = "<group>"; };
+		4C58FD4240EA43EA180602642D1A7371 /* Pods-PlayolaCoreOSX-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlayolaCoreOSX-resources.sh"; sourceTree = "<group>"; };
+		4DA39337CD2548D8EAC1462D848FC1FE /* Pods-PlayolaCoreOSXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreOSXTests.release.xcconfig"; sourceTree = "<group>"; };
+		534D80D38AA7CDCA0B81D42E4C19B2BE /* Pods-PlayolaCoreIOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PlayolaCoreIOS-acknowledgements.plist"; sourceTree = "<group>"; };
+		5620D9C936D5A6F5DA6A4FB71A2793C7 /* Pods-PlayolaCoreIOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PlayolaCoreIOS.modulemap"; sourceTree = "<group>"; };
+		6C8181044B0FCB0CC2644CC9BE241C17 /* Pods-PlayolaCoreOSX-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PlayolaCoreOSX-acknowledgements.plist"; sourceTree = "<group>"; };
+		79FD6A439A162483EB1E807AAB61B8FB /* Pods-PlayolaCoreIOS-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlayolaCoreIOS-resources.sh"; sourceTree = "<group>"; };
+		7A1E7BC0AEDEA74DE935EECE769217D9 /* Pods-PlayolaCoreOSXTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PlayolaCoreOSXTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		7A56964F2E873DCBAEFA1E946E173CE9 /* Pods-PlayolaCoreOSXTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlayolaCoreOSXTests-frameworks.sh"; sourceTree = "<group>"; };
+		810D5DD30A86F1EE68EE3D22CDAD7D2C /* Pods-PlayolaCoreOSX-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PlayolaCoreOSX-umbrella.h"; sourceTree = "<group>"; };
+		8423D335178BA585300D5969168DD99B /* Pods-PlayolaCoreIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		84EC7EB9C902216BA8A00617CF6398C1 /* Pods_PlayolaCoreOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PlayolaCoreOSX.framework; path = "Pods-PlayolaCoreOSX.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9FFB847055747047D58EC20BEA5452A9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A122EF5D035ACAF0D73A541845A3D6EE /* Pods-PlayolaCoreIOSTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PlayolaCoreIOSTests.modulemap"; sourceTree = "<group>"; };
+		A7E32C0A018B97D233A3E9A14DA5A4DB /* Pods-PlayolaCoreIOSTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PlayolaCoreIOSTests-umbrella.h"; sourceTree = "<group>"; };
+		B2D02682A275171ACD9D7A9F182B89FA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0EF2BB5944E86351DCD8701328AB2FC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1A47CFB40BF850D3E4EF2DCA68AEE9F /* Pods-PlayolaCoreOSX-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PlayolaCoreOSX-dummy.m"; sourceTree = "<group>"; };
+		C20EBCE45E3BECA96DCF5FDDBD02BF15 /* Pods-PlayolaCoreOSX.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PlayolaCoreOSX.modulemap"; sourceTree = "<group>"; };
+		C87B06D4348A5C24A20BA330A30A42B1 /* Pods-PlayolaCoreIOSTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PlayolaCoreIOSTests-resources.sh"; sourceTree = "<group>"; };
+		CB8552685F696FF0336378E75A490943 /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PlayolaCoreIOSTests.framework; path = "Pods-PlayolaCoreIOSTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDDAA23DDA8E082FC77E38FA01601C8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		D03F9861FAC3E912328A358A4572FB44 /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
+		DB8E2D632CADFEBE217900FD1D4F3ABF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		DC7D6FF24D7D53FC85D847CDBD669132 /* Pods-PlayolaCoreIOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PlayolaCoreIOS-umbrella.h"; sourceTree = "<group>"; };
+		EAABFBD8298B8EFC7151EFFFAEB539A3 /* Pods-PlayolaCoreIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PlayolaCoreIOS.debug.xcconfig"; sourceTree = "<group>"; };
+		F20F9B66171659AE35FCB0FD8E9F5803 /* Pods-PlayolaCoreOSXTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PlayolaCoreOSXTests.modulemap"; sourceTree = "<group>"; };
+		FBF223E57F7722F895552F12236D01DD /* Pods-PlayolaCoreIOSTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PlayolaCoreIOSTests-acknowledgements.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0556BBAC891CCEF6D343667D41E66705 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB7A5C348EE24EFA035AF8DB94AF41E8 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82776F13776959872129433231A1F7DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3ED8E6708D1461BFA59EEA25BA8EBAC1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99983FABD63A2B52528DB191DE9E0566 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				904140692E47F4081705631DC8CE89C7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1BF568BE163EE97729406389B63A4CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11F43DD3E78BF9F4452177F9A49FC5D1 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B018882AF738A0200ED876CCE072F95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2E2B713CC60228958B5591DA3B98636B /* Pods_PlayolaCoreIOS.framework */,
+				CB8552685F696FF0336378E75A490943 /* Pods_PlayolaCoreIOSTests.framework */,
+				84EC7EB9C902216BA8A00617CF6398C1 /* Pods_PlayolaCoreOSX.framework */,
+				499761984462BB335CFBDB847E0CB2E8 /* Pods_PlayolaCoreOSXTests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		27FECEF422D59E22DBAD6A1FB75CE964 /* Pods-PlayolaCoreIOS */ = {
+			isa = PBXGroup;
+			children = (
+				9FFB847055747047D58EC20BEA5452A9 /* Info.plist */,
+				5620D9C936D5A6F5DA6A4FB71A2793C7 /* Pods-PlayolaCoreIOS.modulemap */,
+				4BF143B9BD553A8873B93EE365710330 /* Pods-PlayolaCoreIOS-acknowledgements.markdown */,
+				534D80D38AA7CDCA0B81D42E4C19B2BE /* Pods-PlayolaCoreIOS-acknowledgements.plist */,
+				31136DF5867DD71F993AF9574BEB92F7 /* Pods-PlayolaCoreIOS-dummy.m */,
+				79FD6A439A162483EB1E807AAB61B8FB /* Pods-PlayolaCoreIOS-resources.sh */,
+				DC7D6FF24D7D53FC85D847CDBD669132 /* Pods-PlayolaCoreIOS-umbrella.h */,
+				EAABFBD8298B8EFC7151EFFFAEB539A3 /* Pods-PlayolaCoreIOS.debug.xcconfig */,
+				D03F9861FAC3E912328A358A4572FB44 /* Pods-PlayolaCoreIOS.release.xcconfig */,
+			);
+			name = "Pods-PlayolaCoreIOS";
+			path = "Target Support Files/Pods-PlayolaCoreIOS";
+			sourceTree = "<group>";
+		};
+		2EDFAB15A7E74F864EB353FCB5A57006 /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				CDDAA23DDA8E082FC77E38FA01601C8F /* Cocoa.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		3AEF7D761E8EA8419BB4A7000AB770CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8C918DD0468B798DBE7EEDD4C9D4170B /* iOS */,
+				2EDFAB15A7E74F864EB353FCB5A57006 /* OS X */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		73E089B952E382BDFF08B757E3F6AD29 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				27FECEF422D59E22DBAD6A1FB75CE964 /* Pods-PlayolaCoreIOS */,
+				C717F250C8AA018327716A703655BCFA /* Pods-PlayolaCoreIOSTests */,
+				87F654193EBBFF36988968DD99EFE4D0 /* Pods-PlayolaCoreOSX */,
+				BF1B993B54CFC5A37B7ABA7E6CD77CA9 /* Pods-PlayolaCoreOSXTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				3AEF7D761E8EA8419BB4A7000AB770CB /* Frameworks */,
+				0B018882AF738A0200ED876CCE072F95 /* Products */,
+				73E089B952E382BDFF08B757E3F6AD29 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		87F654193EBBFF36988968DD99EFE4D0 /* Pods-PlayolaCoreOSX */ = {
+			isa = PBXGroup;
+			children = (
+				B2D02682A275171ACD9D7A9F182B89FA /* Info.plist */,
+				C20EBCE45E3BECA96DCF5FDDBD02BF15 /* Pods-PlayolaCoreOSX.modulemap */,
+				2FB94D262986A4FEB4FD9C8CFDF9EBAB /* Pods-PlayolaCoreOSX-acknowledgements.markdown */,
+				6C8181044B0FCB0CC2644CC9BE241C17 /* Pods-PlayolaCoreOSX-acknowledgements.plist */,
+				C1A47CFB40BF850D3E4EF2DCA68AEE9F /* Pods-PlayolaCoreOSX-dummy.m */,
+				4C58FD4240EA43EA180602642D1A7371 /* Pods-PlayolaCoreOSX-resources.sh */,
+				810D5DD30A86F1EE68EE3D22CDAD7D2C /* Pods-PlayolaCoreOSX-umbrella.h */,
+				0D4E1267C1CBF73BA8411A1D002677CB /* Pods-PlayolaCoreOSX.debug.xcconfig */,
+				3C8BA1712A42112F3C4E2DCDA91BF7EF /* Pods-PlayolaCoreOSX.release.xcconfig */,
+			);
+			name = "Pods-PlayolaCoreOSX";
+			path = "Target Support Files/Pods-PlayolaCoreOSX";
+			sourceTree = "<group>";
+		};
+		8C918DD0468B798DBE7EEDD4C9D4170B /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				DB8E2D632CADFEBE217900FD1D4F3ABF /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		BF1B993B54CFC5A37B7ABA7E6CD77CA9 /* Pods-PlayolaCoreOSXTests */ = {
+			isa = PBXGroup;
+			children = (
+				454EF01470216A0D96D292411A89126F /* Info.plist */,
+				F20F9B66171659AE35FCB0FD8E9F5803 /* Pods-PlayolaCoreOSXTests.modulemap */,
+				7A1E7BC0AEDEA74DE935EECE769217D9 /* Pods-PlayolaCoreOSXTests-acknowledgements.markdown */,
+				0183C92C49D1B9F0A0A512E5E0EBC5D8 /* Pods-PlayolaCoreOSXTests-acknowledgements.plist */,
+				3ADC4BA81782CFF86471ABA0782201DA /* Pods-PlayolaCoreOSXTests-dummy.m */,
+				7A56964F2E873DCBAEFA1E946E173CE9 /* Pods-PlayolaCoreOSXTests-frameworks.sh */,
+				33FADEC6F585272EF2772F51A99071C2 /* Pods-PlayolaCoreOSXTests-resources.sh */,
+				2B5C5D5219999293319465B84A0BC4D8 /* Pods-PlayolaCoreOSXTests-umbrella.h */,
+				0ABDC2C204169701F4CD3C16DCB63094 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */,
+				4DA39337CD2548D8EAC1462D848FC1FE /* Pods-PlayolaCoreOSXTests.release.xcconfig */,
+			);
+			name = "Pods-PlayolaCoreOSXTests";
+			path = "Target Support Files/Pods-PlayolaCoreOSXTests";
+			sourceTree = "<group>";
+		};
+		C717F250C8AA018327716A703655BCFA /* Pods-PlayolaCoreIOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				C0EF2BB5944E86351DCD8701328AB2FC /* Info.plist */,
+				A122EF5D035ACAF0D73A541845A3D6EE /* Pods-PlayolaCoreIOSTests.modulemap */,
+				3A4E56958347B420166A9D69DC465824 /* Pods-PlayolaCoreIOSTests-acknowledgements.markdown */,
+				FBF223E57F7722F895552F12236D01DD /* Pods-PlayolaCoreIOSTests-acknowledgements.plist */,
+				2A08AA0B01D7E756862DA2AC25FE66A7 /* Pods-PlayolaCoreIOSTests-dummy.m */,
+				2C9757FF987127C255C27979ED5E6429 /* Pods-PlayolaCoreIOSTests-frameworks.sh */,
+				C87B06D4348A5C24A20BA330A30A42B1 /* Pods-PlayolaCoreIOSTests-resources.sh */,
+				A7E32C0A018B97D233A3E9A14DA5A4DB /* Pods-PlayolaCoreIOSTests-umbrella.h */,
+				8423D335178BA585300D5969168DD99B /* Pods-PlayolaCoreIOSTests.debug.xcconfig */,
+				014E690776B5BB8806554BB081577472 /* Pods-PlayolaCoreIOSTests.release.xcconfig */,
+			);
+			name = "Pods-PlayolaCoreIOSTests";
+			path = "Target Support Files/Pods-PlayolaCoreIOSTests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3B155091EDFD5D53ECE9B85B8A49A43D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3BEB3E36BAF20E89B3AE5166409AFDD /* Pods-PlayolaCoreIOS-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61A9F0344464DDA660107E8F6D3F0819 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EE18D36D162868E40B9F6BF0F6E0DFE /* Pods-PlayolaCoreOSX-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8F00FBDE048C97EA491843D54A49214 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21396B097F7015901D89FE347B6007CB /* Pods-PlayolaCoreOSXTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5E2C99B77B437C2C921FF1A4979C523 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04024F631EEDA9C8C23971BEDAC1F72D /* Pods-PlayolaCoreIOSTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		744141765C46A9C65CCD9018B621771F /* Pods-PlayolaCoreIOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1F0F0A473E51E2890BDB32E210C6572 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreIOSTests" */;
+			buildPhases = (
+				D57CC510D92E4DB2716F20A88276B494 /* Sources */,
+				82776F13776959872129433231A1F7DD /* Frameworks */,
+				D5E2C99B77B437C2C921FF1A4979C523 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PlayolaCoreIOSTests";
+			productName = "Pods-PlayolaCoreIOSTests";
+			productReference = CB8552685F696FF0336378E75A490943 /* Pods_PlayolaCoreIOSTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BAEBF21B5069920827E80FB6E8610A67 /* Pods-PlayolaCoreOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25623978C3E4D8575CFD35B7520B8065 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreOSX" */;
+			buildPhases = (
+				1BC81076429EBED6FEF78569C539216B /* Sources */,
+				D1BF568BE163EE97729406389B63A4CC /* Frameworks */,
+				61A9F0344464DDA660107E8F6D3F0819 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PlayolaCoreOSX";
+			productName = "Pods-PlayolaCoreOSX";
+			productReference = 84EC7EB9C902216BA8A00617CF6398C1 /* Pods_PlayolaCoreOSX.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C633512AB18CACA5F929D50F496D66F1 /* Pods-PlayolaCoreIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9EF35A103D0843CF32DC230141F2C765 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreIOS" */;
+			buildPhases = (
+				E501D16B4E0A54B244D1EF90C487ADB1 /* Sources */,
+				99983FABD63A2B52528DB191DE9E0566 /* Frameworks */,
+				3B155091EDFD5D53ECE9B85B8A49A43D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PlayolaCoreIOS";
+			productName = "Pods-PlayolaCoreIOS";
+			productReference = 2E2B713CC60228958B5591DA3B98636B /* Pods_PlayolaCoreIOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FA3FBFD1FC4CA8BDD2CD527B5C7FDA31 /* Pods-PlayolaCoreOSXTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DF62F34518602A9998E751E165EDB248 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreOSXTests" */;
+			buildPhases = (
+				E93D6021672D4FEE59B51243647CAAC4 /* Sources */,
+				0556BBAC891CCEF6D343667D41E66705 /* Frameworks */,
+				A8F00FBDE048C97EA491843D54A49214 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PlayolaCoreOSXTests";
+			productName = "Pods-PlayolaCoreOSXTests";
+			productReference = 499761984462BB335CFBDB847E0CB2E8 /* Pods_PlayolaCoreOSXTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 0B018882AF738A0200ED876CCE072F95 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C633512AB18CACA5F929D50F496D66F1 /* Pods-PlayolaCoreIOS */,
+				744141765C46A9C65CCD9018B621771F /* Pods-PlayolaCoreIOSTests */,
+				BAEBF21B5069920827E80FB6E8610A67 /* Pods-PlayolaCoreOSX */,
+				FA3FBFD1FC4CA8BDD2CD527B5C7FDA31 /* Pods-PlayolaCoreOSXTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1BC81076429EBED6FEF78569C539216B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F400AF2222BE46C16603D7EEAC14EFEA /* Pods-PlayolaCoreOSX-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D57CC510D92E4DB2716F20A88276B494 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2680F9BAC2327527D62CC01153E63015 /* Pods-PlayolaCoreIOSTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E501D16B4E0A54B244D1EF90C487ADB1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				084C976722334B30F48513EE62024BAC /* Pods-PlayolaCoreIOS-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E93D6021672D4FEE59B51243647CAAC4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F435F727E3D1B0200609BA7EC524FDA /* Pods-PlayolaCoreOSXTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1EB95864DEFA1EC84E748AFEA9495199 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D4E1267C1CBF73BA8411A1D002677CB /* Pods-PlayolaCoreOSX.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreOSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreOSX;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4D05B24FFE6D25CF2FEF7F457DD26E90 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D03F9861FAC3E912328A358A4572FB44 /* Pods-PlayolaCoreIOS.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreIOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreIOS;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5D460ABAAB8450EA242108C76E4447C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		7C792709A8E20A508D808746ECB14AC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EAABFBD8298B8EFC7151EFFFAEB539A3 /* Pods-PlayolaCoreIOS.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreIOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreIOS;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		86BF95D0DA3A017CD84034D93111AA3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 014E690776B5BB8806554BB081577472 /* Pods-PlayolaCoreIOSTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreIOSTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreIOSTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		994F936934EB59A085441C0BBA5BABDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0ABDC2C204169701F4CD3C16DCB63094 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreOSXTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreOSXTests;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9B949857406037EDFEBE94B025640184 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A485984C255EF02C0E659150CFF03719 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DA39337CD2548D8EAC1462D848FC1FE /* Pods-PlayolaCoreOSXTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreOSXTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreOSXTests;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A6427BE176E7AC508487EE3F4C4E575E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8423D335178BA585300D5969168DD99B /* Pods-PlayolaCoreIOSTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreIOSTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreIOSTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FA02746BEFA8F4C54B790D6CEF69325E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C8BA1712A42112F3C4E2DCDA91BF7EF /* Pods-PlayolaCoreOSX.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PlayolaCoreOSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = "Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PlayolaCoreOSX;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		25623978C3E4D8575CFD35B7520B8065 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1EB95864DEFA1EC84E748AFEA9495199 /* Debug */,
+				FA02746BEFA8F4C54B790D6CEF69325E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D460ABAAB8450EA242108C76E4447C7 /* Debug */,
+				9B949857406037EDFEBE94B025640184 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9EF35A103D0843CF32DC230141F2C765 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C792709A8E20A508D808746ECB14AC2 /* Debug */,
+				4D05B24FFE6D25CF2FEF7F457DD26E90 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DF62F34518602A9998E751E165EDB248 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreOSXTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				994F936934EB59A085441C0BBA5BABDE /* Debug */,
+				A485984C255EF02C0E659150CFF03719 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1F0F0A473E51E2890BDB32E210C6572 /* Build configuration list for PBXNativeTarget "Pods-PlayolaCoreIOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6427BE176E7AC508487EE3F4C4E575E /* Debug */,
+				86BF95D0DA3A017CD84034D93111AA3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}
