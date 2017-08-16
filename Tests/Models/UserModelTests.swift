@@ -47,7 +47,7 @@ class UserModelQuickTests: QuickSpec {
                 expect(bob.email).to(equal("bob@bob.com"))
                 expect(bob.zipcode).to(equal("78748"))
                 expect(bob.timezone).to(equal("America/Chicago"))
-                expect(bob.role).to(equal("user"))
+                expect(bob.role).to(equal(PlayolaUserRole.user))
                 expect(bob.lastCommercial!["commercialBlockNumber"] as? Int).to(equal(58))
                 expect(bob.lastCommercial!["audioFileID"] as? Int).to(equal(25))
                 expect(bob.profileImageUrl).to(equal("profileImageUrlSample"))
@@ -82,9 +82,9 @@ class UserModelQuickTests: QuickSpec {
                 let user = User(userInfo: ["displayName":"Bob",
                                            "role": "user"
                     ])
-                expect(user.hasRole("admin")).to(equal(false))
-                user.role = "admin"
-                expect(user.hasRole("admin")).to(equal(true))
+                expect(user.hasRole(.admin)).to(equal(false))
+                user.role = .admin
+                expect(user.hasRole(.admin)).to(equal(true))
             }
         }
     }

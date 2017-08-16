@@ -62,16 +62,24 @@
 		4B361C411F44BD1C00654968 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C3F1F44BD1C00654968 /* Constants.swift */; };
 		4B361C421F44BD1C00654968 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C3F1F44BD1C00654968 /* Constants.swift */; };
 		4B361C431F44BD1C00654968 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C3F1F44BD1C00654968 /* Constants.swift */; };
-		4B361C451F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C441F44BD5D00654968 /* CommercialBlockProviderService.swift */; };
-		4B361C461F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C441F44BD5D00654968 /* CommercialBlockProviderService.swift */; };
-		4B361C471F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C441F44BD5D00654968 /* CommercialBlockProviderService.swift */; };
-		4B361C481F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C441F44BD5D00654968 /* CommercialBlockProviderService.swift */; };
-		4B361C4C1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C4A1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift */; };
-		4B361C4E1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C4A1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift */; };
-		4B361C501F44BECC00654968 /* SharedDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C4F1F44BECC00654968 /* SharedDataService.swift */; };
-		4B361C511F44BECC00654968 /* SharedDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C4F1F44BECC00654968 /* SharedDataService.swift */; };
-		4B361C521F44BECC00654968 /* SharedDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C4F1F44BECC00654968 /* SharedDataService.swift */; };
-		4B361C531F44BECC00654968 /* SharedDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C4F1F44BECC00654968 /* SharedDataService.swift */; };
+		4B361C551F44C72900654968 /* UserListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C541F44C72900654968 /* UserListModel.swift */; };
+		4B361C561F44C72900654968 /* UserListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C541F44C72900654968 /* UserListModel.swift */; };
+		4B361C571F44C72900654968 /* UserListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C541F44C72900654968 /* UserListModel.swift */; };
+		4B361C581F44C72900654968 /* UserListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C541F44C72900654968 /* UserListModel.swift */; };
+		4B361C5D1F44C86300654968 /* RotationItemsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C5C1F44C86300654968 /* RotationItemsCollection.swift */; };
+		4B361C5E1F44C86300654968 /* RotationItemsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C5C1F44C86300654968 /* RotationItemsCollection.swift */; };
+		4B361C5F1F44C86300654968 /* RotationItemsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C5C1F44C86300654968 /* RotationItemsCollection.swift */; };
+		4B361C601F44C86300654968 /* RotationItemsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C5C1F44C86300654968 /* RotationItemsCollection.swift */; };
+		4B361C651F44C8D600654968 /* RotationItemsCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C641F44C8D600654968 /* RotationItemsCollectionTests.swift */; };
+		4B361C661F44C8D600654968 /* RotationItemsCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C641F44C8D600654968 /* RotationItemsCollectionTests.swift */; };
+		4B361C681F44C91E00654968 /* RotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C671F44C91E00654968 /* RotationItem.swift */; };
+		4B361C691F44C91E00654968 /* RotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C671F44C91E00654968 /* RotationItem.swift */; };
+		4B361C6A1F44C97B00654968 /* RotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C671F44C91E00654968 /* RotationItem.swift */; };
+		4B361C6B1F44C97B00654968 /* RotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C671F44C91E00654968 /* RotationItem.swift */; };
+		4B361C6E1F44D58400654968 /* DataMocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C6D1F44D58400654968 /* DataMocker.swift */; };
+		4B361C6F1F44D58400654968 /* DataMocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C6D1F44D58400654968 /* DataMocker.swift */; };
+		4B361C711F44D7EB00654968 /* DateHandlerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C701F44D7EB00654968 /* DateHandlerMock.swift */; };
+		4B361C721F44D7EB00654968 /* DateHandlerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C701F44D7EB00654968 /* DateHandlerMock.swift */; };
 		4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */; };
 		8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */; };
 		B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */; };
@@ -126,9 +134,12 @@
 		4B361C331F44BAA300654968 /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateExtensions.swift; path = ../Sources/Extensions/DateExtensions.swift; sourceTree = "<group>"; };
 		4B361C3A1F44BCC800654968 /* DateHandlerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateHandlerService.swift; path = ../Sources/Services/DateHandlerService.swift; sourceTree = "<group>"; };
 		4B361C3F1F44BD1C00654968 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../Sources/Config/Constants.swift; sourceTree = "<group>"; };
-		4B361C441F44BD5D00654968 /* CommercialBlockProviderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialBlockProviderService.swift; path = ../Sources/Services/CommercialBlockProviderService.swift; sourceTree = "<group>"; };
-		4B361C4A1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialBlockProviderServiceTests.swift; path = ../Tests/Services/CommercialBlockProviderServiceTests.swift; sourceTree = "<group>"; };
-		4B361C4F1F44BECC00654968 /* SharedDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedDataService.swift; path = ../Sources/Services/SharedDataService.swift; sourceTree = "<group>"; };
+		4B361C541F44C72900654968 /* UserListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListModel.swift; path = ../Sources/Models/UserListModel.swift; sourceTree = "<group>"; };
+		4B361C5C1F44C86300654968 /* RotationItemsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RotationItemsCollection.swift; path = ../Sources/Models/RotationItemsCollection.swift; sourceTree = "<group>"; };
+		4B361C641F44C8D600654968 /* RotationItemsCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RotationItemsCollectionTests.swift; path = ../Tests/Models/RotationItemsCollectionTests.swift; sourceTree = "<group>"; };
+		4B361C671F44C91E00654968 /* RotationItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RotationItem.swift; path = ../Sources/Models/RotationItem.swift; sourceTree = "<group>"; };
+		4B361C6D1F44D58400654968 /* DataMocker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataMocker.swift; path = ../Tests/Helpers/DataMocker.swift; sourceTree = "<group>"; };
+		4B361C701F44D7EB00654968 /* DateHandlerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateHandlerMock.swift; path = ../Tests/Helpers/DateHandlerMock.swift; sourceTree = "<group>"; };
 		79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
 		8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -265,6 +276,7 @@
 		4B361BBB1F44686D00654968 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4B361C6C1F44D56D00654968 /* Helpers */,
 				4B361C491F44BD7900654968 /* Services */,
 				4B361C011F44B2EA00654968 /* Models */,
 				4B361BBC1F4468FD00654968 /* CarTest.swift */,
@@ -288,6 +300,9 @@
 				4B361C091F44B51800654968 /* ProgramModel.swift */,
 				4B361C0E1F44B54E00654968 /* SpinModel.swift */,
 				4B361C191F44B62400654968 /* AudioBlockModel.swift */,
+				4B361C541F44C72900654968 /* UserListModel.swift */,
+				4B361C5C1F44C86300654968 /* RotationItemsCollection.swift */,
+				4B361C671F44C91E00654968 /* RotationItem.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -299,6 +314,7 @@
 				4B361C201F44B69C00654968 /* SpinModelTests.swift */,
 				4B361C021F44B44A00654968 /* UserModelTests.swift */,
 				4B361C2F1F44B91E00654968 /* AudioBlockModelTests.swift */,
+				4B361C641F44C8D600654968 /* RotationItemsCollectionTests.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -308,8 +324,6 @@
 			children = (
 				4B361BFA1F44B25E00654968 /* Auth */,
 				4B361C3A1F44BCC800654968 /* DateHandlerService.swift */,
-				4B361C441F44BD5D00654968 /* CommercialBlockProviderService.swift */,
-				4B361C4F1F44BECC00654968 /* SharedDataService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -333,9 +347,17 @@
 		4B361C491F44BD7900654968 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				4B361C4A1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift */,
 			);
 			name = Services;
+			sourceTree = "<group>";
+		};
+		4B361C6C1F44D56D00654968 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4B361C6D1F44D58400654968 /* DataMocker.swift */,
+				4B361C701F44D7EB00654968 /* DateHandlerMock.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		AAE24683FD508079C36DEDDD /* Pods */ = {
@@ -734,14 +756,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B361C451F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */,
 				4B361C3B1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B361BB91F44681100654968 /* Car.swift in Sources */,
+				4B361C5D1F44C86300654968 /* RotationItemsCollection.swift in Sources */,
 				4B361C0F1F44B54E00654968 /* SpinModel.swift in Sources */,
 				4B361C251F44B6B800654968 /* AudioBlockModel.swift in Sources */,
 				4B361BF41F44AF1700654968 /* AuthService.swift in Sources */,
-				4B361C501F44BECC00654968 /* SharedDataService.swift in Sources */,
+				4B361C551F44C72900654968 /* UserListModel.swift in Sources */,
 				4B361C341F44BAA300654968 /* DateExtensions.swift in Sources */,
+				4B361C6A1F44C97B00654968 /* RotationItem.swift in Sources */,
 				4B361C0A1F44B51800654968 /* ProgramModel.swift in Sources */,
 				4B361BFD1F44B2C200654968 /* UserModel.swift in Sources */,
 				4B361C401F44BD1C00654968 /* Constants.swift in Sources */,
@@ -754,16 +777,19 @@
 			files = (
 				4B361C3C1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B361C411F44BD1C00654968 /* Constants.swift in Sources */,
-				4B361C4C1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift in Sources */,
 				4B361BBD1F4468FD00654968 /* CarTest.swift in Sources */,
+				4B361C681F44C91E00654968 /* RotationItem.swift in Sources */,
+				4B361C6E1F44D58400654968 /* DataMocker.swift in Sources */,
 				4B361B901F44663D00654968 /* PlayolaCoreIOSTests.swift in Sources */,
-				4B361C511F44BECC00654968 /* SharedDataService.swift in Sources */,
+				4B361C5E1F44C86300654968 /* RotationItemsCollection.swift in Sources */,
 				4B361C071F44B48100654968 /* AuthServiceTests.swift in Sources */,
-				4B361C461F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */,
+				4B361C651F44C8D600654968 /* RotationItemsCollectionTests.swift in Sources */,
 				4B361C301F44B91E00654968 /* AudioBlockModelTests.swift in Sources */,
 				4B361BBF1F44693D00654968 /* Car.swift in Sources */,
+				4B361C561F44C72900654968 /* UserListModel.swift in Sources */,
 				4B361BFF1F44B2DA00654968 /* UserModel.swift in Sources */,
 				4B361C261F44B6B900654968 /* AudioBlockModel.swift in Sources */,
+				4B361C711F44D7EB00654968 /* DateHandlerMock.swift in Sources */,
 				4B361C041F44B44A00654968 /* UserModelTests.swift in Sources */,
 				4B361C0B1F44B51800654968 /* ProgramModel.swift in Sources */,
 				4B361C231F44B69C00654968 /* SpinModelTests.swift in Sources */,
@@ -778,14 +804,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B361C471F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */,
 				4B361C3D1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B361BBA1F44681100654968 /* Car.swift in Sources */,
+				4B361C5F1F44C86300654968 /* RotationItemsCollection.swift in Sources */,
 				4B361C111F44B54E00654968 /* SpinModel.swift in Sources */,
 				4B361C271F44B6BA00654968 /* AudioBlockModel.swift in Sources */,
 				4B361BFE1F44B2DA00654968 /* UserModel.swift in Sources */,
-				4B361C521F44BECC00654968 /* SharedDataService.swift in Sources */,
+				4B361C571F44C72900654968 /* UserListModel.swift in Sources */,
 				4B361C361F44BAA600654968 /* DateExtensions.swift in Sources */,
+				4B361C6B1F44C97B00654968 /* RotationItem.swift in Sources */,
 				4B361C0C1F44B51800654968 /* ProgramModel.swift in Sources */,
 				4B361BF61F44AF1700654968 /* AuthService.swift in Sources */,
 				4B361C421F44BD1C00654968 /* Constants.swift in Sources */,
@@ -798,16 +825,19 @@
 			files = (
 				4B361C3E1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B361C431F44BD1C00654968 /* Constants.swift in Sources */,
-				4B361C4E1F44BDA900654968 /* CommercialBlockProviderServiceTests.swift in Sources */,
 				4B361BBE1F4468FD00654968 /* CarTest.swift in Sources */,
+				4B361C691F44C91E00654968 /* RotationItem.swift in Sources */,
+				4B361C6F1F44D58400654968 /* DataMocker.swift in Sources */,
 				4B361BAC1F44664B00654968 /* PlayolaCoreOSXTests.swift in Sources */,
-				4B361C531F44BECC00654968 /* SharedDataService.swift in Sources */,
+				4B361C601F44C86300654968 /* RotationItemsCollection.swift in Sources */,
 				4B361C081F44B48200654968 /* AuthServiceTests.swift in Sources */,
-				4B361C481F44BD5D00654968 /* CommercialBlockProviderService.swift in Sources */,
+				4B361C661F44C8D600654968 /* RotationItemsCollectionTests.swift in Sources */,
 				4B361C311F44B91E00654968 /* AudioBlockModelTests.swift in Sources */,
 				4B361BC01F44693E00654968 /* Car.swift in Sources */,
+				4B361C581F44C72900654968 /* UserListModel.swift in Sources */,
 				4B361C001F44B2DB00654968 /* UserModel.swift in Sources */,
 				4B361C281F44B6BB00654968 /* AudioBlockModel.swift in Sources */,
+				4B361C721F44D7EB00654968 /* DateHandlerMock.swift in Sources */,
 				4B361C061F44B44A00654968 /* UserModelTests.swift in Sources */,
 				4B361C0D1F44B51800654968 /* ProgramModel.swift in Sources */,
 				4B361C241F44B69C00654968 /* SpinModelTests.swift in Sources */,

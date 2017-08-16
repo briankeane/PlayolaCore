@@ -20,7 +20,7 @@ class User
     var gender:String?
     var zipcode:String?
     var timezone:String?
-    var role:String?
+    var role:PlayolaUserRole?
     var lastCommercial:NSMutableDictionary?
     var profileImageUrl:String?
     var profileImageUrlSmall:String?
@@ -51,7 +51,7 @@ class User
         gender = userInfo["gender"] as? String
         zipcode = userInfo["zipcode"] as? String
         timezone = userInfo["timezone"] as? String
-        role = userInfo["role"] as? String
+        self.setRole(userInfo["role"] as? String)
         deepLink = userInfo["deepLink"] as? String
         bio = userInfo["bio"] as? String
         passwordExists = userInfo["passwordExists"] as? Bool
@@ -152,6 +152,26 @@ class User
     
     //------------------------------------------------------------------------------
     
+    func setRole(_ roleString:String?)
+    {
+        if let roleString = roleString
+        {
+            switch roleString {
+            case "admin":
+                self.role = .admin
+            case "user":
+                self.role = .user
+            default:
+                self.role = .guest
+            }
+        }
+        else
+        {
+            self.role = .guest
+        }
+    }
+    //------------------------------------------------------------------------------
+    
     func copy() -> User
     {
         return User(original: self)
@@ -167,21 +187,16 @@ class User
     
     //------------------------------------------------------------------------------
     
-    func hasRole(_ roleToCheck:String) -> Bool
+    func hasRole(_ roleToCheck:PlayolaUserRole) -> Bool
     {
         if let userRole = self.role
         {
-            if let roleToCheckIndex = kUserRoles.index(of: roleToCheck)
+            if (userRole.rawValue >= roleToCheck.rawValue)
             {
-                if let userRoleIndex = kUserRoles.index(of: userRole)
-                {
-                    if (roleToCheckIndex <= userRoleIndex)
-                    {
-                        return true
-                    }
-                }
+                return true
             }
         }
+        
         return false
     }
     

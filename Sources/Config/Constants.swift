@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+public struct PlayolaEvents {
+    static let loggedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedOut")
+}
+
+enum PlayolaUserRole:Int {
+    case guest = 0
+    case user = 1
+    case admin = 2
+}

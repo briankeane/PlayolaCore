@@ -333,6 +333,7 @@ extension Date
     /// ----------------------------------------------------------------------------
     static func stationEditCutoffTime() -> Date
     {
-        return Date().addMinutes(MINUTES_OF_PRELOAD)
+//        return Date().addMinutes(MINUTES_OF_PRELOAD)
+        return Date().addMinutes(3)
     }
 }
