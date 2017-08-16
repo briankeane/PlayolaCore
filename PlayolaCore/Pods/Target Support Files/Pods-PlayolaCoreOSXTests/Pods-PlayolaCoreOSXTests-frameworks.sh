@@ -100,6 +100,21 @@ strip_invalid_archs() {
   fi
 }
 
+
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Nimble-macOS/Nimble.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/OHHTTPStubs-macOS/OHHTTPStubs.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Nimble-macOS/Nimble.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/OHHTTPStubs-macOS/OHHTTPStubs.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework"
+fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait
 fi

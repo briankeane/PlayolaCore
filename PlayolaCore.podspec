@@ -21,13 +21,18 @@ Pod::Spec.new do |s|
     # s.osx.frameworks = 'AudioToolbox','AudioUnit','CoreAudio','QuartzCore','OpenGL','GLKit', 'Accelerate'
     # s.requires_arc = true;
     # s.default_subspec = 'Full'
+    s.dependency 'Alamofire', '4.5.0'
+    s.dependency 'PromiseKit', '~> 4.0'
+    s.dependency 'Locksmith', '~> 3.0.0'
 
-    s.subspec 'Core' do |core|
-        core.source_files  = 'Sources/*.{h,m,swift}'
-    end
+    # probably will use this later when start subSpecing (PlayolaCore-Player, PlayolaCore-Core, etc)
+    # s.subspec 'Core' do |core|
+    #     core.source_files  = 'Sources/*.{h,m,swift}'
+    # end
 
-    s.subspec 'Full' do |full|
-        full.dependency 'Alamofire', '4.5.0'
-        full.dependency 'PromiseKit', '~> 4.0'
-    end
+
+    # s.subspec 'Full' do |full|
+    #     full.dependency 'Alamofire', '4.5.0'
+    #     full.dependency 'PromiseKit', '~> 4.0'
+    # end
 end
