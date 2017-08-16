@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name         = "PlayolaCore"
-    s.version      = "0.0.2"
+    s.version      = "0.0.3"
     s.summary      = "Basic Playola Communication and Models."
     s.homepage     = "https://github.com/briankeane/PlayolaCore.git"
     s.license      = { :type => 'MIT' }
@@ -20,10 +20,10 @@ Pod::Spec.new do |s|
     # s.ios.frameworks = 'AudioToolbox','AVFoundation','GLKit', 'Accelerate'
     # s.osx.frameworks = 'AudioToolbox','AudioUnit','CoreAudio','QuartzCore','OpenGL','GLKit', 'Accelerate'
     # s.requires_arc = true;
-    s.default_subspec = 'Full'
+    # s.default_subspec = 'Full'
 
     s.subspec 'Core' do |core|
-        core.source_files  = 'Sources/*.swift'
+        core.source_files  = 'Sources/*.{h,m,swift}'
     end
 
     s.subspec 'Full' do |full|
