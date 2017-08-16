@@ -13,6 +13,12 @@
 		4B361BA71F44664B00654968 /* PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B361B9E1F44664B00654968 /* PlayolaCoreOSX.framework */; };
 		4B361BAC1F44664B00654968 /* PlayolaCoreOSXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BAB1F44664B00654968 /* PlayolaCoreOSXTests.swift */; };
 		4B361BAE1F44664B00654968 /* PlayolaCoreOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B361BA01F44664B00654968 /* PlayolaCoreOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4B361BB91F44681100654968 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BB81F44681100654968 /* Car.swift */; };
+		4B361BBA1F44681100654968 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BB81F44681100654968 /* Car.swift */; };
+		4B361BBD1F4468FD00654968 /* CarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BBC1F4468FD00654968 /* CarTest.swift */; };
+		4B361BBE1F4468FD00654968 /* CarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BBC1F4468FD00654968 /* CarTest.swift */; };
+		4B361BBF1F44693D00654968 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BB81F44681100654968 /* Car.swift */; };
+		4B361BC01F44693E00654968 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BB81F44681100654968 /* Car.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +51,8 @@
 		4B361BA61F44664B00654968 /* PlayolaCoreOSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayolaCoreOSXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B361BAB1F44664B00654968 /* PlayolaCoreOSXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayolaCoreOSXTests.swift; sourceTree = "<group>"; };
 		4B361BAD1F44664B00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4B361BB81F44681100654968 /* Car.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Car.swift; path = ../Sources/Car.swift; sourceTree = "<group>"; };
+		4B361BBC1F4468FD00654968 /* CarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarTest.swift; path = ../Tests/CarTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +92,8 @@
 		4B361B591F44661A00654968 = {
 			isa = PBXGroup;
 			children = (
+				4B361BBB1F44686D00654968 /* Tests */,
+				4B361BB51F44676B00654968 /* Sources */,
 				4B361B831F44663D00654968 /* PlayolaCoreIOS */,
 				4B361B8E1F44663D00654968 /* PlayolaCoreIOSTests */,
 				4B361B9F1F44664B00654968 /* PlayolaCoreOSX */,
@@ -137,6 +147,22 @@
 				4B361BAD1F44664B00654968 /* Info.plist */,
 			);
 			path = PlayolaCoreOSXTests;
+			sourceTree = "<group>";
+		};
+		4B361BB51F44676B00654968 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4B361BB81F44681100654968 /* Car.swift */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		4B361BBB1F44686D00654968 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				4B361BBC1F4468FD00654968 /* CarTest.swift */,
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,6 +272,7 @@
 					4B361B811F44663D00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					4B361B891F44663D00654968 = {
@@ -256,6 +283,7 @@
 					4B361B9D1F44664B00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					4B361BA51F44664B00654968 = {
@@ -321,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B361BB91F44681100654968 /* Car.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +357,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B361BBD1F4468FD00654968 /* CarTest.swift in Sources */,
 				4B361B901F44663D00654968 /* PlayolaCoreIOSTests.swift in Sources */,
+				4B361BBF1F44693D00654968 /* Car.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +367,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B361BBA1F44681100654968 /* Car.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,7 +375,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B361BBE1F4468FD00654968 /* CarTest.swift in Sources */,
 				4B361BAC1F44664B00654968 /* PlayolaCoreOSXTests.swift in Sources */,
+				4B361BC01F44693E00654968 /* Car.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +501,7 @@
 		4B361B941F44663D00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
@@ -479,6 +514,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -486,6 +522,7 @@
 		4B361B951F44663D00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
@@ -505,6 +542,7 @@
 		4B361B971F44663D00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
 				INFOPLIST_FILE = PlayolaCoreIOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -517,6 +555,7 @@
 		4B361B981F44663D00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
 				INFOPLIST_FILE = PlayolaCoreIOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -529,6 +568,7 @@
 		4B361BB01F44664B00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -545,6 +585,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -552,6 +593,7 @@
 		4B361BB11F44664B00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -575,6 +617,7 @@
 		4B361BB31F44664B00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
@@ -591,6 +634,7 @@
 		4B361BB41F44664B00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
