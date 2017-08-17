@@ -10,6 +10,7 @@ end
 def testOnly
     pod 'Quick'
     pod 'Nimble'
+    pod 'OHHTTPStubs'
     pod 'OHHTTPStubs/Swift'
 end
 

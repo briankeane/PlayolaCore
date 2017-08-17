@@ -7,3 +7,117 @@
 //
 
 import Foundation
+import XCTest
+import Quick
+import Nimble
+import Alamofire
+import OHHTTPStubs
+
+class AuthServiceTests: QuickSpec {
+    
+    private func readLocalJsonFile(_ filename:String!) -> [String:AnyObject]?
+    {
+        if let urlPathString = OHPathForFile(filename, type(of: self))
+        {
+            do
+            {
+                let urlPath = URL(fileURLWithPath: urlPathString)
+                let jsonData = try Data(contentsOf: urlPath, options: .mappedIfSafe)
+                
+                if let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as? [String: AnyObject]
+                {
+                    return jsonDict
+                }
+            }
+            catch let jsonError
+            {
+                print(jsonError)
+            }
+        }
+        return nil
+    }
+    
+    override func spec()
+    {
+        describe("getMe()")
+        {
+            var sentRequest:URLRequest?
+            var stubbedResponse:OHHTTPStubsResponse?
+            
+            afterEach
+            {
+                OHHTTPStubs.removeAllStubs()
+                    
+            }
+            
+            beforeEach
+            {
+                stub(condition: isHost("api.playola.fm"))
+                {
+                    (request) in
+                    sentRequest = request
+                    return stubbedResponse!
+                }
+                
+            }
+            
+            it ("works")
+            {
+                // setup
+                stubbedResponse = OHHTTPStubsResponse(
+                                    fileAtPath: OHPathForFile("getUserSuccess.json", type(of: self))!,
+                                    statusCode: 200,
+                                    headers: ["Content-Type":"application/json"]
+                )
+                
+                waitUntil()
+                {
+                    (done) in
+                    let jsonDict = self.readLocalJsonFile("getUserSuccess.json")!
+                    
+                    AuthService.sharedInstance().getMe()
+                        .then
+                        {
+                            (user) -> Void in
+                            expect(user.id).to(equal(jsonDict["id"] as? String))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("there was an error")
+                        }
+                }
+            }
+            
+            it ("properly returns an error")
+            {
+                // setup
+                stubbedResponse = OHHTTPStubsResponse(
+                    fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                    statusCode: 404,
+                    headers: [:]
+                )
+                
+                // test
+                waitUntil()
+                {
+                    (done) in
+                    AuthService.sharedInstance().getMe()
+                    .then
+                    {
+                        (user) -> Void in
+                        fail("there should have been an error")
+                    }
+                    .catch
+                    {
+                        (error) -> Void in
+                        expect((error as! AuthError)).to(equal(AuthError.notFound))
+                        done()
+                    }
+                }
+            }
+        }
+    }
+}

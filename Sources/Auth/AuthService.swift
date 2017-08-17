@@ -14,27 +14,44 @@ class AuthService:NSObject
 {
     
     // temporary
-    var baseURL = "hi"
+    var baseURL = PlayolaConstants.BASE_URL
     var accessToken = "accessToken"
     
     // -----------------------------------------------------------------------------
     //                          func getMe
     // -----------------------------------------------------------------------------
-    /// gets the current user from the playola server
-    ///
-    /// - returns:
-    ///    `Promise<User>` - a promise that resolves to the current user
-    ///
-    /// ----------------------------------------------------------------------------
+    /**
+     Gets the current user from the playola server
+     
+     ### Usage Example: ###
+     ````
+     authService.getMe()
+     .then
+     {
+        (user) -> Void in
+        print(user.name)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+        `Promise<User>` - a promise
+            
+            * resolves to: a User
+            * rejects: an AuthError
+     */
     func getMe() -> Promise<User>
     {
-        let url = "\(baseURL)/api/v1/users/me"
+        let url = "\(self.baseURL)/api/v1/users/me"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
         let parameters:Parameters? = nil
         
         return Promise
         {
-            fulfill, reject in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers: headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -42,13 +59,22 @@ class AuthService:NSObject
                     (response) -> Void in
                     switch response.result
                     {
-                    case .success(let JSON):
-                        let responseData = JSON as! NSDictionary
+                    case .success:
                         let user:User = User(userInfo: response.result.value! as! NSDictionary)
                         fulfill(user)
-                    case .failure(let error):
-                        // For now, assuming this is a 401
-                        reject(error)
+                    case .failure(let _):  // error
+                        print(response.result.value as Any)
+                        var message:String?
+                        if let dict = response.result.value as? [String:Any?]
+                        {
+                            if let unwrappedMessage = dict["message"] as? String
+                            {
+                                message = unwrappedMessage
+                            }
+                        }
+                        
+                        let authErr = AuthError.create(statusCode: response.response?.statusCode, message: message)
+                        reject(authErr)
                     }
                 }
         }

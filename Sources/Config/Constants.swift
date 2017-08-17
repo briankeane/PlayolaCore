@@ -17,3 +17,7 @@ enum PlayolaUserRole:Int {
     case user = 1
     case admin = 2
 }
+
+public struct PlayolaConstants {
+    static let BASE_URL = "https://api.playola.fm"
+}

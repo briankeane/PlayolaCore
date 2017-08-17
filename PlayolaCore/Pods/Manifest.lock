@@ -1,6 +1,8 @@
 PODS:
   - Alamofire (4.5.0)
   - Nimble (7.0.1)
+  - OHHTTPStubs (6.0.0):
+    - OHHTTPStubs/Default (= 6.0.0)
   - OHHTTPStubs/Core (6.0.0)
   - OHHTTPStubs/Default (6.0.0):
     - OHHTTPStubs/Core
@@ -30,6 +32,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (= 4.5.0)
   - Nimble
+  - OHHTTPStubs
   - OHHTTPStubs/Swift
   - PromiseKit (~> 4.0)
   - Quick
@@ -41,6 +44,6 @@ SPEC CHECKSUMS:
   PromiseKit: 32430ae679605b17c15d6193679cae7bf60147f7
   Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
 
-PODFILE CHECKSUM: 48be0659c0ccfbec8a4e07bbeb898728f4d9950a
+PODFILE CHECKSUM: 7a27813f82197ed428049ed11ee1cab861d8aa6e
 
 COCOAPODS: 1.3.1
