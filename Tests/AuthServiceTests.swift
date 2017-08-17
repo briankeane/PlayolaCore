@@ -37,6 +37,9 @@ class AuthServiceTests: QuickSpec {
         return nil
     }
     
+    let getMePath = "/api/v1/users/me"
+    
+    
     override func spec()
     {
         describe("getMe()")
@@ -47,12 +50,12 @@ class AuthServiceTests: QuickSpec {
             afterEach
             {
                 OHHTTPStubs.removeAllStubs()
-                    
             }
             
             beforeEach
             {
-                stub(condition: isHost("api.playola.fm"))
+                print(PlayolaConstants.HOST_NAME)
+                stub(condition: isHost(PlayolaConstants.HOST_NAME))
                 {
                     (request) in
                     sentRequest = request
@@ -79,6 +82,11 @@ class AuthServiceTests: QuickSpec {
                         .then
                         {
                             (user) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.getMePath))
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                            
+                            // check response
                             expect(user.id).to(equal(jsonDict["id"] as? String))
                             done()
                         }
