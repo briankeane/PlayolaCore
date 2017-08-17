@@ -13,6 +13,8 @@ import PromiseKit
 class AuthService:NSObject
 {
     
+    
+    
     // temporary
     var baseURL = PlayolaConstants.BASE_URL
     var accessToken = "accessToken"
@@ -62,23 +64,71 @@ class AuthService:NSObject
                     case .success:
                         let user:User = User(userInfo: response.result.value! as! NSDictionary)
                         fulfill(user)
-                    case .failure(let _):  // error
+                    case .failure:  // could add (let error) later if needed
                         print(response.result.value as Any)
-                        var message:String?
-                        if let dict = response.result.value as? [String:Any?]
-                        {
-                            if let unwrappedMessage = dict["message"] as? String
-                            {
-                                message = unwrappedMessage
-                            }
-                        }
                         
-                        let authErr = AuthError.create(statusCode: response.response?.statusCode, message: message)
+                        let authErr = AuthError.createFromAlamofireResponse(response)
                         reject(authErr)
                     }
                 }
         }
     }
+    
+    
+    // -----------------------------------------------------------------------------
+    //                          func getRotationItems
+    // -----------------------------------------------------------------------------
+    /**
+     Gets the current user's RotationItemsCollection from the server
+     
+     ### Usage Example: ###
+     ````
+     authService.getRotationItems()
+     .then
+     {
+        (rotationItemsCollection) -> Void in
+        print(rotationItemsCollection.listBins())
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+        `Promise<User>` - a promise
+     
+            * resolves to: a RotationItemsCollection
+            * rejects: an AuthError
+     */
+    func getRotationItems() -> Promise<RotationItemsCollection>
+    {
+        let url = "\(baseURL)/api/v1/users/me/rotationItems"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = nil
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, parameters: parameters, headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: (response.result.value as? NSDictionary)!["rotationItems"] as! Dictionary<String, Array<Dictionary<String, AnyObject>>>)
+                            
+                            fulfill(rotationItemsCollection)
+                    case .failure:
+                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+    
     //------------------------------------------------------------------------------
     //                  Singleton
     //------------------------------------------------------------------------------

@@ -84,6 +84,8 @@
 		4BE006F11F460E3F0010C420 /* 404.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F01F460E3F0010C420 /* 404.json */; };
 		4BE006F21F460E3F0010C420 /* 404.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F01F460E3F0010C420 /* 404.json */; };
 		4BE006F31F4611D40010C420 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
+		4BE006F51F4626860010C420 /* getUserRotationItemsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F41F4626860010C420 /* getUserRotationItemsSuccess.json */; };
+		4BE006F61F4626860010C420 /* getUserRotationItemsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F41F4626860010C420 /* getUserRotationItemsSuccess.json */; };
 		4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */; };
 		8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */; };
 		B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */; };
@@ -145,6 +147,7 @@
 		4B361C731F45CC7100654968 /* getUserSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = getUserSuccess.json; path = ../Tests/APIJson/getUserSuccess.json; sourceTree = "<group>"; };
 		4B361C7A1F45E20A00654968 /* AuthError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthError.swift; path = ../Sources/Errors/AuthError.swift; sourceTree = "<group>"; };
 		4BE006F01F460E3F0010C420 /* 404.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = 404.json; path = ../Tests/APIJson/404.json; sourceTree = "<group>"; };
+		4BE006F41F4626860010C420 /* getUserRotationItemsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getUserRotationItemsSuccess.json; sourceTree = "<group>"; };
 		79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
 		8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -370,6 +373,7 @@
 			children = (
 				4B361C731F45CC7100654968 /* getUserSuccess.json */,
 				4BE006F01F460E3F0010C420 /* 404.json */,
+				4BE006F41F4626860010C420 /* getUserRotationItemsSuccess.json */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -568,6 +572,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BE006F51F4626860010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE006F11F460E3F0010C420 /* 404.json in Resources */,
 				4B361C751F45CEF200654968 /* getUserSuccess.json in Resources */,
 			);
@@ -585,6 +590,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BE006F61F4626860010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE006F21F460E3F0010C420 /* 404.json in Resources */,
 				4B361C761F45CEF300654968 /* getUserSuccess.json in Resources */,
 			);

@@ -37,12 +37,13 @@ class AuthServiceTests: QuickSpec {
         return nil
     }
     
-    let getMePath = "/api/v1/users/me"
+    let getMePath               =        "/api/v1/users/me"
+    let getRotationItemsPath    =        "/api/v1/users/me/rotationItems"
     
     
     override func spec()
     {
-        describe("getMe()")
+        describe("AuthService")
         {
             var sentRequest:URLRequest?
             var stubbedResponse:OHHTTPStubsResponse?
@@ -61,24 +62,24 @@ class AuthServiceTests: QuickSpec {
                     sentRequest = request
                     return stubbedResponse!
                 }
-                
             }
             
-            it ("works")
+            describe("getMe()")
             {
-                // setup
-                stubbedResponse = OHHTTPStubsResponse(
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
                                     fileAtPath: OHPathForFile("getUserSuccess.json", type(of: self))!,
                                     statusCode: 200,
                                     headers: ["Content-Type":"application/json"]
-                )
-                
-                waitUntil()
-                {
-                    (done) in
-                    let jsonDict = self.readLocalJsonFile("getUserSuccess.json")!
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        let jsonDict = self.readLocalJsonFile("getUserSuccess.json")!
                     
-                    AuthService.sharedInstance().getMe()
+                        AuthService.sharedInstance().getMe()
                         .then
                         {
                             (user) -> Void in
@@ -96,35 +97,103 @@ class AuthServiceTests: QuickSpec {
                             print(error)
                             fail("there was an error")
                         }
+                    }
+                }
+            
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getMe()
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            done()
+                        }
+                    }
                 }
             }
             
-            it ("properly returns an error")
+            //------------------------------------------------------------------------------
+            
+            describe("getMe()")
             {
-                // setup
-                stubbedResponse = OHHTTPStubsResponse(
-                    fileAtPath: OHPathForFile("404.json", type(of: self))!,
-                    statusCode: 404,
-                    headers: [:]
-                )
-                
-                // test
-                waitUntil()
+                it ("works")
                 {
-                    (done) in
-                    AuthService.sharedInstance().getMe()
-                    .then
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("getUserRotationItemsSuccess.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
                     {
-                        (user) -> Void in
-                        fail("there should have been an error")
-                    }
-                    .catch
-                    {
-                        (error) -> Void in
-                        expect((error as! AuthError)).to(equal(AuthError.notFound))
-                        done()
+                        (done) in
+                        
+                        AuthService.sharedInstance().getRotationItems()
+                        .then
+                        {
+                            (rotationItemsCollection) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.getRotationItemsPath))
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                            
+                            // check response
+                            expect(rotationItemsCollection).toNot(beNil())
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
                     }
                 }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getRotationItems()
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            done()
+                        }
+                    }
+                }
+
             }
         }
     }

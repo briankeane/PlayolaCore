@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 // -----------------------------------------------------------------------------
 //                          AuthError
@@ -75,5 +76,19 @@ enum AuthError:Error, Equatable
             }
         }
         return .unknown
+    }
+    
+    static func createFromAlamofireResponse(_ response:DataResponse<Any>) -> AuthError
+    {
+        var message:String?
+        if let dict = response.result.value as? [String:Any?]
+        {
+            if let unwrappedMessage = dict["message"] as? String
+            {
+                message = unwrappedMessage
+            }
+        }
+        
+        return AuthError.create(statusCode: response.response?.statusCode, message: message)
     }
 }
