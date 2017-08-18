@@ -46,6 +46,8 @@ class AuthServiceTests: QuickSpec {
     let updateUserPath              =        "/api/v1/users/me"
     let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
     let getMultipleUsersPath        =        "/api/v1/users/getMultipleUsers"
+    let getUsersByAttributesPath    =        "/api/v1/users/getByAttributes"
+    
     
     override func spec()
     {
@@ -865,6 +867,86 @@ class AuthServiceTests: QuickSpec {
                     }
                 }
             }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("getUsersByAttributes")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("userSearchResultsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                        {
+                            (done) in
+                            AuthService.sharedInstance().getUsersByAttributes(attributes: ["displayName": "bob",
+                                                                     "email": "bob@bob.com"
+                                ])
+                                .then
+                                {
+                                    (searchResults) -> Void in
+                                    let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
+                                    
+                                    // check request
+                                    expect(sentRequest!.url!.path).to(equal(self.getUsersByAttributesPath))
+                                    expect(sentRequest!.httpMethod).to(equal("GET"))
+                                    expect(sentRequest!.url!.query!).to(equal("displayName=bob&email=bob%40bob.com"))
+                                    
+                                    
+                                    // check response
+                                    let rawUpdatedUser = (jsonDict["searchResults"] as! Array<NSDictionary>)[0]
+                                    let rawID = rawUpdatedUser["id"] as! String
+                                    // check response
+                                    expect(searchResults[0].id!).to(equal(rawID))
+                                    done()
+                                }
+                                .catch
+                                {
+                                    (error) -> Void in
+                                    print(error)
+                                    fail("updateUser() should not have errored")
+                            }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getUsersByAttributes(attributes: ["displayName": "bob",
+                                                                     "email": "bob@bob.com"
+                                ])
+                        .then
+                        {
+                            (topUsers) -> Void in
+                            fail("there should have been an error")
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            let jsonDict = self.readLocalJsonFile("422.json")!
+                            let authError = error as! AuthError
+                            expect(authError.message!).to(equal((jsonDict["message"] as! String)))
+                            done()
+                        }
+                    }
+                }
+            }
+            
         }
     }
 }

@@ -608,6 +608,88 @@ class AuthService:NSObject
         }
     }
     
+    // -----------------------------------------------------------------------------
+    //                          func getUsersByAttributes
+    // -----------------------------------------------------------------------------
+    /// gets an array of users from the server
+    ///
+    /// - parameters:
+    ///     - facebookUIDs: `(Array<String>)` - an array of facebookUIDs
+    ///     - googleUIDs: `(Array<String>)` - an array of googleUIDs
+    ///     - emails: `(Array<String>)` - an array of emails
+    ///
+    /// - returns:
+    ///    `Promise<Array<User!>` - an array of matching users
+    ///
+    /// ----------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
+    //                          func getUsersByAttributes
+    // -----------------------------------------------------------------------------
+    /**
+     Searches the playola server for users matching the provided attributes
+     
+     - parameters:
+        - attributes: `(Dictionary<String,Any>)` - a dictionary of the search attributes
+            -- currently supported attributes:
+                * facebookUIDs `(Array<String>)`
+                * googleUIDs `(Array<String>)`
+                * email `(String)`
+     
+     ### Usage Example: ###
+     ````
+     authService.getUsersByAttributes(attributes: [ "email": "bob@bob.com" ])
+     .then
+     {
+        (searchResults) -> Void in
+        for user in searchResults
+        {
+            print(user.displayName)
+        }
+    }
+    .catch (err)
+    {
+        print(err)
+    }
+     ````
+     
+     - returns:
+     `Promise<Array<User>>` - a promise
+     * resolves to: the updated presets array
+     * rejects: an AuthError
+     */
+    func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
+    {
+        let url = "\(baseURL)/api/v1/users/getByAttributes"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters = attributes
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, parameters:parameters, headers:headers)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if ((response.response!.statusCode >= 200) && (response.response!.statusCode <= 300))
+                        {
+                            if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                            {
+                                return fulfill(foundUsers)
+                            }
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        reject(AuthError(response: response))                    }
+                }
+            
+        }
+    }
+    
+    
+
     
     
     //------------------------------------------------------------------------------
@@ -665,4 +747,34 @@ fileprivate func arrayOfUsersFromResultValue(resultValue:Any?, propertyName:Stri
         }
     }
     return nil
+}
+
+fileprivate func buildUsersByAttributesParameters(facebookUIDs:Array<String>?=nil, googleUIDs:Array<String>?=nil, emails:Array<String>?=nil, deepLink:String?=nil) -> Parameters?
+{
+    var params:Parameters = Parameters()
+    if let facebookUIDs = facebookUIDs
+    {
+        params["facebookUIDs"] = facebookUIDs as AnyObject?
+    }
+    if let googleUIDs = googleUIDs
+    {
+        params["googleUIDs"] = googleUIDs as AnyObject?
+    }
+    if let emails = emails
+    {
+        params["emails"] = emails as AnyObject?
+    }
+    
+    if let deepLink = deepLink
+    {
+        params["deepLink"] = deepLink as AnyObject?
+    }
+    if (params.count == 0)
+    {
+        return nil
+    }
+    else
+    {
+        return params
+    }
 }
