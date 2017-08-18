@@ -76,7 +76,6 @@ class AuthServiceTests: QuickSpec {
                 }
             }
             
-
             describe("getMe()")
             {
                 it ("works")
@@ -144,7 +143,7 @@ class AuthServiceTests: QuickSpec {
             
             //------------------------------------------------------------------------------
             
-            describe("getMe()")
+            describe("getRotationItems()")
             {
                 it ("works")
                 {
@@ -515,8 +514,10 @@ class AuthServiceTests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
+                            let jsonDict = self.readLocalJsonFile("422.json")!
+                            
                             let authError = error as! AuthError
-                            print(error)
+                            expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
                         }
                     }

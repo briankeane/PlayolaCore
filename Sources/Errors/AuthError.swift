@@ -13,16 +13,20 @@ import Alamofire
 //                          AuthError
 // -----------------------------------------------------------------------------
 /**
- Playola's custom server communication error
- ````
-
- ````
+ Playola's custom server communication error.
  */
 class AuthError:NSObject, Error
 {
+    /// the statusCode of the response
     var statusCode:Int?
+    
+    ///. message if one was received
     var message: String?
+    
+    /// The AuthErrorType
     var type:AuthErrorType
+    
+    /// The rawResponse if an uknown error occured
     var rawResponse:DataResponse<Any>?
     
     init(statusCode:Int?=nil, message:String?=nil, rawResponse:DataResponse<Any>?=nil)
@@ -64,49 +68,4 @@ class AuthError:NSObject, Error
         }
         return .unknown
     }
-}
-
-
-enum AuthErrorType:Error, Equatable
-{
-    /// Returns a Boolean value indicating whether two values are equal.
-    ///
-    /// Equality is the inverse of inequality. For any values `a` and `b`,
-    /// `a == b` implies that `a != b` is `false`.
-    ///
-    /// - Parameters:
-    ///   - lhs: A value to compare.
-    ///   - rhs: Another value to compare.
-    static func ==(lhs: AuthErrorType, rhs: AuthErrorType) -> Bool {
-        switch (lhs, rhs)
-        {
-            case (.unauthorized, .unauthorized):
-                return true
-            case (.notFound, .notFound):
-                return true
-            case (.badRequest, .badRequest):
-                return true
-            case (.parsingError, .parsingError):
-                return true
-            case (.unknown, .unknown):
-                return true
-            default:
-                return false
-        }
-    }
-
-    /// indicates statusCode 404 received from server
-    case notFound
-    
-    /// indicates statusCode 411 received from server
-    case unauthorized
-    
-    /// indicates statusCode 422 received from server.
-    case badRequest
-    
-    /// indicates an error parsing the server response
-    case parsingError
-    
-    /// indicates unknown/undocumented error received from the server
-    case unknown
 }
