@@ -47,6 +47,7 @@ class AuthServiceTests: QuickSpec {
     let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
     let getMultipleUsersPath        =        "/api/v1/users/getMultipleUsers"
     let getUsersByAttributesPath    =        "/api/v1/users/getByAttributes"
+    let addSongToBinPath            =        "/api/v1/rotationItems"
     
     
     override func spec()
@@ -564,7 +565,7 @@ class AuthServiceTests: QuickSpec {
                         {
                             (error) -> Void in
                             print(error)
-                            fail("getRotationItems() should not have errored")
+                            fail("follow() should not have errored")
                         }
                     }
                 }
@@ -942,6 +943,73 @@ class AuthServiceTests: QuickSpec {
                             let authError = error as! AuthError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("getRotationItems()")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getUserRotationItemsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().addSongToBin(songID: "thisIsASongID", bin: "heavy")
+                        .then
+                        {
+                            (rotationItemsCollection) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.addSongToBinPath))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect(sentBody!["songID"] as! String).to(equal("thisIsASongID"))
+                            expect(sentBody!["bin"] as! String).to(equal("heavy"))
+                                    
+                            // check response
+                            expect(rotationItemsCollection).toNot(beNil())
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().addSongToBin(songID: "thisIsASongID", bin: "heavy")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                                    done()
                         }
                     }
                 }

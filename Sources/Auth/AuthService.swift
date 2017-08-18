@@ -608,20 +608,6 @@ class AuthService:NSObject
         }
     }
     
-    // -----------------------------------------------------------------------------
-    //                          func getUsersByAttributes
-    // -----------------------------------------------------------------------------
-    /// gets an array of users from the server
-    ///
-    /// - parameters:
-    ///     - facebookUIDs: `(Array<String>)` - an array of facebookUIDs
-    ///     - googleUIDs: `(Array<String>)` - an array of googleUIDs
-    ///     - emails: `(Array<String>)` - an array of emails
-    ///
-    /// - returns:
-    ///    `Promise<Array<User!>` - an array of matching users
-    ///
-    /// ----------------------------------------------------------------------------
     // ----------------------------------------------------------------------------
     //                          func getUsersByAttributes
     // -----------------------------------------------------------------------------
@@ -688,8 +674,72 @@ class AuthService:NSObject
         }
     }
     
-    
-
+    // -----------------------------------------------------------------------------
+    //                          func addSongToBin
+    // -----------------------------------------------------------------------------
+    /**
+     Adds a song to the specified bin.
+     
+      - parameters:
+          - songID: `(String)` - the id of the song to add
+          - bin: `(String)` - the name of the bin to add it to
+     
+     ### Usage Example: ###
+     ````
+     authService.addSongToBin(songID: "thisIsASongID", bin:"heavy")
+     .then
+     {
+        (updatedRotationItemsCollection) -> Void in
+        print(updatedRotationItemsCollection.listBins())
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<RotationItemsCollection>` - a promise
+     
+     * resolves to: a RotationItemsCollection
+     * rejects: an AuthError
+     */
+    func addSongToBin(songID:String, bin:String) -> Promise<RotationItemsCollection>
+    {
+        let url = "\(baseURL)/api/v1/rotationItems"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = ["songID":songID, "bin":bin]
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success(let JSON):
+                        if let statusCode:Int = response.response?.statusCode
+                        {
+                            if (200..<300 ~= statusCode)
+                            {
+                                if let responseDictionary:NSDictionary = JSON as? NSDictionary
+                                {
+                                    let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary.object(forKey: "rotationItems") as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
+                                    let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                                    return fulfill(rotationItemsCollection)
+                                }
+                            }
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        return reject(AuthError(response: response))
+                        
+                    }
+                }
+        }
+    }
     
     
     //------------------------------------------------------------------------------
