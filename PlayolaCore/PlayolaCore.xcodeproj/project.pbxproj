@@ -78,6 +78,8 @@
 		4B361C761F45CEF300654968 /* getUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B361C731F45CC7100654968 /* getUserSuccess.json */; };
 		4B361C771F45DA6D00654968 /* getUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B361C731F45CC7100654968 /* getUserSuccess.json */; };
 		4B361C781F45DA6E00654968 /* getUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B361C731F45CC7100654968 /* getUserSuccess.json */; };
+		4B9358951F47788A0038C327 /* userSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */; };
+		4B9358961F47788A0038C327 /* userSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */; };
 		4BE006F11F460E3F0010C420 /* 404.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F01F460E3F0010C420 /* 404.json */; };
 		4BE006F21F460E3F0010C420 /* 404.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F01F460E3F0010C420 /* 404.json */; };
 		4BE006FF1F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */; };
@@ -162,6 +164,7 @@
 		4B361C701F44D7EB00654968 /* DateHandlerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateHandlerMock.swift; path = ../Tests/Helpers/DateHandlerMock.swift; sourceTree = "<group>"; };
 		4B361C731F45CC7100654968 /* getUserSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = getUserSuccess.json; path = ../Tests/APIJson/getUserSuccess.json; sourceTree = "<group>"; };
 		4B361C7A1F45E20A00654968 /* AuthError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthError.swift; path = ../Sources/Errors/AuthError.swift; sourceTree = "<group>"; };
+		4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = userSearchResultsSuccess.json; path = ../Tests/APIJson/userSearchResultsSuccess.json; sourceTree = "<group>"; };
 		4BE006F01F460E3F0010C420 /* 404.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = 404.json; path = ../Tests/APIJson/404.json; sourceTree = "<group>"; };
 		4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getActiveSessionsCountSuccess.json; path = ../Tests/APIJson/getActiveSessionsCountSuccess.json; sourceTree = "<group>"; };
 		4BE006FD1F472CDE0010C420 /* getPresetsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getPresetsSuccess.json; path = ../Tests/APIJson/getPresetsSuccess.json; sourceTree = "<group>"; };
@@ -403,6 +406,7 @@
 				4BE007051F47326D0010C420 /* getTopUsersSuccess.json */,
 				4BE007081F473BEB0010C420 /* updateUserSuccess.json */,
 				4BE0070B1F47517F0010C420 /* 422.json */,
+				4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -615,6 +619,7 @@
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4BE007061F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
+				4B9358951F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
 				4B361C751F45CEF200654968 /* getUserSuccess.json in Resources */,
 				4BE007031F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE006FF1F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */,
@@ -638,6 +643,7 @@
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4BE007071F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
+				4B9358961F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
 				4B361C761F45CEF300654968 /* getUserSuccess.json in Resources */,
 				4BE007041F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE007001F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */,

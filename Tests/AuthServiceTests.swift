@@ -44,6 +44,7 @@ class AuthServiceTests: QuickSpec {
     let getMyPresetsPath            =        "/api/v1/users/me/presets"
     let getTopUsersPath             =        "/api/v1/users/topUsers"
     let updateUserPath              =        "/api/v1/users/me"
+    let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
     
     override func spec()
     {
@@ -704,6 +705,79 @@ class AuthServiceTests: QuickSpec {
                     {
                         (done) in
                         AuthService.sharedInstance().unfollow(broadcasterID:"aBroadcasterID")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("findUsersByKeywords")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("userSearchResultsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().findUsersByKeywords(searchString:"Bob")
+                        .then
+                        {
+                            (presets) -> Void in
+                            let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                            expect(sentRequest!.url!.path).to(equal(self.findUsersByKeywordsPath))
+                            expect(sentRequest!.url!.query!).to(equal("searchString=Bob"))
+                                    
+                            // check response
+                            let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                            let rawID = rawPresets[0]["id"] as! String
+                                
+                            // check response
+                            expect(presets[0]!.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().findUsersByKeywords(searchString:"Bob")
                         .then
                         {
                             (user) -> Void in

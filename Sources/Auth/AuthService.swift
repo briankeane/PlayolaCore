@@ -486,7 +486,66 @@ class AuthService:NSObject
         }
     }
     
-    
+    // ----------------------------------------------------------------------------
+    //                          func findUsersByKeywords
+    // -----------------------------------------------------------------------------
+    /**
+     Removes a user from the currentUser's presets
+     
+     - parameters:
+     - searchString: `(String)` - duh
+     
+     ### Usage Example: ###
+     ````
+     authService.findUsersByKeywords("Bob")
+     .then
+     {
+        (searchResults) -> Void in
+        for user in searchResults
+        {
+            print(user.displayName)
+        }
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Array<User>>` - a promise
+     * resolves to: the updated presets array
+     * rejects: an AuthError
+     */
+    func findUsersByKeywords(searchString:String) -> Promise<Array<User?>>
+    {
+        let url = "\(baseURL)/api/v1/users/findByKeywords"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = ["searchString": searchString]
+        
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, parameters:parameters, headers:headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                        {
+                            return fulfill(foundUsers)
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        reject(AuthError(response: response))
+                    }
+                }
+        }
+    }
     
     
     
