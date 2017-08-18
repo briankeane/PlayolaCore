@@ -41,6 +41,9 @@ class AuthServiceTests: QuickSpec {
     let getRotationItemsPath        =        "/api/v1/users/me/rotationItems"
     let getActiveSessionsCountPath  =        "/api/v1/listeningSessions/activeSessionsCount"
     let getMyPresetsPath            =        "/api/v1/users/me/presets"
+    let getTopUsersPath             =        "/api/v1/users/topUsers"
+    
+    
     override func spec()
     {
         describe("AuthService")
@@ -362,7 +365,80 @@ class AuthServiceTests: QuickSpec {
                     }
                 }
             }
-
+            
+            //------------------------------------------------------------------------------
+            
+            describe("getTopUsers()")
+            {
+                it ("works for the current User")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getTopUsersSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getTopUsers()
+                        .then
+                        {
+                            (topUsers) -> Void in
+                            let jsonDict = self.readLocalJsonFile("getTopUsersSuccess.json")!
+                            
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.getTopUsersPath))
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                            
+                            // check response
+                            let rawTopUsers = (jsonDict["topUsers"] as! Array<NSDictionary>)
+                            let rawID = rawTopUsers[0]["id"] as! String
+                            // check response
+                            expect(topUsers[0]!.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getTopUsers()
+                        .then
+                        {
+                            (topUsers) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            
         }
     }
 }

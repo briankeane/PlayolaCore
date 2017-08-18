@@ -153,8 +153,8 @@ class AuthService:NSObject
      ````
      
      - returns:
-     `Promise<User>` - a promise
-     * resolves to: a RotationItemsCollection
+     `Promise<Int>` - a promise
+     * resolves to: an integer
      * rejects: an AuthError
      */
     
@@ -217,7 +217,7 @@ class AuthService:NSObject
      ````
      
      - returns:
-     `Promise<Preset>` - a promise
+     `Promise<Array<User>>` - a promise
      * resolves to: an array of Users
      * rejects: an AuthError
      */
@@ -240,9 +240,8 @@ class AuthService:NSObject
                     case .success:
                         if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
                         {
-                            if let rawUsers:Array<Dictionary<String,AnyObject>> = responseDictionary["presets"] as? Array<Dictionary<String,AnyObject>>
+                            if let rawUsers = responseDictionary["presets"] as? Array<Dictionary<String,AnyObject>>
                             {
-                                let rawUsers:Array<Dictionary<String,AnyObject>> = ((response.result.value! as? NSDictionary)!["presets"] as? Array<Dictionary<String,AnyObject>>)!
                                 let presets:Array<User> = rawUsers.map({
                                                 (rawUser) -> User in
                                                 return User(userInfo: rawUser as NSDictionary)
@@ -250,6 +249,71 @@ class AuthService:NSObject
                                 fulfill(presets)
                             }
                         }
+                    case .failure:
+                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func getTopUsers
+    // -----------------------------------------------------------------------------
+    /**
+     Gets the current top Playola broadcasters from the server
+     
+     ### Usage Example: ###
+     ````
+     authService.getTopUsers()
+     .then
+     {
+        (topUsers) -> Void in
+        for user in topUsers
+        {
+            print(user.name)
+        }
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Array<User>>` - a promise
+     * resolves to: an array of Users
+     * rejects: an AuthError
+     */
+    func getTopUsers() -> Promise<Array<User?>>
+    {
+        let url = "\(baseURL)/api/v1/users/topUsers"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = nil
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, parameters:parameters, headers:headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
+                        {
+                            if let rawUsers = responseDictionary["topUsers"] as? Array<Dictionary<String,AnyObject>>
+                            {
+                                let topUsers:Array<User> = rawUsers.map({
+                                                    (rawUser) -> User in
+                                                    return User(userInfo: rawUser as NSDictionary)
+                                                })
+                                return fulfill(topUsers)
+                            }
+                        }
+                        return reject(AuthError.parsingError(rawResponse: response))
                     case .failure:
                         let authErr = AuthError.createFromAlamofireResponse(response)
                         reject(authErr)

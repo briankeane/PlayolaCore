@@ -18,6 +18,7 @@ import Alamofire
  case unauthorized
  case notFound
  case badRequest
+ case .parsingError
  case unknown
  ````
  */
@@ -40,6 +41,8 @@ enum AuthError:Error, Equatable
                 return true
             case (.badRequest, .badRequest):
                 return true
+            case (.parsingError, .parsingError):
+                return true
             case (.unknown, .unknown):
                 return true
             default:
@@ -55,6 +58,9 @@ enum AuthError:Error, Equatable
     
     /// indicates statusCode 422 received from server.
     case badRequest(message:String?)
+    
+    /// indicates an error parsing the server response
+    case parsingError(rawResponse:DataResponse<Any>)
     
     /// indicates unknown/undocumented error received from the server
     case unknown
