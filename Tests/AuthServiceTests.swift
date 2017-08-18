@@ -574,21 +574,21 @@ class AuthServiceTests: QuickSpec {
                         headers: ["Content-Type":"application/json"]
                     )
                     waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().follow(broadcasterID: "aUserID")
+                        .then
                         {
-                            (done) in
-                            AuthService.sharedInstance().follow(broadcasterID: "aUserID")
-                                .then
-                                {
-                                    (presets) -> Void in
-                                    expect(sentRequest!.url!.path).to(equal("/api/v1/users/aUserID/follow"))
-                                    done()
-                                }
-                                .catch
-                                {
-                                    (error) in
-                                    print(error)
-                                    fail("passes the proper id in params should not have errored")
-                            }
+                            (presets) -> Void in
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/users/aUserID/follow"))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) in
+                            print(error)
+                            fail("passes the proper id in params should not have errored")
+                        }
                     }
                 }
                 
@@ -619,7 +619,104 @@ class AuthServiceTests: QuickSpec {
                         }
                     }
                 }
- 
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("unfollow()")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getPresetsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().unfollow(broadcasterID:"aBroadcasterID")
+                        .then
+                        {
+                            (presets) -> Void in
+                            let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/users/aBroadcasterID/unfollow"))
+                                    
+                            // check response
+                            let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                            let rawID = rawPresets[0]["id"] as! String
+                            
+                            // check response
+                            expect(presets[0]!.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("passes the proper id in params")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getPresetsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().unfollow(broadcasterID: "aUserID")
+                        .then
+                        {
+                            (presets) -> Void in
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/users/aUserID/unfollow"))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) in
+                            print(error)
+                            fail("passes the proper id in params should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().unfollow(broadcasterID:"aBroadcasterID")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            done()
+                        }
+                    }
+                }
             }
         }
     }

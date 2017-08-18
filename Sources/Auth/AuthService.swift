@@ -430,6 +430,65 @@ class AuthService:NSObject
         }
     }
     
+    // ----------------------------------------------------------------------------
+    //                          func unfollow
+    // -----------------------------------------------------------------------------
+    /**
+     Removes a user from the currentUser's presets
+     
+     - parameters:
+     - broadcasterID: `(String)` - the id of the user to follow
+     
+     ### Usage Example: ###
+     ````
+     authService.unfollow(["thisIsAUserID")
+     .then
+     {
+        (updatedPresets) -> Void in
+        self.presets = updatedPresets
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Array<User>>` - a promise
+     * resolves to: the updated presets array
+     * rejects: an AuthError
+     */
+    func unfollow(broadcasterID:String) -> Promise<Array<User?>>
+    {
+        let url = "\(baseURL)/api/v1/users/\(broadcasterID)/unfollow"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, method: .put, encoding: JSONEncoding.default, headers: headers)
+                //.validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                        {
+                            return fulfill(presets)
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        reject(AuthError(response: response))
+                    }
+                }
+        }
+    }
+    
+    
+    
+    
     
     //------------------------------------------------------------------------------
     //                  Singleton
