@@ -129,6 +129,64 @@ class AuthService:NSObject
         }
     }
     
+    // -----------------------------------------------------------------------------
+    //                          func getActiveSessionsCount
+    // -----------------------------------------------------------------------------
+    /**
+     Gets the current number of listeners for a station
+     
+      - parameters:
+          - broadcasterID: `(String)` - the id of the station
+     
+     ### Usage Example: ###
+     ````
+     authService.getActiveSessionsCount()
+     .then
+     {
+        (count) -> Void in
+        print(count)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: a RotationItemsCollection
+     * rejects: an AuthError
+     */
+    
+    func  getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
+    {
+        let url = "\(baseURL)/api/v1/listeningSessions/activeSessionsCount"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = ["broadcasterID" : broadcasterID]
+        return Promise
+            {
+                fulfill, reject in
+                Alamofire.request(url, parameters:parameters, headers:headers)
+                    .validate(statusCode: 200..<300)
+                    .responseJSON
+                    {
+                        (response) -> Void in
+                        switch response.result
+                        {
+                        case .success:
+                            if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
+                            {
+                                if let count = responseDictionary["count"] as? Int
+                                {
+                                    fulfill(count)
+                                }
+                            }
+                        case .failure(let error):
+                            reject(error)
+                        }
+                }
+        }
+    }
     //------------------------------------------------------------------------------
     //                  Singleton
     //------------------------------------------------------------------------------
