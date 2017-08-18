@@ -164,29 +164,100 @@ class AuthService:NSObject
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
         let parameters:Parameters? = ["broadcasterID" : broadcasterID]
         return Promise
-            {
-                fulfill, reject in
-                Alamofire.request(url, parameters:parameters, headers:headers)
-                    .validate(statusCode: 200..<300)
-                    .responseJSON
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, parameters:parameters, headers:headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
                     {
-                        (response) -> Void in
-                        switch response.result
+                    case .success:
+                        if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
                         {
-                        case .success:
-                            if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
+                            if let count = responseDictionary["count"] as? Int
                             {
-                                if let count = responseDictionary["count"] as? Int
-                                {
-                                    fulfill(count)
-                                }
+                                fulfill(count)
                             }
-                        case .failure(let error):
-                            reject(error)
                         }
+                    case .failure:
+                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        reject(authErr)
+                    }
                 }
         }
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func getPresets
+    // -----------------------------------------------------------------------------
+    /**
+     Gets a user's presets.  If no userID is provided it gets the current user's
+     presets.
+     
+     - parameters:
+     - userID: `(String?)` - OPTIONAL - the owner of the desired presets.
+     
+     ### Usage Example: ###
+     ````
+     authService.getPresets()
+     .then
+     {
+        (presets) -> Void in
+        for user in presets
+        {
+            print(user.name)
+        }
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Preset>` - a promise
+     * resolves to: an array of Users
+     * rejects: an AuthError
+     */
+    func getPresets(userID:String="me") -> Promise<Array<User?>>
+    {
+        let url = "\(baseURL)/api/v1/users/\(userID)/presets"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = nil
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, parameters: parameters, headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
+                        {
+                            if let rawUsers:Array<Dictionary<String,AnyObject>> = responseDictionary["presets"] as? Array<Dictionary<String,AnyObject>>
+                            {
+                                let rawUsers:Array<Dictionary<String,AnyObject>> = ((response.result.value! as? NSDictionary)!["presets"] as? Array<Dictionary<String,AnyObject>>)!
+                                let presets:Array<User> = rawUsers.map({
+                                                (rawUser) -> User in
+                                                return User(userInfo: rawUser as NSDictionary)
+                                            })
+                                fulfill(presets)
+                            }
+                        }
+                    case .failure:
+                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+    
     //------------------------------------------------------------------------------
     //                  Singleton
     //------------------------------------------------------------------------------

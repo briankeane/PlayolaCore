@@ -40,7 +40,7 @@ class AuthServiceTests: QuickSpec {
     let getMePath                   =        "/api/v1/users/me"
     let getRotationItemsPath        =        "/api/v1/users/me/rotationItems"
     let getActiveSessionsCountPath  =        "/api/v1/listeningSessions/activeSessionsCount"
-    
+    let getMyPresetsPath            =        "/api/v1/users/me/presets"
     override func spec()
     {
         describe("AuthService")
@@ -246,7 +246,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        AuthService.sharedInstance().getRotationItems()
+                        AuthService.sharedInstance().getActiveSessionsCount(broadcasterID: "aBroadcasterID")
                         .then
                         {
                             (user) -> Void in
@@ -264,7 +264,105 @@ class AuthServiceTests: QuickSpec {
             
             //------------------------------------------------------------------------------
             
-            
+            describe("getPresets()")
+            {
+                it ("works for the current User")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getPresetsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                            
+                        AuthService.sharedInstance().getPresets()
+                        .then
+                        {
+                            (presets) -> Void in
+                            let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
+                            
+                            
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.getMyPresetsPath))
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                
+                            
+                            // check response
+                            let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                            let rawID = rawPresets[0]["id"] as! String
+                            // check response
+                            print(rawID)
+                            expect(presets[0]!.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("passes the proper id in params")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getPresetsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getPresets(userID: "aUserID")
+                        .then
+                        {
+                            (presets) -> Void in
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/users/aUserID/presets"))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) in
+                            print(error)
+                            fail("passes the proper id in params should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getPresets()
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            done()
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
