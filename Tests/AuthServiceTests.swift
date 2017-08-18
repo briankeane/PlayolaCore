@@ -45,6 +45,7 @@ class AuthServiceTests: QuickSpec {
     let getTopUsersPath             =        "/api/v1/users/topUsers"
     let updateUserPath              =        "/api/v1/users/me"
     let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
+    let getMultipleUsersPath        =        "/api/v1/users/getMultipleUsers"
     
     override func spec()
     {
@@ -739,7 +740,7 @@ class AuthServiceTests: QuickSpec {
                         .then
                         {
                             (presets) -> Void in
-                            let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
+                            let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
                                     
                             // check request
                             expect(sentRequest!.httpMethod).to(equal("GET"))
@@ -747,8 +748,8 @@ class AuthServiceTests: QuickSpec {
                             expect(sentRequest!.url!.query!).to(equal("searchString=Bob"))
                                     
                             // check response
-                            let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
-                            let rawID = rawPresets[0]["id"] as! String
+                            let rawSearchResults = (jsonDict["searchResults"] as! Array<NSDictionary>)
+                            let rawID = rawSearchResults[0]["id"] as! String
                                 
                             // check response
                             expect(presets[0]!.id!).to(equal(rawID))
@@ -778,6 +779,78 @@ class AuthServiceTests: QuickSpec {
                     {
                         (done) in
                         AuthService.sharedInstance().findUsersByKeywords(searchString:"Bob")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("getMultipleUsers")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("userSearchResultsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getMultipleUsers(userIDs: ["userOneID", "userTwoID"])
+                        .then
+                        {
+                            (presets) -> Void in
+                            let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                            expect(sentRequest!.url!.path).to(equal(self.getMultipleUsersPath))
+                            expect(sentRequest!.url!.query!).to(equal("userIDs%5B%5D=userOneID&userIDs%5B%5D=userTwoID"))
+                            
+                            // check response
+                            let rawSearchResults = (jsonDict["searchResults"] as! Array<NSDictionary>)
+                            let rawID = rawSearchResults[0]["id"] as! String
+                                    
+                            // check response
+                            expect(presets[0]!.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            fail("getRotationItems() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().getMultipleUsers(userIDs: ["userOneID", "userTwoID"])
                         .then
                         {
                             (user) -> Void in

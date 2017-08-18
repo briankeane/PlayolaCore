@@ -490,7 +490,7 @@ class AuthService:NSObject
     //                          func findUsersByKeywords
     // -----------------------------------------------------------------------------
     /**
-     Removes a user from the currentUser's presets
+     Searches for a user via the provided searchString
      
      - parameters:
      - searchString: `(String)` - duh
@@ -522,6 +522,67 @@ class AuthService:NSObject
         let url = "\(baseURL)/api/v1/users/findByKeywords"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
         let parameters:Parameters? = ["searchString": searchString]
+        
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, parameters:parameters, headers:headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                        {
+                            return fulfill(foundUsers)
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        reject(AuthError(response: response))
+                    }
+                }
+        }
+    }
+    
+    // ----------------------------------------------------------------------------
+    //                          func getMultipleUsers
+    // -----------------------------------------------------------------------------
+    /**
+     Takes an array of userIDs and gets the users from the server
+     
+     - parameters:
+     - userIDs: `(Array<String>)` - duh
+     
+     ### Usage Example: ###
+     ````
+     authService.getMultipleUsers(userIDs: [users[0].id, users[1].id])
+     .then
+     {
+        (updatedUsers) -> Void in
+        for user in updatedUsers
+        {
+            print(user.displayName)
+        }
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Array<User>>` - a promise
+     * resolves to: the updated presets array
+     * rejects: an AuthError
+     */
+    func getMultipleUsers(userIDs:Array<String>) -> Promise<Array<User?>>
+    {
+        let url = "\(baseURL)/api/v1/users/getMultipleUsers"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = ["userIDs": userIDs]
         
         
         return Promise
