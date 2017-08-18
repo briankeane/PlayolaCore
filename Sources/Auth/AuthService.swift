@@ -308,15 +308,6 @@ class AuthService:NSObject
         }
     }
     
-    // -----------------------------------------------------------------------------
-    //                          func updateUser
-    // -----------------------------------------------------------------------------
-    /// updates the current user's info on the playola server
-    ///
-    /// - returns:
-    ///    `Promise<User!>` - resolves to an updated version of the user's info
-    ///
-    
     // ----------------------------------------------------------------------------
     //                          func updateUser
     // -----------------------------------------------------------------------------
@@ -382,6 +373,63 @@ class AuthService:NSObject
                 }
         }
     }
+    
+    // ----------------------------------------------------------------------------
+    //                          func follow
+    // -----------------------------------------------------------------------------
+    /**
+     Follows another user
+     
+      - parameters:
+          - broadcasterID: `(String)` - the id of the user to follow
+     
+     ### Usage Example: ###
+     ````
+     authService.follow(["thisIsAUserID")
+     .then
+     {
+        (updatedPresets) -> Void in
+        self.presets = updatedPresets
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Array<User>>` - a promise
+     * resolves to: the updated presets array
+     * rejects: an AuthError
+     */
+    func follow(broadcasterID:String) -> Promise<Array<User?>>
+    {
+        let url = "\(baseURL)/api/v1/users/\(broadcasterID)/follow"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, method: .put, encoding: JSONEncoding.default, headers: headers)
+                //.validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                        {
+                            return fulfill(presets)
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        reject(AuthError(response: response))
+                    }
+                }
+        }
+    }
+    
     
     //------------------------------------------------------------------------------
     //                  Singleton
