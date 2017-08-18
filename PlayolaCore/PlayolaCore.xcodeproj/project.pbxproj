@@ -78,12 +78,8 @@
 		4B361C761F45CEF300654968 /* getUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B361C731F45CC7100654968 /* getUserSuccess.json */; };
 		4B361C771F45DA6D00654968 /* getUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B361C731F45CC7100654968 /* getUserSuccess.json */; };
 		4B361C781F45DA6E00654968 /* getUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B361C731F45CC7100654968 /* getUserSuccess.json */; };
-		4B361C7B1F45E20A00654968 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
-		4B361C7C1F46045700654968 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
-		4BE006EF1F4604AE0010C420 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
 		4BE006F11F460E3F0010C420 /* 404.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F01F460E3F0010C420 /* 404.json */; };
 		4BE006F21F460E3F0010C420 /* 404.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006F01F460E3F0010C420 /* 404.json */; };
-		4BE006F31F4611D40010C420 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
 		4BE006FF1F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */; };
 		4BE007001F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */; };
 		4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FD1F472CDE0010C420 /* getPresetsSuccess.json */; };
@@ -92,6 +88,16 @@
 		4BE007041F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FE1F472CDE0010C420 /* getUserRotationItemsSuccess.json */; };
 		4BE007061F47326D0010C420 /* getTopUsersSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007051F47326D0010C420 /* getTopUsersSuccess.json */; };
 		4BE007071F47326D0010C420 /* getTopUsersSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007051F47326D0010C420 /* getTopUsersSuccess.json */; };
+		4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007081F473BEB0010C420 /* updateUserSuccess.json */; };
+		4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007081F473BEB0010C420 /* updateUserSuccess.json */; };
+		4BE0070C1F47517F0010C420 /* 422.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0070B1F47517F0010C420 /* 422.json */; };
+		4BE0070D1F47517F0010C420 /* 422.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0070B1F47517F0010C420 /* 422.json */; };
+		4BE0070E1F4756450010C420 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
+		4BE0070F1F4756460010C420 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
+		4BE007101F4756460010C420 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
+		4BE007111F4756470010C420 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361C7A1F45E20A00654968 /* AuthError.swift */; };
+		4BE007141F4757E40010C420 /* AuthErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE007131F4757E40010C420 /* AuthErrorTests.swift */; };
+		4BE007151F4757E40010C420 /* AuthErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE007131F4757E40010C420 /* AuthErrorTests.swift */; };
 		4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */; };
 		8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */; };
 		B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */; };
@@ -157,6 +163,9 @@
 		4BE006FD1F472CDE0010C420 /* getPresetsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getPresetsSuccess.json; path = ../Tests/APIJson/getPresetsSuccess.json; sourceTree = "<group>"; };
 		4BE006FE1F472CDE0010C420 /* getUserRotationItemsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getUserRotationItemsSuccess.json; path = ../Tests/APIJson/getUserRotationItemsSuccess.json; sourceTree = "<group>"; };
 		4BE007051F47326D0010C420 /* getTopUsersSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getTopUsersSuccess.json; path = ../Tests/APIJson/getTopUsersSuccess.json; sourceTree = "<group>"; };
+		4BE007081F473BEB0010C420 /* updateUserSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = updateUserSuccess.json; path = ../Tests/APIJson/updateUserSuccess.json; sourceTree = "<group>"; };
+		4BE0070B1F47517F0010C420 /* 422.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = 422.json; path = ../Tests/APIJson/422.json; sourceTree = "<group>"; };
+		4BE007131F4757E40010C420 /* AuthErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthErrorTests.swift; path = ../Tests/Errors/AuthErrorTests.swift; sourceTree = "<group>"; };
 		79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
 		8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -293,6 +302,7 @@
 		4B361BBB1F44686D00654968 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4BE007121F4757750010C420 /* Errors */,
 				4B361C741F45CE6400654968 /* APIJson */,
 				4B361C6C1F44D56D00654968 /* Helpers */,
 				4B361C491F44BD7900654968 /* Services */,
@@ -386,6 +396,8 @@
 				4B361C731F45CC7100654968 /* getUserSuccess.json */,
 				4BE006F01F460E3F0010C420 /* 404.json */,
 				4BE007051F47326D0010C420 /* getTopUsersSuccess.json */,
+				4BE007081F473BEB0010C420 /* updateUserSuccess.json */,
+				4BE0070B1F47517F0010C420 /* 422.json */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -394,6 +406,14 @@
 			isa = PBXGroup;
 			children = (
 				4B361C7A1F45E20A00654968 /* AuthError.swift */,
+			);
+			name = Errors;
+			sourceTree = "<group>";
+		};
+		4BE007121F4757750010C420 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				4BE007131F4757E40010C420 /* AuthErrorTests.swift */,
 			);
 			name = Errors;
 			sourceTree = "<group>";
@@ -584,7 +604,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BE0070C1F47517F0010C420 /* 422.json in Resources */,
 				4BE006F11F460E3F0010C420 /* 404.json in Resources */,
+				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4BE007061F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B361C751F45CEF200654968 /* getUserSuccess.json in Resources */,
@@ -605,7 +627,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BE0070D1F47517F0010C420 /* 422.json in Resources */,
 				4BE006F21F460E3F0010C420 /* 404.json in Resources */,
+				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4BE007071F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B361C761F45CEF300654968 /* getUserSuccess.json in Resources */,
@@ -814,7 +838,7 @@
 				4B361C251F44B6B800654968 /* AudioBlockModel.swift in Sources */,
 				4B361BF41F44AF1700654968 /* AuthService.swift in Sources */,
 				4B361C551F44C72900654968 /* UserListModel.swift in Sources */,
-				4B361C7B1F45E20A00654968 /* AuthError.swift in Sources */,
+				4BE0070E1F4756450010C420 /* AuthError.swift in Sources */,
 				4B361C341F44BAA300654968 /* DateExtensions.swift in Sources */,
 				4B361C6A1F44C97B00654968 /* RotationItem.swift in Sources */,
 				4B361C0A1F44B51800654968 /* ProgramModel.swift in Sources */,
@@ -833,7 +857,7 @@
 				4B361C6E1F44D58400654968 /* DataMocker.swift in Sources */,
 				4B361B901F44663D00654968 /* PlayolaCoreIOSTests.swift in Sources */,
 				4B361C5E1F44C86300654968 /* RotationItemsCollection.swift in Sources */,
-				4BE006F31F4611D40010C420 /* AuthError.swift in Sources */,
+				4BE0070F1F4756460010C420 /* AuthError.swift in Sources */,
 				4B361C071F44B48100654968 /* AuthServiceTests.swift in Sources */,
 				4B361C651F44C8D600654968 /* RotationItemsCollectionTests.swift in Sources */,
 				4B361C301F44B91E00654968 /* AudioBlockModelTests.swift in Sources */,
@@ -845,6 +869,7 @@
 				4B361C0B1F44B51800654968 /* ProgramModel.swift in Sources */,
 				4B361C231F44B69C00654968 /* SpinModelTests.swift in Sources */,
 				4B361C101F44B54E00654968 /* SpinModel.swift in Sources */,
+				4BE007141F4757E40010C420 /* AuthErrorTests.swift in Sources */,
 				4B361C351F44BAA600654968 /* DateExtensions.swift in Sources */,
 				4B361C211F44B69C00654968 /* ProgramModelTests.swift in Sources */,
 				4B361BF51F44AF1700654968 /* AuthService.swift in Sources */,
@@ -861,7 +886,7 @@
 				4B361C271F44B6BA00654968 /* AudioBlockModel.swift in Sources */,
 				4B361BFE1F44B2DA00654968 /* UserModel.swift in Sources */,
 				4B361C571F44C72900654968 /* UserListModel.swift in Sources */,
-				4B361C7C1F46045700654968 /* AuthError.swift in Sources */,
+				4BE007101F4756460010C420 /* AuthError.swift in Sources */,
 				4B361C361F44BAA600654968 /* DateExtensions.swift in Sources */,
 				4B361C6B1F44C97B00654968 /* RotationItem.swift in Sources */,
 				4B361C0C1F44B51800654968 /* ProgramModel.swift in Sources */,
@@ -880,7 +905,7 @@
 				4B361C6F1F44D58400654968 /* DataMocker.swift in Sources */,
 				4B361BAC1F44664B00654968 /* PlayolaCoreOSXTests.swift in Sources */,
 				4B361C601F44C86300654968 /* RotationItemsCollection.swift in Sources */,
-				4BE006EF1F4604AE0010C420 /* AuthError.swift in Sources */,
+				4BE007111F4756470010C420 /* AuthError.swift in Sources */,
 				4B361C081F44B48200654968 /* AuthServiceTests.swift in Sources */,
 				4B361C661F44C8D600654968 /* RotationItemsCollectionTests.swift in Sources */,
 				4B361C311F44B91E00654968 /* AudioBlockModelTests.swift in Sources */,
@@ -892,6 +917,7 @@
 				4B361C0D1F44B51800654968 /* ProgramModel.swift in Sources */,
 				4B361C241F44B69C00654968 /* SpinModelTests.swift in Sources */,
 				4B361C121F44B54E00654968 /* SpinModel.swift in Sources */,
+				4BE007151F4757E40010C420 /* AuthErrorTests.swift in Sources */,
 				4B361C371F44BAA700654968 /* DateExtensions.swift in Sources */,
 				4B361C221F44B69C00654968 /* ProgramModelTests.swift in Sources */,
 				4B361BF71F44AF1700654968 /* AuthService.swift in Sources */,

@@ -66,8 +66,7 @@ class AuthService:NSObject
                         fulfill(user)
                     case .failure:  // could add (let error) later if needed
                         print(response.result.value as Any)
-                        
-                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        let authErr = AuthError(response: response)
                         reject(authErr)
                     }
                 }
@@ -122,7 +121,7 @@ class AuthService:NSObject
                             
                             fulfill(rotationItemsCollection)
                     case .failure:
-                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        let authErr = AuthError(response: response)
                         reject(authErr)
                     }
                 }
@@ -182,7 +181,7 @@ class AuthService:NSObject
                             }
                         }
                     case .failure:
-                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        let authErr = AuthError(response: response)
                         reject(authErr)
                     }
                 }
@@ -250,7 +249,7 @@ class AuthService:NSObject
                             }
                         }
                     case .failure:
-                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        let authErr = AuthError(response: response)
                         reject(authErr)
                     }
                 }
@@ -313,9 +312,84 @@ class AuthService:NSObject
                                 return fulfill(topUsers)
                             }
                         }
-                        return reject(AuthError.parsingError(rawResponse: response))
+                        return reject(AuthError(response: response))
                     case .failure:
-                        let authErr = AuthError.createFromAlamofireResponse(response)
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func updateUser
+    // -----------------------------------------------------------------------------
+    /// updates the current user's info on the playola server
+    ///
+    /// - returns:
+    ///    `Promise<User!>` - resolves to an updated version of the user's info
+    ///
+    
+    // ----------------------------------------------------------------------------
+    //                          func updateUser
+    // -----------------------------------------------------------------------------
+    /**
+     Updates the current user's info on the playola server.
+     
+     /// - parameters:
+     ///     - updateInfo: `(Dictionary<String,Any>)` - a dictionary of the properties to update
+     
+     ### Usage Example: ###
+     ````
+     authService.updateUser(["displayName":""])
+     .then
+     {
+        (updated) -> Void in
+        print(updatedUser.displayName)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an updated user
+     * rejects: an AuthError
+     */
+    func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User?>
+    {
+        let url = "\(baseURL)/api/v1/users/me"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = updateInfo
+        
+        return Promise
+        {
+            fulfill, reject in
+            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON
+                {
+                    response -> Void in
+                    switch response.result
+                    {
+                    case .success(let JSON):
+                        let responseData = JSON as! NSDictionary
+                        if let statusCode:Int = response.response?.statusCode
+                        {
+                            if (statusCode == 200)
+                            {
+                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
+                                let user:User = User(userInfo: rawUser as NSDictionary)
+                                    fulfill(user)
+                            }
+                            else if (statusCode == 422)
+                            {
+                                reject(AuthError(response: response))
+                            }
+                        }
+                    case .failure:
+                        let authErr = AuthError(response: response)
                         reject(authErr)
                     }
                 }

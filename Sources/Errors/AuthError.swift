@@ -15,14 +15,59 @@ import Alamofire
 /**
  Playola's custom server communication error
  ````
- case unauthorized
- case notFound
- case badRequest
- case .parsingError
- case unknown
+
  ````
  */
-enum AuthError:Error, Equatable
+class AuthError:NSObject, Error
+{
+    var statusCode:Int?
+    var message: String?
+    var type:AuthErrorType
+    var rawResponse:DataResponse<Any>?
+    
+    init(statusCode:Int?=nil, message:String?=nil, rawResponse:DataResponse<Any>?=nil)
+    {
+        self.statusCode = statusCode
+        self.message = message
+        self.type = AuthError.typeFromStatusCode(statusCode: statusCode)
+        self.rawResponse = rawResponse
+    }
+    
+    convenience init(response:DataResponse<Any>)
+    {
+        var message:String?
+        if let dict = response.result.value as? [String:Any?]
+        {
+            if let unwrappedMessage = dict["message"] as? String
+            {
+                message = unwrappedMessage
+            }
+        }
+        self.init(statusCode: response.response?.statusCode, message: message, rawResponse: response)
+    }
+    
+    static func typeFromStatusCode(statusCode:Int?) -> AuthErrorType
+    {
+        if let statusCode = statusCode
+        {
+            switch statusCode
+            {
+            case 401:
+                return .unauthorized
+            case 404:
+                return .notFound
+            case 422:
+                return .badRequest
+            default:
+                return .unknown
+            }
+        }
+        return .unknown
+    }
+}
+
+
+enum AuthErrorType:Error, Equatable
 {
     /// Returns a Boolean value indicating whether two values are equal.
     ///
@@ -32,7 +77,7 @@ enum AuthError:Error, Equatable
     /// - Parameters:
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
-    static func ==(lhs: AuthError, rhs: AuthError) -> Bool {
+    static func ==(lhs: AuthErrorType, rhs: AuthErrorType) -> Bool {
         switch (lhs, rhs)
         {
             case (.unauthorized, .unauthorized):
@@ -57,44 +102,11 @@ enum AuthError:Error, Equatable
     case unauthorized
     
     /// indicates statusCode 422 received from server.
-    case badRequest(message:String?)
+    case badRequest
     
     /// indicates an error parsing the server response
-    case parsingError(rawResponse:DataResponse<Any>)
+    case parsingError
     
     /// indicates unknown/undocumented error received from the server
     case unknown
-    
-    static func create (statusCode:Int?, message:String?) -> AuthError
-    {
-        if let statusCode = statusCode
-        {
-            switch statusCode
-            {
-            case 401:
-                return .unauthorized
-            case 404:
-                return .notFound
-            case 422:
-                return .badRequest(message:message)
-            default:
-                return .unknown
-            }
-        }
-        return .unknown
-    }
-    
-    static func createFromAlamofireResponse(_ response:DataResponse<Any>) -> AuthError
-    {
-        var message:String?
-        if let dict = response.result.value as? [String:Any?]
-        {
-            if let unwrappedMessage = dict["message"] as? String
-            {
-                message = unwrappedMessage
-            }
-        }
-        
-        return AuthError.create(statusCode: response.response?.statusCode, message: message)
-    }
 }

@@ -12,6 +12,7 @@ import Quick
 import Nimble
 import Alamofire
 import OHHTTPStubs
+import OHHTTPStubs.NSURLRequest_HTTPBodyTesting
 
 class AuthServiceTests: QuickSpec {
     
@@ -42,7 +43,7 @@ class AuthServiceTests: QuickSpec {
     let getActiveSessionsCountPath  =        "/api/v1/listeningSessions/activeSessionsCount"
     let getMyPresetsPath            =        "/api/v1/users/me/presets"
     let getTopUsersPath             =        "/api/v1/users/topUsers"
-    
+    let updateUserPath              =        "/api/v1/users/me"
     
     override func spec()
     {
@@ -50,6 +51,7 @@ class AuthServiceTests: QuickSpec {
         {
             var sentRequest:URLRequest?
             var stubbedResponse:OHHTTPStubsResponse?
+            var sentBody:[String:Any]?
             
             afterEach
             {
@@ -63,10 +65,18 @@ class AuthServiceTests: QuickSpec {
                 {
                     (request) in
                     sentRequest = request
+                    
+                    let castRequest = request as NSURLRequest
+                    if let bodyData = castRequest.ohhttpStubs_HTTPBody()
+                    {
+                        sentBody = try! JSONSerialization.jsonObject(with: bodyData) as! [String:Any]
+                        
+                    }
                     return stubbedResponse!
                 }
             }
             
+
             describe("getMe()")
             {
                 it ("works")
@@ -125,7 +135,7 @@ class AuthServiceTests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
                             done()
                         }
                     }
@@ -191,7 +201,7 @@ class AuthServiceTests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
                             done()
                         }
                     }
@@ -258,7 +268,7 @@ class AuthServiceTests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
                             done()
                         }
                     }
@@ -359,7 +369,7 @@ class AuthServiceTests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
                             done()
                         }
                     }
@@ -429,7 +439,7 @@ class AuthServiceTests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError)).to(equal(AuthError.notFound))
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
                             done()
                         }
                     }
@@ -438,7 +448,80 @@ class AuthServiceTests: QuickSpec {
             
             //------------------------------------------------------------------------------
             
-            
+            describe("updateUser")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("updateUserSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().updateUser(["displayName": "bob",
+                                                                 "email": "bob@bob.com"
+                                                                ])
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.updateUserPath))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                            expect((sentBody!["displayName"] as! String)).to(equal("bob"))
+                            expect((sentBody!["email"] as! String)).to(equal("bob@bob.com"))
+                            
+                            // check response
+                            let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                            let rawID = rawUpdatedUser["id"] as! String
+                            // check response
+                            expect(updatedUser!.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("updateUser() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().updateUser(["displayName": "bob",
+                                                                 "email": "bob@bob.com"
+                                                                ])
+                        .then
+                        {
+                            (topUsers) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            let authError = error as! AuthError
+                            print(error)
+                            done()
+                        }
+                    }
+                }
+            }
         }
     }
 }
