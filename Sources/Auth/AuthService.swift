@@ -237,17 +237,11 @@ class AuthService:NSObject
                     switch response.result
                     {
                     case .success:
-                        if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
+                        if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                         {
-                            if let rawUsers = responseDictionary["presets"] as? Array<Dictionary<String,AnyObject>>
-                            {
-                                let presets:Array<User> = rawUsers.map({
-                                                (rawUser) -> User in
-                                                return User(userInfo: rawUser as NSDictionary)
-                                            })
-                                fulfill(presets)
-                            }
+                            return fulfill(presets)
                         }
+                        return reject(AuthError(response: response))
                     case .failure:
                         let authErr = AuthError(response: response)
                         reject(authErr)
@@ -301,16 +295,9 @@ class AuthService:NSObject
                     switch response.result
                     {
                     case .success:
-                        if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
+                        if let users = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "topUsers")
                         {
-                            if let rawUsers = responseDictionary["topUsers"] as? Array<Dictionary<String,AnyObject>>
-                            {
-                                let topUsers:Array<User> = rawUsers.map({
-                                                    (rawUser) -> User in
-                                                    return User(userInfo: rawUser as NSDictionary)
-                                                })
-                                return fulfill(topUsers)
-                            }
+                            return fulfill(users)
                         }
                         return reject(AuthError(response: response))
                     case .failure:
@@ -434,4 +421,21 @@ class AuthService:NSObject
     {
         self._instance = authService
     }
+}
+
+
+
+fileprivate func arrayOfUsersFromResultValue(resultValue:Any?, propertyName:String) -> Array<User>?
+{
+    if let resultDict = resultValue as? Dictionary<String,Any>
+    {
+        if let rawUsers = resultDict[propertyName] as? Array<NSDictionary>
+        {
+            return rawUsers.map({
+                            (rawUser) -> User in
+                            return User(userInfo: rawUser as NSDictionary)
+            })
+        }
+    }
+    return nil
 }
