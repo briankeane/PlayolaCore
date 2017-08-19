@@ -9,10 +9,8 @@
 /* Begin PBXBuildFile section */
 		3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */; };
 		4B361B8B1F44663D00654968 /* PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B361B821F44663D00654968 /* PlayolaCoreIOS.framework */; };
-		4B361B901F44663D00654968 /* PlayolaCoreIOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361B8F1F44663D00654968 /* PlayolaCoreIOSTests.swift */; };
 		4B361B921F44663D00654968 /* PlayolaCoreIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B361B841F44663D00654968 /* PlayolaCoreIOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B361BA71F44664B00654968 /* PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B361B9E1F44664B00654968 /* PlayolaCoreOSX.framework */; };
-		4B361BAC1F44664B00654968 /* PlayolaCoreOSXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BAB1F44664B00654968 /* PlayolaCoreOSXTests.swift */; };
 		4B361BAE1F44664B00654968 /* PlayolaCoreOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B361BA01F44664B00654968 /* PlayolaCoreOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B361BF41F44AF1700654968 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BF31F44AF1700654968 /* AuthService.swift */; };
 		4B361BF51F44AF1700654968 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B361BF31F44AF1700654968 /* AuthService.swift */; };
@@ -135,13 +133,11 @@
 		4B361B841F44663D00654968 /* PlayolaCoreIOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayolaCoreIOS.h; sourceTree = "<group>"; };
 		4B361B851F44663D00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B361B8A1F44663D00654968 /* PlayolaCoreIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayolaCoreIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B361B8F1F44663D00654968 /* PlayolaCoreIOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayolaCoreIOSTests.swift; sourceTree = "<group>"; };
 		4B361B911F44663D00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B361B9E1F44664B00654968 /* PlayolaCoreOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayolaCoreOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B361BA01F44664B00654968 /* PlayolaCoreOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayolaCoreOSX.h; sourceTree = "<group>"; };
 		4B361BA11F44664B00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B361BA61F44664B00654968 /* PlayolaCoreOSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayolaCoreOSXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B361BAB1F44664B00654968 /* PlayolaCoreOSXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayolaCoreOSXTests.swift; sourceTree = "<group>"; };
 		4B361BAD1F44664B00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B361BF31F44AF1700654968 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthService.swift; path = ../Sources/Auth/AuthService.swift; sourceTree = "<group>"; };
 		4B361BF81F44B0FF00654968 /* AuthServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthServiceTests.swift; path = ../Tests/AuthServiceTests.swift; sourceTree = "<group>"; };
@@ -271,7 +267,6 @@
 		4B361B8E1F44663D00654968 /* PlayolaCoreIOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				4B361B8F1F44663D00654968 /* PlayolaCoreIOSTests.swift */,
 				4B361B911F44663D00654968 /* Info.plist */,
 			);
 			path = PlayolaCoreIOSTests;
@@ -289,7 +284,6 @@
 		4B361BAA1F44664B00654968 /* PlayolaCoreOSXTests */ = {
 			isa = PBXGroup;
 			children = (
-				4B361BAB1F44664B00654968 /* PlayolaCoreOSXTests.swift */,
 				4B361BAD1F44664B00654968 /* Info.plist */,
 			);
 			path = PlayolaCoreOSXTests;
@@ -869,7 +863,6 @@
 				4BE0071A1F4769680010C420 /* AuthErrorType.swift in Sources */,
 				4B361C681F44C91E00654968 /* RotationItem.swift in Sources */,
 				4B361C6E1F44D58400654968 /* DataMocker.swift in Sources */,
-				4B361B901F44663D00654968 /* PlayolaCoreIOSTests.swift in Sources */,
 				4B361C5E1F44C86300654968 /* RotationItemsCollection.swift in Sources */,
 				4BE0070F1F4756460010C420 /* AuthError.swift in Sources */,
 				4B361C071F44B48100654968 /* AuthServiceTests.swift in Sources */,
@@ -919,7 +912,6 @@
 				4BE0071B1F4769680010C420 /* AuthErrorType.swift in Sources */,
 				4B361C691F44C91E00654968 /* RotationItem.swift in Sources */,
 				4B361C6F1F44D58400654968 /* DataMocker.swift in Sources */,
-				4B361BAC1F44664B00654968 /* PlayolaCoreOSXTests.swift in Sources */,
 				4B361C601F44C86300654968 /* RotationItemsCollection.swift in Sources */,
 				4BE007111F4756470010C420 /* AuthError.swift in Sources */,
 				4B361C081F44B48200654968 /* AuthServiceTests.swift in Sources */,
