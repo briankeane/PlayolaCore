@@ -950,7 +950,7 @@ class AuthServiceTests: QuickSpec {
             
             //------------------------------------------------------------------------------
             
-            describe("getRotationItems()")
+            describe("addSongsToBin")
             {
                 it ("works")
                 {
@@ -963,15 +963,15 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        AuthService.sharedInstance().addSongToBin(songID: "thisIsASongID", bin: "heavy")
+                        AuthService.sharedInstance().addSongsToBin(songIDs: ["songOneID", "songTwoID"], bin: "heavy")
                         .then
                         {
                             (rotationItemsCollection) -> Void in
                             // check request
                             expect(sentRequest!.url!.path).to(equal(self.addSongToBinPath))
                             expect(sentRequest!.httpMethod).to(equal("POST"))
-                            expect(sentBody!["songID"] as! String).to(equal("thisIsASongID"))
-                            expect(sentBody!["bin"] as! String).to(equal("heavy"))
+                            expect((sentBody!["songIDs"] as! Array<String>)).to(equal(["songOneID", "songTwoID"]))
+                            expect((sentBody!["bin"] as! String)).to(equal("heavy"))
                                     
                             // check response
                             expect(rotationItemsCollection).toNot(beNil())
@@ -999,7 +999,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        AuthService.sharedInstance().addSongToBin(songID: "thisIsASongID", bin: "heavy")
+                        AuthService.sharedInstance().addSongsToBin(songIDs:["songOneID", "songTwoID"], bin: "heavy")
                         .then
                         {
                             (user) -> Void in
@@ -1009,7 +1009,7 @@ class AuthServiceTests: QuickSpec {
                         {
                             (error) -> Void in
                             expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
-                                    done()
+                            done()
                         }
                     }
                 }

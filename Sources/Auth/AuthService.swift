@@ -673,16 +673,17 @@ class AuthService:NSObject
             
         }
     }
+
     
     // -----------------------------------------------------------------------------
-    //                          func addSongToBin
+    //                          func addSongsToBin
     // -----------------------------------------------------------------------------
     /**
      Adds a song to the specified bin.
      
-      - parameters:
-          - songID: `(String)` - the id of the song to add
-          - bin: `(String)` - the name of the bin to add it to
+     - parameters:
+     - songIDs: `(Array<String>)` - the ids of the songs to add
+     - bin: `(String)` - the name of the bin to add them to
      
      ### Usage Example: ###
      ````
@@ -692,7 +693,7 @@ class AuthService:NSObject
         (updatedRotationItemsCollection) -> Void in
         print(updatedRotationItemsCollection.listBins())
      }
-     .catch (err)
+        .catch (err)
      {
         print(err)
      }
@@ -704,44 +705,42 @@ class AuthService:NSObject
      * resolves to: a RotationItemsCollection
      * rejects: an AuthError
      */
-    func addSongToBin(songID:String, bin:String) -> Promise<RotationItemsCollection>
+    func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
-        let parameters:Parameters? = ["songID":songID, "bin":bin]
+        let parameters:Parameters? = ["songIDs":songIDs, "bin":bin]
         
         return Promise
         {
             (fulfill, reject) in
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON
+            .responseJSON
+            {
+                (response) -> Void in
+                switch response.result
                 {
-                    (response) -> Void in
-                    switch response.result
+                case .success(let JSON):
+                    if let statusCode:Int = response.response?.statusCode
                     {
-                    case .success(let JSON):
-                        if let statusCode:Int = response.response?.statusCode
+                        if (200..<300 ~= statusCode)
                         {
-                            if (200..<300 ~= statusCode)
+                            if let responseDictionary:NSDictionary = JSON as? NSDictionary
                             {
-                                if let responseDictionary:NSDictionary = JSON as? NSDictionary
-                                {
-                                    let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary.object(forKey: "rotationItems") as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
-                                    let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
-                                    return fulfill(rotationItemsCollection)
-                                }
+                                let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary.object(forKey: "rotationItems") as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
+                                let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                                return fulfill(rotationItemsCollection)
                             }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        return reject(AuthError(response: response))
-                        
                     }
+                    return reject(AuthError(response: response))
+                case .failure:
+                    return reject(AuthError(response: response))
                 }
+            }
         }
     }
-    
-    
+
     //------------------------------------------------------------------------------
     //                  Singleton
     //------------------------------------------------------------------------------
