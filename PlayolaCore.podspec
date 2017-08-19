@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
     s.dependency 'Alamofire', '4.5.0'
     s.dependency 'PromiseKit', '~> 4.0'
     s.dependency 'Locksmith', '~> 3.0.0'
+    s.dependency 'AudioKit', '~> 3.7'
 
     # probably will use this later when start subSpecing (PlayolaCore-Player, PlayolaCore-Core, etc)
     # s.subspec 'Core' do |core|

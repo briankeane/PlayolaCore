@@ -106,6 +106,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/OHHTTPStubs-iOS/OHHTTPStubs.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Quick-iOS/Quick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework"
+  install_framework "${PODS_ROOT}/AudioKit/iOS/AudioKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -113,6 +114,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/OHHTTPStubs-iOS/OHHTTPStubs.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Quick-iOS/Quick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework"
+  install_framework "${PODS_ROOT}/AudioKit/iOS/AudioKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

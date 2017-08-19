@@ -5,6 +5,7 @@
 def pods
     pod 'Alamofire', '4.5.0'
     pod 'PromiseKit', '~> 4.0'
+    pod 'AudioKit', '~> 3.7'
 end
 
 def testOnly

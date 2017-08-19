@@ -16,8 +16,8 @@ class ProgramModelQuickTests: QuickSpec {
     {
         describe("Program Model Tests")
         {
-            var rawPlaylist:Array<Dictionary<String,Any>> = []
-            var dateHandlerMock:DateHandlerMock = DateHandlerMock()
+//            var rawPlaylist:Array<Dictionary<String,Any>> = []
+//            var dateHandlerMock:DateHandlerMock = DateHandlerMock()
 //            var commercialBlockProviderMock = CommercialBlockProviderMock()
             
 //            beforeEach
