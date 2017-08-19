@@ -679,7 +679,7 @@ class AuthService:NSObject
     //                          func addSongsToBin
     // -----------------------------------------------------------------------------
     /**
-     Adds a song to the specified bin.
+     Adds songs to the specified bin.
      
      - parameters:
      - songIDs: `(Array<String>)` - the ids of the songs to add
@@ -687,7 +687,7 @@ class AuthService:NSObject
      
      ### Usage Example: ###
      ````
-     authService.addSongToBin(songID: "thisIsASongID", bin:"heavy")
+     authService.addSongsToBin(songIDs: ["thisIsASongID"], bin:"heavy")
      .then
      {
         (updatedRotationItemsCollection) -> Void in
@@ -738,6 +738,70 @@ class AuthService:NSObject
                     return reject(AuthError(response: response))
                 }
             }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func deactivateRotationItem
+    // -----------------------------------------------------------------------------
+    /**
+     Deactivates a rotationItem
+     
+     - parameters:
+        - rotationItemID: `(String)` - the id of the RotationItem to deactivate
+     
+     ### Usage Example: ###
+     ````
+     authService.deactivateRotationItem(rotationItemID: "thisIsASongID")
+     .then
+     {
+        (updatedRotationItemsCollection) -> Void in
+        print(updatedRotationItemsCollection.listBins())
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<RotationItemsCollection>` - a promise
+     * resolves to: a RotationItemsCollection
+     * rejects: an AuthError
+     */
+    func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
+    {
+        let url = "\(baseURL)/api/v1/rotationItems/\(rotationItemID)"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = nil
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, method: .delete, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success(let JSON):
+                        if let statusCode:Int = response.response?.statusCode
+                        {
+                            if (200..<300 ~= statusCode)
+                            {
+                                if let responseDictionary:NSDictionary = JSON as? NSDictionary
+                                {
+                                    let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary.object(forKey: "rotationItems") as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
+                                    let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                                    return fulfill(rotationItemsCollection)
+                                }
+                            }
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        return reject(AuthError(response: response))
+                    }
+                }
         }
     }
 

@@ -1015,6 +1015,70 @@ class AuthServiceTests: QuickSpec {
                 }
             }
             
+            //------------------------------------------------------------------------------
+            
+            describe("deactivateRotationItem")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getUserRotationItemsSuccess.json",
+                                                    type(of: self))!,
+                                                    statusCode: 200,
+                                                    headers: ["Content-Type":"application/json"]
+                                                  )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().deactivateRotationItem(rotationItemID: "rotationItemID")
+                        .then
+                        {
+                            (rotationItemsCollection) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/rotationItems/rotationItemID"))
+                            expect(sentRequest!.httpMethod).to(equal("DELETE"))
+                            
+                            // check response
+                            expect(rotationItemsCollection).toNot(beNil())
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                                            fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                                            statusCode: 404,
+                                            headers: [:]
+                                        )
+                    waitUntil()
+                    {
+                        (done) in
+                        AuthService.sharedInstance().deactivateRotationItem(rotationItemID:"rotationItemID")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                                    done()
+                        }
+                    }
+                }
+            }
+            
         }
     }
 }
