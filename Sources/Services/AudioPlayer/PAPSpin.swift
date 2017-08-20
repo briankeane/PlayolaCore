@@ -26,7 +26,11 @@ class PAPSpin
         self.startTime = startTime
         self.beginFadeOutTime = beginFadeOutTime
         self.spinInfo = spinInfo
-        
+        self.loadPlayer()
+    }
+    
+    func loadPlayer()
+    {
         do
         {
             let file = try AKAudioFile(forReading: self.audioFileURL)
@@ -37,7 +41,6 @@ class PAPSpin
             print("error loading file in papSpin: \(err.localizedDescription)")
         }
     }
-    
     func isPlaying() -> Bool
     {
         return (Date().isAfter(self.startTime) && Date().isBefore(self.beginFadeOutTime))

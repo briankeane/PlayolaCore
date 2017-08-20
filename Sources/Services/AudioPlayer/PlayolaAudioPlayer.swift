@@ -8,7 +8,6 @@
 
 import AudioKit
 
-
 class PlayolaAudioPlayer: NSObject
 {
     var nowPlayingPapSpin:PAPSpin?
@@ -24,8 +23,7 @@ class PlayolaAudioPlayer: NSObject
         self.DateHandler = dateHandler
     }
     
-    
-    init()
+    override init()
     {
         super.init()
         self.setupPlayerBank()
@@ -107,6 +105,8 @@ class PlayolaAudioPlayer: NSObject
             }
         }
         self.mixer = AKMixer(self.playerBank.map({$0.0}))
+        AudioKit.output = self.mixer
+        AudioKit.start()
     }
     
     // -----------------------------------------------------------------------------
@@ -344,6 +344,8 @@ class PlayolaAudioPlayer: NSObject
     /// ----------------------------------------------------------------------------
     func playPapSpin(_ papSpin:PAPSpin)
     {
+        let wasPlaying = self.isPlaying()
+        
         var currentTimeInSeconds:TimeInterval = 0.0
         
         // IF it's the current spin, start it at the right position immediately
@@ -367,17 +369,13 @@ class PlayolaAudioPlayer: NSObject
         self.nowPlayingPapSpin = papSpin
         
         // report player start if starting for the first time.
-        if (!self.isPlayingFlag)
+        if (!wasPlaying)
         {
-            self.isPlayingFlag = true
-            //            NotificationCenter.default.post(name: kPAPStartedPlaying, object: nil, userInfo: ["playerIdentifier":self.identifier,
-            //                                                                                              "player":self ])
+            NotificationCenter.default.post(name: PAPEvents.playerStarted, object: nil, userInfo: self.nowPlayingPapSpin?.spinInfo)
         }
         
         // report new nowPlaying spin either way.
-        //        NotificationCenter.default.post(name: kPAPNowPlayingChanged, object: nil, userInfo: ["playerIdentifier":self.identifier,
-        //                                                                                             "nowPlayingSpin":papSpin.spin,
-        //                                                                                             "player": self])
+        NotificationCenter.default.post(name: PAPEvents.nowPlayingChanged, object: nil, userInfo: self.nowPlayingPapSpin?.spinInfo)
     }
     
     // -----------------------------------------------------------------------------
@@ -440,11 +438,17 @@ class PlayolaAudioPlayer: NSObject
     /// ----------------------------------------------------------------------------
     func stop()
     {
+        let wasPlaying = self.isPlaying()
+        
         self.clearQueue()
         self.freeAllPlayers()
-        self.isPlayingFlag = false
-        //        NotificationCenter.default.post(name: kPAPStopped, object: nil, userInfo: ["playerIdentifier":self.identifier,
-        //                                                                                   "player":self])
+        self.nowPlayingPapSpin = nil
+        
+        if (wasPlaying)
+        {
+            NotificationCenter.default.post(name: PAPEvents.playerStopped, object: nil, userInfo: nil)
+        }
+
     }
     
     // -----------------------------------------------------------------------------
@@ -460,4 +464,6 @@ class PlayolaAudioPlayer: NSObject
     {
         return (self.nowPlayingPapSpin != nil)
     }
+    
+    
 }

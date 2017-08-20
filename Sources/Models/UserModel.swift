@@ -152,7 +152,7 @@ class User
     
     //------------------------------------------------------------------------------
     
-    func setRole(_ roleString:String?)
+    fileprivate func setRole(_ roleString:String?)
     {
         if let roleString = roleString
         {
@@ -182,7 +182,7 @@ class User
     func prepareForIdle()
     {
         self.advanceTimer?.invalidate()
-        print("prepareing for Idle -- userModel")
+        print("preparing for Idle -- userModel")
     }
     
     //------------------------------------------------------------------------------

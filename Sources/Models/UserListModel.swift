@@ -33,11 +33,9 @@ class UserList
     
     //------------------------------------------------------------------------------
     
-    init(DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), users: Array<User?> = [], name:String = "generic")
+    init(users: Array<User?> = [], name:String="generic")
     {
         self.users = users
-        self.DateHandler = DateHandler
-        //self.SharedData = SharedData
         self.name = name
         
 //        self.startMonitoring()
@@ -46,6 +44,12 @@ class UserList
 //        
 //        self.setupListeners()
     }
+//    
+//    convenience init(DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), users: Array<User?> = [], name:String="generic")
+//    {
+//        self.DateHandler = DateHandler
+//        self.init(users: users, name: name)
+//    }
     
     // -----------------------------------------------------------------------------
     //                           func setupListeners
@@ -150,17 +154,17 @@ class UserList
 ////                                                                                    "userList": self ])
 //    }
 //    
-//    // -----------------------------------------------------------------------------
-//    //                          func addUsers
-//    // -----------------------------------------------------------------------------
-//    /// adds the users and begins tracking them
-//    ///
-//    /// - parameters:
-//    ///     - usersToAdd: `(Array<User>)` - an array of users to add
-//    ///
-//    /// ----------------------------------------------------------------------------
-//    func addUsers(_ usersToAdd:Array<User>)
-//    {
+    // -----------------------------------------------------------------------------
+    //                          func addUsers
+    // -----------------------------------------------------------------------------
+    /// adds the users and begins tracking them
+    ///
+    /// - parameters:
+    ///     - usersToAdd: `(Array<User>)` - an array of users to add
+    ///
+    /// ----------------------------------------------------------------------------
+    func addUsers(_ usersToAdd:Array<User>)
+    {
 //        var changedFlag:Bool = false
 //        for user in usersToAdd
 //        {
@@ -178,12 +182,12 @@ class UserList
 //            }
 //        }
 //        
-////        if (changedFlag)
-////        {
-////            NotificationCenter.default.post(name: kListUpdated, object: nil, userInfo: ["name": self.name])
-////        }
-//    }
-//    
+//        if (changedFlag)
+//        {
+//            NotificationCenter.default.post(name: kListUpdated, object: nil, userInfo: ["name": self.name])
+//        }
+    }
+    
 //    // -----------------------------------------------------------------------------
 //    //                          func refresh
 //    // -----------------------------------------------------------------------------
@@ -218,17 +222,17 @@ class UserList
 //        self.refresh(newUsers)
 //    }
 //    
-//    // -----------------------------------------------------------------------------
-//    //                          func clear
-//    // -----------------------------------------------------------------------------
-//    /// cleanly resets the list to empty
-//    ///
-//    /// ----------------------------------------------------------------------------
-//    func clear()
-//    {
+    // -----------------------------------------------------------------------------
+    //                          func clear
+    // -----------------------------------------------------------------------------
+    /// cleanly resets the list to empty
+    ///
+    /// ----------------------------------------------------------------------------
+    func clear()
+    {
 //        self.resetList([])
-//    }
-//    
+    }
+    
 //    // -----------------------------------------------------------------------------
 //    //                          func refreshProgramsFromServerObjc
 //    // -----------------------------------------------------------------------------
