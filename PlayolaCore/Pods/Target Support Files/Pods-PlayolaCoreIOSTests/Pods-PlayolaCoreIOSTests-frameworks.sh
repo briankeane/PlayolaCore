@@ -108,6 +108,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework"
   install_framework "${PODS_ROOT}/AudioKit/iOS/AudioKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-iOS/SwiftRemoteFileCache.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Nimble-iOS/Nimble.framework"
@@ -116,6 +117,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework"
   install_framework "${PODS_ROOT}/AudioKit/iOS/AudioKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-iOS/SwiftRemoteFileCache.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

@@ -38,4 +38,7 @@ public struct PlayolaConstants {
     #endif
     
     static let BASE_URL = "https://\(HOST_NAME)"
+    
+    /// the number of seconds from now when station editing can begins.
+    static let LOCKED_SECONDS_OF_PRELOAD = 180
 }

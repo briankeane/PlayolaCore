@@ -1,0 +1,6 @@
+framework module SwiftRemoteFileCache {
+  umbrella header "SwiftRemoteFileCache-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}

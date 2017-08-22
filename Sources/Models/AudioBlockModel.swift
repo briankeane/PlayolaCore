@@ -23,7 +23,7 @@ class AudioBlock
     var title:String?
     var artist:String?
     var album:String?
-    var audioFileUrl:String?
+    var audioFileUrl:URL?
     var key:String?
     var albumArtworkUrl:String?
     var albumArtworkUrlSmall:String?
@@ -46,7 +46,7 @@ class AudioBlock
         title = audioBlockInfo["title"] as? String
         artist = audioBlockInfo["artist"] as? String
         album = audioBlockInfo["album"] as? String
-        audioFileUrl = audioBlockInfo["audioFileUrl"] as? String
+        audioFileUrl = self.audioFileUrlFromString(audioFileUrlString: audioBlockInfo["audioFileUrl"] as? String)
         key = audioBlockInfo["key"] as? String
         albumArtworkUrl = audioBlockInfo["albumArtworkUrl"] as? String
         albumArtworkUrlSmall = audioBlockInfo["albumArtworkUrlSmall"] as? String
@@ -55,15 +55,6 @@ class AudioBlock
         if let isCommercialBlock = audioBlockInfo["isCommercialBlock"] as? Bool
         {
             self.isCommercialBlock = isCommercialBlock
-        }
-        
-        //adjust audioFileUrl for no scheme included
-        if let audioFileUrl = self.audioFileUrl
-        {
-            if (String(audioFileUrl.characters.prefix(2)) == "//")
-            {
-                self.audioFileUrl = "https:" + self.audioFileUrl!
-            }
         }
     }
     
@@ -88,16 +79,7 @@ class AudioBlock
         self.albumArtworkUrlSmall = original.albumArtworkUrlSmall
         self.trackViewUrl = original.trackViewUrl
         self.isCommercialBlock = original.isCommercialBlock
-        
-        //adjust audioFileUrl for no scheme included
-        if let audioFileUrl = self.audioFileUrl
-        {
-            if (String(audioFileUrl.characters.prefix(2)) == "//")
-                
-            {
-                self.audioFileUrl = "https:" + self.audioFileUrl!
-            }
-        }
+        self.audioFileUrl = original.audioFileUrl
     }
     
     //------------------------------------------------------------------------------
@@ -113,7 +95,7 @@ class AudioBlock
          title:String?=nil,
          artist:String?=nil,
          album:String?=nil,
-         audioFileUrl:String?=nil,
+         audioFileUrl:URL?=nil,
          key:String?=nil,
          albumArtworkUrl:String?=nil,
          albumArtworkUrlSmall:String?=nil,
@@ -139,15 +121,43 @@ class AudioBlock
         self.trackViewUrl = trackViewUrl
         self.voiceTrackLocalUrl = voiceTrackLocalUrl
         self.isCommercialBlock = isCommercialBlock
-        
-        //adjust audioFileUrl for no scheme included
-        if let audioFileUrl = self.audioFileUrl
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    private func audioFileUrlFromString (audioFileUrlString:String?) -> URL?
+    {
+        if var audioFileUrlString = audioFileUrlString
         {
-            if (String(audioFileUrl.characters.prefix(2)) == "//")
+            //adjust audioFileUrl for no scheme included
+            if (String(audioFileUrlString.characters.prefix(2)) == "//")
             {
-                self.audioFileUrl = "https:" + self.audioFileUrl!
+                audioFileUrlString = "https:" + audioFileUrlString
+            }
+            
+            if let audioFileUrl = URL(string: audioFileUrlString)
+            {
+                return audioFileUrl
             }
         }
+        return nil
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func toDictionary() -> Dictionary<String,Any>
+    {
+        return [
+                "title": self.title as Any,
+                "artist": self.artist as Any,
+                "duration": self.duration as Any,
+                "itunesID": self.itunesID as Any,
+                "album": self.album as Any,
+                "albumArtwork": self.albumArtworkUrl as Any,
+                "voiceTrackLocalUrl": self.voiceTrackLocalUrl as Any,
+                "isCommercialBlock": self.isCommercialBlock as Any,
+                "key": self.key as Any
+                ]
     }
     
     //------------------------------------------------------------------------------

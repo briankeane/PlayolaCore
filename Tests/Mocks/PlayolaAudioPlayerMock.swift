@@ -17,7 +17,8 @@ class PlayolaAudioPlayerMock: PlayolaAudioPlayer {
     
     var loadAudioCalledCount = 0
     var loadAudioCalledArgs:Array<[String:Any]> = []
-    override func loadAudio(audioFileURL: URL, startTime: Date, beginFadeOutTime: Date, spinInfo: [String : Any]) {
+    override func loadAudio(audioFileURL: URL, startTime: Date, beginFadeOutTime: Date, spinInfo: [String : Any])
+    {
         self.loadAudioCalledCount += 1
         self.loadAudioCalledArgs.append([
             
@@ -26,5 +27,10 @@ class PlayolaAudioPlayerMock: PlayolaAudioPlayer {
                                 "beginFadeOutTime": beginFadeOutTime,
                                 "spinInfo": spinInfo
                             ])
+    }
+    
+    var stopCalledCount = 0
+    override func stop() {
+        self.stopCalledCount += 1
     }
 }

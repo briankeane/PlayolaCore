@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "82402E3FD2E4C6FEB0F8BF25BA80405E0D016DC7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "82402E3FD2E4C6FEB0F8BF25BA80405E0D016DC7" : 9223372036854775807,
+    "38F5EEB4BC472B50FD741375BA60CD1AE5E0DACE" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "96A81FE9-7424-4255-B602-5FC1ABCE09E2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "82402E3FD2E4C6FEB0F8BF25BA80405E0D016DC7" : "PlayolaCore\/",
+    "38F5EEB4BC472B50FD741375BA60CD1AE5E0DACE" : "SwiftFileCache\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PlayolaCore",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "PlayolaCore\/PlayolaCore.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/briankeane\/SwiftRemoteFileCache.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "38F5EEB4BC472B50FD741375BA60CD1AE5E0DACE"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/briankeane\/PlayolaCore.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82402E3FD2E4C6FEB0F8BF25BA80405E0D016DC7"
+    }
+  ]
+}

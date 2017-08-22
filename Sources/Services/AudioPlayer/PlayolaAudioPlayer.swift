@@ -222,6 +222,23 @@ class PlayolaAudioPlayer: NSObject
     }
     
     // -----------------------------------------------------------------------------
+    //                          func isQueued
+    // -----------------------------------------------------------------------------
+    /// tells whether a localURL is queued or not.
+    ///
+    /// - parameters:
+    ///     - papSpin: `(localURL)` - the localURL of the audioFile to check for
+    ///
+    /// - returns:
+    ///    `BOOL` - true if the localFile has already been scheduled
+    ///
+    /// ----------------------------------------------------------------------------
+    public func isQueued(localFileURL:URL) -> Bool
+    {
+        return (self.queueDictionary[localFileURL.absoluteString] != nil)
+    }
+    
+    // -----------------------------------------------------------------------------
     //                          func clearQueue()
     // -----------------------------------------------------------------------------
     /// cleanly clears the queue of PAPSpins... invalidating all timers
@@ -425,7 +442,6 @@ class PlayolaAudioPlayer: NSObject
                     player.volume = 1.0
                     completionBlock?()
                 }
-                
             }
         }
     }

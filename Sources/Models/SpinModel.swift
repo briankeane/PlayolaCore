@@ -107,4 +107,22 @@ class Spin
         }
         return false
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func eomTime
+    // -----------------------------------------------------------------------------
+    /// returns true if the current time is between airtime and endTime
+    ///
+    /// ----------------------------------------------------------------------------
+    public func eomTime() -> Date?
+    {
+        if let airtime = self.airtime
+        {
+            if let eom = self.audioBlock?.eom
+            {
+                return airtime.addMilliseconds(eom)
+            }
+        }
+        return nil
+    }
 }
