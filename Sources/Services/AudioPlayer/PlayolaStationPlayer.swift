@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftRemoteFileCache
+import PromiseKit
 
 public class PlayolaStationPlayer: NSObject
 {
@@ -18,24 +19,54 @@ public class PlayolaStationPlayer: NSObject
     var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
     
     // dependecy injections
-    var PAPlayer:PlayolaAudioPlayer!
+    var PAPlayer:PlayolaAudioPlayer! = PlayolaAudioPlayer()
     var dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
+    var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
     func injectDependencies(
                                 PAPlayer:PlayolaAudioPlayer!=PlayolaAudioPlayer(),
-                                dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
+                                dateHandler:DateHandlerService! = DateHandlerService.sharedInstance(),
+                                api:PlayolaAPI! = PlayolaAPI.sharedInstance()
                             )
     {
         self.PAPlayer = PAPlayer
         self.dateHandler = dateHandler
+        self.api = api
     }
     
-    public func loadUserAndPlay(_ user:User)
+    public func loadUserAndPlay(userID:String) -> Promise<Void>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            self.api.getMultipleUsers(userIDs: [userID])
+            .then
+            {
+                (users) -> Void in
+                if (users.count == 0)
+                {
+                    reject(AuthError(statusCode: 404, message: "User Not Found", rawResponse: nil))
+                }
+                else
+                {
+                    self.loadUserAndPlay(user: users[0]!)
+                    fulfill()
+                }
+            }
+            .catch
+            {
+                (error) -> Void in
+                reject(error)
+            }
+        }
+    }
+    
+    public func loadUserAndPlay(user:User)
     {
         if (self.PAPlayer.isPlaying() && self.userPlaying?.id == user.id)
         {
             return
         }
-        self.clearPlayer()
+        self.stop()
         
         // populate userPlaying and broadcast that loading started
         self.userPlaying = user.copy()
@@ -57,7 +88,7 @@ public class PlayolaStationPlayer: NSObject
             self.loadingProgress = downloader.downloadProgress
             if (downloader.remoteURL == self.nowPlaying()?.audioBlock?.audioFileUrl)
             {
-                NotificationCenter.default.post(name: PlayolaStationPlayerEvents.loadingStationProgress, object: nil, userInfo: ["downloadProgress": downloader.downloadProgress])
+                NotificationCenter.default.post(name: PlayolaStationPlayerEvents.loadingStationProgress, object: nil, userInfo: ["downloadProgress": "\(downloader.downloadProgress)"])
             }
         }
         .onCompletion
@@ -84,7 +115,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    public func clearPlayer()
+    public func stop()
     {
         PAPlayer.stop()
         let previousUserPlaying = userPlaying
@@ -97,7 +128,7 @@ public class PlayolaStationPlayer: NSObject
     
     func refreshDoNotDeleteCacheList()
     {
-        var audioBlocksToLoad = self.spinsToLoad().map({$0.audioBlock!})
+        let audioBlocksToLoad = self.spinsToLoad().map({$0.audioBlock!})
         var doNotDeleteDict:Dictionary<URL, RemoteFilePriorityLevel> = Dictionary()
         
         for audioBlock in audioBlocksToLoad
@@ -161,7 +192,6 @@ public class PlayolaStationPlayer: NSObject
                 let localURL = self.cacheManager.localURLFromRemoteURL(spin.audioBlock!.audioFileUrl!)
                 if (!self.PAPlayer.isQueued(localFileURL: localURL))
                 {
-                    let firstSongDownloader = self.cacheManager.downloadFile(spin.audioBlock!.audioFileUrl!)
                     self.cacheManager.downloadFile(spin.audioBlock!.audioFileUrl!)
                     .onCompletion
                     {
@@ -203,8 +233,6 @@ public class PlayolaStationPlayer: NSObject
                 }
             }
         }
-        
         return spins
     }
-    
 }

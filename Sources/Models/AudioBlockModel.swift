@@ -10,26 +10,26 @@ import Foundation
 import PromiseKit
 import Alamofire
 
-class AudioBlock
+public class AudioBlock
 {
-    var id:String?
-    var __t:String?
-    var duration:Int?
-    var echonestID:String?
-    var itunesID:String?
-    var boo:Int?
-    var eoi:Int?
-    var eom:Int?
-    var title:String?
-    var artist:String?
-    var album:String?
-    var audioFileUrl:URL?
-    var key:String?
-    var albumArtworkUrl:String?
-    var albumArtworkUrlSmall:String?
-    var trackViewUrl:String?
-    var voiceTrackLocalUrl:URL?
-    var isCommercialBlock:Bool = false
+    public var id:String?
+    public var __t:String?
+    public var duration:Int?
+    public var echonestID:String?
+    public var itunesID:String?
+    public var boo:Int?
+    public var eoi:Int?
+    public var eom:Int?
+    public var title:String?
+    public var artist:String?
+    public var album:String?
+    public var audioFileUrl:URL?
+    public var key:String?
+    public var albumArtworkUrl:String?
+    public var albumArtworkUrlSmall:String?
+    public var trackViewUrl:String?
+    public var voiceTrackLocalUrl:URL?
+    public var isCommercialBlock:Bool = false
     
     //------------------------------------------------------------------------------
     

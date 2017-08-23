@@ -8,36 +8,36 @@
 
 import Foundation
 
-class User
+public class User
 {
-    var displayName:String?
-    var twitterUID:String?
-    var facebookUID:String?
-    var googleUID:String?
-    var instagramUID:String?
-    var email:String?
-    var birthYear:String?
-    var gender:String?
-    var zipcode:String?
-    var timezone:String?
+    public var displayName:String?
+    public var twitterUID:String?
+    public var facebookUID:String?
+    public var googleUID:String?
+    public var instagramUID:String?
+    public var email:String?
+    public var birthYear:String?
+    public var gender:String?
+    public var zipcode:String?
+    public var timezone:String?
     var role:PlayolaUserRole?
-    var lastCommercial:NSMutableDictionary?
-    var profileImageUrl:String?
-    var profileImageUrlSmall:String?
-    var id:String?
-    var secsOfCommercialPerHour:Int?
-    var dailyListenTimeMS:Int?
-    var dailyListenTimeCalculationDate:Date?
-    var program:Program?
-    var warnings:Array<String>?
-    var advanceTimer:Timer?
-    var deepLink:String?
-    var profileImageKey:String?
-    var bio:String?
-    var passwordExists:Bool?
-    var minListenersToReport:Int?=1
-    var deviceID:String?
-    var stationStatus:String?
+    public var lastCommercial:NSMutableDictionary?
+    public var profileImageUrl:String?
+    public var profileImageUrlSmall:String?
+    public var id:String?
+    public var secsOfCommercialPerHour:Int?
+    public var dailyListenTimeMS:Int?
+    public var dailyListenTimeCalculationDate:Date?
+    public var program:Program?
+    public var warnings:Array<String>?
+    public var advanceTimer:Timer?
+    public var deepLink:String?
+    public var profileImageKey:String?
+    public var bio:String?
+    public var passwordExists:Bool?
+    public var minListenersToReport:Int?=1
+    public var deviceID:String?
+    public var stationStatus:String?
     
     init(userInfo:NSDictionary)
     {

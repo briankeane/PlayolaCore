@@ -8,16 +8,16 @@
 
 import Foundation
 
-class Spin
+public class Spin
 {
-    var id:String?
-    var isCommercialBlock:Bool?
-    var playlistPosition:Int?
-    var audioBlock:AudioBlock?
-    var audioBlockID:String?
-    var userID: String?
-    var airtime: Date?
-    var endTime: Date?
+    public var id:String?
+    public var isCommercialBlock:Bool?
+    public var playlistPosition:Int?
+    public var audioBlock:AudioBlock?
+    public var audioBlockID:String?
+    public var userID: String?
+    public var airtime: Date?
+    public var endTime: Date?
     
     //------------------------------------------------------------------------------
     

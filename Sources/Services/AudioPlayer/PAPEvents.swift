@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct PAPEvents
+public struct PAPEvents
 {
-    static let playerStarted        =   Notification.Name(rawValue: "PAPPlayerStarted")
-    static let playerStopped        =   Notification.Name(rawValue: "PAPPlayerStopped")
-    static let nowPlayingChanged    =   Notification.Name(rawValue: "PAPNowPlayingChanged")
+    public static let playerStarted        =   Notification.Name(rawValue: "PAPPlayerStarted")
+    public static let playerStopped        =   Notification.Name(rawValue: "PAPPlayerStopped")
+    public static let nowPlayingChanged    =   Notification.Name(rawValue: "PAPNowPlayingChanged")
 }

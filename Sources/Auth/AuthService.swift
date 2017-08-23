@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-class AuthService:NSObject
+class PlayolaAPI:NSObject
 {
     
     
@@ -578,7 +578,7 @@ class AuthService:NSObject
      * resolves to: the updated presets array
      * rejects: an AuthError
      */
-    func getMultipleUsers(userIDs:Array<String>) -> Promise<Array<User?>>
+    public func getMultipleUsers(userIDs:Array<String>) -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/getMultipleUsers"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -818,17 +818,17 @@ class AuthService:NSObject
     ///    `AuthService` - the central Auth Service instance
     ///
     /// ----------------------------------------------------------------------------
-    class func sharedInstance() -> AuthService
+    class func sharedInstance() -> PlayolaAPI
     {
         if (self._instance == nil)
         {
-            self._instance = AuthService()
+            self._instance = PlayolaAPI()
         }
         return self._instance!
     }
     
     /// internally shared singleton instance
-    fileprivate static var _instance:AuthService?
+    fileprivate static var _instance:PlayolaAPI?
     
     // -----------------------------------------------------------------------------
     //                          func replaceSharedInstance
@@ -839,7 +839,7 @@ class AuthService:NSObject
     ///     - DateHandler: `(DateHandlerService)` - the new DateHandlerService
     ///
     /// ----------------------------------------------------------------------------
-    class func replaceSharedInstance(_ authService:AuthService)
+    class func replaceSharedInstance(_ authService:PlayolaAPI)
     {
         self._instance = authService
     }

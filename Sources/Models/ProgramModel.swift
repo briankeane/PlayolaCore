@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Program
+public class Program
 {
-    var nowPlaying:Spin?
-    var playlist:Array<Spin>?
-    var recentlyPlayed:Array<Spin> = []
+    public var nowPlaying:Spin?
+    public var playlist:Array<Spin>?
+    public var recentlyPlayed:Array<Spin> = []
     
     // dependencies
     var DateHandler:DateHandlerService = DateHandlerService.sharedInstance()
@@ -80,7 +80,7 @@ class Program
     //------------------------------------------------------------------------------
     // bringCurrent() -- returns a Bool indicating whether it was advanced or not
     //------------------------------------------------------------------------------
-    func bringCurrent() -> Bool
+    @discardableResult func bringCurrent() -> Bool
     {
         var changedFlag:Bool = false
         if let playlist = self.playlist
@@ -124,7 +124,7 @@ class Program
     
     //------------------------------------------------------------------------------
     
-    func getNowPlaying() -> Spin?
+    public func getNowPlaying() -> Spin?
     {
         self.bringCurrent()
         return nowPlaying

@@ -6,16 +6,16 @@
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
-class RotationItem
+public class RotationItem
 {
-    var eoi:Int?
-    var eom:Int?
-    var boo:Int?
-    var bin:String
-    var song:AudioBlock
-    var userID:String
-    var history:Array<Dictionary<String,AnyObject>>
-    var id:String
+    public var eoi:Int?
+    public var eom:Int?
+    public var boo:Int?
+    public var bin:String
+    public var song:AudioBlock
+    public var userID:String
+    public var history:Array<Dictionary<String,AnyObject>>
+    public var id:String
     
     //------------------------------------------------------------------------------
     

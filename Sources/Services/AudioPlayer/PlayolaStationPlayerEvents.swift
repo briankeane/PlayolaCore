@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct PlayolaStationPlayerEvents
+public struct PlayolaStationPlayerEvents
 {
-    static let startedPlayingStation     =   Notification.Name(rawValue: "PSPStartedPlayingStation")
-    static let stoppedPlayingStation     =   Notification.Name(rawValue: "PSPStoppedPlayingStation")
-    static let startedLoadingStation     =   Notification.Name(rawValue: "PSPStartedLoadingStation")
-    static let loadingStationProgress    =   Notification.Name(rawValue: "PSPLoadingStationProgress")
-    static let finishedLoadingStation    =   Notification.Name(rawValue: "PSPFinishedLoadingStation")
+    public static let startedPlayingStation     =   Notification.Name(rawValue: "PSPStartedPlayingStation")
+    public static let stoppedPlayingStation     =   Notification.Name(rawValue: "PSPStoppedPlayingStation")
+    public static let startedLoadingStation     =   Notification.Name(rawValue: "PSPStartedLoadingStation")
+    public static let loadingStationProgress    =   Notification.Name(rawValue: "PSPLoadingStationProgress")
+    public static let finishedLoadingStation    =   Notification.Name(rawValue: "PSPFinishedLoadingStation")
 }
