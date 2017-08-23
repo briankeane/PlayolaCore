@@ -9,7 +9,7 @@
 import Foundation
 import SwiftRemoteFileCache
 
-class PlayolaStationPlayer: NSObject
+public class PlayolaStationPlayer: NSObject
 {
     var isLoading:Bool = false
     var userPlaying:User?
@@ -29,7 +29,7 @@ class PlayolaStationPlayer: NSObject
         self.dateHandler = dateHandler
     }
     
-    func loadUserAndPlay(_ user:User)
+    public func loadUserAndPlay(_ user:User)
     {
         if (self.PAPlayer.isPlaying() && self.userPlaying?.id == user.id)
         {
@@ -84,7 +84,7 @@ class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    func clearPlayer()
+    public func clearPlayer()
     {
         PAPlayer.stop()
         let previousUserPlaying = userPlaying
@@ -111,7 +111,7 @@ class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    func nowPlaying() -> Spin?
+    public func nowPlaying() -> Spin?
     {
         if let spin = self.userPlaying?.program?.nowPlaying
         {

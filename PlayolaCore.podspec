@@ -25,10 +25,13 @@ Pod::Spec.new do |s|
     s.dependency 'PromiseKit', '~> 4.0'
     s.dependency 'Locksmith', '~> 3.0.0'
     s.dependency 'AudioKit', '~> 3.7'
+    s.dependency 'SwiftRemoteFileCache', '~> 0.0.5'
+    
+    s.source_files = 'Sources/**/*.{h,m,swift}'
 
     # probably will use this later when start subSpecing (PlayolaCore-Player, PlayolaCore-Core, etc)
     # s.subspec 'Core' do |core|
-    #     core.source_files  = 'Sources/*.{h,m,swift}'
+    #     core.source_files  = 'Sources/**/*.{h,m,swift}'
     # end
 
 
