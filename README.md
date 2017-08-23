@@ -31,7 +31,7 @@ function playStation() {
 	player.stop()      // stops a station
 ```
 #### Events:
-Playola events are stored as static properties on the class PlayolaEvents.  Listening and responding to events is easy:
+Playola events are stored as static properties on the class **PlayolaStationPlayerEvents**.  Listening and responding to events is easy:
 
 ```
 NotificationCenter.default.addObserver(forName: PlayolaStationPlayerEvents.loadingStationProgress, object: nil, queue: .main) {           
