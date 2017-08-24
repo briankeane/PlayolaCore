@@ -41,6 +41,7 @@ public class PlayolaCurrentUserInfoService:NSObject
             if ((self.user?.updatedAt == nil) || (newUpdatedAt.isBefore(self.user!.updatedAt!)))
             {
                 self.user = newCurrentUser
+                NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["currentUser": newCurrentUser as Any])
             }
         }
     }

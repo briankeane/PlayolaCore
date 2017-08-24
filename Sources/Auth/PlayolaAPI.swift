@@ -81,6 +81,7 @@ class PlayolaAPI:NSObject
                     {
                     case .success:
                         let user:User = User(userInfo: response.result.value! as! NSDictionary)
+                        NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
                         fulfill(user)
                     case .failure:  // could add (let error) later if needed
                         print(response.result.value as Any)
@@ -377,7 +378,8 @@ class PlayolaAPI:NSObject
                             {
                                 let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
                                 let user:User = User(userInfo: rawUser as NSDictionary)
-                                    fulfill(user)
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                                fulfill(user)
                             }
                             else if (statusCode == 422)
                             {
@@ -872,40 +874,10 @@ fileprivate func arrayOfUsersFromResultValue(resultValue:Any?, propertyName:Stri
         if let rawUsers = resultDict[propertyName] as? Array<NSDictionary>
         {
             return rawUsers.map({
-                            (rawUser) -> User in
-                            return User(userInfo: rawUser as NSDictionary)
-            })
+                                    (rawUser) -> User in
+                                    return User(userInfo: rawUser as NSDictionary)
+                                })
         }
     }
     return nil
-}
-
-fileprivate func buildUsersByAttributesParameters(facebookUIDs:Array<String>?=nil, googleUIDs:Array<String>?=nil, emails:Array<String>?=nil, deepLink:String?=nil) -> Parameters?
-{
-    var params:Parameters = Parameters()
-    if let facebookUIDs = facebookUIDs
-    {
-        params["facebookUIDs"] = facebookUIDs as AnyObject?
-    }
-    if let googleUIDs = googleUIDs
-    {
-        params["googleUIDs"] = googleUIDs as AnyObject?
-    }
-    if let emails = emails
-    {
-        params["emails"] = emails as AnyObject?
-    }
-    
-    if let deepLink = deepLink
-    {
-        params["deepLink"] = deepLink as AnyObject?
-    }
-    if (params.count == 0)
-    {
-        return nil
-    }
-    else
-    {
-        return params
-    }
 }

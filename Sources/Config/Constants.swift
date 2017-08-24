@@ -12,9 +12,13 @@ import Foundation
 
 
 public struct PlayolaEvents {
+    // seen by everyone
     public static let loggedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedOut")
     public static let loggedIn:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedIn")
     public static let currentUserUpdated:Notification.Name! = Notification.Name("kPlayolaCurrentUserUpdated")
+    
+    // seen by Playola only
+    static let getCurrentUserReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaGetMeReceived")
 }
 
 enum PlayolaUserRole:Int {
