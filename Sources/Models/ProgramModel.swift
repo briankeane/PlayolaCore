@@ -16,7 +16,7 @@ public class Program
     
     // dependencies
     var DateHandler:DateHandlerService = DateHandlerService.sharedInstance()
-//    var commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance()
+    var commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance()
     
     //------------------------------------------------------------------------------
     
@@ -106,20 +106,20 @@ public class Program
     
     func insertCommercials()
     {
-//        var commercials:[AudioBlock] = self.commercialBlockProvider.getCommercialBlocks(20)
-//        var commercialIndex:Int = 0
-//        
-//        if let _ = self.playlist
-//        {
-//            for i in 0..<self.playlist!.count
-//            {
-//                if (self.playlist![i].isCommercialBlock == true)
-//                {
-//                    self.playlist![i].audioBlock = commercials[commercialIndex]
-//                    commercialIndex += 1
-//                }
-//            }
-//        }
+        var commercials:[AudioBlock] = self.commercialBlockProvider.getCommercialBlocks(20)
+        var commercialIndex:Int = 0
+        
+        if let _ = self.playlist
+        {
+            for i in 0..<self.playlist!.count
+            {
+                if (self.playlist![i].isCommercialBlock == true)
+                {
+                    self.playlist![i].audioBlock = commercials[commercialIndex]
+                    commercialIndex += 1
+                }
+            }
+        }
     }
     
     //------------------------------------------------------------------------------

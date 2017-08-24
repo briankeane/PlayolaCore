@@ -361,6 +361,8 @@ class PlayolaAudioPlayer: NSObject
     /// ----------------------------------------------------------------------------
     func playPapSpin(_ papSpin:PAPSpin)
     {
+        print("playPapSpin: \(papSpin.spinInfo)")
+        
         let wasPlaying = self.isPlaying()
         
         var currentTimeInSeconds:TimeInterval = 0.0

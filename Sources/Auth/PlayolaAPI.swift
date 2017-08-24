@@ -12,12 +12,30 @@ import PromiseKit
 
 class PlayolaAPI:NSObject
 {
-    
-    
-    
     // temporary
     var baseURL = PlayolaConstants.BASE_URL
     var accessToken = "accessToken"
+    
+    // -----------------------------------------------------------------------------
+    //                          func loggedInUserSync
+    // -----------------------------------------------------------------------------
+    /**
+     Gets the current logged in user syncronously.  If the app has not been logged in
+     it returns nil
+     
+     ### Usage Example: ###
+     ````
+     if let user = api.loggedInUserSync()
+     {
+        print(user.name)
+     }
+     ````
+     
+     - returns:
+     `User?` - the logged in User.  Nil if not logged in
+     */
+    
+    
     
     // -----------------------------------------------------------------------------
     //                          func getMe

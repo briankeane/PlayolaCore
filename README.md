@@ -52,3 +52,6 @@ Available events are:
  .loadingStationProgress
  .finishedLoadingStation 
 ```
+
+#### Example App:
+See the example app at [https://github.com/briankeane/PlayolaCoreExample.git](https://github.com/briankeane/PlayolaCoreExample.git)
