@@ -19,7 +19,8 @@ public class PlayolaCurrentUserInfoService:NSObject
     
     func setupListeners()
     {
-        NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserUpdated, object: nil, queue: .main)
+        // Listen for user-modifying updates
+        NotificationCenter.default.addObserver(forName: PlayolaEvents.getCurrentUserReceived, object: nil, queue: .main)
         {
             (notification) -> Void in
             if let userInfo = notification.userInfo
@@ -32,13 +33,23 @@ public class PlayolaCurrentUserInfoService:NSObject
         }
     }
     
+    deinit
+    {
+        self.releaseListeners()
+    }
+    
+    public func releaseListeners()
+    {
+        NotificationCenter.default.removeObserver(self, name: PlayolaEvents.getCurrentUserReceived, object: nil)
+    }
     
     
+    // update current user if it is more recent than the currently stored version.
     func updateCurrentUser(_ newCurrentUser:User)
     {
         if let newUpdatedAt = newCurrentUser.updatedAt
         {
-            if ((self.user?.updatedAt == nil) || (newUpdatedAt.isBefore(self.user!.updatedAt!)))
+            if ((self.user?.updatedAt == nil) || (newUpdatedAt.isAfter(self.user!.updatedAt!)))
             {
                 self.user = newCurrentUser
                 NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["currentUser": newCurrentUser as Any])

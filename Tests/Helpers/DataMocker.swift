@@ -254,7 +254,7 @@ func generateRandomKey (_ len : Int) -> String
     let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     let randomString : NSMutableString = NSMutableString(capacity: len)
     
-    for i in 0..<len
+    for _ in 0..<len
     {
         let length = UInt32 (letters.length)
         let rand = arc4random_uniform(length)

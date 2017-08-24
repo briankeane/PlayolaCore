@@ -58,7 +58,7 @@ class UserModelQuickTests: QuickSpec {
                 expect(bob.secsOfCommercialPerHour).to(equal(180))
                 expect(bob.dailyListenTimeMS).to(equal(50))
                 expect(bob.program).toNot(beNil())
-                expect(bob.updatedAt?.toISOString()).to(equal(userInfo["updatedAt"] as! String))
+                expect(bob.updatedAt?.toISOString()).to(equal(userInfo["updatedAt"] as? String))
             }
             
             it ("does not create a program if the playlist is nil")
