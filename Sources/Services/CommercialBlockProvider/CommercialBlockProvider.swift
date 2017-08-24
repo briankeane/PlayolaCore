@@ -31,43 +31,44 @@ class CommercialBlockProviderService
     /// - returns:
     ///    `[AudioBlock]` - an array of commercialBlocks
     /// ----------------------------------------------------------------------------
-    func getCommercialBlocks (_ count:Int, sharedData:SharedDataService = SharedDataService.sharedInstance()) -> [AudioBlock]
+    func getCommercialBlocks (_ count:Int) -> [AudioBlock]
     {
-        var commercialBlocks:Array<AudioBlock> = []
-        var nextID:Int! = 0
-        var duration:Int! = 180000   // default duration
-        
-        if (sharedData.currentUser != nil) && (sharedData.currentUser!.secsOfCommercialPerHour != nil)
-        {
-            duration = sharedData.currentUser!.secsOfCommercialPerHour!/2*1000
-        }
-        
-        if ((sharedData.currentUser == nil) || (sharedData.currentUser!.lastCommercial == nil) || (sharedData.currentUser!.lastCommercial!["audioFileID"] == nil))
-        {
-            nextID = 1
-        }
-        else
-        {
-            nextID = self.getNextAudioFileID(sharedData.currentUser!.lastCommercial!["audioFileID"] as! Int)
-            
-        }
-        
-        for _ in 0..<count
-        {
-            let audioBlock = AudioBlock(audioBlockInfo: ["__t":"CommercialBlock" as AnyObject,
-                                                         "audioFileUrl":"//commercialblocks.playola.fm/\(String(format: "%04d", arguments: [nextID]))_commercial_block.mp3" as AnyObject,
-                                                         "duration": duration as AnyObject,
-                                                         "eoi": 0 as AnyObject,
-                                                         "boo": (duration - 1000) as AnyObject,
-                                                         "eom": (duration - 1000) as AnyObject,
-                                                         "title":"Commercial Block" as AnyObject,
-                                                         "id":"commercialBlock\(nextID)" as AnyObject,
-                                                         "key":"\(String(format: "%04d", arguments: [nextID]))_commercial_block.mp3" as AnyObject,
-                                                         "isCommercialBlock":true as AnyObject])
-            commercialBlocks.append(audioBlock)
-            nextID = self.getNextAudioFileID(nextID)
-        }
-        return commercialBlocks
+//        var commercialBlocks:Array<AudioBlock> = []
+//        var nextID:Int! = 0
+//        var duration:Int! = 180000   // default duration
+//        
+//        if (sharedData.currentUser != nil) && (sharedData.currentUser!.secsOfCommercialPerHour != nil)
+//        {
+//            duration = sharedData.currentUser!.secsOfCommercialPerHour!/2*1000
+//        }
+//        
+//        if ((sharedData.currentUser == nil) || (sharedData.currentUser!.lastCommercial == nil) || (sharedData.currentUser!.lastCommercial!["audioFileID"] == nil))
+//        {
+//            nextID = 1
+//        }
+//        else
+//        {
+//            nextID = self.getNextAudioFileID(sharedData.currentUser!.lastCommercial!["audioFileID"] as! Int)
+//            
+//        }
+//        
+//        for _ in 0..<count
+//        {
+//            let audioBlock = AudioBlock(audioBlockInfo: ["__t":"CommercialBlock" as AnyObject,
+//                                                         "audioFileUrl":"//commercialblocks.playola.fm/\(String(format: "%04d", arguments: [nextID]))_commercial_block.mp3" as AnyObject,
+//                                                         "duration": duration as AnyObject,
+//                                                         "eoi": 0 as AnyObject,
+//                                                         "boo": (duration - 1000) as AnyObject,
+//                                                         "eom": (duration - 1000) as AnyObject,
+//                                                         "title":"Commercial Block" as AnyObject,
+//                                                         "id":"commercialBlock\(nextID)" as AnyObject,
+//                                                         "key":"\(String(format: "%04d", arguments: [nextID]))_commercial_block.mp3" as AnyObject,
+//                                                         "isCommercialBlock":true as AnyObject])
+//            commercialBlocks.append(audioBlock)
+//            nextID = self.getNextAudioFileID(nextID)
+//        }
+//        return commercialBlocks
+        return Array()
     }
     
     // -----------------------------------------------------------------------------

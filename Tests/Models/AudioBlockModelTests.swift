@@ -33,7 +33,7 @@ class AudioBlockModelQuickTests: QuickSpec
                                        "eom": 100,
                                        "eoi": 10,
                                        "album":"bobsAlbum",
-                                       "audioFileUrl":"audioFileUrlPlaceholder",
+                                       "audioFileUrl":"/audioFileUrlPlaceholder",
                                        "key": "keyPlaceholder",
                                        "albumArtworkUrl": "albumArtworkUrl",
                                        "albumArtworkUrlSmall": "albumArtworkUrlSmall",
@@ -53,7 +53,7 @@ class AudioBlockModelQuickTests: QuickSpec
                 expect(song.eom).to(equal(100))
                 expect(song.eoi).to(equal(10))
                 expect(song.album).to(equal("bobsAlbum"))
-                expect(song.audioFileUrl).to(equal("audioFileUrlPlaceholder"))
+                expect(song.audioFileUrl!.path).to(equal("/audioFileUrlPlaceholder"))
                 expect(song.key).to(equal("keyPlaceholder"))
                 expect(song.id).to(equal("audioBlockID"))
                 expect(song.albumArtworkUrl).to(equal("albumArtworkUrl"))

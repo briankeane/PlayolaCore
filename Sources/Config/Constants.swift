@@ -12,7 +12,9 @@ import Foundation
 
 
 public struct PlayolaEvents {
-    static let loggedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedOut")
+    public static let loggedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedOut")
+    public static let loggedIn:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedIn")
+    public static let currentUserUpdated:Notification.Name! = Notification.Name("kPlayolaCurrentUserUpdated")
 }
 
 enum PlayolaUserRole:Int {
@@ -37,8 +39,8 @@ public struct PlayolaConstants {
     static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimages"
     #endif
     
-    static let BASE_URL = "https://\(HOST_NAME)"
+    public static let BASE_URL = "https://\(HOST_NAME)"
     
     /// the number of seconds from now when station editing can begins.
-    static let LOCKED_SECONDS_OF_PRELOAD = 180
+    public static let LOCKED_SECONDS_OF_PRELOAD = 180
 }

@@ -38,6 +38,7 @@ public class User
     public var minListenersToReport:Int?=1
     public var deviceID:String?
     public var stationStatus:String?
+    public var updatedAt:Date?
     
     init(userInfo:NSDictionary)
     {
@@ -66,6 +67,11 @@ public class User
         if let minListeners = userInfo["minListenersToReport"] as? Int
         {
             self.minListenersToReport = minListeners
+        }
+        
+        if let updatedAtString = userInfo["updatedAt"] as? String
+        {
+            self.updatedAt = Date(isoString: updatedAtString)
         }
         
         profileImageKey = userInfo["profileImageKey"] as? String

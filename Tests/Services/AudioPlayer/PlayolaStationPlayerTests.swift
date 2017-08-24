@@ -45,7 +45,7 @@ class PlayolaStationPlayerTests: QuickSpec {
                     try! PAPMock.nowPlayingPapSpin = PAPSpinMock(
                         audioFileURL: URL(fileURLWithPath: "/fakePath") , player: AKAudioPlayer(file: emptyAKAudioFile), startTime: dateHandlerMock.now().addSeconds(-10), beginFadeOutTime: dateHandlerMock.now().addSeconds(10), spinInfo: [:])
                     stationPlayer.userPlaying = user
-                    stationPlayer.loadUserAndPlay(user)
+                    stationPlayer.loadUserAndPlay(user: user)
                     expect(PAPMock.loadAudioCalledCount).to(equal(0))
                 }
                 
@@ -73,13 +73,13 @@ class PlayolaStationPlayerTests: QuickSpec {
                 
                 it ("clears the audioPlayer")
                 {
-                    stationPlayer.clearPlayer()
+                    stationPlayer.stop()
                     expect(PAPMock.stopCalledCount).to(equal(1))
                 }
                 
                 it ("clears the previous user")
                 {
-                    stationPlayer.clearPlayer()
+                    stationPlayer.stop()
                     expect(stationPlayer.userPlaying).to(beNil())
                 }
                 
@@ -91,7 +91,7 @@ class PlayolaStationPlayerTests: QuickSpec {
                         transmittedUserInfo = notification.userInfo!
                         didBroadcast = true
                     })
-                    stationPlayer.clearPlayer()
+                    stationPlayer.stop()
                     expect(didBroadcast).toEventually(equal(true))
                     let broadcastUser = transmittedUserInfo?["user"] as! User
                     expect(broadcastUser.id).to(equal(user.id))

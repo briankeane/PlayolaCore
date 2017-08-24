@@ -19,25 +19,27 @@ class UserModelQuickTests: QuickSpec {
         {
             it ("initializes correctly with raw server info")
             {
-                let bob = User(userInfo: [  "displayName": "Bob",
-                                            "twitterUID": "bobsTwitterUID",
-                                            "facebookUID": "bobsFacebookUID",
-                                            "googleUID":"bobsGoogleUID",
-                                            "instagramUID":"bobsInstagramUID",
-                                            "email":"bob@bob.com",
-                                            "birthYear":"1977",
-                                            "zipcode":"78748",
-                                            "timezone":"America/Chicago",
-                                            "role":"user",
-                                            "lastCommercial": [ "commercialBlockNumber":58,
-                                                                "audioFileID":25 ],
-                                            "playlist": [["airtime": Date(dateString: "2015-3-15 13:19:00").toISOString()]],
-                                            "profileImageUrl":"profileImageUrlSample",
-                                            "profileImageUrlSmall":"profileImageUrlSmall",
-                                            "id": "sampleID",
-                                            "secsOfCommercialPerHour": 180,
-                                            "dailyListenTimeMS": 50
-                    ])
+                let userInfo:NSDictionary = [  "displayName": "Bob",
+                                  "twitterUID": "bobsTwitterUID",
+                                  "facebookUID": "bobsFacebookUID",
+                                  "googleUID":"bobsGoogleUID",
+                                  "instagramUID":"bobsInstagramUID",
+                                  "email":"bob@bob.com",
+                                  "birthYear":"1977",
+                                  "zipcode":"78748",
+                                  "timezone":"America/Chicago",
+                                  "updatedAt": Date(dateString: "2015-3-15 13:15:00").toISOString(),
+                                  "role":"user",
+                                  "lastCommercial": [ "commercialBlockNumber":58,
+                                                      "audioFileID":25 ],
+                                  "playlist": [["airtime": Date(dateString: "2015-3-15 13:19:00").toISOString()]],
+                                  "profileImageUrl":"profileImageUrlSample",
+                                  "profileImageUrlSmall":"profileImageUrlSmall",
+                                  "id": "sampleID",
+                                  "secsOfCommercialPerHour": 180,
+                                  "dailyListenTimeMS": 50
+                                ]
+                let bob = User(userInfo: userInfo)
                 expect(bob.birthYear).to(equal("1977"))
                 expect(bob.displayName).to(equal("Bob"))
                 expect(bob.twitterUID).to(equal("bobsTwitterUID"))
@@ -56,6 +58,7 @@ class UserModelQuickTests: QuickSpec {
                 expect(bob.secsOfCommercialPerHour).to(equal(180))
                 expect(bob.dailyListenTimeMS).to(equal(50))
                 expect(bob.program).toNot(beNil())
+                expect(bob.updatedAt?.toISOString()).to(equal(userInfo["updatedAt"] as! String))
             }
             
             it ("does not create a program if the playlist is nil")
