@@ -16,13 +16,11 @@ public class Program
     
     // dependencies
     var DateHandler:DateHandlerService = DateHandlerService.sharedInstance()
-//    var commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance()
+    var commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance()
     
     //------------------------------------------------------------------------------
     
-//    init (rawPlaylist:Array<Dictionary<String,Any>>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
-    
-    init (rawPlaylist:Array<Dictionary<String,Any>>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance())
+    init (rawPlaylist:Array<Dictionary<String,Any>>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
     {
         
         // inject dependencies

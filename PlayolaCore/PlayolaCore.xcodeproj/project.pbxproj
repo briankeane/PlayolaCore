@@ -10,6 +10,8 @@
 		3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */; };
 		4B1F65881F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F65871F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift */; };
 		4B1F65891F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F65871F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift */; };
+		4B1F658B1F508203003CC78A /* CommercialBlockProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F658A1F508203003CC78A /* CommercialBlockProviderTests.swift */; };
+		4B1F658C1F508203003CC78A /* CommercialBlockProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F658A1F508203003CC78A /* CommercialBlockProviderTests.swift */; };
 		4B361B8B1F44663D00654968 /* PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B361B821F44663D00654968 /* PlayolaCoreIOS.framework */; };
 		4B361B921F44663D00654968 /* PlayolaCoreIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B361B841F44663D00654968 /* PlayolaCoreIOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4B361BA71F44664B00654968 /* PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B361B9E1F44664B00654968 /* PlayolaCoreOSX.framework */; };
@@ -168,6 +170,7 @@
 		2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.release.xcconfig"; sourceTree = "<group>"; };
 		43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B1F65871F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaCurrentUserInfoTests.swift; path = ../Tests/Services/PlayolaCurrentUserInfoTests.swift; sourceTree = "<group>"; };
+		4B1F658A1F508203003CC78A /* CommercialBlockProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialBlockProviderTests.swift; path = ../Tests/Services/CommercialBlockProviderTests.swift; sourceTree = "<group>"; };
 		4B361B821F44663D00654968 /* PlayolaCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayolaCoreIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B361B841F44663D00654968 /* PlayolaCoreIOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayolaCoreIOS.h; sourceTree = "<group>"; };
 		4B361B851F44663D00654968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -434,6 +437,7 @@
 			children = (
 				4B9359381F48D4340038C327 /* AudioPlayer */,
 				4B1F65871F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift */,
+				4B1F658A1F508203003CC78A /* CommercialBlockProviderTests.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -978,6 +982,7 @@
 			files = (
 				4B361C3C1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B9359351F48D3130038C327 /* PAPSpin.swift in Sources */,
+				4B1F658B1F508203003CC78A /* CommercialBlockProviderTests.swift in Sources */,
 				4B1F65881F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift in Sources */,
 				4BC1C31E1F4A44C700B7415C /* PlayolaStationPlayerEvents.swift in Sources */,
 				4BC1C3141F4A2ADA00B7415C /* PlayolaAudioPlayerMock.swift in Sources */,
@@ -1046,6 +1051,7 @@
 			files = (
 				4B361C3E1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B9359371F48D3130038C327 /* PAPSpin.swift in Sources */,
+				4B1F658C1F508203003CC78A /* CommercialBlockProviderTests.swift in Sources */,
 				4B1F65891F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift in Sources */,
 				4BC1C3201F4A44C700B7415C /* PlayolaStationPlayerEvents.swift in Sources */,
 				4BC1C3151F4A2ADA00B7415C /* PlayolaAudioPlayerMock.swift in Sources */,

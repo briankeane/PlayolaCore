@@ -33,17 +33,6 @@ public class PlayolaCurrentUserInfoService:NSObject
         }
     }
     
-    deinit
-    {
-        self.releaseListeners()
-    }
-    
-    public func releaseListeners()
-    {
-        NotificationCenter.default.removeObserver(self, name: PlayolaEvents.getCurrentUserReceived, object: nil)
-    }
-    
-    
     // update current user if it is more recent than the currently stored version.
     func updateCurrentUser(_ newCurrentUser:User)
     {
