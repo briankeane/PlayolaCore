@@ -28,9 +28,9 @@ public class Program
         self.commercialBlockProvider = commercialBlockProvider
         
         self.playlist = rawPlaylist.map(
-            {
-                (rawSpin) -> Spin in
-                return Spin(spinInfo: rawSpin)
+        {
+            (rawSpin) -> Spin in
+            return Spin(spinInfo: rawSpin)
         })
         self.commonInit()
     }

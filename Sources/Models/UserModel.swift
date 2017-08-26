@@ -40,6 +40,8 @@ public class User
     public var stationStatus:String?
     public var updatedAt:Date?
     
+    var refresher:PlayolaProgramRefresher?
+    
     init(userInfo:NSDictionary)
     {
         displayName = userInfo["displayName"] as? String
@@ -142,6 +144,8 @@ public class User
         self.program = original.program?.copy()
     }
     
+    
+    
     //------------------------------------------------------------------------------
     
     deinit
@@ -218,5 +222,18 @@ public class User
             }
         }
         return false
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    @discardableResult func requireProgramUpdates(refresher:PlayolaProgramRefresher?=nil) -> PlayolaProgramRefresher
+    {
+        var refresherToUse = refresher
+        if (refresher == nil)
+        {
+            refresherToUse = PlayolaProgramRefresher(user: self)
+        }
+        self.refresher = refresherToUse!
+        return self.refresher
     }
 }
