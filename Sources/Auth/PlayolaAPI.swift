@@ -568,24 +568,21 @@ class PlayolaAPI:NSObject
     }
     
     // ----------------------------------------------------------------------------
-    //                          func getMultipleUsers
+    //                          func getUser
     // -----------------------------------------------------------------------------
     /**
-     Takes an array of userIDs and gets the users from the server
+     Takes a userID and gets the user's info from the server
      
      - parameters:
-     - userIDs: `(Array<String>)` - duh
+     - userID: `(String)` - duh
      
      ### Usage Example: ###
      ````
-     authService.getMultipleUsers(userIDs: [users[0].id, users[1].id])
+     authService.getUser(userID: users[0].id)
      .then
      {
-        (updatedUsers) -> Void in
-        for user in updatedUsers
-        {
-            print(user.displayName)
-        }
+        (updatedUser) -> Void in
+        print(user.displayName)
      }
      .catch (err)
      {
@@ -594,15 +591,15 @@ class PlayolaAPI:NSObject
      ````
      
      - returns:
-     `Promise<Array<User>>` - a promise
-     * resolves to: the updated presets array
+     `Promise<User>` - a promise
+     * resolves to: an up-to-date User object
      * rejects: an AuthError
      */
-    public func getMultipleUsers(userIDs:Array<String>) -> Promise<Array<User?>>
+    public func getUser(userID:String) -> Promise<User>
     {
-        let url = "\(baseURL)/api/v1/users/getMultipleUsers"
+        let url = "\(baseURL)/api/v1/users/\(userID)"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
-        let parameters:Parameters? = ["userIDs": userIDs]
+        let parameters:Parameters? = [:]
         
         
         return Promise
@@ -616,9 +613,10 @@ class PlayolaAPI:NSObject
                     switch response.result
                     {
                     case .success:
-                        if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                        if let foundUserData = response.result.value as? NSDictionary
                         {
-                            return fulfill(foundUsers)
+                            let user = User(userInfo: foundUserData)
+                            return fulfill(user)
                         }
                         return reject(AuthError(response: response))
                     case .failure:
@@ -824,6 +822,44 @@ class PlayolaAPI:NSObject
                 }
         }
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func broadcastUsersUpdated
+    // -----------------------------------------------------------------------------
+    /**
+     Broadcast that users were updated on social media.
+     
+     - parameters:
+     - rotationItemID: `(String)` - the id of the RotationItem to deactivate
+     
+     ### Usage Example: ###
+     ````
+     authService.deactivateRotationItem(rotationItemID: "thisIsASongID")
+     .then
+     {
+     (updatedRotationItemsCollection) -> Void in
+     print(updatedRotationItemsCollection.listBins())
+     }
+     .catch (err)
+     {
+     print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<RotationItemsCollection>` - a promise
+     * resolves to: a RotationItemsCollection
+     * rejects: an AuthError
+     */
+
+    fileprivate func broadcastUsersUpdated(_ users:Array<User>)
+    {
+        for user in users
+        {
+            NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+        }
+        
+    }
 
     //------------------------------------------------------------------------------
     //                  Singleton
@@ -864,6 +900,7 @@ class PlayolaAPI:NSObject
         self._instance = authService
     }
 }
+
 
 
 

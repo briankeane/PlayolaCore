@@ -38,19 +38,12 @@ public class PlayolaStationPlayer: NSObject
         return Promise
         {
             (fulfill, reject) -> Void in
-            self.api.getMultipleUsers(userIDs: [userID])
+            self.api.getUser(userID: userID)
             .then
             {
-                (users) -> Void in
-                if (users.count == 0)
-                {
-                    reject(AuthError(statusCode: 404, message: "User Not Found", rawResponse: nil))
-                }
-                else
-                {
-                    self.loadUserAndPlay(user: users[0]!)
-                    fulfill()
-                }
+                (user) -> Void in
+                self.loadUserAndPlay(user: user)
+                fulfill()
             }
             .catch
             {

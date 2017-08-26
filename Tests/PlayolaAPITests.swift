@@ -799,36 +799,35 @@ class AuthServiceTests: QuickSpec {
             
             //------------------------------------------------------------------------------
             
-            describe("getMultipleUsers")
+            describe("getUser")
             {
                 it ("works")
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
-                        fileAtPath: OHPathForFile("userSearchResultsSuccess.json", type(of: self))!,
+                        fileAtPath: OHPathForFile("getUserSuccess.json", type(of: self))!,
                         statusCode: 200,
                         headers: ["Content-Type":"application/json"]
                     )
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getMultipleUsers(userIDs: ["userOneID", "userTwoID"])
+                        PlayolaAPI.sharedInstance().getUser(userID: "userOneID")
                         .then
                         {
-                            (presets) -> Void in
-                            let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
+                            (user) -> Void in
+                            let jsonDict = self.readLocalJsonFile("getUserSuccess.json")!
                                     
                             // check request
                             expect(sentRequest!.httpMethod).to(equal("GET"))
-                            expect(sentRequest!.url!.path).to(equal(self.getMultipleUsersPath))
-                            expect(sentRequest!.url!.query!).to(equal("userIDs%5B%5D=userOneID&userIDs%5B%5D=userTwoID"))
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/users/userOneID"))
                             
                             // check response
-                            let rawSearchResults = (jsonDict["searchResults"] as! Array<NSDictionary>)
-                            let rawID = rawSearchResults[0]["id"] as! String
+                            let userResult = (jsonDict as NSDictionary)
+                            let rawID = userResult["id"] as! String
                                     
                             // check response
-                            expect(presets[0]!.id!).to(equal(rawID))
+                            expect(user.id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -853,7 +852,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getMultipleUsers(userIDs: ["userOneID", "userTwoID"])
+                        PlayolaAPI.sharedInstance().getUser(userID: "userOneID")
                         .then
                         {
                             (user) -> Void in
