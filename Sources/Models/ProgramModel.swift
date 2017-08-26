@@ -25,7 +25,7 @@ public class Program
         
         // inject dependencies
         self.DateHandler = DateHandler
-//        self.commercialBlockProvider = commercialBlockProvider
+        self.commercialBlockProvider = commercialBlockProvider
         
         self.playlist = rawPlaylist.map(
             {
@@ -37,8 +37,7 @@ public class Program
     
     //------------------------------------------------------------------------------
     
-//    init (playlist:[Spin], DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
-    init (playlist:[Spin], DateHandler:DateHandlerService = DateHandlerService.sharedInstance())
+    init (playlist:[Spin], DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
     {
         // inject dependencies
         self.DateHandler = DateHandler
@@ -52,7 +51,7 @@ public class Program
     init(original:Program)
     {
         self.DateHandler = original.DateHandler
-//        self.commercialBlockProvider = original.commercialBlockProvider
+        self.commercialBlockProvider = original.commercialBlockProvider
         self.nowPlaying = original.nowPlaying?.copy()
         self.recentlyPlayed = original.recentlyPlayed.map { $0.copy() }
         if let _ = original.playlist
@@ -104,20 +103,20 @@ public class Program
     
     func insertCommercials()
     {
-//        var commercials:[AudioBlock] = self.commercialBlockProvider.getCommercialBlocks(20)
-//        var commercialIndex:Int = 0
-//        
-//        if let _ = self.playlist
-//        {
-//            for i in 0..<self.playlist!.count
-//            {
-//                if (self.playlist![i].isCommercialBlock == true)
-//                {
-//                    self.playlist![i].audioBlock = commercials[commercialIndex]
-//                    commercialIndex += 1
-//                }
-//            }
-//        }
+        var commercials:[AudioBlock] = self.commercialBlockProvider.getCommercialBlocks(20)
+        var commercialIndex:Int = 0
+        
+        if let _ = self.playlist
+        {
+            for i in 0..<self.playlist!.count
+            {
+                if (self.playlist![i].isCommercialBlock == true)
+                {
+                    self.playlist![i].audioBlock = commercials[commercialIndex]
+                    commercialIndex += 1
+                }
+            }
+        }
     }
     
     //------------------------------------------------------------------------------

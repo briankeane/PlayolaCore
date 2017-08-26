@@ -280,12 +280,14 @@ class PlayolaAudioPlayer: NSObject
     /// ----------------------------------------------------------------------------
     fileprivate func scheduleFuturePapSpin(_ papSpin:PAPSpin)
     {
+        print("scheduleFuturePapSpin \(papSpin.audioFileURL.lastPathComponent)")
         if (!papSpin.playerSet) {
             
             if (!papSpin.startTime.isBefore(Date()))
             {
                 let secsTill = papSpin.startTime.timeIntervalSinceNow
                 let avTime = AKAudioPlayer.secondsToAVAudioTime(hostTime: mach_absolute_time(), time: secsTill)
+                print("avTime: \(avTime)")
                 papSpin.player!.stop()
                 papSpin.player!.play(from: 0, to: papSpin.player!.duration, avTime: avTime)
                 papSpin.playerSet = true
@@ -361,8 +363,6 @@ class PlayolaAudioPlayer: NSObject
     /// ----------------------------------------------------------------------------
     func playPapSpin(_ papSpin:PAPSpin)
     {
-        print("playPapSpin: \(papSpin.spinInfo)")
-        
         let wasPlaying = self.isPlaying()
         
         var currentTimeInSeconds:TimeInterval = 0.0

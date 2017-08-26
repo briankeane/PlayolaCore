@@ -109,6 +109,7 @@ public class PlayolaStationPlayer: NSObject
                 
                 self.loadingProgress = nil
                 self.startAutomaticQueueLoading()
+                self.downloadAndLoadQueueSpins()
             }
         }
     }
@@ -158,7 +159,7 @@ public class PlayolaStationPlayer: NSObject
         DispatchQueue.main.async
         {
             self.automaticQueueLoadingTimer?.invalidate()
-            self.automaticQueueLoadingTimer = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(PlayolaStationPlayer.downloadAndLoadQueueSpins), userInfo: nil, repeats: true)
+            self.automaticQueueLoadingTimer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(PlayolaStationPlayer.downloadAndLoadQueueSpins), userInfo: nil, repeats: true)
         }
     }
     
@@ -177,9 +178,10 @@ public class PlayolaStationPlayer: NSObject
     
     func downloadAndLoadQueueSpins()
     {
+        print("downloadAndQueueSpins")
         // always runs on the background queue... all these spins are in the future
-        DispatchQueue.global(qos: .background).async
-        {
+//        DispatchQueue.global(qos: .background).async
+//        {
             self.refreshDoNotDeleteCacheList()
             let spins = self.spinsToLoad()
             
@@ -199,12 +201,13 @@ public class PlayolaStationPlayer: NSObject
                         // IF the same user is still playing as when download started:
                         if (self.userPlaying?.id == nowPlayingUserID)
                         {
+                            print("loading Audio: \(spin.audioBlock!.title!)")
                             self.PAPlayer.loadAudio(audioFileURL: downloader.localURL, startTime: spin.airtime!, beginFadeOutTime: spin.eomTime()!, spinInfo: spin.audioBlock!.toDictionary())
                         }
                     }
                 }
             }
-        }
+//        }
     }
     
     

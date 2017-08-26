@@ -34,6 +34,9 @@ class PAPSpin
         do
         {
             let file = try AKAudioFile(forReading: self.audioFileURL)
+            print("file.channelCount")
+            print(file.channelCount)
+            
             try self.player.replace(file: file)
         }
         catch let err
