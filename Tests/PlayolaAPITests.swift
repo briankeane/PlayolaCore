@@ -45,7 +45,6 @@ class AuthServiceTests: QuickSpec {
     let getTopUsersPath             =        "/api/v1/users/topUsers"
     let updateUserPath              =        "/api/v1/users/me"
     let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
-    let getMultipleUsersPath        =        "/api/v1/users/getMultipleUsers"
     let getUsersByAttributesPath    =        "/api/v1/users/getByAttributes"
     let addSongToBinPath            =        "/api/v1/rotationItems"
     
