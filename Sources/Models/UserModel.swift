@@ -226,14 +226,15 @@ public class User
     
     //------------------------------------------------------------------------------
     
-    @discardableResult func requireProgramUpdates(refresher:PlayolaProgramRefresher?=nil) -> PlayolaProgramRefresher
+    func startAutoUpdating()
     {
-        var refresherToUse = refresher
-        if (refresher == nil)
-        {
-            refresherToUse = PlayolaProgramRefresher(user: self)
-        }
-        self.refresher = refresherToUse!
-        return self.refresher
+        self.refresher = PlayolaProgramRefresher(user: self)
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func endAutoUpdating()
+    {
+        self.refresher = nil
     }
 }

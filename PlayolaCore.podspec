@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
     s.dependency 'PromiseKit', '~> 4.0'
     s.dependency 'Locksmith', '~> 3.0.0'
     s.dependency 'AudioKit', '~> 3.7'
-    s.dependency 'SwiftRemoteFileCache', '~> 0.0.5'
+    s.dependency 'SwiftRemoteFileCache', '~> 0.0.7'
     
     s.source_files = 'Sources/**/*.{h,m,swift}'
 

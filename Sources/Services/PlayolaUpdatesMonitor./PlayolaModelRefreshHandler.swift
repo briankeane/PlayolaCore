@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PlayolaModelRefreshHandler:NSObject
+public class PlayolaModelRefreshHandler:NSObject
 {
     // dependency injections:
     var api:PlayolaAPI = PlayolaAPI.sharedInstance()

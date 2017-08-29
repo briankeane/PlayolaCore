@@ -20,13 +20,15 @@ class PlayolaProgramRefresherTests: QuickSpec
             var user:User!
             var observers:[NSObjectProtocol] = Array()
             var refresher:PlayolaProgramRefresher!
+            var apiMock:PlayolaAPIMock
             
             beforeEach
             {
                 DataMocker.loadMocks()
                 user = DataMocker.users[0]!
                 observers = Array()
-                refresher = user.requireProgramUpdates()
+                user.startAutoUpdating()
+                refresher = user.refresher
             }
             
             afterEach
@@ -38,11 +40,25 @@ class PlayolaProgramRefresherTests: QuickSpec
                 observers = Array()
             }
             
-            it ("updates")
+            it ("grabs updates when they occur")
             {
-                NotificationCenter.default.post(name: PlayolaEvents.userUpdateRequested, object: nil, userInfo: ["userID":"aUserID"])
-                expect(apiMock.getUserCallCount).to(equal(1))
-                expect(apiMock.getUserArgs[0]).to(equal("aUserID"))
+                let userCopy = user.copy()
+                userCopy.updatedAt = Date(dateString: "2090-3-15 08:55:55")
+                userCopy.program?.nowPlaying = Spin(id: "theNewSpinID")
+                NotificationCenter.default.post(name: PlayolaEvents.userUpdated, object: nil, userInfo: ["user":userCopy])
+                expect(user.program?.nowPlaying?.id).to(equal("theNewSpinID"))
+            }
+            
+            it ("resets the timer if an outside update occurs")
+            {
+                // TODO: Figure out how to test this
+                let userCopy = user.copy()
+                userCopy.updatedAt = Date(dateString: "2090-3-15 08:55:55")
+                userCopy.program?.nowPlaying = Spin(id: "theNewSpinID")
+                refresher.restartTimer()
+                let oldFireDate = refresher.refreshTimer!.fireDate
+                NotificationCenter.default.post(name: PlayolaEvents.userUpdated, object: nil, userInfo: ["user":userCopy])
+                expect(refresher.refreshTimer!.fireDate).to(beGreaterThan(oldFireDate))
             }
         }
     }

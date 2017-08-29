@@ -55,6 +55,8 @@ public class PlayolaStationPlayer: NSObject
     
     public func loadUserAndPlay(user:User)
     {
+        user.startAutoUpdating()
+        
         if (self.PAPlayer.isPlaying() && self.userPlaying?.id == user.id)
         {
             return
@@ -229,6 +231,8 @@ public class PlayolaStationPlayer: NSObject
                 }
             }
         }
+        let spinMap = spins.map({spin in return spin.audioBlock!.title!})
+        print(spinMap)
         return spins
     }
 }

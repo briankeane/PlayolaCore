@@ -348,7 +348,7 @@ class PlayolaAudioPlayer: NSObject
             {
                 void -> Void in
                 self.freePlayer(key: papSpin.audioFileURL.absoluteString)
-                self.addToQueueDictionary(papSpin: papSpin)
+                self.removeFromQueueDictionary(papSpin: papSpin)
             }
         }
     }

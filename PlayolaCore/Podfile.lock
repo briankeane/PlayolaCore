@@ -29,7 +29,7 @@ PODS:
   - PromiseKit/UIKit (4.3.2):
     - PromiseKit/CorePromise
   - Quick (1.1.0)
-  - SwiftRemoteFileCache (0.0.4):
+  - SwiftRemoteFileCache (0.0.7):
     - Alamofire (= 4.5.0)
 
 DEPENDENCIES:
@@ -53,7 +53,7 @@ SPEC CHECKSUMS:
   OHHTTPStubs: 752f9b11fd810a15162d50f11c06ff94f8e012eb
   PromiseKit: 32430ae679605b17c15d6193679cae7bf60147f7
   Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
-  SwiftRemoteFileCache: 84152d8c3984ce873efb7a186d570f9c9dee0c82
+  SwiftRemoteFileCache: 627526791b648eb3ea1ef65b3f3e7027fc95297e
 
 PODFILE CHECKSUM: 9c80bcc167bdaa593bc066036dab7deccfdd4add
 

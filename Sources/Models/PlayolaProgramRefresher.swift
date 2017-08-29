@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PlayolaProgramRefresher:NSObject
+public class PlayolaProgramRefresher:NSObject
 {
     var user:User!
     var refreshTimer:Timer?
@@ -21,6 +21,9 @@ class PlayolaProgramRefresher:NSObject
         self.restartTimer()
         
         self.setupListeners()
+        
+        // ensure that RefreshHandler has been instantiated
+        let _ = PlayolaModelRefreshHandler.sharedInstance()
     }
     
     func setupListeners()
@@ -48,10 +51,12 @@ class PlayolaProgramRefresher:NSObject
         }
     }
     
+    //------------------------------------------------------------------------------
+    
     func restartTimer()
     {
         self.refreshTimer?.invalidate()
-        self.refreshTimer = Timer.scheduledTimer(withTimeInterval: self.refreshInterval, repeats: true)
+        self.refreshTimer = Timer.scheduledTimer(withTimeInterval: self.refreshInterval, repeats: false)
         {
             (timer) -> Void in
             self.requestUpdate()
