@@ -250,8 +250,6 @@ public class User
         }
     }
     
-    
-    
     // -----------------------------------------------------------------------------
     //                          func onNowPlayingAdvanced
     // -----------------------------------------------------------------------------
@@ -266,7 +264,7 @@ public class User
     ///                             changed
     ///
     /// ----------------------------------------------------------------------------
-    @discardableResult public func onNowPlayingAdvanced(_ block:((User)->Void)!) -> User
+    @discardableResult public func onNowPlayingAdvanced(_ block:((User?)->Void)!) -> User
     {
         self.onNowPlayingAdvancedBlocks.append(block)
         return self

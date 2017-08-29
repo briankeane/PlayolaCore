@@ -64,6 +64,20 @@ class PlayolaProgramAdvancerTests: QuickSpec
                 expect(numberTwoFired).toEventually(equal(true))
             }
             
+            it ("does not call if user deleted")
+            {
+                var callCount:Int = 0
+                var deallocUser:User? = user.copy()
+                deallocUser!.onNowPlayingAdvanced({
+                    (user) -> Void in
+                    callCount += 1
+                })
+                let advancer = PlayolaProgramAutoAdvancer(user: deallocUser!)
+                advancer.advanceProgram()
+                deallocUser = nil
+                advancer.advanceProgram()
+                expect(callCount).to(equal(1))
+            }
             
         }
     }
