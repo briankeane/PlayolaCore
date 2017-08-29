@@ -8,8 +8,8 @@
 
 import Foundation
 import XCTest
-import Quick
 import Nimble
+import Quick
 
 class PlayolaProgramRefresherTests: QuickSpec
 {
@@ -20,7 +20,6 @@ class PlayolaProgramRefresherTests: QuickSpec
             var user:User!
             var observers:[NSObjectProtocol] = Array()
             var refresher:PlayolaProgramRefresher!
-            var apiMock:PlayolaAPIMock
             
             beforeEach
             {

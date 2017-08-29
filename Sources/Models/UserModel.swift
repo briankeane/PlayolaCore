@@ -41,6 +41,10 @@ public class User
     public var updatedAt:Date?
     
     var refresher:PlayolaProgramRefresher?
+    var advancer:PlayolaProgramAutoAdvancer?
+    
+    /// an array of blocks to execute when the program's nowPlaying changes.
+    fileprivate var onNowPlayingAdvancedBlocks:Array<((User)->Void)> = Array()
     
     init(userInfo:NSDictionary)
     {
@@ -236,5 +240,35 @@ public class User
     func endAutoUpdating()
     {
         self.refresher = nil
+    }
+    
+    func handleNowPlayingAdvanced()
+    {
+        for block in self.onNowPlayingAdvancedBlocks
+        {
+            block(self)
+        }
+    }
+    
+    
+    
+    // -----------------------------------------------------------------------------
+    //                          func onNowPlayingAdvanced
+    // -----------------------------------------------------------------------------
+    /// stores a block to execute when nowPlaying advances.  
+    /// If there is already a block, it the new completion block will be added 
+    /// in addition to it.
+    ///
+    /// - parameters:
+    ///     - onCompletionBlock: `(((User)->Void)!))` - a block to be
+    ///                             executed upon completion of the download.  The
+    ///                             block is passed the User who's program has just
+    ///                             changed
+    ///
+    /// ----------------------------------------------------------------------------
+    @discardableResult public func onNowPlayingAdvanced(_ block:((User)->Void)!) -> User
+    {
+        self.onNowPlayingAdvancedBlocks.append(block)
+        return self
     }
 }

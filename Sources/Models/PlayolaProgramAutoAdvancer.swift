@@ -42,13 +42,19 @@ public class PlayolaProgramAutoAdvancer:NSObject
                         self.advanceTimer = Timer(fire: fireTime, interval: 0.0, repeats: false)
                         {
                             (timer) -> Void in
-                            self.advanceProgram()
+                            self.handleAdvanceFired()
                         }
                         RunLoop.main.add(self.advanceTimer!, forMode: RunLoopMode.defaultRunLoopMode)
                     }
                 }
             }
         }
+    }
+    
+    func handleAdvanceFired()
+    {
+        self.advanceProgram()
+        self.scheduleNextAdvance()
     }
     
     func advanceProgram()
@@ -58,6 +64,7 @@ public class PlayolaProgramAutoAdvancer:NSObject
             if (playlist.count > 0)
             {
                 self.user.program!.nowPlaying = self.user.program!.playlist?.remove(at: 0)
+                self.user.handleNowPlayingAdvanced()
             }
         }
     }

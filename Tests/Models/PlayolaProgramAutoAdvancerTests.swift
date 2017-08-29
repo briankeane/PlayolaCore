@@ -44,8 +44,27 @@ class PlayolaProgramAdvancerTests: QuickSpec
                 advancer.advanceProgram()
                 expect(user.program!.nowPlaying!.id!).to(equal(oldPlaylist0ID))
                 expect(user.program!.playlist![0].id!).to(equal(oldPlaylist1ID))
-                
             }
+            
+            it ("executes callbacks on nowPlaying change")
+            {
+                var numberOneFired = false
+                var numberTwoFired = false
+                let advancer = PlayolaProgramAutoAdvancer(user: user)
+                user.onNowPlayingAdvanced({
+                    (user) in
+                    numberOneFired = true
+                })
+                    .onNowPlayingAdvanced({
+                        (user) in
+                        numberTwoFired = true
+                    })
+                advancer.advanceProgram()
+                expect(numberOneFired).toEventually(equal(true))
+                expect(numberTwoFired).toEventually(equal(true))
+            }
+            
+            
         }
     }
 }
