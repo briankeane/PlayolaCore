@@ -26,6 +26,8 @@ public class PlayolaProgramRefresher:NSObject
         let _ = PlayolaModelRefreshHandler.sharedInstance()
     }
     
+    //------------------------------------------------------------------------------
+    
     func setupListeners()
     {
         NotificationCenter.default.addObserver(forName: PlayolaEvents.userUpdated, object: nil, queue: .main)
@@ -51,6 +53,11 @@ public class PlayolaProgramRefresher:NSObject
         }
     }
     
+    func startAutoAdvance()
+    {
+        
+    }
+    
     //------------------------------------------------------------------------------
     
     func restartTimer()
@@ -64,10 +71,14 @@ public class PlayolaProgramRefresher:NSObject
         }
     }
     
+    //------------------------------------------------------------------------------
+    
     func updateProgram(updatedUser:User)
     {
         self.user.replaceProgram(updatedUser.program)
     }
+    
+    //------------------------------------------------------------------------------
     
     func requestUpdate()
     {
@@ -76,5 +87,7 @@ public class PlayolaProgramRefresher:NSObject
            NotificationCenter.default.post(name: PlayolaEvents.userUpdateRequested, object: nil, userInfo: ["userID": id])
         }
     }
+    
+    
     
 }
