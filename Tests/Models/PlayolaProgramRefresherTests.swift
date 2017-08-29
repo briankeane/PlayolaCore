@@ -27,7 +27,7 @@ class PlayolaProgramRefresherTests: QuickSpec
                 user = DataMocker.users[0]!
                 observers = Array()
                 user.startAutoUpdating()
-                refresher = user.refresher
+                refresher = PlayolaProgramRefresher(user: user)
             }
             
             afterEach

@@ -10,7 +10,7 @@ import Foundation
 
 public class PlayolaProgramAutoAdvancer:NSObject
 {
-    var user:User!
+    weak var user:User?
     var advanceTimer:Timer?
     var dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
     
@@ -30,7 +30,7 @@ public class PlayolaProgramAutoAdvancer:NSObject
     func scheduleNextAdvance()
     {
         // set next advance
-        if let program = self.user.program
+        if let program = self.user?.program
         {
             if let playlist:Array<Spin> = program.playlist
             {
@@ -59,12 +59,12 @@ public class PlayolaProgramAutoAdvancer:NSObject
     
     func advanceProgram()
     {
-        if let playlist = self.user.program?.playlist
+        if let playlist = self.user?.program?.playlist
         {
             if (playlist.count > 0)
             {
-                self.user.program!.nowPlaying = self.user.program!.playlist?.remove(at: 0)
-                self.user.handleNowPlayingAdvanced()
+                self.user?.program?.nowPlaying = self.user?.program?.playlist?.remove(at: 0)
+                self.user?.handleNowPlayingAdvanced()
             }
         }
     }

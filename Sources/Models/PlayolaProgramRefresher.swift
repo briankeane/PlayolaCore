@@ -10,7 +10,7 @@ import Foundation
 
 public class PlayolaProgramRefresher:NSObject
 {
-    var user:User!
+    weak var user:User?
     var refreshTimer:Timer?
     var refreshInterval:TimeInterval = 45.0  // default 45 secs between updates
     
@@ -39,7 +39,7 @@ public class PlayolaProgramRefresher:NSObject
                 {
                     if let updatedUserID = updatedUser.id
                     {
-                        if let myID = self.user.id
+                        if let myID = self.user?.id
                         {
                             if (updatedUserID == myID)
                             {
@@ -51,10 +51,6 @@ public class PlayolaProgramRefresher:NSObject
                 }
             }
         }
-    }
-    
-    func startAutoAdvance()
-    {
         
     }
     
@@ -75,19 +71,16 @@ public class PlayolaProgramRefresher:NSObject
     
     func updateProgram(updatedUser:User)
     {
-        self.user.replaceProgram(updatedUser.program)
+        self.user?.replaceProgram(updatedUser.program)
     }
     
     //------------------------------------------------------------------------------
     
     func requestUpdate()
     {
-        if let id = self.user.id
+        if let id = self.user?.id
         {
            NotificationCenter.default.post(name: PlayolaEvents.userUpdateRequested, object: nil, userInfo: ["userID": id])
         }
     }
-    
-    
-    
 }
