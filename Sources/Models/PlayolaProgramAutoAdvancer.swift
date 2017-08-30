@@ -10,7 +10,7 @@ import Foundation
 
 public class PlayolaProgramAutoAdvancer:NSObject
 {
-    var user:User?
+    weak var user:User?
     var advanceTimer:Timer?
     var dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
     

@@ -20,6 +20,7 @@ public class PlayolaStationPlayer: NSObject
     
     var automaticQueueLoadingTimer:Timer?
     
+    /// buffering progress
     var loadingProgress:Double?
     
     var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
@@ -87,10 +88,9 @@ public class PlayolaStationPlayer: NSObject
         {
             (downloader) -> Void in
             self.loadingProgress = downloader.downloadProgress
-            print("remoteurl: \(downloader.remoteURL),  audioFileUrl: \(self.nowPlaying()?.audioBlock?.audioFileUrl)")
             if (downloader.remoteURL == self.nowPlaying()?.audioBlock?.audioFileUrl)
             {
-                NotificationCenter.default.post(name: PlayolaStationPlayerEvents.loadingStationProgress, object: nil, userInfo: ["downloadProgress": "\(downloader.downloadProgress)"])
+                NotificationCenter.default.post(name: PlayolaStationPlayerEvents.loadingStationProgress, object: nil, userInfo: ["downloadProgress": downloader.downloadProgress])
             }
         }
         .onCompletion
@@ -119,6 +119,8 @@ public class PlayolaStationPlayer: NSObject
         }
     }
     
+    //------------------------------------------------------------------------------
+    
     func startNowPlayingMonitoring()
     {
         self.userPlaying?.onNowPlayingAdvanced()
@@ -130,6 +132,8 @@ public class PlayolaStationPlayer: NSObject
             }
         }
     }
+    
+    //------------------------------------------------------------------------------
     
     func broadcastNowPlayingChanged()
     {
@@ -155,7 +159,7 @@ public class PlayolaStationPlayer: NSObject
         let previousUserPlaying = userPlaying
         self.userPlaying = nil
         self.stopAutomaticQueueDownloading()
-        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object: nil, userInfo: ["user":previousUserPlaying as Any])
+        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object  : nil, userInfo: ["user":previousUserPlaying as Any])
         
     }
     
@@ -212,38 +216,32 @@ public class PlayolaStationPlayer: NSObject
     
     func downloadAndLoadQueueSpins()
     {
-        print("downloadAndQueueSpins")
-        // always runs on the background queue... all these spins are in the future
-//        DispatchQueue.global(qos: .background).async
-//        {
-            self.refreshDoNotDeleteCacheList()
-            let spins = self.spinsToLoad()
+        self.refreshDoNotDeleteCacheList()
+        let spins = self.spinsToLoad()
             
-            // store nowPlayingUserID so you can make sure it's still the same user when
-            // the downloads complete.
-            let nowPlayingUserID = self.userPlaying?.id
+        // store nowPlayingUserID so you can make sure it's still the same user when
+        // the downloads complete.
+        let nowPlayingUserID = self.userPlaying?.id
             
-            for spin in spins
+        for spin in spins
+        {
+            let localURL = self.cacheManager.localURLFromRemoteURL(spin.audioBlock!.audioFileUrl!)
+            if (!self.PAPlayer.isQueued(localFileURL: localURL))
             {
-                let localURL = self.cacheManager.localURLFromRemoteURL(spin.audioBlock!.audioFileUrl!)
-                if (!self.PAPlayer.isQueued(localFileURL: localURL))
+                self.cacheManager.downloadFile(spin.audioBlock!.audioFileUrl!)
+                .onCompletion
                 {
-                    self.cacheManager.downloadFile(spin.audioBlock!.audioFileUrl!)
-                    .onCompletion
+                    (downloader) -> Void in
+                    // IF the same user is still playing as when download started:
+                    if (self.userPlaying?.id == nowPlayingUserID)
                     {
-                        (downloader) -> Void in
-                        // IF the same user is still playing as when download started:
-                        if (self.userPlaying?.id == nowPlayingUserID)
-                        {
-                            print("loading Audio: \(spin.audioBlock!.title!)")
-                            self.PAPlayer.loadAudio(audioFileURL: downloader.localURL, startTime: spin.airtime!, beginFadeOutTime: spin.eomTime()!, spinInfo: spin.audioBlock!.toDictionary())
-                        }
+                        print("loading Audio: \(spin.audioBlock!.title!)")
+                        self.PAPlayer.loadAudio(audioFileURL: downloader.localURL, startTime: spin.airtime!, beginFadeOutTime: spin.eomTime()!, spinInfo: spin.audioBlock!.toDictionary())
                     }
                 }
             }
-//        }
+        }
     }
-    
     
     //------------------------------------------------------------------------------
     
