@@ -25,9 +25,9 @@ public class AudioBlock
     public var album:String?
     public var audioFileUrl:URL?
     public var key:String?
-    public var albumArtworkUrl:String?
-    public var albumArtworkUrlSmall:String?
-    public var trackViewUrl:String?
+    public var albumArtworkUrl:URL?
+    public var albumArtworkUrlSmall:URL?
+    public var trackViewUrl:URL?
     public var voiceTrackLocalUrl:URL?
     public var isCommercialBlock:Bool = false
     
@@ -46,11 +46,11 @@ public class AudioBlock
         title = audioBlockInfo["title"] as? String
         artist = audioBlockInfo["artist"] as? String
         album = audioBlockInfo["album"] as? String
-        audioFileUrl = self.audioFileUrlFromString(audioFileUrlString: audioBlockInfo["audioFileUrl"] as? String)
+        audioFileUrl = self.urlFromString(urlString: audioBlockInfo["audioFileUrl"] as? String)
         key = audioBlockInfo["key"] as? String
-        albumArtworkUrl = audioBlockInfo["albumArtworkUrl"] as? String
-        albumArtworkUrlSmall = audioBlockInfo["albumArtworkUrlSmall"] as? String
-        trackViewUrl = audioBlockInfo["trackViewUrl"] as? String
+        albumArtworkUrl = self.urlFromString(urlString: audioBlockInfo["albumArtworkUrl"] as? String)
+        albumArtworkUrlSmall = self.urlFromString(urlString: audioBlockInfo["albumArtworkUrlSmall"] as? String)
+        trackViewUrl = self.urlFromString(urlString: audioBlockInfo["trackViewUrl"] as? String)
         
         if let isCommercialBlock = audioBlockInfo["isCommercialBlock"] as? Bool
         {
@@ -97,9 +97,9 @@ public class AudioBlock
          album:String?=nil,
          audioFileUrl:URL?=nil,
          key:String?=nil,
-         albumArtworkUrl:String?=nil,
-         albumArtworkUrlSmall:String?=nil,
-         trackViewUrl:String?=nil,
+         albumArtworkUrl:URL?=nil,
+         albumArtworkUrlSmall:URL?=nil,
+         trackViewUrl:URL?=nil,
          voiceTrackLocalUrl:URL?=nil,
          isCommercialBlock:Bool=false)
     {
@@ -125,19 +125,19 @@ public class AudioBlock
     
     //------------------------------------------------------------------------------
     
-    private func audioFileUrlFromString (audioFileUrlString:String?) -> URL?
+    private func urlFromString (urlString:String?) -> URL?
     {
-        if var audioFileUrlString = audioFileUrlString
+        if var urlString = urlString
         {
             //adjust audioFileUrl for no scheme included
-            if (String(audioFileUrlString.characters.prefix(2)) == "//")
+            if (String(urlString.characters.prefix(2)) == "//")
             {
-                audioFileUrlString = "https:" + audioFileUrlString
+                urlString = "https:" + urlString
             }
             
-            if let audioFileUrl = URL(string: audioFileUrlString)
+            if let url = URL(string: urlString)
             {
-                return audioFileUrl
+                return url
             }
         }
         return nil
@@ -153,7 +153,7 @@ public class AudioBlock
                 "duration": self.duration as Any,
                 "itunesID": self.itunesID as Any,
                 "album": self.album as Any,
-                "albumArtwork": self.albumArtworkUrl as Any,
+                "albumArtworkUrl": self.albumArtworkUrl as Any,
                 "voiceTrackLocalUrl": self.voiceTrackLocalUrl as Any,
                 "isCommercialBlock": self.isCommercialBlock as Any,
                 "key": self.key as Any

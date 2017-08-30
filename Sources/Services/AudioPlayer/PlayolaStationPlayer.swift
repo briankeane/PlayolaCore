@@ -12,10 +12,16 @@ import PromiseKit
 
 public class PlayolaStationPlayer: NSObject
 {
-    var isLoading:Bool = false
-    var userPlaying:User?
+    /// true if the station is in the process of loading a user
+    public var isLoading:Bool = false
+    
+    /// the user whose station is currently playing
+    public var userPlaying:User?
+    
     var automaticQueueLoadingTimer:Timer?
+    
     var loadingProgress:Double?
+    
     var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
     
     // dependecy injections
@@ -55,8 +61,6 @@ public class PlayolaStationPlayer: NSObject
     
     public func loadUserAndPlay(user:User)
     {
-        user.startAutoUpdating()
-        
         if (self.PAPlayer.isPlaying() && self.userPlaying?.id == user.id)
         {
             return
@@ -64,7 +68,9 @@ public class PlayolaStationPlayer: NSObject
         self.stop()
         
         // populate userPlaying and broadcast that loading started
-        self.userPlaying = user.copy()
+        self.userPlaying = user
+        self.userPlaying?.startAutoUpdating()
+        self.userPlaying?.startAutoAdvancing()
         let userID = user.id
         
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.startedLoadingStation, object: nil, userInfo: ["user":self.userPlaying as Any])
@@ -81,6 +87,7 @@ public class PlayolaStationPlayer: NSObject
         {
             (downloader) -> Void in
             self.loadingProgress = downloader.downloadProgress
+            print("remoteurl: \(downloader.remoteURL),  audioFileUrl: \(self.nowPlaying()?.audioBlock?.audioFileUrl)")
             if (downloader.remoteURL == self.nowPlaying()?.audioBlock?.audioFileUrl)
             {
                 NotificationCenter.default.post(name: PlayolaStationPlayerEvents.loadingStationProgress, object: nil, userInfo: ["downloadProgress": "\(downloader.downloadProgress)"])
@@ -95,7 +102,9 @@ public class PlayolaStationPlayer: NSObject
                 self.isLoading = false
                 NotificationCenter.default.post(name: PlayolaStationPlayerEvents.loadingStationProgress, object: nil, userInfo: ["downloadProgress":downloader.downloadProgress])
                 NotificationCenter.default.post(name: PlayolaStationPlayerEvents.finishedLoadingStation, object: nil)
-                
+                self.broadcastNowPlayingChanged()
+                NotificationCenter.default.post(name: PlayolaStationPlayerEvents.startedPlayingStation, object: nil)
+
                 // IF the audioBlock is the same (i.e. nowPlaying did not advance while song was being downloaded)
                 if (downloader.remoteURL == self.nowPlaying()?.audioBlock?.audioFileUrl)
                 {
@@ -105,8 +114,37 @@ public class PlayolaStationPlayer: NSObject
                 self.loadingProgress = nil
                 self.startAutomaticQueueLoading()
                 self.downloadAndLoadQueueSpins()
+                self.startNowPlayingMonitoring()
             }
         }
+    }
+    
+    func startNowPlayingMonitoring()
+    {
+        self.userPlaying?.onNowPlayingAdvanced()
+        {
+            (user) -> Void in
+            if (user?.id == self.userPlaying?.id)
+            {
+                self.broadcastNowPlayingChanged()
+            }
+        }
+    }
+    
+    func broadcastNowPlayingChanged()
+    {
+        var userInfo:[String:Any] = [:]
+        
+        if let spin = self.userPlaying?.program?.nowPlaying
+        {
+            if let audioBlock = spin.audioBlock
+            {
+                userInfo["audioBlockInfo"] = audioBlock.toDictionary()
+            }
+            userInfo["spin"] = spin
+        }
+        
+        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: userInfo)
     }
     
     //------------------------------------------------------------------------------
@@ -116,6 +154,7 @@ public class PlayolaStationPlayer: NSObject
         PAPlayer.stop()
         let previousUserPlaying = userPlaying
         self.userPlaying = nil
+        self.stopAutomaticQueueDownloading()
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object: nil, userInfo: ["user":previousUserPlaying as Any])
         
     }

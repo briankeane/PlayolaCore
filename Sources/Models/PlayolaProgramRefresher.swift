@@ -12,7 +12,7 @@ public class PlayolaProgramRefresher:NSObject
 {
     weak var user:User?
     var refreshTimer:Timer?
-    var refreshInterval:TimeInterval = 45.0  // default 45 secs between updates
+    var refreshInterval:TimeInterval = 5.0  // default 45 secs between updates
     
     init(user:User)
     {

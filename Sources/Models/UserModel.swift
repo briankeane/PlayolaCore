@@ -242,6 +242,14 @@ public class User
         self.refresher = nil
     }
     
+    //------------------------------------------------------------------------------
+    
+    func startAutoAdvancing()
+    {
+        self.advancer = PlayolaProgramAutoAdvancer(user: self)
+        self.advancer?.startAutoAdvancing()
+    }
+    
     func handleNowPlayingAdvanced()
     {
         for block in self.onNowPlayingAdvancedBlocks
