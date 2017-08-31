@@ -29,7 +29,6 @@ public class PlayolaProgramAutoAdvancer:NSObject
     /// ----------------------------------------------------------------------------
     func scheduleNextAdvance()
     {
-        print("_--------------------------- SCHEDULING NEXT ADVANCE ------------------------------- ")
         // set next advance
         if let program = self.user?.program
         {
@@ -65,7 +64,6 @@ public class PlayolaProgramAutoAdvancer:NSObject
     
     func advanceProgram()
     {
-        print("-------------------- ADVANCING PROGRAM -------------------------------")
         if let playlist = self.user?.program?.playlist
         {
             if (playlist.count > 0)
