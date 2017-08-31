@@ -860,45 +860,6 @@ class PlayolaAPI:NSObject
         }
         
     }
-
-    //------------------------------------------------------------------------------
-    //                  Singleton
-    //------------------------------------------------------------------------------
-    
-    // -----------------------------------------------------------------------------
-    //                      class func sharedInstance()
-    // -----------------------------------------------------------------------------
-    /// provides a Singleton of the AuthService for all to use
-    ///
-    /// - returns:
-    ///    `AuthService` - the central Auth Service instance
-    ///
-    /// ----------------------------------------------------------------------------
-    class func sharedInstance() -> PlayolaAPI
-    {
-        if (self._instance == nil)
-        {
-            self._instance = PlayolaAPI()
-        }
-        return self._instance!
-    }
-    
-    /// internally shared singleton instance
-    fileprivate static var _instance:PlayolaAPI?
-    
-    // -----------------------------------------------------------------------------
-    //                          func replaceSharedInstance
-    // -----------------------------------------------------------------------------
-    /// replaces the Singleton shared instance of the DateHandlerService class
-    ///
-    /// - parameters:
-    ///     - DateHandler: `(DateHandlerService)` - the new DateHandlerService
-    ///
-    /// ----------------------------------------------------------------------------
-    class func replaceSharedInstance(_ authService:PlayolaAPI)
-    {
-        self._instance = authService
-    }
 }
 
 
