@@ -286,7 +286,7 @@ public class PlayolaStationPlayer: NSObject
     ///    `PlayolaStationPlayer` - the central PlayolaStationPlayer instance
     ///
     /// ----------------------------------------------------------------------------
-    class func sharedInstance() -> PlayolaStationPlayer
+    public class func sharedInstance() -> PlayolaStationPlayer
     {
         if (self._instance == nil)
         {
