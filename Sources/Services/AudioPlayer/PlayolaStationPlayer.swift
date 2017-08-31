@@ -272,4 +272,43 @@ public class PlayolaStationPlayer: NSObject
         print(spinMap)
         return spins
     }
+    
+    //------------------------------------------------------------------------------
+    //                  Singleton
+    //------------------------------------------------------------------------------
+    
+    // -----------------------------------------------------------------------------
+    //                      class func sharedInstance()
+    // -----------------------------------------------------------------------------
+    /// provides a Singleton of the PlayolaStationPlayer for all to use
+    ///
+    /// - returns:
+    ///    `PlayolaStationPlayer` - the central PlayolaStationPlayer instance
+    ///
+    /// ----------------------------------------------------------------------------
+    class func sharedInstance() -> PlayolaStationPlayer
+    {
+        if (self._instance == nil)
+        {
+            self._instance = PlayolaStationPlayer()
+        }
+        return self._instance!
+    }
+    
+    /// internally shared singleton instance
+    fileprivate static var _instance:PlayolaStationPlayer?
+    
+    // -----------------------------------------------------------------------------
+    //                          func replaceSharedInstance
+    // -----------------------------------------------------------------------------
+    /// replaces the Singleton shared instance of the DateHandlerService class
+    ///
+    /// - parameters:
+    ///     - DateHandler: `(DateHandlerService)` - the new DateHandlerService
+    ///
+    /// ----------------------------------------------------------------------------
+    class func replaceSharedInstance(_ stationPlayer:PlayolaStationPlayer)
+    {
+        self._instance = stationPlayer
+    }
 }
