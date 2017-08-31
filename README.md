@@ -16,7 +16,7 @@ pod install 'playolaCore', '~>0.0.5'
 import PlayolaCore
 
 function playStation() {
-   let player = PlayolaStationPlayer()
+   let player = PlayolaStationPlayer().sharedInstance()
    player.loadUserAndPlay(userID: "59508b2eac42570400cdb67d")
       .then { (void) -> Void in
          print("starting!")
@@ -51,6 +51,7 @@ Available events are:
  .startedLoadingStation
  .loadingStationProgress
  .finishedLoadingStation 
+ .nowPlayingChanged
 ```
 
 #### Example App:
