@@ -145,6 +145,12 @@ public class PlayolaStationPlayer: NSObject
             {
                 userInfo["audioBlockInfo"] = audioBlock.toDictionary()
             }
+            
+            if let broadcasterID = self.userPlaying?.id
+            {
+                userInfo["broadasterID"] = broadcasterID
+            }
+            
             userInfo["spin"] = spin
         }
         

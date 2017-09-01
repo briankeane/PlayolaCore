@@ -21,7 +21,7 @@ class PlayolaListeningSessionReporterQuickTests: QuickSpec
         describe("PlayolaListeningSessionReporter Tests")
         {
             var api:PlayolaAPIMock! = PlayolaAPIMock()
-//            var currentUserInfoServiceMock! = PlayolaCurrentUserInfoMock()
+            var currentUserInfoServiceMock = PlayolaCurrentUserInfoMock()
             var reporter:PlayolaListeningSessionReporter! = PlayolaListeningSessionReporter()
             
             beforeEach
@@ -31,7 +31,7 @@ class PlayolaListeningSessionReporterQuickTests: QuickSpec
             
             it ("reports a listeningSession started")
             {
-                PlayolaCurrentUserInfoService.sharedInstance()
+                reporter.currentUserInfo
             }
         }
     }

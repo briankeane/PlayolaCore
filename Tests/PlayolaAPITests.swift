@@ -14,7 +14,7 @@ import Alamofire
 import OHHTTPStubs
 import OHHTTPStubs.NSURLRequest_HTTPBodyTesting
 
-class AuthServiceTests: QuickSpec {
+class PlayolaAPITests: QuickSpec {
     
     private func readLocalJsonFile(_ filename:String!) -> [String:AnyObject]?
     {
@@ -1074,6 +1074,71 @@ class AuthServiceTests: QuickSpec {
                             (error) -> Void in
                             expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
                                     done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("reportListeningSession")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("genericSuccess200.json",
+                                                  type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.reportListeningSession(broadcasterID: "aBroadcastersID")
+                        .then
+                        {
+                            (responseDict) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/listeningSessions"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["userBeingListenedToID"] as! String)).to(equal("aBroadcastersID"))
+                                    
+                            // check response
+                            expect((responseDict["message"] as! String)).to(equal("success"))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.reportListeningSession(broadcasterID: "aBroadcastersID")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            done()
                         }
                     }
                 }

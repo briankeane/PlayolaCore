@@ -104,6 +104,8 @@
 		4B42C5761F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C5741F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift */; };
 		4B42C5771F58710800E11538 /* PlayolaCurrentUserInfoMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C5741F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift */; };
 		4B42C5781F58710800E11538 /* PlayolaCurrentUserInfoMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C5741F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift */; };
+		4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B42C5791F59C13F00E11538 /* genericSuccess200.json */; };
+		4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B42C5791F59C13F00E11538 /* genericSuccess200.json */; };
 		4B9358951F47788A0038C327 /* userSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */; };
 		4B9358961F47788A0038C327 /* userSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */; };
 		4B93589B1F488D0F0038C327 /* DateHandlerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93589A1F488D0F0038C327 /* DateHandlerMock.swift */; };
@@ -244,6 +246,7 @@
 		4B42C56C1F58625100E11538 /* PlayolaListeningSessionReporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaListeningSessionReporter.swift; path = ../Sources/Services/AudioPlayer/PlayolaListeningSessionReporter.swift; sourceTree = "<group>"; };
 		4B42C5711F586F0900E11538 /* PlayolaListeningSessionReporterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaListeningSessionReporterTests.swift; path = ../Tests/Services/AudioPlayer/PlayolaListeningSessionReporterTests.swift; sourceTree = "<group>"; };
 		4B42C5741F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaCurrentUserInfoMock.swift; path = ../Tests/Mocks/PlayolaCurrentUserInfoMock.swift; sourceTree = "<group>"; };
+		4B42C5791F59C13F00E11538 /* genericSuccess200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = genericSuccess200.json; path = ../Tests/APIJson/genericSuccess200.json; sourceTree = "<group>"; };
 		4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = userSearchResultsSuccess.json; path = ../Tests/APIJson/userSearchResultsSuccess.json; sourceTree = "<group>"; };
 		4B93589A1F488D0F0038C327 /* DateHandlerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateHandlerMock.swift; path = ../Tests/Mocks/DateHandlerMock.swift; sourceTree = "<group>"; };
 		4B93592E1F48D26B0038C327 /* PlayolaAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaAudioPlayer.swift; path = ../Sources/Services/AudioPlayer/PlayolaAudioPlayer.swift; sourceTree = "<group>"; };
@@ -521,6 +524,7 @@
 				4BE007081F473BEB0010C420 /* updateUserSuccess.json */,
 				4BE0070B1F47517F0010C420 /* 422.json */,
 				4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */,
+				4B42C5791F59C13F00E11538 /* genericSuccess200.json */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -784,6 +788,7 @@
 				4BE006F11F460E3F0010C420 /* 404.json in Resources */,
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4BE007061F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
+				4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B9358951F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
 				4B361C751F45CEF200654968 /* getUserSuccess.json in Resources */,
@@ -808,6 +813,7 @@
 				4BE006F21F460E3F0010C420 /* 404.json in Resources */,
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4BE007071F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
+				4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B9358961F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
 				4B361C761F45CEF300654968 /* getUserSuccess.json in Resources */,

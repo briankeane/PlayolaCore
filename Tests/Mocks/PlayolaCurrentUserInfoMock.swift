@@ -10,5 +10,14 @@ import Foundation
 
 class PlayolaCurrentUserInfoMock:PlayolaCurrentUserInfoService
 {
-   
+    var shouldSetupListeners:Bool = false
+    
+    // avoid listeners by default
+    override func setupListeners()
+    {
+        if (self.shouldSetupListeners)
+        {
+            super.setupListeners()
+        }
+    }
 }

@@ -79,53 +79,50 @@ class PlayolaAPI:NSObject
      
      ### Usage Example: ###
      ````
-     authService.getMe()
+     api.reportListeningSession(broadcasterID: "someBroadcasterID")
      .then
      {
-     (user) -> Void in
-     print(user.name)
+        (responseDict) -> Void in
+        print(responseDict)
      }
      .catch (err)
      {
-     print(err)
+        print(err)
      }
      ````
      
      - returns:
-     `Promise<User>` - a promise
+     `Promise<Dictionary<String,Any>>` - a promise
      
-     * resolves to: a User
+     * resolves to: the raw response dictionary from the server
      * rejects: an AuthError
      */
-//    func reportListeningSession() -> Promise<User>
-//    {
-//        let url = "\(self.baseURL)/api/v1/users/me"
-//        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
-//        let parameters:Parameters? = nil
-//        
-//        
-//        return Promise
-//            {
-//                (fulfill, reject) -> Void in
-//                Alamofire.request(url, parameters:parameters, headers: headers)
-//                    .validate(statusCode: 200..<300)
-//                    .responseJSON
-//                    {
-//                        (response) -> Void in
-//                        switch response.result
-//                        {
-//                        case .success:
-//                            let user:User = User(userInfo: response.result.value! as! NSDictionary)
-//                            NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
-//                            fulfill(user)
-//                        case .failure:  // could add (let error) later if needed
-//                            print(response.result.value as Any)
-//                            let authErr = AuthError(response: response)
-//                            reject(authErr)
-//                        }
-//                }
-//        }
-//    }
+    func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
+    {
+        let url = "\(baseURL)/api/v1/listeningSessions"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = ["userBeingListenedToID":broadcasterID]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        let responseDict = response.result.value as! Dictionary<String,Any>
+                        fulfill(responseDict)
+                    case .failure:
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
     
     
     
