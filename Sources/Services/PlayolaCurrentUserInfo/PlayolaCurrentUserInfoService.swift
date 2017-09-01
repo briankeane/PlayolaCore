@@ -7,20 +7,26 @@
 //
 
 import Foundation
+import Locksmith
 
 public class PlayolaCurrentUserInfoService:NSObject
 {
     override init() {
         super.init()
         self.setupListeners()
+        self.checkForStoredAccessToken()
     }
     
     var user:User?
+    var accessToken:String?
+    fileprivate var observers:[NSObjectProtocol] = Array()
+    
+    //------------------------------------------------------------------------------
     
     func setupListeners()
     {
         // Listen for user-modifying updates
-        NotificationCenter.default.addObserver(forName: PlayolaEvents.getCurrentUserReceived, object: nil, queue: .main)
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.getCurrentUserReceived, object: nil, queue: .main)
         {
             (notification) -> Void in
             if let userInfo = notification.userInfo
@@ -30,8 +36,10 @@ public class PlayolaCurrentUserInfoService:NSObject
                     self.updateCurrentUser(user)
                 }
             }
-        }
+        })
     }
+    
+    //------------------------------------------------------------------------------
     
     // update current user if it is more recent than the currently stored version.
     func updateCurrentUser(_ newCurrentUser:User)
@@ -46,6 +54,56 @@ public class PlayolaCurrentUserInfoService:NSObject
         }
     }
     
+    //------------------------------------------------------------------------------
+    
+    func isSignedIn() -> Bool
+    {
+        return (self.user != nil)
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func getPlayolaAuthorizationToken() -> String?
+    {
+        return self.accessToken
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func setPlayolaAuthorizationToken(accessToken:String?)
+    {
+        self.accessToken = accessToken
+        try! Locksmith.updateData(data: ["accessToken":accessToken as Any], forUserAccount: "fm.playola")
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func checkForStoredAccessToken()
+    {
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: "fm.playola")
+        if let dictionary = dictionary
+        {
+            if let accessToken = dictionary["accessToken"] as? String
+            {
+                self.accessToken = accessToken
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func deleteObservers()
+    {
+        for observer in self.observers
+        {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+    
+    deinit
+    {
+        self.deleteObservers()
+    }
     
     //------------------------------------------------------------------------------
     //                  Singleton

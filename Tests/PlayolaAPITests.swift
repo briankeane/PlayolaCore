@@ -53,6 +53,7 @@ class AuthServiceTests: QuickSpec {
     {
         describe("AuthService")
         {
+            var api:PlayolaAPI!
             var sentRequest:URLRequest?
             var stubbedResponse:OHHTTPStubsResponse?
             var sentBody:[String:Any]?
@@ -64,6 +65,7 @@ class AuthServiceTests: QuickSpec {
             
             beforeEach
             {
+                api = PlayolaAPI()
                 print(PlayolaConstants.HOST_NAME)
                 stub(condition: isHost(PlayolaConstants.HOST_NAME))
                 {
@@ -95,7 +97,7 @@ class AuthServiceTests: QuickSpec {
                         (done) in
                         let jsonDict = self.readLocalJsonFile("getUserSuccess.json")!
                     
-                        PlayolaAPI.sharedInstance().getMe()
+                        api.getMe()
                         .then
                         {
                             (user) -> Void in
@@ -129,7 +131,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getMe()
+                        api.getMe()
                         .then
                         {
                             (user) -> Void in
@@ -161,7 +163,7 @@ class AuthServiceTests: QuickSpec {
                     {
                         (done) in
                         
-                        PlayolaAPI.sharedInstance().getRotationItems()
+                        api.getRotationItems()
                         .then
                         {
                             (rotationItemsCollection) -> Void in
@@ -195,7 +197,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getRotationItems()
+                        api.getRotationItems()
                         .then
                         {
                             (user) -> Void in
@@ -227,7 +229,7 @@ class AuthServiceTests: QuickSpec {
                     {
                         (done) in
                             
-                        PlayolaAPI.sharedInstance().getActiveSessionsCount(broadcasterID:"aBroadcasterID")
+                        api.getActiveSessionsCount(broadcasterID:"aBroadcasterID")
                         .then
                         {
                             (count) -> Void in
@@ -262,7 +264,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getActiveSessionsCount(broadcasterID: "aBroadcasterID")
+                        api.getActiveSessionsCount(broadcasterID: "aBroadcasterID")
                         .then
                         {
                             (user) -> Void in
@@ -294,7 +296,7 @@ class AuthServiceTests: QuickSpec {
                     {
                         (done) in
                             
-                        PlayolaAPI.sharedInstance().getPresets()
+                        api.getPresets()
                         .then
                         {
                             (presets) -> Void in
@@ -334,7 +336,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getPresets(userID: "aUserID")
+                        api.getPresets(userID: "aUserID")
                         .then
                         {
                             (presets) -> Void in
@@ -363,7 +365,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getPresets()
+                        api.getPresets()
                         .then
                         {
                             (user) -> Void in
@@ -394,7 +396,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getTopUsers()
+                        api.getTopUsers()
                         .then
                         {
                             (topUsers) -> Void in
@@ -433,7 +435,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getTopUsers()
+                        api.getTopUsers()
                         .then
                         {
                             (topUsers) -> Void in
@@ -464,7 +466,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().updateUser(["displayName": "bob",
+                        api.updateUser(["displayName": "bob",
                                                                  "email": "bob@bob.com"
                                                                 ])
                         .then
@@ -507,7 +509,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().updateUser(["displayName": "bob",
+                        api.updateUser(["displayName": "bob",
                                                                  "email": "bob@bob.com"
                                                                 ])
                         .then
@@ -543,7 +545,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().follow(broadcasterID:"aBroadcasterID")
+                        api.follow(broadcasterID:"aBroadcasterID")
                         .then
                         {
                             (presets) -> Void in
@@ -580,7 +582,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().follow(broadcasterID: "aUserID")
+                        api.follow(broadcasterID: "aUserID")
                         .then
                         {
                             (presets) -> Void in
@@ -609,7 +611,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().follow(broadcasterID:"aBroadcasterID")
+                        api.follow(broadcasterID:"aBroadcasterID")
                         .then
                         {
                             (user) -> Void in
@@ -640,7 +642,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().unfollow(broadcasterID:"aBroadcasterID")
+                        api.unfollow(broadcasterID:"aBroadcasterID")
                         .then
                         {
                             (presets) -> Void in
@@ -678,7 +680,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().unfollow(broadcasterID: "aUserID")
+                        api.unfollow(broadcasterID: "aUserID")
                         .then
                         {
                             (presets) -> Void in
@@ -707,7 +709,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().unfollow(broadcasterID:"aBroadcasterID")
+                        api.unfollow(broadcasterID:"aBroadcasterID")
                         .then
                         {
                             (user) -> Void in
@@ -738,7 +740,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().findUsersByKeywords(searchString:"Bob")
+                        api.findUsersByKeywords(searchString:"Bob")
                         .then
                         {
                             (presets) -> Void in
@@ -780,7 +782,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().findUsersByKeywords(searchString:"Bob")
+                        api.findUsersByKeywords(searchString:"Bob")
                         .then
                         {
                             (user) -> Void in
@@ -811,7 +813,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getUser(userID: "userOneID")
+                        api.getUser(userID: "userOneID")
                         .then
                         {
                             (user) -> Void in
@@ -851,7 +853,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getUser(userID: "userOneID")
+                        api.getUser(userID: "userOneID")
                         .then
                         {
                             (user) -> Void in
@@ -882,7 +884,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                         {
                             (done) in
-                            PlayolaAPI.sharedInstance().getUsersByAttributes(attributes: ["displayName": "bob",
+                            api.getUsersByAttributes(attributes: ["displayName": "bob",
                                                                      "email": "bob@bob.com"
                                 ])
                                 .then
@@ -925,7 +927,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().getUsersByAttributes(attributes: ["displayName": "bob",
+                        api.getUsersByAttributes(attributes: ["displayName": "bob",
                                                                      "email": "bob@bob.com"
                                 ])
                         .then
@@ -961,7 +963,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().addSongsToBin(songIDs: ["songOneID", "songTwoID"], bin: "heavy")
+                        api.addSongsToBin(songIDs: ["songOneID", "songTwoID"], bin: "heavy")
                         .then
                         {
                             (rotationItemsCollection) -> Void in
@@ -997,7 +999,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().addSongsToBin(songIDs:["songOneID", "songTwoID"], bin: "heavy")
+                        api.addSongsToBin(songIDs:["songOneID", "songTwoID"], bin: "heavy")
                         .then
                         {
                             (user) -> Void in
@@ -1029,7 +1031,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().deactivateRotationItem(rotationItemID: "rotationItemID")
+                        api.deactivateRotationItem(rotationItemID: "rotationItemID")
                         .then
                         {
                             (rotationItemsCollection) -> Void in
@@ -1061,7 +1063,7 @@ class AuthServiceTests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        PlayolaAPI.sharedInstance().deactivateRotationItem(rotationItemID:"rotationItemID")
+                        api.deactivateRotationItem(rotationItemID:"rotationItemID")
                         .then
                         {
                             (user) -> Void in

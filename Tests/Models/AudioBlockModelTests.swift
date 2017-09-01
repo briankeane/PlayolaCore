@@ -56,9 +56,9 @@ class AudioBlockModelQuickTests: QuickSpec
                 expect(song.audioFileUrl!.path).to(equal("/audioFileUrlPlaceholder"))
                 expect(song.key).to(equal("keyPlaceholder"))
                 expect(song.id).to(equal("audioBlockID"))
-                expect(song.albumArtworkUrl).to(equal("albumArtworkUrl"))
-                expect(song.albumArtworkUrlSmall).to(equal("albumArtworkUrlSmall"))
-                expect(song.trackViewUrl).to(equal("trackViewUrlSample"))
+                URL(string: "albumArtworkUrl")
+                expect(song.albumArtworkUrlSmall).to(equal(URL(string: "albumArtworkUrlSmall")))
+                expect(song.trackViewUrl).to(equal(URL(string:"trackViewUrlSample")))
             }
             
             it ("defaults to false isCommercialBlock")

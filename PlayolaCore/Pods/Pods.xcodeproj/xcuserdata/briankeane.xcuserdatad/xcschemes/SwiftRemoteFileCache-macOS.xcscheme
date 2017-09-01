@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C645EE6787579E92B81AFA6E4BB52928"
+               BlueprintIdentifier = "34FD13882AF63601AACDA7391702AEB1"
                BuildableName = "SwiftRemoteFileCache.framework"
                BlueprintName = "SwiftRemoteFileCache-macOS"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C645EE6787579E92B81AFA6E4BB52928"
+            BlueprintIdentifier = "34FD13882AF63601AACDA7391702AEB1"
             BuildableName = "SwiftRemoteFileCache.framework"
             BlueprintName = "SwiftRemoteFileCache-macOS"
             ReferencedContainer = "container:Pods.xcodeproj">
