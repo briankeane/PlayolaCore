@@ -1143,7 +1143,71 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
             }
+            //------------------------------------------------------------------------------
             
+            describe("reportListeningSession")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("genericSuccess200.json",
+                                                  type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.reportAnonymousListeningSession(broadcasterID: "aBroadcastersID", deviceID: "aUniqueDeviceID")
+                        .then
+                        {
+                            (responseDict) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/listeningSessions/anonymous"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["userBeingListenedToID"] as! String)).to(equal("aBroadcastersID"))
+                            expect((sentBody!["deviceID"] as! String)).to(equal("aUniqueDeviceID"))
+                            
+                            // check response
+                            expect((responseDict["message"] as! String)).to(equal("success"))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.reportAnonymousListeningSession(broadcasterID: "aBroadcastersID", deviceID: "aUniqueDeviceID")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            done()
+                        }
+                    }
+                }
+            }
         }
     }
 }

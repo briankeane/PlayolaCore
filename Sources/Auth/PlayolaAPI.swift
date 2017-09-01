@@ -125,7 +125,62 @@ class PlayolaAPI:NSObject
     }
     
     
-    
+    // -----------------------------------------------------------------------------
+    //                          func reportAnonymousListeningSession
+    // -----------------------------------------------------------------------------
+    /**
+     Reports a listeningSession when listener is not a logged in user
+     
+     ### Usage Example: ###
+     ````
+     api.reportAnonymousListeningSession(broadcasterID: "someBroadcasterID", deviceID: "usersUniqueDeviceID")
+     .then
+     {
+        (responseDict) -> Void in
+        print(responseDict)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Dictionary<String,Any>>` - a promise
+     
+     * resolves to: the raw response dictionary from the server
+     * rejects: an AuthError
+     */
+    func reportAnonymousListeningSession(broadcasterID:String, deviceID:String) -> Promise<Dictionary<String,Any>>
+    {
+        let url = "\(baseURL)/api/v1/listeningSessions/anonymous"
+        let headers:HTTPHeaders? = nil
+        let parameters:Parameters? = [
+            "userBeingListenedToID":broadcasterID,
+            "deviceID":deviceID
+        ]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        let responseDict = response.result.value as! Dictionary<String,Any>
+                        fulfill(responseDict)
+                    case .failure:
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+
     
     
     
