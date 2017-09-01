@@ -182,7 +182,107 @@ class PlayolaAPI:NSObject
     }
 
     
+    // -----------------------------------------------------------------------------
+    //                      func reportEndOfListeningSession
+    // -----------------------------------------------------------------------------
+    /// tells the playolaServer that a listeningSession has ended
+    ///
+    /// - returns:
+    ///    `Promise<Dictionary<String,AnyObject>>` - resolves to the server response
+    ///                                              message body
+    ///
+    /// ----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
+    //                          func reportEndOfListeningSession
+    // -----------------------------------------------------------------------------
+    /**
+     Reports the end of a user's listeningSession
+     
+     ### Usage Example: ###
+     ````
+     api.reportEndOfListeningSession()
+     .then
+     {
+        (responseDict) -> Void in
+        print(responseDict)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Dictionary<String,Any>>` - a promise
+     
+     * resolves to: the raw response dictionary from the server
+     * rejects: an AuthError
+     */
+    func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
+    {
+        let url = "\(baseURL)/api/v1/listeningSessions/endSession"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = nil
+        
+        return Promise
+            {
+                fulfill, reject in
+                Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
+                    .validate(statusCode: 200..<300)
+                    .responseJSON
+                    {
+                        (response) -> Void in
+                        switch response.result
+                        {
+                        case .success:
+                            let responseDict = response.result.value as! Dictionary<String,Any>
+                            fulfill(responseDict)
+                        case .failure:
+                            let authErr = AuthError(response: response)
+                            reject(authErr)
+                        }
+                }
+        }
+    }
     
+    // -----------------------------------------------------------------------------
+    //                      func reportEndOfAnonymousListeningSession
+    // -----------------------------------------------------------------------------
+    /// tells the playolaServer that a listeningSession has ended
+    ///
+    /// - parameters:
+    ///     - deviceID: `(String)` - a unique identifier for this iPhone
+    /// - returns:
+    ///    `Promise<Dictionary<String,AnyObject>>` - resolves to the server response
+    ///                                              message body
+    ///
+    /// ----------------------------------------------------------------------------
+    func reportEndOfAnonymousListeningSession(deviceID:String) -> Promise<Dictionary<String,Any>>
+    {
+        let url = "\(baseURL)/api/v1/listeningSessions/endAnonymous"
+        let headers:HTTPHeaders? = nil
+        let parameters:Parameters? = ["deviceID":deviceID]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+                Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                    .validate(statusCode: 200..<300)
+                    .responseJSON
+                    {
+                        (response) -> Void in
+                        switch response.result
+                        {
+                        case .success:
+                            let responseDict = response.result.value as! Dictionary<String,Any>
+                            fulfill(responseDict)
+                        case .failure:
+                            let authErr = AuthError(response: response)
+                            reject(authErr)
+                        }
+                }
+        }
+    }
     
     // -----------------------------------------------------------------------------
     //                          func getRotationItems

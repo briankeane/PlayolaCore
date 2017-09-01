@@ -78,10 +78,14 @@ class PlayolaListeningSessionReporter:NSObject
     
     func reportListening(broadcasterID:String, listenerID:String?, deviceID:String?)
     {
-//        if let listenerID = listenerID
-//        {
-//            self.api.reportListeningSession()
-//        }
+        if let listenerID = listenerID
+        {
+            self.api.reportListeningSession(broadcasterID: broadcasterID)
+        }
+        else if let deviceID = deviceID
+        {
+            self.api.reportAnonymousListeningSession(broadcasterID: broadcasterID, deviceID: deviceID)
+        }
     }
     
     func reportStartedListening()
