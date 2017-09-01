@@ -17,27 +17,6 @@ class PlayolaAPI:NSObject
     var accessToken = "accessToken"
     
     // -----------------------------------------------------------------------------
-    //                          func loggedInUserSync
-    // -----------------------------------------------------------------------------
-    /**
-     Gets the current logged in user syncronously.  If the app has not been logged in
-     it returns nil
-     
-     ### Usage Example: ###
-     ````
-     if let user = api.loggedInUserSync()
-     {
-        print(user.name)
-     }
-     ````
-     
-     - returns:
-     `User?` - the logged in User.  Nil if not logged in
-     */
-    
-    
-    
-    // -----------------------------------------------------------------------------
     //                          func getMe
     // -----------------------------------------------------------------------------
     /**
@@ -91,6 +70,66 @@ class PlayolaAPI:NSObject
                 }
         }
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func reportListeningSession
+    // -----------------------------------------------------------------------------
+    /**
+     Reports a listeningSession
+     
+     ### Usage Example: ###
+     ````
+     authService.getMe()
+     .then
+     {
+     (user) -> Void in
+     print(user.name)
+     }
+     .catch (err)
+     {
+     print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     
+     * resolves to: a User
+     * rejects: an AuthError
+     */
+//    func reportListeningSession() -> Promise<User>
+//    {
+//        let url = "\(self.baseURL)/api/v1/users/me"
+//        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+//        let parameters:Parameters? = nil
+//        
+//        
+//        return Promise
+//            {
+//                (fulfill, reject) -> Void in
+//                Alamofire.request(url, parameters:parameters, headers: headers)
+//                    .validate(statusCode: 200..<300)
+//                    .responseJSON
+//                    {
+//                        (response) -> Void in
+//                        switch response.result
+//                        {
+//                        case .success:
+//                            let user:User = User(userInfo: response.result.value! as! NSDictionary)
+//                            NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+//                            fulfill(user)
+//                        case .failure:  // could add (let error) later if needed
+//                            print(response.result.value as Any)
+//                            let authErr = AuthError(response: response)
+//                            reject(authErr)
+//                        }
+//                }
+//        }
+//    }
+    
+    
+    
+    
     
     
     // -----------------------------------------------------------------------------

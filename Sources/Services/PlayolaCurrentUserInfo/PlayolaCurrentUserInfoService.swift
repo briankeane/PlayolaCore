@@ -63,6 +63,18 @@ public class PlayolaCurrentUserInfoService:NSObject
     
     //------------------------------------------------------------------------------
     
+    public func getDeviceID() -> String?
+    {
+        if let deviceID = UIDevice.current.identifierForVendor?.uuidString
+        {
+            return deviceID
+        }
+        return nil
+    }
+    
+    
+    //------------------------------------------------------------------------------
+    
     public func getPlayolaAuthorizationToken() -> String?
     {
         return self.accessToken

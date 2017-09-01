@@ -24,6 +24,13 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                 // clear the singleton, so it doesn't listen and respond to the tests
                 PlayolaCurrentUserInfoService.sharedInstance().deleteObservers()
             }
+        
+            it ("provides a deviceID")
+            {
+                let deviceID = PlayolaCurrentUserInfoService.sharedInstance().getDeviceID()
+                expect(deviceID).toNot(beNil())
+            }
+            
             describe("sets the authToken")
             {
                 var userInfoService:PlayolaCurrentUserInfoService?
@@ -45,8 +52,6 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                     {
                         print(error)
                     }
-                    
-                    
                     userInfoService = reinstantiateUserInfoService()
                 }
                 
@@ -177,7 +182,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                     {
                         (notification) -> Void in
                         newDisplayName = (notification.userInfo!["currentUser"] as! User).displayName!
-//                        expect(newDisplayName).to(equal("FinalDisplayName"))  // ensures that it was not called with "OtherDisplayName"
+                        expect(newDisplayName).to(equal("FinalDisplayName"))  // ensures that it was not called with "OtherDisplayName"
                     }
                 
                     observers.append(observer1)
