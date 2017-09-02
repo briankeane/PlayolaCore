@@ -34,4 +34,101 @@ class PlayolaAPIMock:PlayolaAPI {
             }
         }
     }
+    
+    var reportListeningSessionCallCount:Int = 0
+    var reportListeningSessionArgs:Array<String> = Array()
+    var reportListeningSessionShouldSucceed:Bool = true
+    var reportListeningSessionSuccessDict = ["message": "success"]
+    var reportListeningSessionFailureError:AuthError?
+    
+    override public func reportListeningSession(broadcasterID: String) -> Promise<Dictionary<String,Any>>
+    {
+        self.reportListeningSessionCallCount += 1
+        self.reportListeningSessionArgs.append(broadcasterID)
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.reportListeningSessionShouldSucceed)
+            {
+                fulfill(self.reportListeningSessionSuccessDict)
+            }
+            else
+            {
+                reject(self.reportListeningSessionFailureError!)
+            }
+        }
+    }
+    
+    var reportEndOfListeningSessionCallCount:Int = 0
+    var reportEndOfListeningSessionShouldSucceed:Bool = true
+    var reportEndOfListeningSessionSuccessDict = ["message": "success"]
+    var reportEndOfListeningSessionFailureError:AuthError?
+    
+    override public func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
+    {
+        self.reportEndOfListeningSessionCallCount += 1
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.reportEndOfListeningSessionShouldSucceed)
+            {
+                fulfill(self.reportEndOfListeningSessionSuccessDict)
+            }
+            else
+            {
+                reject(self.reportEndOfListeningSessionFailureError!)
+            }
+        }
+    }
+    
+    var reportAnonymousListeningSessionCallCount:Int = 0
+    var reportAnonymousListeningSessionArgs:Array<[String:Any]> = Array()
+    var reportAnonymousListeningSessionShouldSucceed:Bool = true
+    var reportAnonymousListeningSessionSuccessDict = ["message": "success"]
+    var reportAnonymousListeningSessionFailureError:AuthError?
+    
+    override public func reportAnonymousListeningSession(broadcasterID: String, deviceID: String) -> Promise<Dictionary<String,Any>>
+    {
+        self.reportAnonymousListeningSessionCallCount += 1
+        self.reportAnonymousListeningSessionArgs.append(["broadcasterID":broadcasterID,
+                                                "deviceID": deviceID])
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.reportAnonymousListeningSessionShouldSucceed)
+            {
+                fulfill(self.reportListeningSessionSuccessDict)
+            }
+            else
+            {
+                reject(self.reportAnonymousListeningSessionFailureError!)
+            }
+        }
+    }
+    
+    var reportEndOfAnonymousListeningSessionCallCount:Int = 0
+    var reportEndOfAnonymousListeningSessionArgs:Array<String> = Array()
+    var reportEndOfAnonymousListeningSessionShouldSucceed:Bool = true
+    var reportEndOfAnonymousListeningSessionSuccessDict = ["message": "success"]
+    var reportEndOfAnonymousListeningSessionFailureError:AuthError?
+    
+    override public func reportEndOfAnonymousListeningSession(deviceID: String) -> Promise<Dictionary<String,Any>>
+    {
+        self.reportEndOfAnonymousListeningSessionCallCount += 1
+        self.reportEndOfAnonymousListeningSessionArgs.append(deviceID)
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.reportEndOfAnonymousListeningSessionShouldSucceed)
+            {
+                fulfill(self.reportEndOfListeningSessionSuccessDict)
+            }
+            else
+            {
+                reject(self.reportEndOfAnonymousListeningSessionFailureError!)
+            }
+        }
+    }
 }

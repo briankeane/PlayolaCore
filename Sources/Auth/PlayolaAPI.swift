@@ -42,7 +42,7 @@ class PlayolaAPI:NSObject
             * resolves to: a User
             * rejects: an AuthError
      */
-    func getMe() -> Promise<User>
+    public func getMe() -> Promise<User>
     {
         let url = "\(self.baseURL)/api/v1/users/me"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -97,7 +97,7 @@ class PlayolaAPI:NSObject
      * resolves to: the raw response dictionary from the server
      * rejects: an AuthError
      */
-    func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
+    public func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -151,7 +151,7 @@ class PlayolaAPI:NSObject
      * resolves to: the raw response dictionary from the server
      * rejects: an AuthError
      */
-    func reportAnonymousListeningSession(broadcasterID:String, deviceID:String) -> Promise<Dictionary<String,Any>>
+    public func reportAnonymousListeningSession(broadcasterID:String, deviceID:String) -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/anonymous"
         let headers:HTTPHeaders? = nil
@@ -218,7 +218,7 @@ class PlayolaAPI:NSObject
      * resolves to: the raw response dictionary from the server
      * rejects: an AuthError
      */
-    func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
+    public func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/endSession"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -257,7 +257,7 @@ class PlayolaAPI:NSObject
     ///                                              message body
     ///
     /// ----------------------------------------------------------------------------
-    func reportEndOfAnonymousListeningSession(deviceID:String) -> Promise<Dictionary<String,Any>>
+    public func reportEndOfAnonymousListeningSession(deviceID:String) -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/endAnonymous"
         let headers:HTTPHeaders? = nil

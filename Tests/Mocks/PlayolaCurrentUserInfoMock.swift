@@ -20,4 +20,9 @@ class PlayolaCurrentUserInfoMock:PlayolaCurrentUserInfoService
             super.setupListeners()
         }
     }
+    
+    var deviceIDToProvide:String?
+    override public func getDeviceID() -> String? {
+        return deviceIDToProvide
+    }
 }
