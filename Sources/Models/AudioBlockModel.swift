@@ -50,7 +50,7 @@ public class AudioBlock
         key = audioBlockInfo["key"] as? String
         albumArtworkUrl = self.urlFromString(urlString: audioBlockInfo["albumArtworkUrl"] as? String)
         albumArtworkUrlSmall = self.urlFromString(urlString: audioBlockInfo["albumArtworkUrlSmall"] as? String)
-        trackViewUrl = self.urlFromString(urlString: audioBlockInfo["trackViewUrl"] as? String)
+        trackViewUrl = self.trackViewUrlFromString(urlString: audioBlockInfo["trackViewUrl"] as? String)
         
         if let isCommercialBlock = audioBlockInfo["isCommercialBlock"] as? Bool
         {
@@ -143,6 +143,14 @@ public class AudioBlock
         return nil
     }
     
+    private func trackViewUrlFromString (urlString:String?) -> URL?
+    {
+        if let urlString = urlString
+        {
+            return self.urlFromString(urlString: urlString + "&app=itunes")
+        }
+        return nil
+    }
     //------------------------------------------------------------------------------
     
     func toDictionary() -> Dictionary<String,Any>

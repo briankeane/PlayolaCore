@@ -91,7 +91,7 @@ public class PlayolaCurrentUserInfoService:NSObject
     
     //------------------------------------------------------------------------------
     
-    func isSignedIn() -> Bool
+    public func isSignedIn() -> Bool
     {
         return (self.user != nil)
     }
@@ -160,7 +160,7 @@ public class PlayolaCurrentUserInfoService:NSObject
     ///    `AuthService` - the central Auth Service instance
     ///
     /// ----------------------------------------------------------------------------
-    class func sharedInstance() -> PlayolaCurrentUserInfoService
+    public class func sharedInstance() -> PlayolaCurrentUserInfoService
     {
         if (self._instance == nil)
         {

@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-class PlayolaAPI:NSObject
+public class PlayolaAPI:NSObject
 {
     // temporary
     var baseURL = PlayolaConstants.BASE_URL

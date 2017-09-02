@@ -20,7 +20,7 @@ public class Program
     
     //------------------------------------------------------------------------------
     
-    init (rawPlaylist:Array<Dictionary<String,Any>>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
+    public init (rawPlaylist:Array<Dictionary<String,Any>>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
     {
         
         // inject dependencies
@@ -37,7 +37,7 @@ public class Program
     
     //------------------------------------------------------------------------------
     
-    init (playlist:[Spin], DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
+    public init (playlist:[Spin], DateHandler:DateHandlerService = DateHandlerService.sharedInstance(), commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance())
     {
         // inject dependencies
         self.DateHandler = DateHandler
@@ -48,7 +48,7 @@ public class Program
     
     //------------------------------------------------------------------------------
     
-    init(original:Program)
+    public init(original:Program)
     {
         self.DateHandler = original.DateHandler
         self.commercialBlockProvider = original.commercialBlockProvider
@@ -77,7 +77,7 @@ public class Program
     //------------------------------------------------------------------------------
     // bringCurrent() -- returns a Bool indicating whether it was advanced or not
     //------------------------------------------------------------------------------
-    @discardableResult func bringCurrent() -> Bool
+    @discardableResult public func bringCurrent() -> Bool
     {
         var changedFlag:Bool = false
         if let playlist = self.playlist
@@ -129,14 +129,14 @@ public class Program
     
     //------------------------------------------------------------------------------
     
-    func copy() -> Program
+    public func copy() -> Program
     {
         return Program(original: self)
     }
     
     //------------------------------------------------------------------------------
     
-    func playlistContainsNilAirtimes() -> Bool
+    public func playlistContainsNilAirtimes() -> Bool
     {
         if let playlist = self.playlist
         {
@@ -157,7 +157,7 @@ public class Program
     /// compares two programs.  This works by comparing arrays all spinIDs
     ///
     /// ----------------------------------------------------------------------------
-    func isSameAs(_ program:Program) -> Bool
+    public func isSameAs(_ program:Program) -> Bool
     {
         if let myPlaylist = self.playlist
         {
@@ -199,7 +199,7 @@ public class Program
     ///    `Spin?` - the first different spin... nil if programs are the same
     ///
     /// ----------------------------------------------------------------------------
-    func firstDifferentSpin(compareTo:Program) -> Spin?
+    public func firstDifferentSpin(compareTo:Program) -> Spin?
     {
         if let thisPlaylist = self.playlist
         {

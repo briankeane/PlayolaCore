@@ -9,6 +9,7 @@
 import Foundation
 import SwiftRemoteFileCache
 import PromiseKit
+import AudioKit
 
 public class PlayolaStationPlayer: NSObject
 {
@@ -287,6 +288,17 @@ public class PlayolaStationPlayer: NSObject
         let spinMap = spins.map({spin in return spin.audioBlock!.title!})
         print(spinMap)
         return spins
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func getOutputNode
+    // -----------------------------------------------------------------------------
+    /// returns an AudioKit audio node for output
+    ///
+    /// ----------------------------------------------------------------------------
+    public func getOutputNode() -> AKNode
+    {
+        return self.PAPlayer.getOutputNode()
     }
     
     //------------------------------------------------------------------------------

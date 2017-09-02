@@ -22,8 +22,8 @@ public class User
     public var timezone:String?
     var role:PlayolaUserRole?
     public var lastCommercial:NSMutableDictionary?
-    public var profileImageUrl:String?
-    public var profileImageUrlSmall:String?
+    public var profileImageUrl:URL?
+    public var profileImageUrlSmall:URL?
     public var id:String?
     public var secsOfCommercialPerHour:Int?
     public var dailyListenTimeMS:Int?
@@ -46,7 +46,7 @@ public class User
     /// an array of blocks to execute when the program's nowPlaying changes.
     fileprivate var onNowPlayingAdvancedBlocks:Array<((User)->Void)> = Array()
     
-    init(userInfo:NSDictionary)
+    public init(userInfo:NSDictionary)
     {
         displayName = userInfo["displayName"] as? String
         twitterUID = userInfo["twitterUID"] as? String
@@ -81,8 +81,19 @@ public class User
         }
         
         profileImageKey = userInfo["profileImageKey"] as? String
-        profileImageUrl = userInfo["profileImageUrl"] as? String
-        profileImageUrlSmall = userInfo["profileImageUrlSmall"] as? String
+        
+        //adjust profileImageUrl for no scheme included
+        if var profileImageString = userInfo["profileImageUrl"] as? String
+        {
+            if (String(profileImageString.characters.prefix(2)) == "//")
+            {
+                profileImageString = "https:" + profileImageString
+            }
+            self.profileImageUrl = URL(string: profileImageString)
+        }
+        
+        
+        profileImageUrlSmall = URL(stringOptional: userInfo["profileImageUrlSmall"] as? String)
         id = userInfo["id"] as? String
         secsOfCommercialPerHour = userInfo["secsOfCommercialPerHour"] as? Int
         dailyListenTimeMS = userInfo["dailyListenTimeMS"] as? Int
@@ -103,14 +114,7 @@ public class User
         }
         
         
-        //adjust profileImageUrl for no scheme included
-        if let _ = self.profileImageUrl
-        {
-            if (String(self.profileImageUrl!.characters.prefix(2)) == "//")
-            {
-                self.profileImageUrl = "https:" + self.profileImageUrl!
-            }
-        }
+        
     }
     
     init(original:User)
@@ -159,7 +163,7 @@ public class User
     
     //------------------------------------------------------------------------------
     
-    func replaceProgram(_ program:Program?)
+    public func replaceProgram(_ program:Program?)
     {
         self.program = program
     }
@@ -186,7 +190,7 @@ public class User
     }
     //------------------------------------------------------------------------------
     
-    func copy() -> User
+    public func copy() -> User
     {
         return User(original: self)
     }
@@ -201,7 +205,7 @@ public class User
     
     //------------------------------------------------------------------------------
     
-    func hasRole(_ roleToCheck:PlayolaUserRole) -> Bool
+    public func hasRole(_ roleToCheck:PlayolaUserRole) -> Bool
     {
         if let userRole = self.role
         {
@@ -216,7 +220,7 @@ public class User
     
     //------------------------------------------------------------------------------
     
-    func hasInitializedStation() -> Bool
+    public func hasInitializedStation() -> Bool
     {
         if let playlist = self.program?.playlist
         {
@@ -230,21 +234,21 @@ public class User
     
     //------------------------------------------------------------------------------
     
-    func startAutoUpdating()
+    public func startAutoUpdating()
     {
         self.refresher = PlayolaProgramRefresher(user: self)
     }
     
     //------------------------------------------------------------------------------
     
-    func endAutoUpdating()
+    public func endAutoUpdating()
     {
         self.refresher = nil
     }
     
     //------------------------------------------------------------------------------
     
-    func startAutoAdvancing()
+    public func startAutoAdvancing()
     {
         self.advancer = PlayolaProgramAutoAdvancer(user: self)
         self.advancer?.startAutoAdvancing()

@@ -8,27 +8,27 @@
 
 import Foundation
 
-struct RotationItemsCollection
+public struct RotationItemsCollection
 {
-    var rotationItems: Array<RotationItem> = []
+    public var rotationItems: Array<RotationItem> = []
     
     //------------------------------------------------------------------------------
     
-    init(rawRotationItems: Dictionary<String, Array<Dictionary<String, Any>>>)
+    public init(rawRotationItems: Dictionary<String, Array<Dictionary<String, Any>>>)
     {
         self.refresh(rawRotationItems)
     }
     
     //------------------------------------------------------------------------------
     
-    init(rotationItems:Array<RotationItem>)
+    public init(rotationItems:Array<RotationItem>)
     {
         self.rotationItems = rotationItems
     }
     
     //------------------------------------------------------------------------------
     
-    func listBins () -> [String]
+   public func listBins () -> [String]
     {
         var binNamesArray:Array<String> = []
         var binNamesDictionary:Dictionary<String,Bool> = Dictionary()
@@ -45,7 +45,7 @@ struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    func isInRotation(_ id:String?) -> Bool
+    public func isInRotation(_ id:String?) -> Bool
     {
         if let _ = id
         {
@@ -62,7 +62,7 @@ struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    func getAllItemsInBin(_ binName:String) -> Array<RotationItem>
+    public func getAllItemsInBin(_ binName:String) -> Array<RotationItem>
     {
         var list:Array<RotationItem> = []
         
@@ -78,7 +78,7 @@ struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    func rotationItemIDFromSongID(_ songID:String) -> String?
+    public func rotationItemIDFromSongID(_ songID:String) -> String?
     {
         for i in 0..<self.rotationItems.count
         {
@@ -92,7 +92,7 @@ struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    func getRotationItem(songID:String) -> RotationItem?
+    public func getRotationItem(songID:String) -> RotationItem?
     {
         for item in self.rotationItems
         {
@@ -106,7 +106,7 @@ struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    mutating func removeRotationItem(songID:String)
+    public mutating func removeRotationItem(songID:String)
     {
         for i in 0..<self.rotationItems.count
         {
@@ -120,7 +120,7 @@ struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    mutating func refresh(_ rawRotationItems: Dictionary<String, Array<Dictionary<String,Any>>>)
+    public mutating func refresh(_ rawRotationItems: Dictionary<String, Array<Dictionary<String,Any>>>)
     {
         for (_, bin) in rawRotationItems
         {
