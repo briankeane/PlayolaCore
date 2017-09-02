@@ -12,6 +12,10 @@ import PromiseKit
 
 public class PlayolaStationPlayer: NSObject
 {
+    
+    /// a listeningSessionReporter
+    var reporter:PlayolaListeningSessionReporter!
+    
     /// true if the station is in the process of loading a user
     public var isLoading:Bool = false
     
@@ -24,6 +28,12 @@ public class PlayolaStationPlayer: NSObject
     var loadingProgress:Double?
     
     var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
+    
+    override init()
+    {
+        super.init()
+        self.reporter = PlayolaListeningSessionReporter()
+    }
     
     // dependecy injections
     var PAPlayer:PlayolaAudioPlayer! = PlayolaAudioPlayer()
