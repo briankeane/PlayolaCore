@@ -1152,6 +1152,75 @@ public class PlayolaAPI:NSObject
         }
     }
     
+    // ----------------------------------------------------------------------------
+    //                          func insertSpin
+    // -----------------------------------------------------------------------------
+    /**
+     Inserts a spin
+     
+     - parameters:
+        - audioBlockID: `(String)` - the id of the audioBlock to insert
+        - playlistPosition: `(Int)` - the desired playlistPosition
+     
+     ### Usage Example: ###
+     ````
+     api.insertSpin(audioBlockID:"thisIsASpinID", playlistPosition:42)
+     .then
+     {
+        (updatedUser) -> Void in
+        print(updatedUser.program?.playlist)
+     }
+     .catch
+     {
+        (error) -> Void in
+        print(error)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an updated user
+     * rejects: an AuthError
+     */
+    public func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User?>
+    {
+        let url = "\(baseURL)/api/v1/spins"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = ["audioBlockID": audioBlockID,
+                                      "playlistPosition": playlistPosition]
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success(let JSON):
+                        let responseData = JSON as! NSDictionary
+                        if let statusCode:Int = response.response?.statusCode
+                        {
+                            if (statusCode == 200)
+                            {
+                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
+                                let user:User = User(userInfo: rawUser as NSDictionary)
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                                fulfill(user)
+                            }
+                            else if (statusCode == 422)
+                            {
+                                reject(AuthError(response: response))
+                            }
+                        }
+                    case .failure:
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+
     
     // -----------------------------------------------------------------------------
     //                          func broadcastUsersUpdated
