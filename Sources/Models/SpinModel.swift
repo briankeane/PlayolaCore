@@ -21,7 +21,7 @@ public class Spin
     
     //------------------------------------------------------------------------------
     
-    init(spinInfo:Dictionary<String,Any>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance())
+    public init(spinInfo:Dictionary<String,Any>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance())
     {
         id = spinInfo["id"] as? String
         if let _ = spinInfo["isCommercialBlock"]
@@ -54,7 +54,7 @@ public class Spin
     
     //------------------------------------------------------------------------------
     
-    init(original:Spin)
+    public init(original:Spin)
     {
         self.id = original.id
         self.isCommercialBlock = original.isCommercialBlock
@@ -66,7 +66,7 @@ public class Spin
     
     //------------------------------------------------------------------------------
     
-    init(id:String? = nil, isCommercialBlock:Bool? = nil, playlistPosition:Int? = nil, audioBlock:AudioBlock? = nil, audioBlockID:String? = nil, userID:String? = nil, airtime:Date? = nil, endTime:Date? = nil)
+    public init(id:String? = nil, isCommercialBlock:Bool? = nil, playlistPosition:Int? = nil, audioBlock:AudioBlock? = nil, audioBlockID:String? = nil, userID:String? = nil, airtime:Date? = nil, endTime:Date? = nil)
     {
         self.id = id
         self.isCommercialBlock = isCommercialBlock
@@ -80,7 +80,7 @@ public class Spin
     
     //------------------------------------------------------------------------------
     
-    func copy() -> Spin
+    public func copy() -> Spin
     {
         return Spin(original: self)
     }
@@ -91,7 +91,7 @@ public class Spin
     /// returns true if the current time is between airtime and endTime
     ///
     /// ----------------------------------------------------------------------------
-    func isPlaying() -> Bool
+    public func isPlaying() -> Bool
     {
         if let airtime = self.airtime
         {

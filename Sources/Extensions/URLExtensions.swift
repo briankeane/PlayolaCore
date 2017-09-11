@@ -13,10 +13,10 @@ extension URL
 {
     init?(stringOptional:String?)
     {
-        if (stringOptional != nil)
+        if (stringOptional == nil)
         {
-            self.init(string: stringOptional!)
+            return nil
         }
-        return nil
+        self.init(string: stringOptional!)
     }
 }

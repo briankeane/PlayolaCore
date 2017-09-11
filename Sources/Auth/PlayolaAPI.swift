@@ -225,22 +225,22 @@ public class PlayolaAPI:NSObject
         let parameters:Parameters? = nil
         
         return Promise
-            {
-                fulfill, reject in
-                Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
-                    .validate(statusCode: 200..<300)
-                    .responseJSON
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
                     {
-                        (response) -> Void in
-                        switch response.result
-                        {
-                        case .success:
-                            let responseDict = response.result.value as! Dictionary<String,Any>
-                            fulfill(responseDict)
-                        case .failure:
-                            let authErr = AuthError(response: response)
-                            reject(authErr)
-                        }
+                    case .success:
+                        let responseDict = response.result.value as! Dictionary<String,Any>
+                        fulfill(responseDict)
+                    case .failure:
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
                 }
         }
     }
@@ -310,7 +310,7 @@ public class PlayolaAPI:NSObject
             * resolves to: a RotationItemsCollection
             * rejects: an AuthError
      */
-    func getRotationItems() -> Promise<RotationItemsCollection>
+    public func getRotationItems() -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/users/me/rotationItems"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -318,7 +318,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters: parameters, headers: headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -367,14 +367,14 @@ public class PlayolaAPI:NSObject
      * rejects: an AuthError
      */
     
-    func  getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
+    public func getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/activeSessionsCount"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
         let parameters:Parameters? = ["broadcasterID" : broadcasterID]
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers:headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -430,7 +430,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an array of Users
      * rejects: an AuthError
      */
-    func getPresets(userID:String="me") -> Promise<Array<User?>>
+    public func getPresets(userID:String="me") -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/\(userID)/presets"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -438,7 +438,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters: parameters, headers: headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -488,7 +488,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an array of Users
      * rejects: an AuthError
      */
-    func getTopUsers() -> Promise<Array<User?>>
+    public func getTopUsers() -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/topUsers"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -496,7 +496,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers:headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -546,7 +546,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an AuthError
      */
-    func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User?>
+    public func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User?>
     {
         let url = "\(baseURL)/api/v1/users/me"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -554,11 +554,11 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            fulfill, reject in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON
                 {
-                    response -> Void in
+                    (response) -> Void in
                     switch response.result
                     {
                     case .success(let JSON):
@@ -613,14 +613,14 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an AuthError
      */
-    func follow(broadcasterID:String) -> Promise<Array<User?>>
+    public func follow(broadcasterID:String) -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/follow"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, method: .put, encoding: JSONEncoding.default, headers: headers)
                 //.validate(statusCode: 200..<300)
                 .responseJSON
@@ -669,14 +669,14 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an AuthError
      */
-    func unfollow(broadcasterID:String) -> Promise<Array<User?>>
+    public func unfollow(broadcasterID:String) -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/unfollow"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, method: .put, encoding: JSONEncoding.default, headers: headers)
                 //.validate(statusCode: 200..<300)
                 .responseJSON
@@ -728,7 +728,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an AuthError
      */
-    func findUsersByKeywords(searchString:String) -> Promise<Array<User?>>
+    public func findUsersByKeywords(searchString:String) -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/findByKeywords"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -737,7 +737,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers:headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -795,7 +795,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers:headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -852,7 +852,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an AuthError
      */
-    func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
+    public func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
     {
         let url = "\(baseURL)/api/v1/users/getByAttributes"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -860,7 +860,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers:headers)
                 .responseJSON
                 {
@@ -914,7 +914,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a RotationItemsCollection
      * rejects: an AuthError
      */
-    func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
+    public func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -922,7 +922,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON
             {
@@ -978,7 +978,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a RotationItemsCollection
      * rejects: an AuthError
      */
-    func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
+    public func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems/\(rotationItemID)"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -986,7 +986,7 @@ public class PlayolaAPI:NSObject
         
         return Promise
         {
-            (fulfill, reject) in
+            (fulfill, reject) -> Void in
             Alamofire.request(url, method: .delete, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON
                 {
@@ -1013,6 +1013,145 @@ public class PlayolaAPI:NSObject
                 }
         }
     }
+    
+    // ----------------------------------------------------------------------------
+    //                          func moveSpin
+    // -----------------------------------------------------------------------------
+    /**
+     Moves a spin
+     
+      - parameters:
+          - spinID: `(String)` - the id of the spin to move
+          - newPlaylistPosition: `(Int)` - the desired newPlaylistPosition
+     
+     ### Usage Example: ###
+     ````
+     api.moveSpin(spinID:"thisIsASpinID", newPlaylistPosition:42)
+     .then
+     {
+        (updatedUser) -> Void in
+        print(updatedUser.program?.playlist)
+     }
+     .catch
+     {
+        (error) -> Void in
+        print(error)
+     }
+
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an updated user
+     * rejects: an AuthError
+     */
+    public func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User?>
+    {
+        let url = "\(baseURL)/api/v1/spins/\(spinID)/move"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let parameters:Parameters? = ["newPlaylistPosition": newPlaylistPosition]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success(let JSON):
+                        let responseData = JSON as! NSDictionary
+                        if let statusCode:Int = response.response?.statusCode
+                        {
+                            if (statusCode == 200)
+                            {
+                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
+                                let user:User = User(userInfo: rawUser as NSDictionary)
+                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                                fulfill(user)
+                            }
+                            else if (statusCode == 422)
+                            {
+                                reject(AuthError(response: response))
+                            }
+                        }
+                    case .failure:
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+
+    // ----------------------------------------------------------------------------
+    //                          func removeSpin
+    // -----------------------------------------------------------------------------
+    /**
+     Removes a spin
+     
+     - parameters:
+     - spinID: `(String)` - the id of the spin to move
+     
+     ### Usage Example: ###
+     ````
+     api.removeSpin(spinID:"thisIsASpinID")
+     .then
+     {
+     (updatedUser) -> Void in
+     print(updatedUser.program?.playlist)
+     }
+     .catch
+     {
+     (error) -> Void in
+     print(error)
+     }
+     
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an updated user
+     * rejects: an AuthError
+     */
+    public func removeSpin(spinID:String) -> Promise<User?>
+    {
+        let url = "\(baseURL)/api/v1/spins/\(spinID)"
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success(let JSON):
+                        let responseData = JSON as! NSDictionary
+                        if let statusCode:Int = response.response?.statusCode
+                        {
+                            if (statusCode == 200)
+                            {
+                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
+                                let user:User = User(userInfo: rawUser as NSDictionary)
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                                fulfill(user)
+                            }
+                            else if (statusCode == 422)
+                            {
+                                reject(AuthError(response: response))
+                            }
+                        }
+                    case .failure:
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+    
     
     // -----------------------------------------------------------------------------
     //                          func broadcastUsersUpdated

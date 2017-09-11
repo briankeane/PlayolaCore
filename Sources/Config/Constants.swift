@@ -21,7 +21,7 @@ public struct PlayolaEvents {
     
 }
 
-enum PlayolaUserRole:Int {
+public enum PlayolaUserRole:Int {
     case guest = 0
     case user = 1
     case admin = 2

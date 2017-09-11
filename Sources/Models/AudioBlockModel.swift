@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 import Alamofire
 
-public class AudioBlock
+open class AudioBlock
 {
     public var id:String?
     public var __t:String?
@@ -33,7 +33,7 @@ public class AudioBlock
     
     //------------------------------------------------------------------------------
     
-    init(audioBlockInfo:Dictionary<String,Any> = Dictionary())
+    public init(audioBlockInfo:Dictionary<String,Any> = Dictionary())
     {
         id = audioBlockInfo["id"] as? String
         __t = audioBlockInfo["__t"] as? String
@@ -46,11 +46,11 @@ public class AudioBlock
         title = audioBlockInfo["title"] as? String
         artist = audioBlockInfo["artist"] as? String
         album = audioBlockInfo["album"] as? String
-        audioFileUrl = self.urlFromString(urlString: audioBlockInfo["audioFileUrl"] as? String)
+        audioFileUrl = URL(stringOptional: audioBlockInfo["audioFileUrl"] as? String)
         key = audioBlockInfo["key"] as? String
-        albumArtworkUrl = self.urlFromString(urlString: audioBlockInfo["albumArtworkUrl"] as? String)
-        albumArtworkUrlSmall = self.urlFromString(urlString: audioBlockInfo["albumArtworkUrlSmall"] as? String)
-        trackViewUrl = self.trackViewUrlFromString(urlString: audioBlockInfo["trackViewUrl"] as? String)
+        albumArtworkUrl = URL(stringOptional: audioBlockInfo["albumArtworkUrl"] as? String)
+        albumArtworkUrlSmall = URL(stringOptional: audioBlockInfo["albumArtworkUrlSmall"] as? String)
+        trackViewUrl = URL(stringOptional: audioBlockInfo["trackViewUrl"] as? String)
         
         if let isCommercialBlock = audioBlockInfo["isCommercialBlock"] as? Bool
         {
@@ -60,7 +60,7 @@ public class AudioBlock
     
     //------------------------------------------------------------------------------
     
-    init(original:AudioBlock)
+    public init(original:AudioBlock)
     {
         self.id = original.id
         self.__t = original.__t
@@ -84,7 +84,7 @@ public class AudioBlock
     
     //------------------------------------------------------------------------------
     
-    init(id:String?=nil,
+    public init(id:String?=nil,
          __t:String?=nil,
          duration:Int?=nil,
          echonestID:String?=nil,
@@ -125,35 +125,7 @@ public class AudioBlock
     
     //------------------------------------------------------------------------------
     
-    private func urlFromString (urlString:String?) -> URL?
-    {
-        if var urlString = urlString
-        {
-            //adjust audioFileUrl for no scheme included
-            if (String(urlString.characters.prefix(2)) == "//")
-            {
-                urlString = "https:" + urlString
-            }
-            
-            if let url = URL(string: urlString)
-            {
-                return url
-            }
-        }
-        return nil
-    }
-    
-    private func trackViewUrlFromString (urlString:String?) -> URL?
-    {
-        if let urlString = urlString
-        {
-            return self.urlFromString(urlString: urlString + "&app=itunes")
-        }
-        return nil
-    }
-    //------------------------------------------------------------------------------
-    
-    func toDictionary() -> Dictionary<String,Any>
+    public func toDictionary() -> Dictionary<String,Any>
     {
         return [
                 "title": self.title as Any,
@@ -170,7 +142,7 @@ public class AudioBlock
     
     //------------------------------------------------------------------------------
     
-    func copy() -> AudioBlock
+    public func copy() -> AudioBlock
     {
         return AudioBlock(original: self)
     }

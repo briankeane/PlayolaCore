@@ -57,7 +57,7 @@ public class CommercialBlockProviderService
         for _ in 0..<count
         {
             let audioBlock = AudioBlock(audioBlockInfo: ["__t":"CommercialBlock" as AnyObject,
-                                                         "audioFileUrl":"//commercialblocks.playola.fm/\(String(format: "%04d", arguments: [nextID]))_commercial_block.mp3" as AnyObject,
+                                                         "audioFileUrl":"https://commercialblocks.playola.fm/\(String(format: "%04d", arguments: [nextID]))_commercial_block.mp3" as AnyObject,
                                                          "duration": duration as AnyObject,
                                                          "eoi": 0 as AnyObject,
                                                          "boo": (duration - 1000) as AnyObject,

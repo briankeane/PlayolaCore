@@ -26,11 +26,11 @@ public class PlayolaStationPlayer: NSObject
     var automaticQueueLoadingTimer:Timer?
     
     /// buffering progress
-    var loadingProgress:Double?
+    public var loadingProgress:Double?
     
     var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
     
-    override init()
+    override public init()
     {
         super.init()
         self.reporter = PlayolaListeningSessionReporter()
@@ -69,6 +69,11 @@ public class PlayolaStationPlayer: NSObject
                 reject(error)
             }
         }
+    }
+    
+    public func isPlaying() -> Bool
+    {
+        return (self.userPlaying != nil) && (self.isLoading != true)
     }
     
     public func loadUserAndPlay(user:User)

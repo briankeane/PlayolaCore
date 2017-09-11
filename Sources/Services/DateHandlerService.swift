@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DateHandlerService
+public class DateHandlerService
 {
     // -----------------------------------------------------------------------------
     //                          func now

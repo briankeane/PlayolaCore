@@ -6,7 +6,7 @@
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
-public class RotationItem
+open class RotationItem
 {
     public var eoi:Int?
     public var eom:Int?
@@ -19,7 +19,7 @@ public class RotationItem
     
     //------------------------------------------------------------------------------
     
-    init(rawDictionary:Dictionary<String,Any>)
+    public init(rawDictionary:Dictionary<String,Any>)
     {
         if let eoi = rawDictionary["eoi"] as! Int?
         {
@@ -42,7 +42,7 @@ public class RotationItem
     
     //------------------------------------------------------------------------------
     
-    init(bin:String, song:AudioBlock, userID:String, boo:Int?=nil, eoi:Int?=nil, eom:Int?=nil, history:Array<Dictionary<String,AnyObject>>=[], id:String)
+    public init(bin:String, song:AudioBlock, userID:String, boo:Int?=nil, eoi:Int?=nil, eom:Int?=nil, history:Array<Dictionary<String,AnyObject>>=[], id:String)
     {
         self.bin = bin
         self.eoi = eoi
