@@ -66,7 +66,9 @@ public class Spin
     
     //------------------------------------------------------------------------------
     
-    public init(id:String? = nil, isCommercialBlock:Bool? = nil, playlistPosition:Int? = nil, audioBlock:AudioBlock? = nil, audioBlockID:String? = nil, userID:String? = nil, airtime:Date? = nil, endTime:Date? = nil)
+    public init(id:String?=nil,
+                isCommercialBlock:Bool?=nil,
+                playlistPosition:Int? = nil, audioBlock:AudioBlock? = nil, audioBlockID:String? = nil, userID:String? = nil, airtime:Date? = nil, endTime:Date? = nil)
     {
         self.id = id
         self.isCommercialBlock = isCommercialBlock

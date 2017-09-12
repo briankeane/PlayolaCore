@@ -131,4 +131,34 @@ class PlayolaAPIMock:PlayolaAPI {
             }
         }
     }
+    
+    var moveSpinCallCount:Int = 0
+    var moveSpinArgs:Array<[String:Any]> = Array()
+    var moveSpinShouldSucceed:Bool = true
+    var moveSpinSuccessUser:User?
+    var moveSpinFailureError:AuthError?
+    var moveSpinShouldPause:Bool = false
+    
+    override public func moveSpin(spinID: String, newPlaylistPosition: Int) -> Promise<User>
+    {
+        self.moveSpinCallCount += 1
+        self.moveSpinArgs.append(["spinID": spinID, "newPlaylistPosition": newPlaylistPosition])
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.moveSpinShouldPause)
+            {
+                return
+            }
+            else if (self.moveSpinShouldSucceed)
+            {
+                fulfill(moveSpinSuccessUser!)
+            }
+            else if (!self.moveSpinShouldPause)
+            {
+                reject(moveSpinFailureError!)
+            }
+        }
+    }
 }

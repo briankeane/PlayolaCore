@@ -1045,7 +1045,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an AuthError
      */
-    public func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User?>
+    public func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins/\(spinID)/move"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -1114,7 +1114,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an AuthError
      */
-    public func removeSpin(spinID:String) -> Promise<User?>
+    public func removeSpin(spinID:String) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins/\(spinID)"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
@@ -1182,7 +1182,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an AuthError
      */
-    public func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User?>
+    public func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins"
         let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]

@@ -1339,6 +1339,8 @@ class PlayolaAPITests: QuickSpec {
                 }
             }
             
+            //------------------------------------------------------------------------------
+            
             describe("moveSpin")
             {
                 it ("works")
@@ -1367,7 +1369,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawUpdatedUser = jsonDict["user"] as! NSDictionary
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
-                            expect(updatedUser!.id!).to(equal(rawID))
+                            expect(updatedUser.id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -1440,7 +1442,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawUpdatedUser = jsonDict["user"] as! NSDictionary
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
-                            expect(updatedUser!.id!).to(equal(rawID))
+                            expect(updatedUser.id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -1515,7 +1517,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawUpdatedUser = jsonDict["user"] as! NSDictionary
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
-                            expect(updatedUser!.id!).to(equal(rawID))
+                            expect(updatedUser.id!).to(equal(rawID))
                             done()
                         }
                         .catch
