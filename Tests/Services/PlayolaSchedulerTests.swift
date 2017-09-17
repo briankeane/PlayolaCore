@@ -59,7 +59,6 @@ class PlayolaSchedulerTests: QuickSpec
             {
                 beforeEach
                 {
-                    AudioBlock(id: "a")
                     user.program!.playlist = [
                             Spin(id: "a", playlistPosition: 11, audioBlock: AudioBlock(id: "1a"), airtime: Date()),
                             Spin(id: "b", playlistPosition: 12, audioBlock: AudioBlock(id: "1b"), airtime: Date()),
@@ -124,23 +123,6 @@ class PlayolaSchedulerTests: QuickSpec
                     let differentIndexes = scheduler.differentIndexes(oldPlaylist: user.program!.playlist!, newPlaylist: copiedPlaylist)
                     expect(differentIndexes).to(beNil())
                 }
-            }
-            
-            
-            
-            describe("nullifyAirtimes")
-            {
-//                it ("nullifies the correct airtimes")
-//                {
-//                    scheduler.nullifyAirtimes(startIndex: 2)
-//                    for i in 2...4
-//                    {
-//                        expect(SharedData.currentUser!.program!.playlist![i].airtime).to(beNil())
-//                    }
-//                    
-//                    expect(SharedData.currentUser!.program!.playlist![1].airtime).toNot(beNil())
-//                    expect(SharedData.currentUser!.program!.playlist![5].airtime).toNot(beNil())
-//                }
             }
             
             describe("moveSpin")

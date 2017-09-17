@@ -1560,6 +1560,23 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
             }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("accessToken stuff")
+            {
+                fit ("sets the accessToken if a login has occured")
+                {
+                    api.accessToken = nil
+                    
+                    UserDefaults.standard.set("thisIsAnAccessToken", forKey: "playolaAccessToken")
+                    
+                    NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: nil)
+                    
+                    expect(api.accessToken).to(equal("thisIsAnAccessToken"))
+                
+                }
+            }
         }
     }
 }

@@ -14,7 +14,144 @@ public class PlayolaAPI:NSObject
 {
     // temporary
     var baseURL = PlayolaConstants.BASE_URL
-    var accessToken = "accessToken"
+    var accessToken:String?
+    
+    let defaults:UserDefaults = UserDefaults.standard
+    var observers:[NSObjectProtocol] = Array()
+    
+    private func setAccessToken(tokenValue:String)
+    {
+        self.accessToken = tokenValue
+        defaults.set(tokenValue, forKey: "playolaAccessToken")
+    }
+    
+    private func clearAccessToken()
+    {
+        defaults.set(nil, forKey: "playolaAccessToken")
+        self.accessToken = nil
+    }
+    
+    override public init() {
+        super.init()
+        self.checkForAccessToken()
+        self.setupListeners()
+    }
+    
+    private func checkForAccessToken()
+    {
+        if let accessToken = defaults.string(forKey: "playolaAccessToken")
+        {
+            self.accessToken = accessToken
+        }
+    }
+    
+    private func setupListeners()
+    {
+        // Another instance of the api could have logged in -- if that happens then this instance should
+        // independently set it's accessToken from UserDefaults
+        NotificationCenter.default.addObserver(forName: PlayolaEvents.loggedIn, object: nil, queue: .main)
+        {
+            (notification) -> Void in
+            self.checkForAccessToken()
+        }
+    }
+    
+    deinit
+    {
+        self.removeObservers()
+    }
+    
+    private func removeObservers()
+    {
+        for observer in self.observers
+        {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func loginViaFacebook
+    // -----------------------------------------------------------------------------
+    /**
+     Logs the user into the playolaServer via the accessToken they received from facebook.
+     
+    - parameters:
+         - accessTokenString: `(String)` - the facebook accessTokenString
+    
+     - returns:
+        `Promise<User>` - a promise that resolves to the current User
+     
+     ### Usage Example: ###
+     ````
+     api.loginViaFacebook(accessTokenString: "theTokenStringReceivedFromFacebook")
+     .then
+     {
+        (user) -> Void in
+        print(user.name)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: a User
+     * rejects: an AuthError
+     */
+    
+    func loginViaFacebook(accessTokenString:String) -> Promise<(Bool,User?)>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            let parameters:Parameters = ["accessToken":accessTokenString]
+            let url = "\(baseURL)/auth/facebook/mobile"
+                
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<300)
+            .responseJSON
+            {
+                (response) -> Void in
+//                switch response.result
+//                {
+//                case .success:
+//                    if let foundUserData = response.result.value as? [String:Any]
+//                    {
+//                        if let receivedToken = foundUserData["token"] as? String
+//                        {
+//                            self.setAccessToken(
+//                        }
+//                    }
+//                    let user:User = User(userInfo: response.result.value! as! NSDictionary)
+//                    let responseData = JSON as! NSDictionary
+//                    if let receivedToken:String = responseData.object(forKey: "token") as? String
+//                    {
+//                        self.accessToken = receivedToken
+//                        try! Locksmith.updateData(data: ["accessToken":self.accessToken], forUserAccount: "fm.playola")
+//                                
+//                        if let facebookAccessToken = responseData.object(forKey: "facebookAccessToken") as? String
+//                        {
+//                            NotificationCenter.default.post(name: PlayolaEvents.receivedFacebookAccessToken, object: nil, userInfo: ["facebookAccessToken": facebookAccessToken])
+//                        }
+//                                
+//                        var user:User?
+//                        if let userDictionary:NSDictionary = responseData.object(forKey: "user") as? NSDictionary
+//                        {
+//                            user = User(userInfo: userDictionary)
+//                        }
+//                        NotificationCenter.default.post(name: kLoggedIntoPlayola, object: nil)
+//                        fulfill(user)
+//                    }
+//                case .failure(let error):
+//                    self.logout()
+//                    reject(AuthError.communicationError)
+//                }
+            }
+        }
+    }
+
     
     // -----------------------------------------------------------------------------
     //                          func getMe

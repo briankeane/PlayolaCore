@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-class PlayolaScheduler:NSObject
+public class PlayolaScheduler:NSObject
 {
     var user:User!
     var onPlaylistChangedBlocks:Array<((Array<Spin>)->Void)> = Array()
@@ -31,6 +31,8 @@ class PlayolaScheduler:NSObject
     override init() {
         super.init()
     }
+    
+    //------------------------------------------------------------------------------
     
     public init(user:User) {
         super.init()
@@ -133,7 +135,7 @@ class PlayolaScheduler:NSObject
      * resolves to: the updated playlist
      * rejects: an AuthError or a SchedulerError
      */
-    func moveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int) -> Promise<User>
+    public func moveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int) -> Promise<User>
     {
         return Promise
         {
@@ -153,6 +155,7 @@ class PlayolaScheduler:NSObject
                         {
                             self.updatePlaylist(playlist: playlist)
                         }
+                        fulfill(user)
                     }
                     .catch
                     {
@@ -172,6 +175,8 @@ class PlayolaScheduler:NSObject
         }
     }
     
+    //------------------------------------------------------------------------------
+    
     func storePlaylist(playlist:[Spin]?)
     {
         if let playlist = playlist
@@ -179,6 +184,8 @@ class PlayolaScheduler:NSObject
             self.previousPlaylist = playlist.map { $0.copy() }
         }
     }
+    
+    //------------------------------------------------------------------------------
     
     func restorePlaylist()
     {
@@ -188,6 +195,8 @@ class PlayolaScheduler:NSObject
             self.previousPlaylist = nil
         }
     }
+    
+    //------------------------------------------------------------------------------
     
     func performTemporaryMoveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int)
     {
@@ -214,6 +223,7 @@ class PlayolaScheduler:NSObject
                     spin.airtime = nil
                 }
             }
+            
             // IF moving towards the future
             if (fromPlaylistPosition == minPlaylistPosition)
             {
@@ -243,7 +253,7 @@ class PlayolaScheduler:NSObject
         self.user?.program?.playlist = playlist
         
         NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: ["fullReload": fullReload,
-                                    "differentIndexes": differentIndexes as Any
+                            "changedIndexes": differentIndexes as Any
                                     ])
     }
     
