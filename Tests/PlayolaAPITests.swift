@@ -1488,7 +1488,7 @@ class PlayolaAPITests: QuickSpec {
             
             //------------------------------------------------------------------------------
             
-            describe("isnertSpin")
+            describe("insertSpin")
             {
                 it ("works")
                 {
@@ -1565,16 +1565,233 @@ class PlayolaAPITests: QuickSpec {
             
             describe("accessToken stuff")
             {
-                fit ("sets the accessToken if a login has occured")
+                it ("sets the accessToken if a login has occured")
                 {
                     api.accessToken = nil
-                    
                     UserDefaults.standard.set("thisIsAnAccessToken", forKey: "playolaAccessToken")
-                    
                     NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: nil)
-                    
                     expect(api.accessToken).to(equal("thisIsAnAccessToken"))
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("loginViaFacebook")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("loginSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginViaFacebook(accessTokenString: "someFacebookTokenString")
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/auth/facebook/mobile"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["accessToken"] as! String)).to(equal("someFacebookTokenString"))
+                                    
+                            // check response
+                            let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                            let rawID = rawUpdatedUser["id"] as! String
+                            
+                            // check response
+                            expect(updatedUser.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("updateUser() should not have errored")
+                            done()
+                        }
+                    }
+                }
                 
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginViaFacebook(accessTokenString: "someFacebookTokenString")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("loginViaGoogle")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("loginSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/auth/google/mobile"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["accessToken"] as! String)).to(equal("someGoogleTokenString"))
+                            expect((sentBody!["refreshToken"] as! String)).to(equal("someGoogleRefreshTokenString"))
+                                    
+                                    // check response
+                                    let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                                    let rawID = rawUpdatedUser["id"] as! String
+                                    
+                                    // check response
+                                    expect(updatedUser.id!).to(equal(rawID))
+                                    done()
+                                }
+                                .catch
+                                {
+                                    (error) -> Void in
+                                    print(error)
+                                    fail("updateUser() should not have errored")
+                                    done()
+                            }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            done()
+                        }
+                    }
+                }
+            }
+
+            //------------------------------------------------------------------------------
+            
+            describe("loginLocal")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("loginSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/auth/local"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["email"] as! String)).to(equal("bob@bob.com"))
+                            expect((sentBody!["password"] as! String)).to(equal("bobsPassword"))
+                                    
+                            // check response
+                            let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                            let rawID = rawUpdatedUser["id"] as! String
+                                    
+                            // check response
+                            expect(updatedUser.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("updateUser() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            done()
+                        }
+                    }
                 }
             }
         }

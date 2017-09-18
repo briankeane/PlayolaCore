@@ -198,6 +198,8 @@
 		4BED3C1A1F4F1E72008DD9BD /* PlayolaCurrentUserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BED3C181F4F1E72008DD9BD /* PlayolaCurrentUserInfoService.swift */; };
 		4BED3C1B1F4F1E72008DD9BD /* PlayolaCurrentUserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BED3C181F4F1E72008DD9BD /* PlayolaCurrentUserInfoService.swift */; };
 		4BED3C1C1F4F1E72008DD9BD /* PlayolaCurrentUserInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BED3C181F4F1E72008DD9BD /* PlayolaCurrentUserInfoService.swift */; };
+		4BF10AA31F6EF1FE00D8B8B0 /* loginSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BF10AA01F6EEF7600D8B8B0 /* loginSuccess.json */; };
+		4BF10AA41F6EF1FF00D8B8B0 /* loginSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BF10AA01F6EEF7600D8B8B0 /* loginSuccess.json */; };
 		4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */; };
 		8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */; };
 		B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */; };
@@ -298,6 +300,7 @@
 		4BE007191F4769680010C420 /* AuthErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthErrorType.swift; path = ../Sources/Errors/AuthErrorType.swift; sourceTree = "<group>"; };
 		4BED3C121F4E2675008DD9BD /* CommercialBlockProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialBlockProvider.swift; path = ../Sources/Services/CommercialBlockProvider/CommercialBlockProvider.swift; sourceTree = "<group>"; };
 		4BED3C181F4F1E72008DD9BD /* PlayolaCurrentUserInfoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaCurrentUserInfoService.swift; path = ../Sources/Services/PlayolaCurrentUserInfo/PlayolaCurrentUserInfoService.swift; sourceTree = "<group>"; };
+		4BF10AA01F6EEF7600D8B8B0 /* loginSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loginSuccess.json; path = ../Tests/APIJson/loginSuccess.json; sourceTree = "<group>"; };
 		79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
 		8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -554,6 +557,7 @@
 				4BE0070B1F47517F0010C420 /* 422.json */,
 				4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */,
 				4B42C5791F59C13F00E11538 /* genericSuccess200.json */,
+				4BF10AA01F6EEF7600D8B8B0 /* loginSuccess.json */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -824,6 +828,7 @@
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B9358951F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
 				4B361C751F45CEF200654968 /* getUserSuccess.json in Resources */,
+				4BF10AA31F6EF1FE00D8B8B0 /* loginSuccess.json in Resources */,
 				4BE007031F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE006FF1F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */,
 			);
@@ -849,6 +854,7 @@
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B9358961F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
 				4B361C761F45CEF300654968 /* getUserSuccess.json in Resources */,
+				4BF10AA41F6EF1FF00D8B8B0 /* loginSuccess.json in Resources */,
 				4BE007041F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE007001F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */,
 			);

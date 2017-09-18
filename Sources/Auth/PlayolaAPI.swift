@@ -101,7 +101,7 @@ public class PlayolaAPI:NSObject
      * rejects: an AuthError
      */
     
-    func loginViaFacebook(accessTokenString:String) -> Promise<(Bool,User?)>
+    func loginViaFacebook(accessTokenString:String) -> Promise<(User)>
     {
         return Promise
         {
@@ -109,45 +109,148 @@ public class PlayolaAPI:NSObject
             let parameters:Parameters = ["accessToken":accessTokenString]
             let url = "\(baseURL)/auth/facebook/mobile"
                 
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers:[:])
+            .validate(statusCode: 200..<300)
+            .responseJSON
+            {
+                (response) -> Void in
+                switch response.result
+                {
+                case .success:
+                    if let foundUserData = response.result.value as? [String:Any]
+                    {
+                        if let receivedToken = foundUserData["token"] as? String
+                        {
+                            self.setAccessToken(tokenValue: receivedToken)
+                            NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: ["accessToken": receivedToken])
+                        }
+                        if let userData = foundUserData["user"] as? NSDictionary
+                        {
+                            fulfill(User(userInfo: userData))
+                        }
+                    }
+                case .failure:
+                    let authErr = AuthError(response: response)
+                    reject(authErr)
+                }
+            }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func loginViaFacebook
+    // -----------------------------------------------------------------------------
+    /**
+     Logs the user into the playolaServer via the accessToken they received from facebook.
+     
+     - parameters:
+     - accessTokenString: `(String)` - the facebook accessTokenString
+     
+     - returns:
+     `Promise<User>` - a promise that resolves to the current User
+     
+     ### Usage Example: ###
+     ````
+     api.loginViaGoogle(accessTokenString: "theTokenStringReceivedFromGoogle", refreshTokenString: "refreshTokenStringFromGoogle")
+     .then
+     {
+        (user) -> Void in
+        print(user.name)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: a User
+     * rejects: an AuthError
+     */
+    func loginViaGoogle(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            let url = "\(baseURL)/auth/google/mobile"
+            
+            Alamofire.request(url, method: .post, parameters: ["accessToken":accessTokenString,
+                                                                "refreshToken": refreshTokenString], encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<300)
+            .responseJSON
+            {
+                (response) -> Void in
+            
+                switch response.result
+                {
+                case .success:
+                    if let foundUserData = response.result.value as? [String:Any]
+                    {
+                        if let receivedToken = foundUserData["token"] as? String
+                        {
+                            self.setAccessToken(tokenValue: receivedToken)
+                            NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: ["accessToken": receivedToken])
+                        }
+                        if let userData = foundUserData["user"] as? NSDictionary
+                        {
+                            fulfill(User(userInfo: userData))
+                        }
+                    }
+                case .failure:
+                    let authErr = AuthError(response: response)
+                    reject(authErr)
+                }
+            }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func loginLocal
+    // -----------------------------------------------------------------------------
+    /// logs the user into the playolaServer via the local scheme
+    ///
+    /// - parameters:
+    ///     - email: `(String)` - the user's email
+    ///     - password: `(String)` - the user's password
+    ///
+    /// - returns:
+    ///    `Promise<Void>` - promise that resolves upon completion
+    ///
+    /// ----------------------------------------------------------------------------
+    func loginLocal(email:String, password:String) -> Promise<User>
+    {
+        let url = "\(baseURL)/auth/local"
+        let parameters:Parameters = ["email": email, "password": password]
+        
+        return Promise
+        {
+            (fulfill, reject) in
+                
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
             .responseJSON
             {
                 (response) -> Void in
-//                switch response.result
-//                {
-//                case .success:
-//                    if let foundUserData = response.result.value as? [String:Any]
-//                    {
-//                        if let receivedToken = foundUserData["token"] as? String
-//                        {
-//                            self.setAccessToken(
-//                        }
-//                    }
-//                    let user:User = User(userInfo: response.result.value! as! NSDictionary)
-//                    let responseData = JSON as! NSDictionary
-//                    if let receivedToken:String = responseData.object(forKey: "token") as? String
-//                    {
-//                        self.accessToken = receivedToken
-//                        try! Locksmith.updateData(data: ["accessToken":self.accessToken], forUserAccount: "fm.playola")
-//                                
-//                        if let facebookAccessToken = responseData.object(forKey: "facebookAccessToken") as? String
-//                        {
-//                            NotificationCenter.default.post(name: PlayolaEvents.receivedFacebookAccessToken, object: nil, userInfo: ["facebookAccessToken": facebookAccessToken])
-//                        }
-//                                
-//                        var user:User?
-//                        if let userDictionary:NSDictionary = responseData.object(forKey: "user") as? NSDictionary
-//                        {
-//                            user = User(userInfo: userDictionary)
-//                        }
-//                        NotificationCenter.default.post(name: kLoggedIntoPlayola, object: nil)
-//                        fulfill(user)
-//                    }
-//                case .failure(let error):
-//                    self.logout()
-//                    reject(AuthError.communicationError)
-//                }
+                switch response.result
+                {
+                case .success:
+                    if let foundUserData = response.result.value as? [String:Any]
+                    {
+                        if let receivedToken = foundUserData["token"] as? String
+                        {
+                            self.setAccessToken(tokenValue: receivedToken)
+                            NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: ["accessToken": receivedToken])
+                        }
+                        if let userData = foundUserData["user"] as? NSDictionary
+                        {
+                            fulfill(User(userInfo: userData))
+                        }
+                    }
+                case .failure:
+                    let authErr = AuthError(response: response)
+                    reject(authErr)
+                }
             }
         }
     }
@@ -200,7 +303,6 @@ public class PlayolaAPI:NSObject
                         NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
                         fulfill(user)
                     case .failure:  // could add (let error) later if needed
-                        print(response.result.value as Any)
                         let authErr = AuthError(response: response)
                         reject(authErr)
                     }
