@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
     s.license      = { :type => 'MIT' }
     s.author       = { "Brian Keane" => "brian@playola.fm" }
     s.ios.deployment_target = '10.3'
-    s.osx.deployment_target = '10.11'
+    s.osx.deployment_target = '10.12'
     s.source       = { :git => "https://github.com/briankeane/PlayolaCore.git", :tag => s.version }
     s.exclude_files = []
     # s.ios.frameworks = 'AudioToolbox','AVFoundation','GLKit', 'Accelerate'
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
     s.dependency 'PromiseKit', '~> 4.0'
     s.dependency 'Locksmith', '~> 3.0.0'
     s.dependency 'AudioKit', '~> 3.7'
-    s.dependency 'SwiftRemoteFileCache', '~> 0.0.7'
+    s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
     
     s.source_files = 'Sources/**/*.{h,m,swift}'
 

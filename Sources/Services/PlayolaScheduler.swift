@@ -48,6 +48,13 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
+    public func nowPlaying() -> Spin?
+    {
+        return self.user?.program?.nowPlaying
+    }
+    
+    //------------------------------------------------------------------------------
+    
     func setupUser(user:User)
     {
         self.user = user

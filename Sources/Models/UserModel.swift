@@ -117,7 +117,7 @@ public class User
         
     }
     
-    init(original:User)
+    public init(original:User)
     {
         self.displayName = original.displayName
         self.twitterUID = original.twitterUID

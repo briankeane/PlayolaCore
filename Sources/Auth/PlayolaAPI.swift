@@ -50,16 +50,16 @@ public class PlayolaAPI:NSObject
         }
     }
     
-    private func addAuthToHeaders(headers:HTTPHeaders?) -> HTTPHeaders?
+    private func headersWithAuth(baseHeaders:HTTPHeaders?=nil) -> HTTPHeaders?
     {
         // if not signedIn and no headers
-        if ((headers == nil) && (self.accessToken == nil))
+        if ((baseHeaders == nil) && (self.accessToken == nil))
         {
             return nil
         }
         
         // blank headers if necessary
-        var modifiedHeaders:HTTPHeaders? = headers
+        var modifiedHeaders:HTTPHeaders? = baseHeaders
         if (modifiedHeaders == nil)
         {
             modifiedHeaders = [:]
@@ -153,7 +153,9 @@ public class PlayolaAPI:NSObject
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {
-                            fulfill(User(userInfo: userData))
+                            let user = User(userInfo: userData)
+                            fulfill(user)
+                            NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                         }
                     }
                 case .failure:
@@ -348,7 +350,7 @@ public class PlayolaAPI:NSObject
     public func getMe() -> Promise<User>
     {
         let url = "\(self.baseURL)/api/v1/users/me"
-        let headers:HTTPHeaders? = self.addAuthToHeaders(headers: nil)
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         
         return Promise
@@ -363,7 +365,7 @@ public class PlayolaAPI:NSObject
                     {
                     case .success:
                         let user:User = User(userInfo: response.result.value! as! NSDictionary)
-                        NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                        NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                         fulfill(user)
                     case .failure:  // could add (let error) later if needed
                         let authErr = AuthError(response: response)
@@ -402,7 +404,7 @@ public class PlayolaAPI:NSObject
     public func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["userBeingListenedToID":broadcasterID]
         
         return Promise
@@ -523,7 +525,7 @@ public class PlayolaAPI:NSObject
     public func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/endSession"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         
         return Promise
@@ -615,7 +617,7 @@ public class PlayolaAPI:NSObject
     public func getRotationItems() -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/users/me/rotationItems"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         
         return Promise
@@ -672,7 +674,7 @@ public class PlayolaAPI:NSObject
     public func getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/activeSessionsCount"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["broadcasterID" : broadcasterID]
         return Promise
         {
@@ -735,7 +737,7 @@ public class PlayolaAPI:NSObject
     public func getPresets(userID:String="me") -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/\(userID)/presets"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         
         return Promise
@@ -793,7 +795,7 @@ public class PlayolaAPI:NSObject
     public func getTopUsers() -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/topUsers"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         
         return Promise
@@ -851,7 +853,7 @@ public class PlayolaAPI:NSObject
     public func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User?>
     {
         let url = "\(baseURL)/api/v1/users/me"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = updateInfo
         
         return Promise
@@ -918,7 +920,7 @@ public class PlayolaAPI:NSObject
     public func follow(broadcasterID:String) -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/follow"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         
         return Promise
         {
@@ -974,7 +976,7 @@ public class PlayolaAPI:NSObject
     public func unfollow(broadcasterID:String) -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/unfollow"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         
         return Promise
         {
@@ -1033,7 +1035,7 @@ public class PlayolaAPI:NSObject
     public func findUsersByKeywords(searchString:String) -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/findByKeywords"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["searchString": searchString]
         
         
@@ -1091,7 +1093,7 @@ public class PlayolaAPI:NSObject
     public func getUser(userID:String) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/users/\(userID)"
-        let headers:HTTPHeaders? = self.addAuthToHeaders(headers: nil)
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = [:]
         
         
@@ -1157,7 +1159,7 @@ public class PlayolaAPI:NSObject
     public func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
     {
         let url = "\(baseURL)/api/v1/users/getByAttributes"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters = attributes
         
         return Promise
@@ -1219,7 +1221,7 @@ public class PlayolaAPI:NSObject
     public func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["songIDs":songIDs, "bin":bin]
         
         return Promise
@@ -1283,7 +1285,7 @@ public class PlayolaAPI:NSObject
     public func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems/\(rotationItemID)"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         
         return Promise
@@ -1350,7 +1352,7 @@ public class PlayolaAPI:NSObject
     public func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins/\(spinID)/move"
-        let headers:HTTPHeaders? = self.addAuthToHeaders(headers: nil)
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["newPlaylistPosition": newPlaylistPosition]
         
         return Promise
@@ -1423,7 +1425,7 @@ public class PlayolaAPI:NSObject
     public func removeSpin(spinID:String) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins/\(spinID)"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         
         return Promise
         {
@@ -1491,7 +1493,7 @@ public class PlayolaAPI:NSObject
     public func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["audioBlockID": audioBlockID,
                                       "playlistPosition": playlistPosition]
         return Promise

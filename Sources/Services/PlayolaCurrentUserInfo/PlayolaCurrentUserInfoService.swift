@@ -49,12 +49,20 @@ public class PlayolaCurrentUserInfoService:NSObject
     override init() {
         super.init()
         self.setupListeners()
-        self.checkForStoredAccessToken()
+        self.initializeInfo()
     }
     
-    var user:User?
-    var accessToken:String?
+    public var user:User?
     fileprivate var observers:[NSObjectProtocol] = Array()
+    
+    
+    // dependency injections
+    var api:PlayolaAPI = PlayolaAPI()
+    
+    func injectDependencies(api:PlayolaAPI=PlayolaAPI())
+    {
+        self.api = api
+    }
     
     //------------------------------------------------------------------------------
     
@@ -72,6 +80,30 @@ public class PlayolaCurrentUserInfoService:NSObject
                 }
             }
         })
+        
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.loggedIn, object: nil, queue: .main)
+        {
+            (notification) -> Void in
+            self.initializeInfo()
+        })
+    }
+    
+    func initializeInfo()
+    {
+        if (self.api.isSignedIn())
+        {
+            self.api.getMe()
+            .then
+            {
+                (user) -> Void in
+                self.updateCurrentUser(user)
+            }
+            .catch
+            {
+                (error) -> Void in
+                print(error)
+            }
+        }
     }
     
     //------------------------------------------------------------------------------
@@ -101,35 +133,6 @@ public class PlayolaCurrentUserInfoService:NSObject
     public func getDeviceID() -> String?
     {
         return uniqueIdentifier()
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    public func getPlayolaAuthorizationToken() -> String?
-    {
-        return self.accessToken
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    public func setPlayolaAuthorizationToken(accessToken:String?)
-    {
-        self.accessToken = accessToken
-        try! Locksmith.updateData(data: ["accessToken":accessToken as Any], forUserAccount: "fm.playola")
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func checkForStoredAccessToken()
-    {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: "fm.playola")
-        if let dictionary = dictionary
-        {
-            if let accessToken = dictionary["accessToken"] as? String
-            {
-                self.accessToken = accessToken
-            }
-        }
     }
     
     //------------------------------------------------------------------------------
@@ -186,3 +189,5 @@ public class PlayolaCurrentUserInfoService:NSObject
         self._instance = authService
     }
 }
+
+fileprivate let createInstance = PlayolaCurrentUserInfoService.sharedInstance()
