@@ -1793,6 +1793,62 @@ class PlayolaAPITests: QuickSpec {
                         }
                     }
                 }
+                
+                it ("properly returns .emailNotFound")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("emailNotFound.json", type(of: self))!,
+                        statusCode: 401,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! LoginErrorType)).to(equal(LoginErrorType.emailNotRegistered))
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns .passwordIncorrect")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("passwordIncorrect.json", type(of: self))!,
+                        statusCode: 401,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! LoginErrorType)).to(equal(LoginErrorType.passwordIncorrect))
+                            done()
+                        }
+                    }
+                }
             }
         }
     }

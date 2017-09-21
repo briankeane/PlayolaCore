@@ -31,7 +31,8 @@ public enum PlayolaUserRole:Int {
 
 public struct PlayolaConstants {
     #if (arch(i386) || arch(x86_64)) && os(iOS)  // simulator
-    static let HOST_NAME = "api.playola.fm"
+    static let HOST_NAME = "localhost:9000"
+    public static let BASE_URL = "http://\(HOST_NAME)"
     static let S3_SONGS_BUCKET = "playolasongsdevelopment"
     static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
     static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongsdevelopment"
@@ -43,9 +44,10 @@ public struct PlayolaConstants {
     static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongs"
     static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
     static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimages"
+    public static let BASE_URL = "https://\(HOST_NAME)"
     #endif
     
-    public static let BASE_URL = "https://\(HOST_NAME)"
+    
     
     /// the number of seconds from now when station editing can begins.
     public static let LOCKED_SECONDS_OF_PRELOAD = 180

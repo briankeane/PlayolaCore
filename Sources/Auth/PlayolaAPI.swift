@@ -1,4 +1,4 @@
-//
+    //
 //  AuthService.swift
 //  PlayolaCore
 //
@@ -18,6 +18,11 @@ public class PlayolaAPI:NSObject
     
     let defaults:UserDefaults = UserDefaults.standard
     var observers:[NSObjectProtocol] = Array()
+    
+    public func isSignedIn() -> Bool
+    {
+        return self.accessToken != nil
+    }
     
     private func setAccessToken(tokenValue:String)
     {
@@ -43,6 +48,28 @@ public class PlayolaAPI:NSObject
         {
             self.accessToken = accessToken
         }
+    }
+    
+    private func addAuthToHeaders(headers:HTTPHeaders?) -> HTTPHeaders?
+    {
+        // if not signedIn and no headers
+        if ((headers == nil) && (self.accessToken == nil))
+        {
+            return nil
+        }
+        
+        // blank headers if necessary
+        var modifiedHeaders:HTTPHeaders? = headers
+        if (modifiedHeaders == nil)
+        {
+            modifiedHeaders = [:]
+        }
+        
+        if let accessToken = self.accessToken
+        {
+            modifiedHeaders?["Authorization"] = "Bearer \(accessToken)"
+        }
+        return modifiedHeaders
     }
     
     private func setupListeners()
@@ -101,7 +128,7 @@ public class PlayolaAPI:NSObject
      * rejects: an AuthError
      */
     
-    func loginViaFacebook(accessTokenString:String) -> Promise<(User)>
+    public func loginViaFacebook(accessTokenString:String) -> Promise<(User)>
     {
         return Promise
         {
@@ -168,7 +195,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a User
      * rejects: an AuthError
      */
-    func loginViaGoogle(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
+    public func loginViaGoogle(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
     {
         return Promise
         {
@@ -208,17 +235,37 @@ public class PlayolaAPI:NSObject
     // -----------------------------------------------------------------------------
     //                          func loginLocal
     // -----------------------------------------------------------------------------
-    /// logs the user into the playolaServer via the local scheme
-    ///
-    /// - parameters:
-    ///     - email: `(String)` - the user's email
-    ///     - password: `(String)` - the user's password
-    ///
-    /// - returns:
-    ///    `Promise<Void>` - promise that resolves upon completion
-    ///
-    /// ----------------------------------------------------------------------------
-    func loginLocal(email:String, password:String) -> Promise<User>
+    /**
+     Gets a session token from the playola server via the local login info.
+     
+     - parameters:
+     - email: `(String)` - the user's email
+     - password: `(String)` - the user's password
+     
+     - returns:
+     `Promise<User>` - a promise that resolves to the current User
+     
+     ### Usage Example: ###
+     ````
+     api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
+     .then
+     {
+        (user) -> Void in
+        print(user.name)
+     }
+     .catch
+     {
+        (err) -> Void in
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: a User
+     * rejects: an AuthError
+     */
+    public func loginLocal(email:String, password:String) -> Promise<User>
     {
         let url = "\(baseURL)/auth/local"
         let parameters:Parameters = ["email": email, "password": password]
@@ -248,6 +295,22 @@ public class PlayolaAPI:NSObject
                         }
                     }
                 case .failure:
+                    if let data = response.data {
+                        if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any]
+                        {
+                            if let rejectionCode = jsonObject?["loginRejectionCode"] as? Int
+                            {
+                                if (rejectionCode == 1)
+                                {
+                                    return reject(LoginErrorType.emailNotRegistered)
+                                }
+                                else
+                                {
+                                    return reject(LoginErrorType.passwordIncorrect)
+                                }
+                            }
+                        }
+                    }
                     let authErr = AuthError(response: response)
                     reject(authErr)
                 }
@@ -285,7 +348,7 @@ public class PlayolaAPI:NSObject
     public func getMe() -> Promise<User>
     {
         let url = "\(self.baseURL)/api/v1/users/me"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.addAuthToHeaders(headers: nil)
         let parameters:Parameters? = nil
         
         return Promise
@@ -1028,7 +1091,7 @@ public class PlayolaAPI:NSObject
     public func getUser(userID:String) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/users/\(userID)"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.addAuthToHeaders(headers: nil)
         let parameters:Parameters? = [:]
         
         
@@ -1287,17 +1350,21 @@ public class PlayolaAPI:NSObject
     public func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins/\(spinID)/move"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = self.addAuthToHeaders(headers: nil)
         let parameters:Parameters? = ["newPlaylistPosition": newPlaylistPosition]
         
         return Promise
         {
             (fulfill, reject) -> Void in
+            print("headers")
+            print(headers!)
+            print("parameters")
+            print(parameters!)
             Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    switch response.result  
                     {
                     case .success(let JSON):
                         let responseData = JSON as! NSDictionary
@@ -1496,7 +1563,6 @@ public class PlayolaAPI:NSObject
         {
             NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
         }
-        
     }
 }
 
@@ -1517,3 +1583,4 @@ fileprivate func arrayOfUsersFromResultValue(resultValue:Any?, propertyName:Stri
     }
     return nil
 }
+
