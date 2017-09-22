@@ -65,9 +65,10 @@ class PlayolaAPITests: QuickSpec {
             
             beforeEach
             {
-                api = PlayolaAPI()
+                UserDefaults.standard.removeObject(forKey: "playolaAccessToken")
+                api = PlayolaAPI(accessTokenString: "This Is A Token String")
                 print(PlayolaConstants.HOST_NAME)
-                stub(condition: isHost(PlayolaConstants.HOST_NAME))
+                stub(condition: isHost("127.0.0.1"))
                 {
                     (request) in
                     sentRequest = request
@@ -1558,19 +1559,6 @@ class PlayolaAPITests: QuickSpec {
                             done()
                         }
                     }
-                }
-            }
-            
-            //------------------------------------------------------------------------------
-            
-            describe("accessToken stuff")
-            {
-                it ("sets the accessToken if a login has occured")
-                {
-                    api.accessToken = nil
-                    UserDefaults.standard.set("thisIsAnAccessToken", forKey: "playolaAccessToken")
-                    NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: nil)
-                    expect(api.accessToken).to(equal("thisIsAnAccessToken"))
                 }
             }
             

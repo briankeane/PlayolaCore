@@ -11,8 +11,8 @@ import Foundation
 public class PlayolaModelRefreshHandler:NSObject
 {
     // dependency injections:
-    var api:PlayolaAPI = PlayolaAPI()
-    func injectDependencies(api:PlayolaAPI=PlayolaAPI())
+    var api:PlayolaAPI = PlayolaAPI.sharedInstance()
+    func injectDependencies(api:PlayolaAPI=PlayolaAPI.sharedInstance())
     {
         self.api = api
     }

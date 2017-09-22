@@ -39,7 +39,14 @@ public class PlayolaAPI:NSObject
     override public init() {
         super.init()
         self.checkForAccessToken()
-        self.setupListeners()
+    }
+    
+    
+    // FOR TESTING ONLY -- SHOULD REMAIN NON-PUBLIC
+    init(accessTokenString:String?)
+    {
+        super.init()
+        self.accessToken = accessTokenString
     }
     
     private func checkForAccessToken()
@@ -47,6 +54,18 @@ public class PlayolaAPI:NSObject
         if let accessToken = defaults.string(forKey: "playolaAccessToken")
         {
             self.accessToken = accessToken
+            
+            // trigger update of current user
+            self.getMe()
+            .then
+            {
+                (user) -> Void in
+                
+            }
+            .catch
+            {
+                (error) -> Void in
+            }
         }
     }
     
@@ -70,17 +89,6 @@ public class PlayolaAPI:NSObject
             modifiedHeaders?["Authorization"] = "Bearer \(accessToken)"
         }
         return modifiedHeaders
-    }
-    
-    private func setupListeners()
-    {
-        // Another instance of the api could have logged in -- if that happens then this instance should
-        // independently set it's accessToken from UserDefaults
-        NotificationCenter.default.addObserver(forName: PlayolaEvents.loggedIn, object: nil, queue: .main)
-        {
-            (notification) -> Void in
-            self.checkForAccessToken()
-        }
     }
     
     deinit
@@ -289,11 +297,12 @@ public class PlayolaAPI:NSObject
                         if let receivedToken = foundUserData["token"] as? String
                         {
                             self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: ["accessToken": receivedToken])
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {
-                            fulfill(User(userInfo: userData))
+                            let user = User(userInfo: userData)
+                            NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                            fulfill(user)
                         }
                     }
                 case .failure:
@@ -1534,7 +1543,7 @@ public class PlayolaAPI:NSObject
     //                          func broadcastUsersUpdated
     // -----------------------------------------------------------------------------
     /**
-     Broadcast that users were updated on social media.
+     Broadcast when a new version of a user comes in.
      
      - parameters:
      - rotationItemID: `(String)` - the id of the RotationItem to deactivate
@@ -1566,9 +1575,47 @@ public class PlayolaAPI:NSObject
             NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
         }
     }
+    
+    
+    //------------------------------------------------------------------------------
+    //                  Singleton
+    //------------------------------------------------------------------------------
+    
+    // -----------------------------------------------------------------------------
+    //                      class func sharedInstance()
+    // -----------------------------------------------------------------------------
+    /// provides a Singleton of the AuthService for all to use
+    ///
+    /// - returns:
+    ///    `AuthService` - the central Auth Service instance
+    ///
+    /// ----------------------------------------------------------------------------
+    public class func sharedInstance() -> PlayolaAPI
+    {
+        if (self._instance == nil)
+        {
+            self._instance = PlayolaAPI()
+        }
+        return self._instance!
+    }
+    
+    /// internally shared singleton instance
+    fileprivate static var _instance:PlayolaAPI?
+    
+    // -----------------------------------------------------------------------------
+    //                          func replaceSharedInstance
+    // -----------------------------------------------------------------------------
+    /// replaces the Singleton shared instance of the DateHandlerService class
+    ///
+    /// - parameters:
+    ///     - DateHandler: `(DateHandlerService)` - the new DateHandlerService
+    ///
+    /// ----------------------------------------------------------------------------
+    class func replaceSharedInstance(_ api:PlayolaAPI)
+    {
+        self._instance = api
+    }
 }
-
-
 
 
 fileprivate func arrayOfUsersFromResultValue(resultValue:Any?, propertyName:String) -> Array<User>?

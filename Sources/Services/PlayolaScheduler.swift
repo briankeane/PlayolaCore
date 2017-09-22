@@ -18,9 +18,9 @@ public class PlayolaScheduler:NSObject
     
     // dependency injections:
     var DateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
-    var api:PlayolaAPI! = PlayolaAPI()
+    var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
     
-    func injectDependencies(DateHandler:DateHandlerService=DateHandlerService.sharedInstance(), api:PlayolaAPI=PlayolaAPI())
+    func injectDependencies(DateHandler:DateHandlerService=DateHandlerService.sharedInstance(), api:PlayolaAPI=PlayolaAPI.sharedInstance())
     {
         self.DateHandler = DateHandler
         self.api = api
@@ -147,6 +147,13 @@ public class PlayolaScheduler:NSObject
         return Promise
         {
             (fulfill, reject) -> Void in
+            
+            // check that playlistInit has already occured
+            if (self.user.program == nil)
+            {
+                return reject(PlayolaErrorType.playlistInitRequired)
+            }
+            
             if let spinID = self.getSpin(playlistPosition: fromPlaylistPosition)?.id
             {
                 if (self.playlistPositionIsValid(playlistPosition: toPlaylistPosition))
@@ -372,36 +379,5 @@ public class PlayolaScheduler:NSObject
             }
         }
         return nil
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    // -----------------------------------------------------------------------------
-    //                          func nullifyAirtims
-    // -----------------------------------------------------------------------------
-    /// nullifies consecutive airtimes in the schedule -- a null airtime indicates
-    /// that the server is calculating the proper airtime
-    ///
-    /// - parameters:
-    ///     - startIndex: `(Int)` - index of the first spin to nullify
-    ///     - endIndex: `(Int?)` - index of the last spin to nullify.  Nil if 
-    ///                  continuing till the end
-    /// ----------------------------------------------------------------------------
-    
-    func nullifyAirtimes(startIndex:Int, endIndex:Int?=nil)
-    {
-//        if let playlist = self.playlist()
-//        {
-//            var finalIndex = endIndex
-//            if (finalIndex == -1)
-//            {
-//                finalIndex = playlist.count - 1
-//            }
-//            
-//            for i in startIndex...finalIndex
-//            {
-//                playlist[i].airtime = nil
-//            }
-//        }
     }
 }

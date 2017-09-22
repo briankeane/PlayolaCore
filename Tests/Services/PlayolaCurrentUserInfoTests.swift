@@ -31,62 +31,6 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                 expect(deviceID).toNot(beNil())
             }
             
-            describe("sets the authToken")
-            {
-                var userInfoService:PlayolaCurrentUserInfoService?
-                
-                func reinstantiateUserInfoService() -> PlayolaCurrentUserInfoService
-                {
-                    userInfoService?.deleteObservers()
-                    userInfoService = nil
-                    return PlayolaCurrentUserInfoService()
-                }
-                
-                beforeEach
-                {
-                    do
-                    {
-                        try Locksmith.deleteDataForUserAccount(userAccount: "fm.playola")
-                    }
-                    catch
-                    {
-                        print(error)
-                    }
-                    userInfoService = reinstantiateUserInfoService()
-                }
-                
-                afterEach
-                {
-                    userInfoService?.deleteObservers()
-                    userInfoService = nil
-                }
-                
-                it ("initializes token to nil if no token")
-                {
-                    expect(userInfoService?.getPlayolaAuthorizationToken()).to(beNil())
-                }
-                
-                it ("initializes to something if it exists already")
-                {
-                    try! Locksmith.updateData(data: ["accessToken": "thisIsMyToken"], forUserAccount: "fm.playola")
-                    userInfoService = reinstantiateUserInfoService()
-                    expect(userInfoService?.getPlayolaAuthorizationToken()).to(equal("thisIsMyToken"))
-                }
-                
-                it ("sets the token in locksmith")
-                {
-                    userInfoService?.setPlayolaAuthorizationToken(accessToken: "thisIsMyToken")
-                    let dictionary = Locksmith.loadDataForUserAccount(userAccount: "fm.playola")
-                    expect(dictionary!["accessToken"] as? String).to(equal("thisIsMyToken"))
-                }
-                
-                it ("stores the accessToken in memory")
-                {
-                    userInfoService?.setPlayolaAuthorizationToken(accessToken: "thisIsMyToken")
-                    expect(userInfoService?.getPlayolaAuthorizationToken()!).to(equal("thisIsMyToken"))
-                }
-            }
-            
             describe("PlayolaCurrentUserInfo")
             {
                 var userInfoService:PlayolaCurrentUserInfoService?

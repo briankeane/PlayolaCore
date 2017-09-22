@@ -11,6 +11,9 @@ import Foundation
 public struct PlayolaEvents {
     // seen by everyone
     public static let loggedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedOut")
+    
+    // broadcast by the currentUserInfoService
+    /// userInfo: ["user": the current logged in User"]
     public static let loggedIn:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedIn")
     public static let currentUserUpdated:Notification.Name! = Notification.Name("kPlayolaCurrentUserUpdated")
     public static let userUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaUserUpdated")
@@ -31,7 +34,7 @@ public enum PlayolaUserRole:Int {
 
 public struct PlayolaConstants {
     #if (arch(i386) || arch(x86_64)) && os(iOS)  // simulator
-    static let HOST_NAME = "localhost:9000"
+    static let HOST_NAME = "127.0.0.1:9000"     // localhost must be 127.0.0.1 for OHHTTPStubs
     public static let BASE_URL = "http://\(HOST_NAME)"
     static let S3_SONGS_BUCKET = "playolasongsdevelopment"
     static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"

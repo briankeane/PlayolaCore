@@ -39,7 +39,7 @@ public class PlayolaStationPlayer: NSObject
     // dependecy injections
     var PAPlayer:PlayolaAudioPlayer! = PlayolaAudioPlayer()
     var dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
-    var api:PlayolaAPI! = PlayolaAPI()
+    var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
     func injectDependencies(
                                 PAPlayer:PlayolaAudioPlayer!=PlayolaAudioPlayer(),
                                 dateHandler:DateHandlerService! = DateHandlerService.sharedInstance(),

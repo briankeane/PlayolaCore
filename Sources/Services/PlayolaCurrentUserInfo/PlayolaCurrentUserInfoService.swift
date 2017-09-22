@@ -41,7 +41,6 @@ import Locksmith
         }
         return nil
     }
-    
 #endif
 
 public class PlayolaCurrentUserInfoService:NSObject
@@ -57,9 +56,9 @@ public class PlayolaCurrentUserInfoService:NSObject
     
     
     // dependency injections
-    var api:PlayolaAPI = PlayolaAPI()
+    var api:PlayolaAPI = PlayolaAPI.sharedInstance()
     
-    func injectDependencies(api:PlayolaAPI=PlayolaAPI())
+    func injectDependencies(api:PlayolaAPI=PlayolaAPI.sharedInstance())
     {
         self.api = api
     }
@@ -80,13 +79,9 @@ public class PlayolaCurrentUserInfoService:NSObject
                 }
             }
         })
-        
-        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.loggedIn, object: nil, queue: .main)
-        {
-            (notification) -> Void in
-            self.initializeInfo()
-        })
     }
+    
+    //------------------------------------------------------------------------------
     
     func initializeInfo()
     {
@@ -111,14 +106,23 @@ public class PlayolaCurrentUserInfoService:NSObject
     // update current user if it is more recent than the currently stored version.
     func updateCurrentUser(_ newCurrentUser:User)
     {
+        let oldUser = self.user
+        
         if let newUpdatedAt = newCurrentUser.updatedAt
         {
             if ((self.user?.updatedAt == nil) || (newUpdatedAt.isAfter(self.user!.updatedAt!)))
             {
                 self.user = newCurrentUser
                 NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["currentUser": newCurrentUser as Any])
+                // if the oldUser is nil, we've just logged in
+                if (oldUser == nil)
+                {
+                    NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo:["user": newCurrentUser as Any])
+                }
             }
         }
+        
+       
     }
     
     //------------------------------------------------------------------------------
