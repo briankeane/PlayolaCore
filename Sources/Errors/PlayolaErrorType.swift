@@ -23,8 +23,8 @@ enum PlayolaErrorType:Error, Equatable
         {
         case (.playlistInitRequired, .playlistInitRequired):
             return true
-        default:
-            return false
+//        default:
+//            return false
         }
     }
     /// the playlist must be initialized before this function is performed

@@ -51,11 +51,7 @@ class PlayolaListeningSessionReporter:NSObject
         NotificationCenter.default.addObserver(forName: PlayolaStationPlayerEvents.stoppedPlayingStation, object: nil, queue: OperationQueue.main)
         {
                 (notification) -> Void in
-                if let userInfo = (notification as NSNotification).userInfo
-                {
-                    self.reportStoppedListening(listenerID: self.currentUserInfo.user?.id, deviceID: self.currentUserInfo.getDeviceID())
-                }
-        
+                self.reportStoppedListening(listenerID: self.currentUserInfo.user?.id, deviceID: self.currentUserInfo.getDeviceID())
         }
     }
         //------------------------------------------------------------------------------
