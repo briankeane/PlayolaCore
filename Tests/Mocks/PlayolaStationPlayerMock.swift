@@ -12,7 +12,8 @@ class PlayolaStationPlayerMock:PlayolaStationPlayer
 {
     override init()
     {
-        super.init()
+        // do nothing
+        print("hi")
     }
     
     var nowPlayingSpin:Spin?

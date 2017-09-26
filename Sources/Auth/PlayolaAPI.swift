@@ -19,6 +19,13 @@ public class PlayolaAPI:NSObject
     let defaults:UserDefaults = UserDefaults.standard
     var observers:[NSObjectProtocol] = Array()
     
+    
+    /// use to set your own development Playola server or to
+    public func setBaseURL(baseURL:String)
+    {
+        self.baseURL = baseURL
+    }
+    
     public func isSignedIn() -> Bool
     {
         return self.accessToken != nil

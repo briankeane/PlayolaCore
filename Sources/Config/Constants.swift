@@ -8,7 +8,8 @@
 
 import Foundation
 
-public struct PlayolaEvents {
+public struct PlayolaEvents
+{
     // seen by everyone
     public static let signedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaSignedOut")
     

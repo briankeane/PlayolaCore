@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import UIKit
 
 class LabelUpdater:NSObject
 {
-    weak var label:UILabel?
+    weak var label:AutoUpdatingLabel?
 
     /// the String to display when the represented value is nil
     var blankText:String = "---------"
@@ -29,11 +28,11 @@ class LabelUpdater:NSObject
         }
     }
     
-    init(label:UILabel)
+    init(label:AutoUpdatingLabel)
     {
         super.init()
         self.label = label
-        self.setInitialValue()
+        self.setValue()
         self.setupListeners()
     }
     
@@ -44,11 +43,21 @@ class LabelUpdater:NSObject
     
     //------------------------------------------------------------------------------
     
-    func setInitialValue()
+    func setValue() -> Void
     {
-        if let artistLabel = self.label as? NowPlayingArtistLabel
+        // IF there's a delegate representation...
+        if let text = self.label?.delegate?.alternateDisplayText?(self.label!, audioBlockDict: self.stationPlayer.nowPlaying()?.audioBlock?.toDictionary())
+        {
+            return self.changeLabelText(text: text)
+        }
+        
+        if let _ = self.label as? NowPlayingArtistLabel
         {
             self.changeArtistLabel(spin: self.stationPlayer.nowPlaying())
+        }
+        else if let _ = self.label as? NowPlayingTitleLabel
+        {
+            self.changeTitleLabel(spin: self.stationPlayer.nowPlaying())
         }
     }
     
@@ -59,24 +68,8 @@ class LabelUpdater:NSObject
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, queue: .main)
         {
             (notification) -> Void in
-            self.processNowPlayingChanged(notification:notification)
+            self.setValue()
         })
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func processNowPlayingChanged(notification:Notification)
-    {
-        if let userInfo = notification.userInfo
-        {
-            if let _ = self.label as? NowPlayingArtistLabel
-            {
-                if let spin = userInfo["spin"] as? Spin
-                {
-                    self.changeArtistLabel(spin: spin)
-                }
-            }
-        }
     }
     
     //------------------------------------------------------------------------------
@@ -86,6 +79,20 @@ class LabelUpdater:NSObject
         if let artistName = spin?.audioBlock?.artist
         {
             self.changeLabelText(text: artistName)
+        }
+        else
+        {
+            self.changeLabelText(text: self.blankText)
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func changeTitleLabel(spin:Spin?)
+    {
+        if let title = spin?.audioBlock?.title
+        {
+            self.changeLabelText(text: title)
         }
         else
         {

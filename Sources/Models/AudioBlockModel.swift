@@ -46,7 +46,7 @@ open class AudioBlock
         title = audioBlockInfo["title"] as? String
         artist = audioBlockInfo["artist"] as? String
         album = audioBlockInfo["album"] as? String
-        audioFileUrl = URL(stringOptional: audioBlockInfo["audioFileUrl"] as? String)
+        audioFileUrl = URL(stringOptional: self.addSchemeIfNecessaryTo(urlString: audioBlockInfo["audioFileUrl"] as? String))
         key = audioBlockInfo["key"] as? String
         albumArtworkUrl = URL(stringOptional: audioBlockInfo["albumArtworkUrl"] as? String)
         albumArtworkUrlSmall = URL(stringOptional: audioBlockInfo["albumArtworkUrlSmall"] as? String)
@@ -138,6 +138,18 @@ open class AudioBlock
                 "isCommercialBlock": self.isCommercialBlock as Any,
                 "key": self.key as Any
                 ]
+    }
+    
+    func addSchemeIfNecessaryTo(urlString:String?) -> String?
+    {
+        if var urlString = urlString
+        {
+            if (String(urlString.characters.prefix(2)) == "//")
+            {
+               return "https:\(urlString)"
+            }
+        }
+        return urlString
     }
     
     //------------------------------------------------------------------------------
