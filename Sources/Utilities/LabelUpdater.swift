@@ -43,21 +43,23 @@ class LabelUpdater:NSObject
     
     //------------------------------------------------------------------------------
     
-    func setValue() -> Void
+    func setValue()
     {
         // IF there's a delegate representation...
-        if let text = self.label?.delegate?.alternateDisplayText?(self.label!, audioBlockDict: self.stationPlayer.nowPlaying()?.audioBlock?.toDictionary())
+        if let text = self.label?.autoUpdatingDelegate?.alternateDisplayText?(self.label!, audioBlockDict: self.stationPlayer.nowPlaying()?.audioBlock?.toDictionary())
         {
-            return self.changeLabelText(text: text)
+            self.label?.changeText(text: text)
         }
-        
-        if let _ = self.label as? NowPlayingArtistLabel
+        else
         {
-            self.changeArtistLabel(spin: self.stationPlayer.nowPlaying())
-        }
-        else if let _ = self.label as? NowPlayingTitleLabel
-        {
-            self.changeTitleLabel(spin: self.stationPlayer.nowPlaying())
+            if let _ = self.label as? NowPlayingArtistLabel
+            {
+                self.changeArtistLabel(spin: self.stationPlayer.nowPlaying())
+            }
+            else if let _ = self.label as? NowPlayingTitleLabel
+            {
+                self.changeTitleLabel(spin: self.stationPlayer.nowPlaying())
+            }
         }
     }
     
@@ -78,11 +80,11 @@ class LabelUpdater:NSObject
     {
         if let artistName = spin?.audioBlock?.artist
         {
-            self.changeLabelText(text: artistName)
+            self.label?.changeText(text: artistName)
         }
         else
         {
-            self.changeLabelText(text: self.blankText)
+            self.label?.changeText(text: self.blankText)
         }
     }
     
@@ -92,21 +94,11 @@ class LabelUpdater:NSObject
     {
         if let title = spin?.audioBlock?.title
         {
-            self.changeLabelText(text: title)
+            self.label?.changeText(text: title)
         }
         else
         {
-            self.changeLabelText(text: self.blankText)
-        }
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func changeLabelText(text:String)
-    {
-        DispatchQueue.main.async
-        {
-            self.label?.text = text
+            self.label?.changeText(text: self.blankText)
         }
     }
 }

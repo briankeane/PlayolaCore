@@ -8,9 +8,18 @@
 
 import Cocoa
 
-class AutoUpdatingLabel: NSTextView {
-    var labelUpdater:labelUpdater?
-    var delegate:PlayolaAutoUpdatingLabelDelegate?
+public class AutoUpdatingLabel: NSTextView {
+    var labelUpdater:LabelUpdater?
+    
+    /// same as the 'string' property -- provided to preserve common api for osx and ios
+    public var text:String?
+    {
+        get
+        {
+            return self.string
+        }
+    }
+    public var autoUpdatingDelegate:PlayolaAutoUpdatingLabelDelegate?
     {
         didSet
         {
@@ -18,7 +27,12 @@ class AutoUpdatingLabel: NSTextView {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    override init(frame frameRect: NSRect, textContainer aTextContainer: NSTextContainer!) {
+        super.init(frame: frameRect, textContainer: aTextContainer)
+        self.commonInit()
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.commonInit()
     }
@@ -31,6 +45,14 @@ class AutoUpdatingLabel: NSTextView {
     func commonInit()
     {
         self.labelUpdater = LabelUpdater(label: self)
+    }
+    
+    func changeText(text:String)
+    {
+        DispatchQueue.main.async
+        {
+            self.string = text
+        }
     }
     
     //    override func draw(_ dirtyRect: NSRect) {

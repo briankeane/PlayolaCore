@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import UIKit
 
-@objc public protocol PlayolaAutoUpdatingLabelDelegate:UITextFieldDelegate
+@objc public protocol PlayolaAutoUpdatingLabelDelegate
 {
     // -----------------------------------------------------------------------------
     //                     optional func alternateDisplayText
@@ -46,5 +45,5 @@ import UIKit
      - returns:
      `String?` - return nil to use default value, otherwise return a String to override the default value
      */
-    @objc optional func alternateDisplayText(_ label:UILabel, audioBlockDict:[String:Any]?) -> String?
+    @objc optional func alternateDisplayText(_ label:AutoUpdatingLabel, audioBlockDict:[String:Any]?) -> String?
 }

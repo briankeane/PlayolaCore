@@ -18,7 +18,7 @@ class LabelUpdaterTests: QuickSpec
     {
         
         var displayText:String? = nil
-        func alternateDisplayText(_ label: UILabel, audioBlockDict: [String:Any]?) -> String?
+        func alternateDisplayText(_ label: AutoUpdatingLabel, audioBlockDict: [String:Any]?) -> String?
         {
             return displayText
         }
@@ -26,7 +26,7 @@ class LabelUpdaterTests: QuickSpec
     
     override func spec()
     {
-        fdescribe("LabelUpdaterTests")
+        describe("LabelUpdaterTests")
         {
             var spin:Spin = Spin()
             var delegate:TestDelegate = TestDelegate()
@@ -61,7 +61,7 @@ class LabelUpdaterTests: QuickSpec
                 {
                     let label = NowPlayingArtistLabel()
                     delegate.displayText = "BILLYBOB"
-                    label.delegate = delegate
+                    label.autoUpdatingDelegate = delegate
                     expect(label.text).toEventually(equal("BILLYBOB"))
                     delegate.displayText = "BETTYSUE"
                     NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin": spin])
@@ -90,7 +90,7 @@ class LabelUpdaterTests: QuickSpec
                 {
                     let label = NowPlayingTitleLabel()
                     delegate.displayText = "BILLYBOBSSONG"
-                    label.delegate = delegate
+                    label.autoUpdatingDelegate = delegate
                     expect(label.text).toEventually(equal("BILLYBOBSSONG"))
                     delegate.displayText = "BETTYSUESSONG"
                     NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin": spin])

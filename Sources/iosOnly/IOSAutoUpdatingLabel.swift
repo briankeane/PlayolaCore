@@ -8,18 +8,18 @@
 
 import UIKit
 
-class AutoUpdatingLabel: UILabel
+public class AutoUpdatingLabel: UILabel
 {
     var labelUpdater:LabelUpdater?
-    var delegate:PlayolaAutoUpdatingLabelDelegate?
-        {
+    var autoUpdatingDelegate:PlayolaAutoUpdatingLabelDelegate?
+    {
         didSet
         {
             self.labelUpdater?.setValue()
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.commonInit()
     }
@@ -32,6 +32,14 @@ class AutoUpdatingLabel: UILabel
     func commonInit()
     {
         self.labelUpdater = LabelUpdater(label: self)
+    }
+    
+    func changeText(text:String)
+    {
+        DispatchQueue.main.async
+        {
+            self.text = text
+        }
     }
     
     /*
