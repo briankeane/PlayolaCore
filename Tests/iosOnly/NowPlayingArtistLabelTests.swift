@@ -97,6 +97,51 @@ class LabelUpdaterTests: QuickSpec
                     expect(label.text).toEventually(equal("BETTYSUESSONG"))
                 }
             }
+            
+            describe("NowPlayingTitleAndArtistLabel")
+            {
+                it ("updates")
+                {
+                    let label = NowPlayingTitleAndArtistLabel()
+                    playerMock.nowPlayingSpin = spin
+                    NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin": spin])
+                    expect(label.text).toEventually(equal("BobsSong - Bob"))
+                }
+                
+                it ("sets its initial value if something is playing")
+                {
+                    playerMock.nowPlayingSpin = spin
+                    let label = NowPlayingTitleAndArtistLabel()
+                    expect(label.text).toEventually(equal("BobsSong - Bob"))
+                }
+                
+                it ("grabs alternate text from the protocol")
+                {
+                    let label = NowPlayingTitleAndArtistLabel()
+                    delegate.displayText = "BILLYBOBSSONG"
+                    label.autoUpdatingDelegate = delegate
+                    expect(label.text).toEventually(equal("BILLYBOBSSONG"))
+                    delegate.displayText = "BETTYSUESSONG"
+                    NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin": spin])
+                    expect(label.text).toEventually(equal("BETTYSUESSONG"))
+                }
+                
+                it ("properly displays a commercial")
+                {
+                    let commercialBlock = AudioBlock(__t: "CommercialBlock", isCommercialBlock:true)
+                    playerMock.nowPlayingSpin = Spin(audioBlock: commercialBlock)
+                    let label = NowPlayingTitleAndArtistLabel()
+                    expect(label.text).toEventually(equal("Commercials"))
+                }
+                
+                it ("properly displays a VoiceTrack")
+                {
+                    let voicetrack = AudioBlock(__t: "Commentary")
+                    playerMock.nowPlayingSpin = Spin(audioBlock: voicetrack)
+                    let label = NowPlayingTitleAndArtistLabel()
+                    expect(label.text).toEventually(equal("VoiceTrack"))
+                }
+            }
         }
     }
 }

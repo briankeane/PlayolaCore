@@ -60,6 +60,10 @@ class LabelUpdater:NSObject
             {
                 self.changeTitleLabel(spin: self.stationPlayer.nowPlaying())
             }
+            else if let _ = self.label as? NowPlayingTitleAndArtistLabel
+            {
+                self.changeTitleAndArtistLabel(spin: self.stationPlayer.nowPlaying())
+            }
         }
     }
     
@@ -99,6 +103,43 @@ class LabelUpdater:NSObject
         else
         {
             self.label?.changeText(text: self.blankText)
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func changeTitleAndArtistLabel(spin:Spin?)
+    {
+        if let audioBlock = spin?.audioBlock
+        {
+            if (audioBlock.isCommercialBlock)
+            {
+                self.label?.changeText(text: "Commercials")
+            }
+            else if (audioBlock.__t == "Commentary")
+            {
+                self.label?.changeText(text: "VoiceTrack")
+            }
+            else if ((audioBlock.title != nil) && (audioBlock.artist != nil))
+            {
+                self.label?.changeText(text: "\(audioBlock.title!) - \(audioBlock.artist!)")
+            }
+            else if (audioBlock.title != nil)
+            {
+                self.label?.changeText(text: "\(audioBlock.title!)")
+            }
+            else if (audioBlock.artist != nil)
+            {
+                self.label?.changeText(text: "\(audioBlock.artist!)")
+            }
+            else
+            {
+               self.label?.changeText(text: "")
+            }
+        }
+        else
+        {
+            self.label?.changeText(text: "-----")
         }
     }
 }
