@@ -117,7 +117,7 @@ public class PlayolaCurrentUserInfoService:NSObject
                 // if the oldUser is nil, we've just logged in
                 if (oldUser == nil)
                 {
-                    NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo:["user": newCurrentUser as Any])
+                    NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo:["user": newCurrentUser as Any])
                 }
             }
         }

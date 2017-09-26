@@ -10,11 +10,11 @@ import Foundation
 
 public struct PlayolaEvents {
     // seen by everyone
-    public static let loggedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedOut")
+    public static let signedOut:Notification.Name! = Notification.Name(rawValue: "kPlayolaSignedOut")
     
     // broadcast by the currentUserInfoService
     /// userInfo: ["user": the current logged in User"]
-    public static let loggedIn:Notification.Name! = Notification.Name(rawValue: "kPlayolaLoggedIn")
+    public static let signedIn:Notification.Name! = Notification.Name(rawValue: "kPlayolaSignedIn")
     public static let currentUserUpdated:Notification.Name! = Notification.Name("kPlayolaCurrentUserUpdated")
     public static let userUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaUserUpdated")
     public static let schedulerRefreshedPlaylist:Notification.Name! = Notification.Name(rawValue: "kPlayolaSchedulerRefreshedPlaylist")
@@ -22,8 +22,6 @@ public struct PlayolaEvents {
     // seen by Playola only
     static let getCurrentUserReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaGetMeReceived")
     static let userUpdateRequested:Notification.Name! = Notification.Name(rawValue: "kPlayolaUserUpdateRequested")
-    
-    
 }
 
 public enum PlayolaUserRole:Int {

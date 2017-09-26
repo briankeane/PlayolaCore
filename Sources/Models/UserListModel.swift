@@ -63,7 +63,7 @@ class UserList
     /// ----------------------------------------------------------------------------
     func setupListeners()
     {
-        NotificationCenter.default.addObserver(forName: PlayolaEvents.loggedOut, object: nil, queue: OperationQueue.main)
+        NotificationCenter.default.addObserver(forName: PlayolaEvents.signedOut, object: nil, queue: OperationQueue.main)
         {
             (notification) -> Void in
 //            self.resetList([])

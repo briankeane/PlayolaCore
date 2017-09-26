@@ -11,7 +11,8 @@ import Foundation
 class PlayolaAudioPlayerMock: PlayolaAudioPlayer {
     
     // just skip
-    override init() {
+    override init()
+    {
         super.init()
     }
     

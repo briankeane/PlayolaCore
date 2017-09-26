@@ -24,6 +24,12 @@ public class PlayolaAPI:NSObject
         return self.accessToken != nil
     }
     
+    public func signOut()
+    {
+        self.clearAccessToken()
+        NotificationCenter.default.post(name: PlayolaEvents.signedOut, object: nil)
+    }
+    
     private func setAccessToken(tokenValue:String)
     {
         self.accessToken = tokenValue
@@ -157,7 +163,7 @@ public class PlayolaAPI:NSObject
                         if let receivedToken = foundUserData["token"] as? String
                         {
                             self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: ["accessToken": receivedToken])
+                            NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo: ["accessToken": receivedToken])
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {
@@ -227,7 +233,7 @@ public class PlayolaAPI:NSObject
                         if let receivedToken = foundUserData["token"] as? String
                         {
                             self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.loggedIn, object: nil, userInfo: ["accessToken": receivedToken])
+                            NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo: ["accessToken": receivedToken])
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {
