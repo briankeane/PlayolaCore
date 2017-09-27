@@ -18,6 +18,8 @@
 		4B139F541F7C0938007021FA /* StationPlayingDisplayNameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F521F7C0938007021FA /* StationPlayingDisplayNameLabel.swift */; };
 		4B139F551F7C0938007021FA /* StationPlayingDisplayNameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F521F7C0938007021FA /* StationPlayingDisplayNameLabel.swift */; };
 		4B139F561F7C0938007021FA /* StationPlayingDisplayNameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F521F7C0938007021FA /* StationPlayingDisplayNameLabel.swift */; };
+		4B139F581F7C123C007021FA /* OSXAutoUpdatingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F571F7C123C007021FA /* OSXAutoUpdatingImageView.swift */; };
+		4B139F591F7C123C007021FA /* OSXAutoUpdatingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F571F7C123C007021FA /* OSXAutoUpdatingImageView.swift */; };
 		4B1F65881F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F65871F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift */; };
 		4B1F65891F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F65871F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift */; };
 		4B1F658B1F508203003CC78A /* CommercialBlockProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F658A1F508203003CC78A /* CommercialBlockProviderTests.swift */; };
@@ -292,6 +294,7 @@
 		4B139F4A1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StationPlayingAutoUpdatingLabelTests.swift; path = ../Tests/StationPlayingAutoUpdatingLabelTests.swift; sourceTree = "<group>"; };
 		4B139F4D1F7C06E6007021FA /* NowPlayingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingLabel.swift; path = ../Sources/UIClasses/NowPlayingLabel.swift; sourceTree = "<group>"; };
 		4B139F521F7C0938007021FA /* StationPlayingDisplayNameLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationPlayingDisplayNameLabel.swift; sourceTree = "<group>"; };
+		4B139F571F7C123C007021FA /* OSXAutoUpdatingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSXAutoUpdatingImageView.swift; path = ../Sources/UIClasses/OSXAutoUpdatingImageView.swift; sourceTree = "<group>"; };
 		4B1F65871F4F5829003CC78A /* PlayolaCurrentUserInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaCurrentUserInfoTests.swift; path = ../Tests/Services/PlayolaCurrentUserInfoTests.swift; sourceTree = "<group>"; };
 		4B1F658A1F508203003CC78A /* CommercialBlockProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialBlockProviderTests.swift; path = ../Tests/Services/CommercialBlockProviderTests.swift; sourceTree = "<group>"; };
 		4B1F658D1F5202F2003CC78A /* PlayolaModelRefreshHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaModelRefreshHandler.swift; path = ../Sources/Services/PlayolaUpdatesMonitor./PlayolaModelRefreshHandler.swift; sourceTree = "<group>"; };
@@ -461,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				4B2D38C21F7AD385006F6348 /* OSXAutoUpdatingLabel.swift */,
+				4B139F571F7C123C007021FA /* OSXAutoUpdatingImageView.swift */,
 			);
 			name = osxOnly;
 			sourceTree = "<group>";
@@ -1044,6 +1048,7 @@
 				"${BUILT_PRODUCTS_DIR}/Quick-iOS/Quick.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework",
 				"${PODS_ROOT}/AudioKit/iOS/AudioKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher-iOS/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Locksmith-iOS/Locksmith.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-iOS/SwiftRemoteFileCache.framework",
@@ -1055,6 +1060,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
@@ -1094,6 +1100,7 @@
 				"${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework",
 				"${PODS_ROOT}/AudioKit/macOS/AudioKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Locksmith-macOS/Locksmith.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework",
@@ -1105,6 +1112,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
@@ -1342,6 +1350,7 @@
 				4B92E3F21F66D4FB00BEB077 /* PlayolaSchedulerErrorType.swift in Sources */,
 				4B361C3D1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B361C5F1F44C86300654968 /* RotationItemsCollection.swift in Sources */,
+				4B139F581F7C123C007021FA /* OSXAutoUpdatingImageView.swift in Sources */,
 				4B92E3F71F66D8BD00BEB077 /* PlayolaSchedulerError.swift in Sources */,
 				4B2D38E41F7BE9C9006F6348 /* StationPlayingLabelDelegateProtocol.swift in Sources */,
 				4BF4CF161F743DCB0011C117 /* PlayolaErrorType.swift in Sources */,
@@ -1434,6 +1443,7 @@
 				4B361C241F44B69C00654968 /* SpinModelTests.swift in Sources */,
 				4B361C121F44B54E00654968 /* SpinModel.swift in Sources */,
 				4BE007151F4757E40010C420 /* AuthErrorTests.swift in Sources */,
+				4B139F591F7C123C007021FA /* OSXAutoUpdatingImageView.swift in Sources */,
 				4B1F65911F5202F2003CC78A /* PlayolaModelRefreshHandler.swift in Sources */,
 				4B9359321F48D26B0038C327 /* PlayolaAudioPlayer.swift in Sources */,
 				4B139F561F7C0938007021FA /* StationPlayingDisplayNameLabel.swift in Sources */,

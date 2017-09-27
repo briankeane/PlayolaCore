@@ -56,10 +56,14 @@ public class PlayolaAPI:NSObject
     
     
     // FOR TESTING ONLY -- SHOULD REMAIN NON-PUBLIC
-    init(accessTokenString:String?)
+    init(accessTokenString:String?, baseURL:String?)
     {
         super.init()
         self.accessToken = accessTokenString
+        if let baseURL = baseURL
+        {
+            self.baseURL = baseURL
+        }
     }
     
     private func checkForAccessToken()

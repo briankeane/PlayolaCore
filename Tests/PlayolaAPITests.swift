@@ -66,7 +66,7 @@ class PlayolaAPITests: QuickSpec {
             beforeEach
             {
                 UserDefaults.standard.removeObject(forKey: "playolaAccessToken")
-                api = PlayolaAPI(accessTokenString: "This Is A Token String")
+                api = PlayolaAPI(accessTokenString: "This Is A Token String", baseURL: "http://127.0.0.1:9000")
                 print(PlayolaConstants.HOST_NAME)
                 stub(condition: isHost("127.0.0.1"))
                 {

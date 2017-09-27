@@ -1,6 +1,6 @@
 {
   "name": "SwiftRemoteFileCache",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "summary": "Manages a cache of remote files for use, based on their relative priority level.",
   "homepage": "https://github.com/briankeane/SwiftRemoteFileCache.git",
   "license": {
@@ -11,11 +11,11 @@
   },
   "platforms": {
     "ios": "10.3",
-    "osx": "10.12"
+    "osx": "10.11"
   },
   "source": {
     "git": "https://github.com/briankeane/SwiftRemoteFileCache.git",
-    "tag": "0.0.7"
+    "tag": "0.0.8"
   },
   "exclude_files": [
 
