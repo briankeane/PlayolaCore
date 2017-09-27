@@ -27,9 +27,11 @@ Pod::Spec.new do |s|
     s.dependency 'AudioKit', '~> 3.7'
     s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
     s.dependency 'Kingfisher', '~> 3.13'
-'
+
     
     s.source_files = 'Sources/**/*.{h,m,swift}'
+    s.ios.exclude_files = 'Sources/osxOnly/**/*.{h,m,swift}'
+    s.osx.exclude_files = 'Sources/iosOnly/**/*.{h,m,swift}'
 
     # probably will use this later when start subSpecing (PlayolaCore-Player, PlayolaCore-Core, etc)
     # s.subspec 'Core' do |core|

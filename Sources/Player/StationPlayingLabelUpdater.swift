@@ -59,7 +59,7 @@ class StationPlayingLabelUpdater: NSObject
         }
         else
         {
-            if let _ = self.label as? StationPlayingLabel
+            if let _ = self.label as? StationPlayingDisplayNameLabel
             {
                 self.changeStationPlayingLabel(user: self.stationPlayer.userPlaying)
             }
@@ -70,7 +70,7 @@ class StationPlayingLabelUpdater: NSObject
     
     func changeStationPlayingLabel(user:User?)
     {
-        if let label = self.label
+        if let _ = self.label
         {
             if let user = user
             {

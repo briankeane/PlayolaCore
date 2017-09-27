@@ -1,5 +1,5 @@
 //
-//  AutoUpdatingImageView.swift
+//  OSXAutoUpdatingImageView.swift
 //  PlayolaCore
 //
 //  Created by Brian D Keane on 9/27/17.
