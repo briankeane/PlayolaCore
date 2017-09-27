@@ -6,6 +6,6 @@
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
-class NowPlayingTitleLabel: AutoUpdatingLabel {
-
+public class NowPlayingTitleLabel: NowPlayingLabel
+{
 }

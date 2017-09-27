@@ -1,5 +1,5 @@
 //
-//  PlayolaAutoUpdatingLabelDelegateProtocol.swift
+//  NowPlayingLabelDelegateProtocol.swift
 //  PlayolaCore
 //
 //  Created by Brian D Keane on 9/26/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public protocol PlayolaAutoUpdatingLabelDelegate
+@objc public protocol NowPlayingLabelDelegate
 {
     // -----------------------------------------------------------------------------
     //                     optional func alternateDisplayText
@@ -38,12 +38,7 @@ import Foundation
         - audioBlockDict: `([String:Any]?)` - a dictionary representation of the currently playing AudioBlock
      
      - returns:
-     `Promise<User>` - a promise that resolves to the current User
-     
-
-     
-     - returns:
      `String?` - return nil to use default value, otherwise return a String to override the default value
      */
-    @objc optional func alternateDisplayText(_ label:AutoUpdatingLabel, audioBlockDict:[String:Any]?) -> String?
+    @objc optional func alternateDisplayText(_ label:NowPlayingLabel, audioBlockDict:[String:Any]?) -> String?
 }

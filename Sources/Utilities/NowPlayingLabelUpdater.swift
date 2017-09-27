@@ -8,12 +8,9 @@
 
 import Foundation
 
-class LabelUpdater:NSObject
+class NowPlayingLabelUpdater:NSObject
 {
-    weak var label:AutoUpdatingLabel?
-
-    /// the String to display when the represented value is nil
-    var blankText:String = "---------"
+    weak var label:NowPlayingLabel?
    
     // dependency injections
     var stationPlayer:PlayolaStationPlayer = PlayolaStationPlayer.sharedInstance()
@@ -28,7 +25,7 @@ class LabelUpdater:NSObject
         }
     }
     
-    init(label:AutoUpdatingLabel)
+    init(label:NowPlayingLabel)
     {
         super.init()
         self.label = label
@@ -88,7 +85,10 @@ class LabelUpdater:NSObject
         }
         else
         {
-            self.label?.changeText(text: self.blankText)
+            if let blankText = self.label?.blankText
+            {
+                self.label?.changeText(text: blankText)
+            }
         }
     }
     
@@ -102,7 +102,10 @@ class LabelUpdater:NSObject
         }
         else
         {
-            self.label?.changeText(text: self.blankText)
+            if let blankText = self.label?.blankText
+            {
+                self.label?.changeText(text: blankText)
+            }
         }
     }
     

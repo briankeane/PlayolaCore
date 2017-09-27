@@ -16,4 +16,7 @@ public struct PlayolaStationPlayerEvents
     public static let loadingStationProgress    =   Notification.Name(rawValue: "PSPLoadingStationProgress")
     public static let finishedLoadingStation    =   Notification.Name(rawValue: "PSPFinishedLoadingStation")
     public static let nowPlayingChanged         =   Notification.Name(rawValue: "PSPNowPlayingChanged")
+    
+    /// called anytime the stationPlaying changes, including when it changes to nil or from nil.
+    public static let stationChanged            =   Notification.Name(rawValue: "PSPStationChanged")
 }

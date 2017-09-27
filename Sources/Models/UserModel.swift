@@ -152,7 +152,65 @@ public class User
         self.program = original.program?.copy()
     }
     
-    
+    public init(id:String?=nil,
+                displayName:String?=nil,
+                twitterUID:String?=nil,
+                facebookUID:String?=nil,
+                googleUID:String?=nil,
+                instagramUID:String?=nil,
+                email:String?=nil,
+                birthYear:String?=nil,
+                gender:String?=nil,
+                zipcode:String?=nil,
+                timezone:String?=nil,
+                role:PlayolaUserRole?=nil,
+                lastCommercial:NSMutableDictionary?=nil,
+                profileImageUrl:URL?=nil,
+                profileImageUrlSmall:URL?=nil,
+                secsOfCommercialPerHour:Int?=nil,
+                dailyListenTimeMS:Int?=nil,
+                dailyListenTimeCalculationDate:Date?=nil,
+                program:Program?=nil,
+                warnings:Array<String>?=nil,
+                advanceTimer:Timer?=nil,
+                deepLink:String?=nil,
+                profileImageKey:String?=nil,
+                bio:String?=nil,
+                passwordExists:Bool?=nil,
+                minListenersToReport:Int?=nil,
+                deviceID:String?=nil,
+                stationStatus:String?=nil,
+                updatedAt:Date?=nil)
+    {
+        self.id = id
+        self.displayName = displayName
+        self.twitterUID = twitterUID
+        self.facebookUID = facebookUID
+        self.googleUID = googleUID
+        self.instagramUID = instagramUID
+        self.email = email
+        self.birthYear = birthYear
+        self.gender = gender
+        self.zipcode = zipcode
+        self.timezone = timezone
+        self.role = role
+        self.lastCommercial = lastCommercial
+        self.profileImageUrl = profileImageUrl
+        self.profileImageUrlSmall = profileImageUrlSmall
+        self.profileImageKey = profileImageKey
+        self.secsOfCommercialPerHour = secsOfCommercialPerHour
+        self.dailyListenTimeMS = dailyListenTimeMS
+        self.dailyListenTimeCalculationDate = dailyListenTimeCalculationDate
+        self.warnings = warnings
+        self.deepLink = deepLink
+        self.minListenersToReport = minListenersToReport
+        self.bio = bio
+        self.passwordExists = passwordExists
+        self.deviceID = deviceID
+        self.stationStatus = stationStatus
+        self.minListenersToReport = minListenersToReport
+        self.program = program
+    }
     
     //------------------------------------------------------------------------------
     
@@ -260,6 +318,37 @@ public class User
         {
             block(self)
         }
+    }
+    
+    func toDictionary() -> [String:Any]
+    {
+        return [
+            "displayName": self.displayName as Any,
+            "twitterUID": self.twitterUID as Any,
+            "facebookUID": self.facebookUID as Any,
+            "ggogleUID": self.googleUID as Any,
+            "instagramUID": self.instagramUID as Any,
+            "email": self.email as Any,
+            "birthYear": self.birthYear as Any,
+            "gender": self.gender as Any,
+            "zipcode": self.zipcode as Any,
+            "timezone": self.timezone as Any,
+            "lastCommercial": self.lastCommercial as Any,
+            "profileImageUrl": self.profileImageUrl as Any,
+            "profileImageUrl": self.profileImageUrlSmall as Any,
+            "profileImageKey":  self.profileImageKey as Any,
+            "id": self.id as Any,
+            "secsOfCommercialPerHour": self.secsOfCommercialPerHour as Any,
+            "dailyListenTimeMS": self.dailyListenTimeMS as Any,
+            "dailyListenTimeCalculationDate": self.dailyListenTimeCalculationDate as Any,
+            "warnings": self.warnings as Any,
+            "deepLink": self.deepLink as Any,
+            "minListenersToReport": self.minListenersToReport as Any,
+            "bio": self.bio as Any,
+            "passwordExists": self.passwordExists as Any,
+            "deviceID": self.deviceID as Any,
+            "stationStatus": self.stationStatus as Any
+        ]
     }
     
     // -----------------------------------------------------------------------------

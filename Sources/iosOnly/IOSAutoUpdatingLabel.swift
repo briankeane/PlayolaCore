@@ -1,5 +1,5 @@
 //
-//  AutoUpdatingLabel.swift
+//  IOSAutoUpdatingLabel.swift
 //  PlayolaCore
 //
 //  Created by Brian D Keane on 9/26/17.
@@ -9,29 +9,31 @@
 import UIKit
 
 public class AutoUpdatingLabel: UILabel
-{
-    var labelUpdater:LabelUpdater?
-    var autoUpdatingDelegate:PlayolaAutoUpdatingLabelDelegate?
-    {
-        didSet
-        {
-            self.labelUpdater?.setValue()
-        }
-    }
+{    
+    /// the String to display when the represented value is nil
+    public var blankText:String = "---------"
     
-    required public init?(coder aDecoder: NSCoder) {
+    
+    
+    //------------------------------------------------------------------------------
+    
+    required public init?(coder aDecoder: NSCoder)
+    {
         super.init(coder: aDecoder)
         self.commonInit()
     }
+    
+    //------------------------------------------------------------------------------
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
     }
     
+    /// NOTE: SUBCLASSES SHOULD OVERRIDE THIS INITIALIZER IN ORDER TO CREATE AND ATTACH THE PROPER TYPE OF LABELUPDATER
     func commonInit()
     {
-        self.labelUpdater = LabelUpdater(label: self)
+        /// NOTE: SUBCLASSES SHOULD OVERRIDE THIS INITIALIZER IN ORDER TO CREATE AND ATTACH THE PROPER TYPE OF LABELUPDATER
     }
     
     func changeText(text:String)

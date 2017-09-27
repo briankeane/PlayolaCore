@@ -91,6 +91,7 @@ public class PlayolaStationPlayer: NSObject
         let userID = user.id
         
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.startedLoadingStation, object: nil, userInfo: ["user":self.userPlaying as Any])
+        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["user":self.userPlaying as Any])
         
         let spin = self.nowPlaying()
         
@@ -182,6 +183,7 @@ public class PlayolaStationPlayer: NSObject
         self.userPlaying = nil
         self.stopAutomaticQueueDownloading()
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object  : nil, userInfo: ["user":previousUserPlaying as Any])
+        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["user":self.userPlaying as Any])
         
     }
     

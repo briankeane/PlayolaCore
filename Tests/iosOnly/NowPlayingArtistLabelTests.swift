@@ -1,5 +1,5 @@
 //
-//  LabelUpdaterTests.swift
+//  NowPlayingLabelUpdaterTests.swift
 //  PlayolaCore
 //
 //  Created by Brian D Keane on 8/24/17.
@@ -12,9 +12,9 @@ import XCTest
 import Quick
 import Nimble
 
-class LabelUpdaterTests: QuickSpec
+class NowPlayingLabelUpdaterTests: QuickSpec
 {
-    class TestDelegate:NSObject, PlayolaAutoUpdatingLabelDelegate
+    class TestDelegate:NSObject, NowPlayingLabelDelegate
     {
         
         var displayText:String? = nil
