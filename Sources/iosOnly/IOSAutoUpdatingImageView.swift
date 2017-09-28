@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AutoUpdatingImageView: UIImageView {
+public class AutoUpdatingImageView: UIImageView {
     var placeholderImage:UIImage?
     
     override init(image: UIImage?) {
@@ -21,7 +21,7 @@ class AutoUpdatingImageView: UIImageView {
         self.commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.commonInit()
     }
@@ -30,6 +30,15 @@ class AutoUpdatingImageView: UIImageView {
     func commonInit()
     {
         
+    }
+    
+    func getPlaceholderImage() -> UIImage
+    {
+        if let userSuppliedPlaceholderImage = self.placeholderImage
+        {
+            return userSuppliedPlaceholderImage
+        }
+        return UIImage.make(name: "missingAlbumIcon.png")!
     }
     /*
     // Only override draw() if you perform custom drawing.

@@ -67,6 +67,14 @@ class NowPlayingLabelUpdaterTests: QuickSpec
                     NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin": spin])
                     expect(label.text).toEventually(equal("BETTYSUE"))
                 }
+                
+                it ("uses a placeholder if the player stops")
+                {
+                    let label = NowPlayingArtistLabel()
+                    playerMock.nowPlayingSpin = nil
+                    NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: [:])
+                    expect(label.text).toEventually(equal(label.blankText))
+                }
             }
             
             describe("NowPlayingTitleLabel")
@@ -95,6 +103,13 @@ class NowPlayingLabelUpdaterTests: QuickSpec
                     delegate.displayText = "BETTYSUESSONG"
                     NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin": spin])
                     expect(label.text).toEventually(equal("BETTYSUESSONG"))
+                }
+                it ("uses a placeholder if the player stops")
+                {
+                    let label = NowPlayingTitleLabel()
+                    playerMock.nowPlayingSpin = nil
+                    NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: [:])
+                    expect(label.text).toEventually(equal(label.blankText))
                 }
             }
             
@@ -140,6 +155,14 @@ class NowPlayingLabelUpdaterTests: QuickSpec
                     playerMock.nowPlayingSpin = Spin(audioBlock: voicetrack)
                     let label = NowPlayingTitleAndArtistLabel()
                     expect(label.text).toEventually(equal("VoiceTrack"))
+                }
+                
+                it ("uses a placeholder if the player stops")
+                {
+                    let label = NowPlayingTitleAndArtistLabel()
+                    playerMock.nowPlayingSpin = nil
+                    NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: [:])
+                    expect(label.text).toEventually(equal(label.blankText))
                 }
             }
         }

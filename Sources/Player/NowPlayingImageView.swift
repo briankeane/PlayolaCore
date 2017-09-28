@@ -16,5 +16,6 @@ class NowPlayingImageView:AutoUpdatingImageView
     {
         super.commonInit()
         self.imageViewUpdater = NowPlayingImageViewUpdater(imageView: self)
+        self.image = self.getPlaceholderImage()
     }
 }
