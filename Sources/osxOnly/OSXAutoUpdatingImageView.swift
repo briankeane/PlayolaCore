@@ -30,6 +30,16 @@ public class AutoUpdatingImageView: NSImageView {
     {
         
     }
+    
+    func getPlaceholderImage() -> NSImage
+    {
+        if let userSuppliedPlaceholderImage = self.placeholderImage
+        {
+            return userSuppliedPlaceholderImage
+        }
+        return NSImage(named: "missingAlbumIcon.png")!
+    }
+    
 //    override func draw(_ dirtyRect: NSRect) {
 //        super.draw(dirtyRect)
 //    }

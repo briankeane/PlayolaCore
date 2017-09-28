@@ -8,5 +8,9 @@
 
 class NowPlayingAlbumArtworkImageView: NowPlayingImageView
 {
-    
+    override func commonInit()
+    {
+        super.commonInit()
+        self.image = self.getPlaceholderImage()
+    }
 }

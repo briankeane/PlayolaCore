@@ -1,17 +1,17 @@
 //
-//  NowPlayingImageViewUpdater.swift
+//  StationPlayingImageViewUpdater.swift
 //  PlayolaCore
 //
-//  Created by Brian D Keane on 9/27/17.
+//  Created by Brian D Keane on 9/28/17.
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
 import Foundation
 import Kingfisher
 
-class NowPlayingImageViewUpdater:NSObject
+class StationPlayingImageViewUpdater:NSObject
 {
-    weak var imageView:NowPlayingImageView?
+    weak var imageView:StationPlayingProfileImageView?
     
     // dependency injections
     var stationPlayer:PlayolaStationPlayer = PlayolaStationPlayer.sharedInstance()
@@ -26,7 +26,7 @@ class NowPlayingImageViewUpdater:NSObject
         }
     }
     
-    init(imageView:NowPlayingImageView)
+    init(imageView:StationPlayingProfileImageView)
     {
         super.init()
         self.imageView = imageView
@@ -44,7 +44,7 @@ class NowPlayingImageViewUpdater:NSObject
     
     func setupListeners()
     {
-        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, queue: .main)
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaStationPlayerEvents.stationChanged, object: nil, queue: .main)
         {
             (notification) -> Void in
             self.setValue()
@@ -55,7 +55,7 @@ class NowPlayingImageViewUpdater:NSObject
     
     func setValue()
     {
-        if let imageURL = self.stationPlayer.nowPlaying()?.audioBlock?.albumArtworkUrl
+        if let imageURL = self.stationPlayer.userPlaying?.profileImageUrl
         {
             self.imageView?.kf.setImage(with: imageURL)
             {

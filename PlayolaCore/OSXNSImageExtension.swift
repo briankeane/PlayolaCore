@@ -10,9 +10,10 @@ import Cocoa
 
 public extension NSImage
 {
-    static func make(name: String) -> UIImage?
+    static func make(name: String) -> NSImage?
     {
         let bundle = Bundle(for: NowPlayingImageViewUpdater.self)
-        return NSImage(named: "PlayolaImages.bundle/\(name)", in: bundle, compatibleWith: nil)
+        let imagePath:String = bundle.pathForImageResource(name)!
+        return NSImage(contentsOfFile: imagePath)
     }
 }

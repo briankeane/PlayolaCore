@@ -142,7 +142,7 @@ class NowPlayingLabelUpdater:NSObject
         }
         else
         {
-            self.label?.changeText(text: "-----")
+            self.label?.changeText(text: self.label!.blankText)
         }
     }
 }

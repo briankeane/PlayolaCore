@@ -184,6 +184,7 @@ public class PlayolaStationPlayer: NSObject
         self.stopAutomaticQueueDownloading()
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object  : nil, userInfo: ["user":previousUserPlaying as Any])
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["user":self.userPlaying as Any])
+        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin":self.nowPlaying() as Any])
         
     }
     
