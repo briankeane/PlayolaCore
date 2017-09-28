@@ -32,6 +32,10 @@ Pod::Spec.new do |s|
     s.source_files = 'Sources/**/*.{h,m,swift}'
     s.ios.exclude_files = 'Sources/osxOnly/**/*.{h,m,swift}'
     s.osx.exclude_files = 'Sources/iosOnly/**/*.{h,m,swift}'
+    s.resource_bundle = {
+      'PlayolaImages' => ['Sources/Images/*']
+    }
+    s.resources = 'Sources/Images/**/*.{png}'
 
     # probably will use this later when start subSpecing (PlayolaCore-Player, PlayolaCore-Core, etc)
     # s.subspec 'Core' do |core|

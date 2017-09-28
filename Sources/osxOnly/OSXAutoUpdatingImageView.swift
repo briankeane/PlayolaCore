@@ -11,7 +11,7 @@ import Kingfisher
 
 public class AutoUpdatingImageView: NSImageView {
 
-    public var emptyImage:NSImage?
+    public var placeholderImage:NSImage?
     
     override public init(frame frameRect: NSRect)
     {

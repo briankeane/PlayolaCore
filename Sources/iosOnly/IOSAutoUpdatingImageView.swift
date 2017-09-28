@@ -9,6 +9,8 @@
 import UIKit
 
 class AutoUpdatingImageView: UIImageView {
+    var placeholderImage:UIImage?
+    
     override init(image: UIImage?) {
         super.init(image: image)
         self.commonInit()
