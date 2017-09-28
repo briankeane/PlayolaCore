@@ -43,14 +43,11 @@ class NowPlayingImageViewUpdater:NSObject
     
     func setupListeners()
     {
-        func setupListeners()
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, queue: .main)
         {
-            self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, queue: .main)
-            {
-                (notification) -> Void in
-                self.setValue()
-            })
-        }
+            (notification) -> Void in
+            self.setValue()
+        })
     }
     
     //------------------------------------------------------------------------------
