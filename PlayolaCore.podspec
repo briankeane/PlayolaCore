@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name         = "PlayolaCore"
-    s.version      = "0.0.10"
+    s.version      = "0.0.11"
     s.summary      = "Basic Playola Communication and Models."
     s.homepage     = "https://github.com/briankeane/PlayolaCore.git"
     s.license      = { :type => 'MIT' }

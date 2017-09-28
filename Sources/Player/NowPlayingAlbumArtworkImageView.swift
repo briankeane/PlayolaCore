@@ -6,7 +6,7 @@
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
-class NowPlayingAlbumArtworkImageView: NowPlayingImageView
+public class NowPlayingAlbumArtworkImageView: NowPlayingImageView
 {
     override func commonInit()
     {

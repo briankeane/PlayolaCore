@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NowPlayingImageView:AutoUpdatingImageView
+public class NowPlayingImageView:AutoUpdatingImageView
 {
     var imageViewUpdater:NowPlayingImageViewUpdater?
     
