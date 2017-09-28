@@ -1,2 +1,6 @@
 .DS_Store
 PlayolaCore/PlayolaCore.xcworkspace/xcuserdata/briankeane.xcuserdatad/UserInterfaceState.xcuserstate
+
+build
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
