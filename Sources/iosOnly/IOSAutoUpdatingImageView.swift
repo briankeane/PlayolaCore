@@ -38,7 +38,7 @@ public class AutoUpdatingImageView: UIImageView {
         {
             return userSuppliedPlaceholderImage
         }
-        return UIImage.make(name: "missingAlbumIcon.png")!
+        return UIImage.make(name: "emptyAlbum")!
     }
     /*
     // Only override draw() if you perform custom drawing.

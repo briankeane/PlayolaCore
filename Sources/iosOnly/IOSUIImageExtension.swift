@@ -14,6 +14,6 @@ public extension UIImage
     static func make(name: String) -> UIImage?
     {
         let bundle = Bundle(for: NowPlayingImageViewUpdater.self)
-        return UIImage(named: "PlayolaImages.bundle/\(name)", in: bundle, compatibleWith: nil)
+        return UIImage(named: name, in: bundle, compatibleWith: nil)
     }
 }
