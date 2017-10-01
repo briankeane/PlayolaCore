@@ -28,6 +28,8 @@ Pod::Spec.new do |s|
     s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
     s.dependency 'Kingfisher', '~> 3.13'
 
+    s.ios.dependency 'KDCircularProgress'
+
     
     s.source_files = 'Sources/**/*.{h,m,swift}'
     s.ios.exclude_files = 'Sources/osxOnly/**/*.{h,m,swift}'

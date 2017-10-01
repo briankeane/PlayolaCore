@@ -17,38 +17,6 @@
             endingLineNumber = "16"
             landmarkName = "make(name:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static (extension in PlayolaCoreOSXTests):__ObjC.NSImage.make (name : Swift.String) -&gt; Swift.Optional&lt;__ObjC.NSImage&gt;"
-                  moduleName = "PlayolaCoreOSXTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/briankeane/code/PlayolaCore/PlayolaCore/OSXNSImageExtension.swift"
-                  timestampString = "528306924.17781"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "83">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static (extension in PlayolaCoreOSX):__ObjC.NSImage.make (name : Swift.String) -&gt; Swift.Optional&lt;__ObjC.NSImage&gt;"
-                  moduleName = "PlayolaCoreOSX"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/briankeane/code/PlayolaCore/PlayolaCore/OSXNSImageExtension.swift"
-                  timestampString = "528306924.191076"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "83">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -65,38 +33,6 @@
             endingLineNumber = "16"
             landmarkName = "make(name:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static (extension in PlayolaCoreOSXTests):__ObjC.NSImage.make (name : Swift.String) -&gt; Swift.Optional&lt;__ObjC.NSImage&gt;"
-                  moduleName = "PlayolaCoreOSXTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/briankeane/code/PlayolaCore/PlayolaCore/OSXNSImageExtension.swift"
-                  timestampString = "528306924.182316"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "83">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static (extension in PlayolaCoreOSX):__ObjC.NSImage.make (name : Swift.String) -&gt; Swift.Optional&lt;__ObjC.NSImage&gt;"
-                  moduleName = "PlayolaCoreOSX"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/briankeane/code/PlayolaCore/PlayolaCore/OSXNSImageExtension.swift"
-                  timestampString = "528306924.195284"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "83">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -21,4 +21,10 @@ class PlayolaStationPlayerMock:PlayolaStationPlayer
     {
         return nowPlayingSpin
     }
+    
+    var shouldBePlaying:Bool = true
+    override func isPlaying() -> Bool
+    {
+        return shouldBePlaying
+    }
 }

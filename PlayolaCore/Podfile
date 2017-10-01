@@ -24,6 +24,8 @@ target 'PlayolaCoreIOS' do
   use_frameworks!
 
   pods()
+  
+  pod 'KDCircularProgress'
 
   target 'PlayolaCoreIOSTests' do
     inherit! :search_paths
@@ -42,5 +44,4 @@ target 'PlayolaCoreOSX' do
     inherit! :search_paths
     testOnly()
   end
-  
 end

@@ -89,6 +89,7 @@ public class PlayolaStationPlayer: NSObject
         self.userPlaying?.startAutoUpdating()
         self.userPlaying?.startAutoAdvancing()
         let userID = user.id
+        self.isLoading = true
         
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.startedLoadingStation, object: nil, userInfo: ["user":self.userPlaying as Any])
         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["user":self.userPlaying as Any])
