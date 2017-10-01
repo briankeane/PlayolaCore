@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Locksmith
 
 // Unique Identifier
 #if os(OSX)
@@ -34,7 +33,6 @@ import Locksmith
     import UIKit
     func uniqueIdentifier() -> String?
     {
-        
         if let deviceID = UIDevice.current.identifierForVendor?.uuidString
         {
             return deviceID

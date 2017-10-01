@@ -23,7 +23,6 @@ Pod::Spec.new do |s|
     # s.default_subspec = 'Full'
     s.dependency 'Alamofire', '4.5.0'
     s.dependency 'PromiseKit', '~> 4.0'
-    s.dependency 'Locksmith', '~> 3.0.0'
     s.dependency 'AudioKit', '~> 3.7'
     s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
     s.dependency 'Kingfisher', '~> 3.13'

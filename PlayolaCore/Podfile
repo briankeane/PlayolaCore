@@ -6,7 +6,6 @@ def pods
     pod 'Alamofire', '4.5.0'
     pod 'PromiseKit', '~> 4.0'
     pod 'AudioKit', '~> 3.7'
-    pod 'Locksmith', '~> 3.0.0'
     pod 'SwiftRemoteFileCache', :path => '~/code/SwiftFileCache/SwiftRemoteFileCache.podspec'
     pod 'Kingfisher', '~> 3.13'
 end

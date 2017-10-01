@@ -11,7 +11,6 @@ import Foundation
 import XCTest
 import Quick
 import Nimble
-import Locksmith
 
 class PlayolaCurrentUserInfoTests: QuickSpec
 {
