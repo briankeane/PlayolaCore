@@ -226,11 +226,12 @@ class PlayButtonUpdater:NSObject
                         self.progressView!.gradientRotateSpeed = 2
                         self.progressView!.roundedCorners = true
                         self.progressView!.glowMode = .forward
-                        self.progressView!.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+                        self.progressView!.backgroundColor = UIColor.clear
                         //cell.progressView!.trackColor = cell.contentView.backgroundColor!
-                        self.progressView!.trackColor = UIColor.clear
+                        self.progressView!.trackColor = UIColor.black.withAlphaComponent(0.3)
                         self.progressView!.set(colors: UIColor.white, UIColor.white, UIColor.white)
                         self.progressView!.isHidden = false
+                        
                         superview.addSubview(self.progressView!)
                         self.superview = superview
                     }
