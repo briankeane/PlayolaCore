@@ -29,7 +29,7 @@ public class AutoUpdatingImageView: UIImageView {
     /// THIS IS MEANT TO BE OVERRIDDEN BY SUBCLASSES
     func commonInit()
     {
-        
+
     }
     
     func getPlaceholderImage() -> UIImage

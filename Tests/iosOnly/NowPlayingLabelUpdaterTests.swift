@@ -18,8 +18,8 @@ class NowPlayingLabelUpdaterTests: QuickSpec
     {
         
         var displayText:String? = nil
-        func alternateDisplayText(_ label: AutoUpdatingLabel, audioBlockDict: [String:Any]?) -> String?
-        {
+        
+        func alternateDisplayText(_ label: NowPlayingLabel, audioBlockDict: [String : Any]?) -> String? {
             return displayText
         }
     }

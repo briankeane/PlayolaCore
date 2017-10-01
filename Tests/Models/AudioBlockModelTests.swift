@@ -56,7 +56,7 @@ class AudioBlockModelQuickTests: QuickSpec
                 expect(song.audioFileUrl!.path).to(equal("/audioFileUrlPlaceholder"))
                 expect(song.key).to(equal("keyPlaceholder"))
                 expect(song.id).to(equal("audioBlockID"))
-                URL(string: "albumArtworkUrl")
+                expect(song.albumArtworkUrl).to(equal(URL(string: "albumArtworkUrl")))
                 expect(song.albumArtworkUrlSmall).to(equal(URL(string: "albumArtworkUrlSmall")))
                 expect(song.trackViewUrl).to(equal(URL(string:"trackViewUrlSample")))
             }

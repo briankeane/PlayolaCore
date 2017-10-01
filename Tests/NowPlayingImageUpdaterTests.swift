@@ -22,16 +22,16 @@ class NowPlayingImageUpdaterTests: QuickSpec
     {
         describe("NowPlayingImageUpdaterTests")
         {
-            var spin:Spin = Spin()
-            var playerMock:PlayolaStationPlayerMock = PlayolaStationPlayerMock()
-            
-            beforeEach
-            {
-                spin = Spin(id: "imASpinID", audioBlock: AudioBlock(title:"BobsSong", artist: "Bob"))
-                playerMock = PlayolaStationPlayerMock()
-                PlayolaStationPlayer.replaceSharedInstance(playerMock)
-            }
-            
+//            var spin:Spin = Spin()
+//            var playerMock:PlayolaStationPlayerMock = PlayolaStationPlayerMock()
+//            
+//            beforeEach
+//            {
+//                spin = Spin(id: "imASpinID", audioBlock: AudioBlock(title:"BobsSong", artist: "Bob"))
+//                playerMock = PlayolaStationPlayerMock()
+//                PlayolaStationPlayer.replaceSharedInstance(playerMock)
+//            }
+//            
             describe("NowPlayingAlbumArtworkImageView")
             {
 //                it ("starts with a placeholder")

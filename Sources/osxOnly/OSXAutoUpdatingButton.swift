@@ -18,7 +18,7 @@ public class AutoUpdatingButton: NSButton {
         self.commonInit()
     }
     
-    public required init?(coder: NSCoder) {
+    public required convenience init?(coder: NSCoder) {
         self.init(coder: coder)
         self.commonInit()
     }
@@ -28,10 +28,41 @@ public class AutoUpdatingButton: NSButton {
         
     }
     
-    override func draw(_ dirtyRect: NSRect) {
+    public func setImage(image:NSImage?)
+    {
+        if let image = image
+        {
+            self.image = image
+        }
+    }
+    
+    public func setTitle(title:String?)
+    {
+        if let title = title
+        {
+            self.title = title
+        }
+    }
+    
+    public func getTitle() -> String?
+    {
+        return self.title
+    }
+    
+    override public func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
         // Drawing code here.
+    }
+    
+    public func getIsPlayingImage() -> NSImage
+    {
+        return NSImage()
+    }
+    
+    public func getIsStoppedImage() -> NSImage
+    {
+        return NSImage()
     }
     
 }

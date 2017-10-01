@@ -1298,7 +1298,7 @@ class PlayolaAPITests: QuickSpec {
                                 // check request
                                 expect(sentRequest!.url!.path).to(equal("/api/v1/listeningSessions/endAnonymous"))
                                 expect(sentRequest!.httpMethod).to(equal("POST"))
-                                expect(sentBody!["deviceID"] as! String).to(equal("aUniqueDeviceID"))
+                                expect((sentBody!["deviceID"] as! String)).to(equal("aUniqueDeviceID"))
                                     
                                 // check response
                                 expect((responseDict["message"] as! String)).to(equal("success"))

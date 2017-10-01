@@ -34,31 +34,32 @@ class PlayButtonUpdaterTests: QuickSpec
                     it ("updates if stopped")
                     {
                         let button = AutoUpdatingPlayButtonWithText()
-                        button.setTitle("-----", for: .normal)
+                        button.setTitle(title: "-----")
                         playerMock.nowPlayingSpin = nil
                         playerMock.shouldBePlaying = false
-                        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["spin": spin])
-                        expect(button.titleLabel?.text).toEventually(equal("Play"))
+                        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: [:])
+                        
+                        expect(button.getTitle()).toEventually(equal("Play"))
                     }
                     
                     it ("updates if playing")
                     {
                         let button = AutoUpdatingPlayButtonWithText()
-                        button.setTitle("-----", for: .normal)
+                        button.setTitle(title: "-----")
                         playerMock.nowPlayingSpin = spin
                         playerMock.shouldBePlaying = true
                         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["spin": spin])
-                        expect(button.titleLabel?.text).toEventually(equal("Stop"))
+                        expect(button.getTitle()).toEventually(equal("Stop"))
                     }
                     
                     it ("updates if loading")
                     {
                         let button = AutoUpdatingPlayButtonWithText()
-                        button.setTitle("------", for: .normal)
+                        button.setTitle(title: "------")
                         playerMock.nowPlayingSpin = nil
                         playerMock.isLoading = true
                         NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["spin": spin])
-                        expect(button.titleLabel?.text).toEventually(equal("Stop"))
+                        expect(button.getTitle()).toEventually(equal("Stop"))
                     }
                 }
                 
