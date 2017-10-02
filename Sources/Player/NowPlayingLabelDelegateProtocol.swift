@@ -36,9 +36,10 @@ import Foundation
      - parameters:
         - label: `(AutoUpdatingLabel)` - the label to update
         - audioBlockDict: `([String:Any]?)` - a dictionary representation of the currently playing AudioBlock
+        - defaultText: `(String)` - the default text that will be displayed if not modified by this
      
      - returns:
      `String?` - return nil to use default value, otherwise return a String to override the default value
      */
-    @objc optional func alternateDisplayText(_ label:NowPlayingLabel, audioBlockDict:[String:Any]?) -> String?
+    @objc optional func alternateDisplayText(_ label:NowPlayingLabel, audioBlockDict:[String:Any]?, defaultText:String) -> String?
 }

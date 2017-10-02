@@ -26,6 +26,9 @@ class PlayolaAudioPlayer: NSObject
     override init()
     {
         super.init()
+        
+        // allows background playback
+        AKSettings.playbackWhileMuted = true
         self.setupPlayerBank()
     }
     
@@ -105,8 +108,10 @@ class PlayolaAudioPlayer: NSObject
             }
         }
         self.mixer = AKMixer(self.playerBank.map({$0.0}))
+        try! AKSettings.setSession(category: .playAndRecord)
         AudioKit.output = self.mixer
         AudioKit.start()
+        
     }
     
     // -----------------------------------------------------------------------------

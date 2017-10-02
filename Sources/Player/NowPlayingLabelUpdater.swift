@@ -43,25 +43,33 @@ class NowPlayingLabelUpdater:NSObject
     func setValue()
     {
         // IF there's a delegate representation...
-        if let text = self.label?.autoUpdatingDelegate?.alternateDisplayText?(self.label!, audioBlockDict: self.stationPlayer.nowPlaying()?.audioBlock?.toDictionary())
+        if let text = self.label?.autoUpdatingDelegate?.alternateDisplayText?(self.label!, audioBlockDict: self.stationPlayer.nowPlaying()?.audioBlock?.toDictionary(), defaultText:self.defaultText())
         {
             self.label?.changeText(text: text)
         }
         else
         {
-            if let _ = self.label as? NowPlayingArtistLabel
-            {
-                self.changeArtistLabel(spin: self.stationPlayer.nowPlaying())
-            }
-            else if let _ = self.label as? NowPlayingTitleLabel
-            {
-                self.changeTitleLabel(spin: self.stationPlayer.nowPlaying())
-            }
-            else if let _ = self.label as? NowPlayingTitleAndArtistLabel
-            {
-                self.changeTitleAndArtistLabel(spin: self.stationPlayer.nowPlaying())
-            }
+            self.label?.changeText(text: self.defaultText())
         }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func defaultText() -> String
+    {
+        if let _ = self.label as? NowPlayingArtistLabel
+        {
+            return self.artistDefaultText(spin: self.stationPlayer.nowPlaying())
+        }
+        else if let _ = self.label as? NowPlayingTitleLabel
+        {
+            return self.titleDefaultText(spin: self.stationPlayer.nowPlaying())
+        }
+        else if let _ = self.label as? NowPlayingTitleAndArtistLabel
+        {
+            return self.titleAndArtistDefaultText(spin: self.stationPlayer.nowPlaying())
+        }
+        return ""
     }
     
     //------------------------------------------------------------------------------
@@ -77,72 +85,75 @@ class NowPlayingLabelUpdater:NSObject
     
     //------------------------------------------------------------------------------
     
-    func changeArtistLabel(spin:Spin?)
+    func artistDefaultText(spin:Spin?) -> String
     {
         if let artistName = spin?.audioBlock?.artist
         {
-            self.label?.changeText(text: artistName)
+            return artistName
         }
         else
         {
             if let blankText = self.label?.blankText
             {
-                self.label?.changeText(text: blankText)
+                return blankText
             }
         }
+        return ""
     }
     
     //------------------------------------------------------------------------------
     
-    func changeTitleLabel(spin:Spin?)
+    func titleDefaultText(spin:Spin?) -> String
     {
         if let title = spin?.audioBlock?.title
         {
-            self.label?.changeText(text: title)
+            return title
         }
         else
         {
             if let blankText = self.label?.blankText
             {
-                self.label?.changeText(text: blankText)
+                return blankText
             }
         }
+        return ""
     }
     
     //------------------------------------------------------------------------------
     
-    func changeTitleAndArtistLabel(spin:Spin?)
+    func titleAndArtistDefaultText(spin:Spin?) -> String
     {
         if let audioBlock = spin?.audioBlock
         {
             if (audioBlock.isCommercialBlock)
             {
-                self.label?.changeText(text: "Commercials")
+                return "Commercials"
             }
             else if (audioBlock.__t == "Commentary")
             {
-                self.label?.changeText(text: "VoiceTrack")
+                return "VoiceTrack"
             }
             else if ((audioBlock.title != nil) && (audioBlock.artist != nil))
             {
-                self.label?.changeText(text: "\(audioBlock.title!) - \(audioBlock.artist!)")
+                return "\(audioBlock.title!) - \(audioBlock.artist!)"
             }
             else if (audioBlock.title != nil)
             {
-                self.label?.changeText(text: "\(audioBlock.title!)")
+                return "\(audioBlock.title!)"
             }
             else if (audioBlock.artist != nil)
             {
-                self.label?.changeText(text: "\(audioBlock.artist!)")
+                return "\(audioBlock.artist!)"
             }
             else
             {
-               self.label?.changeText(text: "")
+               return ""
             }
         }
         else
         {
             self.label?.changeText(text: self.label!.blankText)
         }
+        return ""
     }
 }

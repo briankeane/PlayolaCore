@@ -19,7 +19,7 @@ class NowPlayingLabelUpdaterTests: QuickSpec
         
         var displayText:String? = nil
         
-        func alternateDisplayText(_ label: NowPlayingLabel, audioBlockDict: [String : Any]?) -> String? {
+        func alternateDisplayText(_ label: NowPlayingLabel, audioBlockDict: [String : Any]?, defaultText:String) -> String? {
             return displayText
         }
     }
@@ -157,7 +157,7 @@ class NowPlayingLabelUpdaterTests: QuickSpec
                     expect(label.text).toEventually(equal("VoiceTrack"))
                 }
                 
-                it ("uses a placeholder if the player stops")
+                fit ("uses a placeholder if the player stops")
                 {
                     let label = NowPlayingTitleAndArtistLabel()
                     playerMock.nowPlayingSpin = nil

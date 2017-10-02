@@ -18,7 +18,7 @@ public class NowPlayingLabel:AutoUpdatingLabel
     }
     
     var labelUpdater:NowPlayingLabelUpdater?
-    var autoUpdatingDelegate:NowPlayingLabelDelegate?
+    public var autoUpdatingDelegate:NowPlayingLabelDelegate?
     {
         // ensure the label text is set anytime the delegate is initiated or changed
         didSet
