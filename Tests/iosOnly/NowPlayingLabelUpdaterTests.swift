@@ -157,7 +157,7 @@ class NowPlayingLabelUpdaterTests: QuickSpec
                     expect(label.text).toEventually(equal("VoiceTrack"))
                 }
                 
-                fit ("uses a placeholder if the player stops")
+                it ("uses a placeholder if the player stops")
                 {
                     let label = NowPlayingTitleAndArtistLabel()
                     playerMock.nowPlayingSpin = nil

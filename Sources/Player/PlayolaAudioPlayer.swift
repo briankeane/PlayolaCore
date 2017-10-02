@@ -108,7 +108,6 @@ class PlayolaAudioPlayer: NSObject
             }
         }
         self.mixer = AKMixer(self.playerBank.map({$0.0}))
-        try! AKSettings.setSession(category: .playAndRecord)
         AudioKit.output = self.mixer
         AudioKit.start()
         
