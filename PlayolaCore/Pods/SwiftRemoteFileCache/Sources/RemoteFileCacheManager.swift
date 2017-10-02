@@ -20,14 +20,14 @@ public class RemoteFileCacheManager
     var inProgress:Dictionary<URL, RemoteFileDownloader>! = Dictionary()
     
     /// the folder to store the files in.
-    var fileDirectoryURL:URL!
+    public var fileDirectoryURL:URL!
     
     /// a dictionary that holds all currently active RemoteFilePriorityLevels for this service.  remoteFileURL is used as the key
-    var filePriorities:Dictionary<URL,RemoteFilePriorityLevel>! = Dictionary()
+    public var filePriorities:Dictionary<URL,RemoteFilePriorityLevel>! = Dictionary()
     
     
     /// a soft size limit for the folder in bytes.  Once this is reached files with lower priority will be deleted.  Default is 52428800 (50 MB)
-    var maxFolderSize:Int = 52428800
+    public var maxFolderSize:Int = 52428800
     
     // -----------------------------------------------------------------------------
     //                          func init
@@ -69,7 +69,7 @@ public class RemoteFileCacheManager
     ///            whether or not the file exists.
     ///
     /// ----------------------------------------------------------------------------
-    func localURLFromRemoteURL(_ remoteURL:URL) -> URL
+    public func localURLFromRemoteURL(_ remoteURL:URL) -> URL
     {
         let filename = remoteURL.lastPathComponent
         return fileDirectoryURL.appendingPathComponent(filename)
@@ -97,7 +97,7 @@ public class RemoteFileCacheManager
     /// suspends all downloads.  Current progress data is retained.
     ///
     /// ----------------------------------------------------------------------------
-    func pauseDownloads()
+    public func pauseDownloads()
     {
         for (_, cachedObject) in self.inProgress
         {
@@ -150,7 +150,7 @@ public class RemoteFileCacheManager
     /// the specified maxFolderSize
     ///
     /// ----------------------------------------------------------------------------
-    func pruneCache()
+    public func pruneCache()
     {
         var currentSize = self.calculateFolderCacheSize()
         while (currentSize > self.maxFolderSize)
@@ -186,7 +186,7 @@ public class RemoteFileCacheManager
     ///     - localURL: `(URL)` - the localURL of the file to delete
     ///
     /// ----------------------------------------------------------------------------
-    func deleteFile(_ localURL:URL)
+    public func deleteFile(_ localURL:URL)
     {
         // Create a FileManager instance
         let fileManager = FileManager.default
@@ -265,8 +265,9 @@ public class RemoteFileCacheManager
     ///
     /// - returns:
     ///    `RemoteFileDownloader` - the RemoteFileDownloader managing the active download.
+    ///
     /// ----------------------------------------------------------------------------
-    func downloadFile(_ remoteURL:URL) -> RemoteFileDownloader
+    public func downloadFile(_ remoteURL:URL) -> RemoteFileDownloader
     {
         // if a downloader is already in progress for that file
         if let downloader = self.inProgress[remoteURL]
@@ -287,5 +288,22 @@ public class RemoteFileCacheManager
         downloader.beginDownload()
         self.inProgress[remoteURL] = downloader
         return downloader
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func completeFileExists
+    // -----------------------------------------------------------------------------
+    /// checks for file existence based on remoteURL.
+    ///
+    /// - parameters:
+    ///     - remoteURL: `(URL)` - the remote url of the file
+    ///
+    /// - returns:
+    ///    `Bool` - true if the complete file exists
+    /// ----------------------------------------------------------------------------
+    public func completeFileExists(remoteFileURL:URL) -> Bool
+    {
+        let localURL = self.localURLFromRemoteURL(remoteFileURL)
+        return FileManager.default.fileExists(atPath: localURL.path)
     }
 }

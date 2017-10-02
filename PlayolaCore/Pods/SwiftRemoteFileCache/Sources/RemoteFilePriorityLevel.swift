@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RemoteFilePriorityLevel:Int
+public enum RemoteFilePriorityLevel:Int
 {
     case doNotDelete = 10
     case high = 8
