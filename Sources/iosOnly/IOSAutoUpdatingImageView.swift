@@ -9,7 +9,11 @@
 import UIKit
 
 public class AutoUpdatingImageView: UIImageView {
-    var placeholderImage:UIImage?
+    public var placeholderImage:UIImage?
+    public var notPlayingImage:UIImage?
+    public var withGradient:Bool = true
+    
+    private var _gradient:CAGradientLayer?
     
     override init(image: UIImage?) {
         super.init(image: image)
@@ -29,7 +33,10 @@ public class AutoUpdatingImageView: UIImageView {
     /// THIS IS MEANT TO BE OVERRIDDEN BY SUBCLASSES
     func commonInit()
     {
-
+        if (self.withGradient)
+        {
+            self.addGradientLayer()
+        }
     }
     
     func getPlaceholderImage() -> UIImage
@@ -38,8 +45,32 @@ public class AutoUpdatingImageView: UIImageView {
         {
             return userSuppliedPlaceholderImage
         }
-        return UIImage.make(name: "emptyAlbum")!
+        return UIImage.makePlayolaImage(name: "emptyAlbum")!
     }
+    
+    func getNotPlayingImage() -> UIImage
+    {
+        if let userSuppliedNotPlayingImage = self.notPlayingImage
+        {
+            return  userSuppliedNotPlayingImage
+        }
+        return UIImage.makePlayolaImage(name: "emptyStation")!
+    }
+    
+    
+    func addGradientLayer()
+    {
+        if (self._gradient == nil)
+        {
+            let gradient = CAGradientLayer()
+            gradient.frame = self.bounds
+            gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+            gradient.locations = [0.6]
+            self.layer.addSublayer(gradient)
+            self._gradient = gradient
+        }
+    }
+    
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

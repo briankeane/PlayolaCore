@@ -11,7 +11,7 @@ import UIKit
 
 public extension UIImage
 {
-    static func make(name: String) -> UIImage?
+    static func makePlayolaImage(name: String) -> UIImage?
     {
         let bundle = Bundle(for: NowPlayingImageViewUpdater.self)
         return UIImage(named: name, in: bundle, compatibleWith: nil)

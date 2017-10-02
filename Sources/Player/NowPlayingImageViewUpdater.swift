@@ -67,9 +67,21 @@ class NowPlayingImageViewUpdater:NSObject
                 }
             }
         }
+        // ELSE IF the station is playing but the album could not be found
+        else if (self.stationPlayer.nowPlaying() != nil)
+        {
+            DispatchQueue.main.async
+            {
+              self.imageView?.image = self.imageView!.getPlaceholderImage()
+            }
+        }
+        // ELSE the station is not playing
         else
         {
-            self.imageView?.image = self.imageView!.getPlaceholderImage()
+            DispatchQueue.main.async
+            {
+                self.imageView?.image = self.imageView!.getNotPlayingImage()
+            }
         }
     }
 }

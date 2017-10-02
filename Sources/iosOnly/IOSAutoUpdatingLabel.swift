@@ -12,7 +12,7 @@ public class AutoUpdatingLabel: UILabel
 {    
     /// the String to display when the represented value is nil
     public var blankText:String = "---------"
-    
+
     //------------------------------------------------------------------------------
     
     required public init?(coder aDecoder: NSCoder)

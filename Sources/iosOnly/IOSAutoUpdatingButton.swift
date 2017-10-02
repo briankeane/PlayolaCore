@@ -49,7 +49,7 @@ public class AutoUpdatingButton: UIButton {
         }
         else
         {
-            return UIImage.make(name: "playButtonStop")!
+            return UIImage.makePlayolaImage(name: "playButtonStop")!
         }
     }
     
@@ -61,7 +61,7 @@ public class AutoUpdatingButton: UIButton {
         }
         else
         {
-            return UIImage.make(name: "playButtonPlay")!
+            return UIImage.makePlayolaImage(name: "playButtonPlay")!
         }
     }
     

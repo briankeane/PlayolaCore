@@ -10,7 +10,7 @@ import Cocoa
 
 public extension NSImage
 {
-    static func make(name: String) -> NSImage?
+    static func makePlayolaImage(name: String) -> NSImage?
     {
         let bundle = Bundle(for: NowPlayingImageViewUpdater.self)
         let imagePath:String = bundle.pathForImageResource(name)!

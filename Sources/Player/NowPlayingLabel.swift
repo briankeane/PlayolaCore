@@ -10,6 +10,13 @@ import Foundation
 
 public class NowPlayingLabel:AutoUpdatingLabel
 {
+    override public var blankText:String
+    {
+        didSet {
+            self.labelUpdater?.setValue()
+        }
+    }
+    
     var labelUpdater:NowPlayingLabelUpdater?
     var autoUpdatingDelegate:NowPlayingLabelDelegate?
     {

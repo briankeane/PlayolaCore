@@ -174,7 +174,7 @@ class PlayolaSchedulerTests: QuickSpec
                 
                 it ("returns nil if it does not exist")
                 {
-                    expect(scheduler.getSpin(playlistPosition:9999999999)).to(beNil())
+                    expect(scheduler.getSpin(playlistPosition:9999999)).to(beNil())
                 }
             }
             
