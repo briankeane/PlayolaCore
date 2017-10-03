@@ -77,6 +77,14 @@ public class PlayolaCurrentUserInfoService:NSObject
                 }
             }
         })
+        
+        // Listen for user-modifying updates
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedOut, object: nil, queue: .main)
+        {
+            (notification) -> Void in
+            self.user = nil
+        })
+        
     }
     
     //------------------------------------------------------------------------------
