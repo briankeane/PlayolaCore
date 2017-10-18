@@ -12,7 +12,7 @@ import Foundation
 #if os(OSX)
     import Cocoa
 
-    func uniqueIdentifier() ->String?
+    func uniqueIdentifier() -> String?
     {
         // Get the platform expert
         let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));
@@ -49,7 +49,27 @@ public class PlayolaCurrentUserInfoService:NSObject
         self.initializeInfo()
     }
     
+    private var _user:User?
     public var user:User?
+    {
+        get
+        {
+            return self._user
+        }
+        set
+        {
+            self._user?.clearOnNowPlayingAdvanced()
+            
+            newValue?.startAutoUpdating()
+            newValue?.startAutoAdvancing()
+            self._user = newValue
+            self._user?.onNowPlayingAdvanced()
+            {
+                (user) in
+                self.nowPlayingAdvanced()
+            }
+        }
+    }
     fileprivate var observers:[NSObjectProtocol] = Array()
     
     
@@ -197,6 +217,11 @@ public class PlayolaCurrentUserInfoService:NSObject
     class func replaceSharedInstance(_ authService:PlayolaCurrentUserInfoService)
     {
         self._instance = authService
+    }
+    
+    func nowPlayingAdvanced()
+    {
+        NotificationCenter.default.post(name: PlayolaEvents.currentUserPlaylistAdvanced, object: nil, userInfo: ["user": self.user as Any?])
     }
 }
 

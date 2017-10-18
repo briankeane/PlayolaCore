@@ -174,7 +174,7 @@ public class PlayolaAPI:NSObject
                         if let receivedToken = foundUserData["token"] as? String
                         {
                             self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo: ["accessToken": receivedToken])
+                            NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {
@@ -244,7 +244,7 @@ public class PlayolaAPI:NSObject
                         if let receivedToken = foundUserData["token"] as? String
                         {
                             self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo: ["accessToken": receivedToken])
+                            NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {

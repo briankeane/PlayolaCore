@@ -15,7 +15,9 @@ class PlayolaAudioPlayer: NSObject
     var mixer:AKMixer!
     var playerBank:Array<(AKAudioPlayer, String?)>!
     
+    //------------------------------------------------------------------------------
     // dependency injections
+    //------------------------------------------------------------------------------
     var DateHandler:DateHandlerService = DateHandlerService.sharedInstance()
     
     func injectDependencies(dateHandler:DateHandlerService=DateHandlerService.sharedInstance())
@@ -23,12 +25,13 @@ class PlayolaAudioPlayer: NSObject
         self.DateHandler = dateHandler
     }
     
+    //------------------------------------------------------------------------------
+    
     override init()
     {
         super.init()
         
-        // allows background playback
-        AKSettings.playbackWhileMuted = true
+        AKSettings.playbackWhileMuted = true  // allows playback to continue after screen is locked
         self.setupPlayerBank()
     }
     
@@ -50,14 +53,46 @@ class PlayolaAudioPlayer: NSObject
         self.loadPAPSpin(papSpin)
     }
     
+    // -----------------------------------------------------------------------------
+    //                          func loadPAPSpin
+    // -----------------------------------------------------------------------------
+    /**
+     loads a PAPSpin into the queue and schedules it for play.  The Audio should
+     be already downloaded by the time this function is called.
+     
+     If the spin should already be playing, it will begin playing from the correct
+     time in the middle of the song.  If the spin should start later, it will schedule
+     a timer.
+     
+     - parameters:
+        - papSpin: `(PAPSpin)` - the papSpin to load
+    */
+    fileprivate func loadPAPSpin(_ papSpin:PAPSpin)
+    {
+        if (!self.isQueued(papSpin))
+        {
+            // IF it should be playing now, go ahead and start it
+            if (papSpin.isPlaying())
+            {
+                self.playPapSpin(papSpin)
+                self.addToQueueDictionary(papSpin: papSpin)
+            }
+            else
+            {
+                self.addToQueueDictionary(papSpin: papSpin)
+            }
+            self.refreshQueueTimers()
+        }
+    }
+    
     // ----------------------------------------------------------------------------
     //                           func addToQueueDictionary
     // -----------------------------------------------------------------------------
     /**
-     Adds a PAPSpin to the queue dictionary
+     Adds a PAPSpin to the queue dictionary.
      
      - parameters:
-        - papSpin: `(PAPSpin)` - the papSpin to load into the queue
+        - papSpin: `(PAPSpin)` - the papSpin to add to the queue
      */
     fileprivate func addToQueueDictionary(papSpin:PAPSpin)
     {
@@ -68,7 +103,7 @@ class PlayolaAudioPlayer: NSObject
     //                           func removeFromQueueDictionary
     // -----------------------------------------------------------------------------
     /**
-     Removes a PAPSpin from the queue dictionary
+     Removes a PAPSpin from the queue dictionary.
      
      - parameters:
         - papSpin: `(PAPSpin)` - the papSpin to remove from the queue
@@ -82,8 +117,8 @@ class PlayolaAudioPlayer: NSObject
     //                     fileprivate func setupPlayerBank
     // -----------------------------------------------------------------------------
     /**
-     Instantiates a mixer (self.mixer) containing a bank of AKAudioPlayers and connects them to the audio graph.
-    
+     Instantiates a mixer (self.mixer) containing a bank of reusable AKAudioPlayers and connects them to the audio graph.
+     
       - parameters:
           - numberOfPlayers: `(Int)` - the number of players to set up and connect.  Default is 10.
      */
@@ -110,7 +145,6 @@ class PlayolaAudioPlayer: NSObject
         self.mixer = AKMixer(self.playerBank.map({$0.0}))
         AudioKit.output = self.mixer
         AudioKit.start()
-        
     }
     
     // -----------------------------------------------------------------------------
@@ -182,44 +216,17 @@ class PlayolaAudioPlayer: NSObject
     }
     
     // -----------------------------------------------------------------------------
-    //                          func loadPAPSpin
-    // -----------------------------------------------------------------------------
-    /// loads a PAPSpin into the queue and schedules it for play.  The Audio should
-    /// be already downloaded and ready to go by the time this function is called.
-    /// If the song should already be playing, it will seek to the proper spot and
-    /// begin playback immediately.
-    ///
-    /// ----------------------------------------------------------------------------
-    fileprivate func loadPAPSpin(_ papSpin:PAPSpin)
-    {
-        if (!self.isQueued(papSpin))
-        {
-            // IF it should be playing now, go ahead and start it
-            if (papSpin.isPlaying())
-            {
-                self.playPapSpin(papSpin)
-                self.addToQueueDictionary(papSpin: papSpin)
-            }
-            else
-            {
-                self.addToQueueDictionary(papSpin: papSpin)
-            }
-            self.refreshQueueTimers()
-        }
-    }
-    
-    // -----------------------------------------------------------------------------
     //                          func isQueued
     // -----------------------------------------------------------------------------
-    /// tells whether a papSpin is queued or not
-    ///
-    /// - parameters:
-    ///     - papSpin: `(PAPSpin)` - the PAPSpin to check for
-    ///
-    /// - returns:
-    ///    `BOOL` - true if papSpin is in the queue
-    ///
-    /// ----------------------------------------------------------------------------
+    /**
+     tells whether a papSpin is queued or not
+    
+     - parameters:
+        - papSpin: `(PAPSpin)` - the PAPSpin to check for
+    
+     - returns:
+        `BOOL` - true if papSpin is in the queue
+    */
     fileprivate func isQueued(_ papSpin:PAPSpin) -> Bool
     {
         return (self.queueDictionary[papSpin.audioFileURL.absoluteString] != nil)
@@ -386,7 +393,7 @@ class PlayolaAudioPlayer: NSObject
         {
             endFadeOutTimeInterval = papSpin.player.duration
         }
-        
+
         papSpin.player.play(from: currentTimeInSeconds, to: endFadeOutTimeInterval)
         
         self.nowPlayingPapSpin = papSpin
@@ -470,7 +477,6 @@ class PlayolaAudioPlayer: NSObject
         {
             NotificationCenter.default.post(name: PAPEvents.playerStopped, object: nil, userInfo: nil)
         }
-
     }
     
     // -----------------------------------------------------------------------------
@@ -486,6 +492,4 @@ class PlayolaAudioPlayer: NSObject
     {
         return (self.nowPlayingPapSpin != nil)
     }
-    
-    
 }

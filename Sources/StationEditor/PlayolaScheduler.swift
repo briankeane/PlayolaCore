@@ -15,6 +15,7 @@ public class PlayolaScheduler:NSObject
     var onPlaylistChangedBlocks:Array<((Array<Spin>)->Void)> = Array()
     
     var previousPlaylist:[Spin]?
+    var observers:[NSObjectProtocol] = Array()
     
     // dependency injections:
     var DateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
@@ -28,17 +29,44 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    override init() {
+    override init()
+    {
         super.init()
+        self.setupListeners()
+        if let user = PlayolaCurrentUserInfoService.sharedInstance().user
+        {
+            self.setupUser(user: user)
+        }
+    }
+    
+    func setupListeners()
+    {
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedIn, object: nil, queue: .main)
+        {
+            (notification) -> Void in
+            if let user = notification.userInfo?["user"] as? User
+            {
+                self.setupUser(user: user)
+            }
+        })
+    }
+    //------------------------------------------------------------------------------
+    
+    deinit
+    {
+        self.removeObservers()
     }
     
     //------------------------------------------------------------------------------
     
-    public init(user:User) {
-        super.init()
-        self.setupUser(user: user)
+    func removeObservers()
+    {
+        for observer in self.observers
+        {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
-    
+
     //------------------------------------------------------------------------------
     
     public func playlist() -> Array<Spin>?
@@ -65,6 +93,7 @@ public class PlayolaScheduler:NSObject
             (user) -> Void in
             self.executeOnPlaylistChanged()
         }
+        NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: ["playlist": self.playlist() as Any])
     }
     
     //------------------------------------------------------------------------------
@@ -380,4 +409,21 @@ public class PlayolaScheduler:NSObject
         }
         return nil
     }
+    
+    //------------------------------------------------------------------------------
+    // Singleton
+    //------------------------------------------------------------------------------
+    
+    public static var _instance:PlayolaScheduler?
+    public static func sharedInstance() -> PlayolaScheduler
+    {
+        if let instance = self._instance
+        {
+            return instance
+        }
+        self._instance = PlayolaScheduler()
+        return self._instance!
+    }
 }
+
+fileprivate let createInstance = PlayolaScheduler.sharedInstance()

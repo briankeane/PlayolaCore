@@ -370,4 +370,17 @@ public class User
         self.onNowPlayingAdvancedBlocks.append(block)
         return self
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func onNowPlayingAdvanced
+    // -----------------------------------------------------------------------------
+    /// clears nowPlayingAdvanced blocks
+    ///
+    ///
+    /// ----------------------------------------------------------------------------
+    @discardableResult public func clearOnNowPlayingAdvanced() -> User
+    {
+        self.onNowPlayingAdvancedBlocks = Array()
+        return self
+    }
 }
