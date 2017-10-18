@@ -92,6 +92,7 @@ public class PlayolaScheduler:NSObject
         {
             (user) -> Void in
             self.executeOnPlaylistChanged()
+            NotificationCenter.default.post(name: PlayolaEvents.schedulerNowPlayingAdvanced, object: nil, userInfo: ["playlist": self.playlist() as Any])
         }
         NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: ["playlist": self.playlist() as Any])
     }
