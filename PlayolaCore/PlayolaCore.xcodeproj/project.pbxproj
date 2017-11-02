@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */; };
+		4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */; };
+		4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */; };
 		4B139F4B1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F4A1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift */; };
 		4B139F4C1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F4A1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift */; };
 		4B139F4E1F7C06E6007021FA /* NowPlayingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F4D1F7C06E6007021FA /* NowPlayingLabel.swift */; };
@@ -204,6 +206,8 @@
 		4B9359371F48D3130038C327 /* PAPSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9359331F48D3120038C327 /* PAPSpin.swift */; };
 		4B93593A1F48D4750038C327 /* PlayolaAudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9359391F48D4750038C327 /* PlayolaAudioPlayerTests.swift */; };
 		4B93593B1F48D4750038C327 /* PlayolaAudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9359391F48D4750038C327 /* PlayolaAudioPlayerTests.swift */; };
+		4B97A7E01FABBD0200928E57 /* IOSKDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B97A7DF1FABBD0200928E57 /* IOSKDCircularProgress.swift */; };
+		4B97A7E11FABBD0200928E57 /* IOSKDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B97A7DF1FABBD0200928E57 /* IOSKDCircularProgress.swift */; };
 		4BA3DA5B1F7D3A1E0013491E /* OSXNSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3DA5A1F7D3A1E0013491E /* OSXNSImageExtension.swift */; };
 		4BA3DA5C1F7D3A1E0013491E /* OSXNSImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3DA5A1F7D3A1E0013491E /* OSXNSImageExtension.swift */; };
 		4BA3DA5E1F7D3EC80013491E /* IOSUIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3DA5D1F7D3EC80013491E /* IOSUIImageExtension.swift */; };
@@ -341,6 +345,7 @@
 		2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.release.xcconfig"; sourceTree = "<group>"; };
 		43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = songSearchResultsSuccess.json; path = ../Tests/APIJson/songSearchResultsSuccess.json; sourceTree = "<group>"; };
 		4B139F4A1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StationPlayingAutoUpdatingLabelTests.swift; path = ../Tests/StationPlayingAutoUpdatingLabelTests.swift; sourceTree = "<group>"; };
 		4B139F4D1F7C06E6007021FA /* NowPlayingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingLabel.swift; path = ../Sources/Player/NowPlayingLabel.swift; sourceTree = "<group>"; };
 		4B139F521F7C0938007021FA /* StationPlayingDisplayNameLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StationPlayingDisplayNameLabel.swift; path = ../Sources/Player/StationPlayingDisplayNameLabel.swift; sourceTree = "<group>"; };
@@ -413,6 +418,7 @@
 		4B93592E1F48D26B0038C327 /* PlayolaAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaAudioPlayer.swift; path = ../Sources/Player/PlayolaAudioPlayer.swift; sourceTree = "<group>"; };
 		4B9359331F48D3120038C327 /* PAPSpin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PAPSpin.swift; path = ../Sources/Player/PAPSpin.swift; sourceTree = "<group>"; };
 		4B9359391F48D4750038C327 /* PlayolaAudioPlayerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaAudioPlayerTests.swift; path = ../Tests/Services/AudioPlayer/PlayolaAudioPlayerTests.swift; sourceTree = "<group>"; };
+		4B97A7DF1FABBD0200928E57 /* IOSKDCircularProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IOSKDCircularProgress.swift; path = ../Sources/iosOnly/IOSKDCircularProgress.swift; sourceTree = "<group>"; };
 		4BA3DA5A1F7D3A1E0013491E /* OSXNSImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSXNSImageExtension.swift; path = ../Sources/osxOnly/OSXNSImageExtension.swift; sourceTree = "<group>"; };
 		4BA3DA5D1F7D3EC80013491E /* IOSUIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IOSUIImageExtension.swift; path = ../Sources/iosOnly/IOSUIImageExtension.swift; sourceTree = "<group>"; };
 		4BA3DA601F7D4D0C0013491E /* NowPlayingImageUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingImageUpdaterTests.swift; path = ../Tests/NowPlayingImageUpdaterTests.swift; sourceTree = "<group>"; };
@@ -645,6 +651,7 @@
 				4B361C321F44BA8C00654968 /* Extensions */,
 				4B361C291F44B7F300654968 /* Services */,
 				4B91A5301F81364400B1CF83 /* PlayolaAssets.xcassets */,
+				4B97A7DF1FABBD0200928E57 /* IOSKDCircularProgress.swift */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -774,6 +781,7 @@
 				4BF10AA01F6EEF7600D8B8B0 /* loginSuccess.json */,
 				4BF10AAD1F70302900D8B8B0 /* passwordIncorrect.json */,
 				4BF10AB01F70332800D8B8B0 /* emailNotFound.json */,
+				4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -1045,6 +1053,7 @@
 				4B91A5321F81364400B1CF83 /* PlayolaAssets.xcassets in Resources */,
 				4BF10AAE1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
+				4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007061F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
 				4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
@@ -1075,6 +1084,7 @@
 				4B91A5341F81364400B1CF83 /* PlayolaAssets.xcassets in Resources */,
 				4BF10AAF1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
+				4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007071F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
 				4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
@@ -1135,9 +1145,9 @@
 				"${BUILT_PRODUCTS_DIR}/Quick-iOS/Quick.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework",
 				"${PODS_ROOT}/AudioKit/iOS/AudioKit.framework",
-				"${BUILT_PRODUCTS_DIR}/KDCircularProgress/KDCircularProgress.framework",
+				"${PODS_ROOT}/AudioKit/iOS/AudioKitUI.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher-iOS/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit.default-CorePromise/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-iOS/SwiftRemoteFileCache.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1147,7 +1157,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KDCircularProgress.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKitUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
@@ -1187,8 +1197,9 @@
 				"${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework",
 				"${PODS_ROOT}/AudioKit/macOS/AudioKit.framework",
+				"${PODS_ROOT}/AudioKit/macOS/AudioKitUI.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1198,6 +1209,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKitUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
@@ -1297,6 +1309,7 @@
 			files = (
 				4B139F531F7C0938007021FA /* StationPlayingDisplayNameLabel.swift in Sources */,
 				4BC1C31D1F4A44C700B7415C /* PlayolaStationPlayerEvents.swift in Sources */,
+				4B97A7E01FABBD0200928E57 /* IOSKDCircularProgress.swift in Sources */,
 				4BC1C3021F48E62A00B7415C /* PAPEvents.swift in Sources */,
 				4B1F658E1F5202F2003CC78A /* PlayolaModelRefreshHandler.swift in Sources */,
 				4B2D38DD1F7BE646006F6348 /* StationPlayingLabelUpdater.swift in Sources */,
@@ -1375,6 +1388,7 @@
 				4BC1C31E1F4A44C700B7415C /* PlayolaStationPlayerEvents.swift in Sources */,
 				4BA3DA5F1F7D3EC80013491E /* IOSUIImageExtension.swift in Sources */,
 				4BC0B9CB1F55E5D100C0AED3 /* PlayolaProgramAutoAdvancerTests.swift in Sources */,
+				4B97A7E11FABBD0200928E57 /* IOSKDCircularProgress.swift in Sources */,
 				4BC1C3141F4A2ADA00B7415C /* PlayolaAudioPlayerMock.swift in Sources */,
 				4B93593A1F48D4750038C327 /* PlayolaAudioPlayerTests.swift in Sources */,
 				4B361C411F44BD1C00654968 /* Constants.swift in Sources */,
@@ -1653,6 +1667,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1699,6 +1714,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1725,7 +1741,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1747,7 +1763,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1761,7 +1777,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1775,7 +1791,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1801,7 +1817,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1826,7 +1842,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -1844,7 +1860,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreOSXTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1862,7 +1878,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreOSXTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

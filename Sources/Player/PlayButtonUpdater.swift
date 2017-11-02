@@ -9,7 +9,7 @@
 import Foundation
 
 #if os(iOS)
-    import KDCircularProgress
+//    import KDCircularProgress   // manual until he fixes cocoapod
     import UIKit
 #endif
 

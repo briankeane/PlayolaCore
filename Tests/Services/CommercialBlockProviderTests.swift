@@ -39,7 +39,7 @@ class CommercialBlockProviderServiceQuickTests: QuickSpec {
                 for i in 0..<commercialBlocks.count
                 {
                     let audioFileString = String(describing: commercialBlocks[i].audioFileUrl!.absoluteURL)
-                    expect(audioFileString[audioFileString.index(audioFileString.startIndex, offsetBy: 36)..<audioFileString.index(audioFileString.startIndex, offsetBy: 40)]).to(equal(String(format: "%04d", arguments: [i+1])))
+                    expect(String(audioFileString[audioFileString.index(audioFileString.startIndex, offsetBy: 36)..<audioFileString.index(audioFileString.startIndex, offsetBy: 40)])).to(equal(String(format: "%04d", arguments: [i+1])))
                 }
             }
             
@@ -57,7 +57,7 @@ class CommercialBlockProviderServiceQuickTests: QuickSpec {
                 mockedCurrentUserInfo.user!.lastCommercial!["audioFileID"] = 26
                 var commercialBlocks:[AudioBlock] = commercialBlockProvider.getCommercialBlocks(5)
                 let audioFileString = String(describing: commercialBlocks[1].audioFileUrl!.absoluteURL)
-                expect(audioFileString[audioFileString.index(audioFileString.startIndex, offsetBy: 36)..<audioFileString.index(audioFileString.startIndex, offsetBy: 40)]).to(equal(String(format: "%04d", arguments: [1])))
+                expect(String(audioFileString[audioFileString.index(audioFileString.startIndex, offsetBy: 36)..<audioFileString.index(audioFileString.startIndex, offsetBy: 40)])).to(equal(String(format: "%04d", arguments: [1])))
             }
             
             it ("provides unique IDs")

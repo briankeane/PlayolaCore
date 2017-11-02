@@ -357,7 +357,7 @@ class PlayolaAudioPlayer: NSObject
         {
             self.fadePlayer(player, fromVolume: 1.0, toVolume: 0, overTime: 3.0)
             {
-                void -> Void in
+                () -> Void in
                 self.freePlayer(key: papSpin.audioFileURL.absoluteString)
                 self.removeFromQueueDictionary(papSpin: papSpin)
             }
@@ -387,7 +387,7 @@ class PlayolaAudioPlayer: NSObject
             currentTimeInSeconds = Date().timeIntervalSince(adjustedAirtime)
         }
         let beginFadeOutTimeInterval = papSpin.beginFadeOutTime.timeIntervalSince(papSpin.startTime)
-        var endFadeOutTimeInterval = beginFadeOutTimeInterval.adding(3.0)
+        var endFadeOutTimeInterval = beginFadeOutTimeInterval + 3.0
         
         if (endFadeOutTimeInterval > papSpin.player.duration)
         {

@@ -221,7 +221,7 @@ public class PlayolaCurrentUserInfoService:NSObject
     
     func nowPlayingAdvanced()
     {
-        NotificationCenter.default.post(name: PlayolaEvents.currentUserPlaylistAdvanced, object: nil, userInfo: ["user": self.user as Any?])
+        NotificationCenter.default.post(name: PlayolaEvents.currentUserPlaylistAdvanced, object: nil, userInfo: ["user": self.user as Any])
     }
 }
 

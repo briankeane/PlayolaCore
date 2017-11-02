@@ -45,6 +45,7 @@ class PlayolaAPITests: QuickSpec {
     let getTopUsersPath             =        "/api/v1/users/topUsers"
     let updateUserPath              =        "/api/v1/users/me"
     let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
+    let findSongsByKeywordPath      =        "/api/v1/songs/findByKeywords"
     let getUsersByAttributesPath    =        "/api/v1/users/getByAttributes"
     let addSongToBinPath            =        "/api/v1/rotationItems"
     
@@ -798,6 +799,80 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
             }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("findSongsByKeywords")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("songSearchResultsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.findSongsByKeywords(searchString:"Bob")
+                        .then
+                        {
+                            (songs) -> Void in
+                            let jsonDict = self.readLocalJsonFile("songSearchResultsSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                            expect(sentRequest!.url!.path).to(equal(self.findSongsByKeywordPath))
+                            expect(sentRequest!.url!.query!).to(equal("searchString=Bob"))
+                                    
+                            // check response
+                            let rawSearchResults = (jsonDict["searchResults"] as! Array<NSDictionary>)
+                            let rawID = rawSearchResults[0]["id"] as! String
+                                    
+                            // check response
+                            expect(songs[0].id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("findSongsByKeywords() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.findSongsByKeywords(searchString:"Bob")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            done()
+                        }
+                    }
+                }
+            }
+
             
             //------------------------------------------------------------------------------
             

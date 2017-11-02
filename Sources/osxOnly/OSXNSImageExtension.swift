@@ -13,7 +13,6 @@ public extension NSImage
     static func makePlayolaImage(name: String) -> NSImage?
     {
         let bundle = Bundle(for: NowPlayingImageViewUpdater.self)
-        let imagePath:String = bundle.pathForImageResource(name)!
-        return NSImage(contentsOfFile: imagePath)
+        return bundle.image(forResource: NSImage.Name.init(name))
     }
 }

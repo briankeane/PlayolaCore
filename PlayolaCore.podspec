@@ -8,10 +8,11 @@
 
 Pod::Spec.new do |s|
     s.name         = "PlayolaCore"
-    s.version      = "0.0.12"
+    s.version      = "0.0.13"
     s.summary      = "Basic Playola Communication and Models."
     s.homepage     = "https://github.com/briankeane/PlayolaCore.git"
     s.license      = { :type => 'MIT' }
+    s.pod_target_xcconfig = { "SWIFT_VERSION" => "4.0" }
     s.author       = { "Brian Keane" => "brian@playola.fm" }
     s.ios.deployment_target = '10.3'
     s.osx.deployment_target = '10.12'
@@ -21,22 +22,22 @@ Pod::Spec.new do |s|
     # s.osx.frameworks = 'AudioToolbox','AudioUnit','CoreAudio','QuartzCore','OpenGL','GLKit', 'Accelerate'
     # s.requires_arc = true;
     # s.default_subspec = 'Full'
-    s.dependency 'Alamofire', '4.5.0'
+    s.dependency 'Alamofire', '~> 4.5.0'
     s.dependency 'PromiseKit', '~> 4.0'
-    s.dependency 'AudioKit', '~> 3.7'
+    s.dependency 'AudioKit', '~> 4.0'
     s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
-    s.dependency 'Kingfisher', '~> 3.13'
+    s.dependency 'Kingfisher', '~> 4.2.0'
 
-    s.ios.dependency 'KDCircularProgress'
+    # s.ios.dependency 'KDCircularProgress', '~> 1.5.2'  # manually include until he fixes cocoapod
 
     
     s.source_files = 'Sources/**/*.{h,m,swift}'
     s.ios.exclude_files = 'Sources/osxOnly/**/*.{h,m,swift}'
     s.osx.exclude_files = 'Sources/iosOnly/**/*.{h,m,swift}'
     s.resource_bundle = {
-      'PlayolaImages' => ['Sources/Images/**/*.xcassets']
+      'PlayolaImages' => ['Sources/Images/**/*.{png,xcassets,imageset,json}']
     }
-    s.resources = 'Sources/Images/**/*.{png,xcassets}'
+    s.resources = 'Sources/Images/**/*.{png,xcassets,imageset,json}'
 
     # probably will use this later when start subSpecing (PlayolaCore-Player, PlayolaCore-Core, etc)
     # s.subspec 'Core' do |core|

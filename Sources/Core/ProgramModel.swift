@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Program
+public struct Program
 {
     public var nowPlaying:Spin?
     public var playlist:Array<Spin>?
@@ -67,7 +67,7 @@ public class Program
     
     //------------------------------------------------------------------------------
     
-    func commonInit()
+    mutating func commonInit()
     {
         self.insertCommercials()
         self.nowPlaying = self.playlist!.remove(at: 0)
@@ -77,7 +77,7 @@ public class Program
     //------------------------------------------------------------------------------
     // bringCurrent() -- returns a Bool indicating whether it was advanced or not
     //------------------------------------------------------------------------------
-    @discardableResult public func bringCurrent() -> Bool
+    @discardableResult public mutating func bringCurrent() -> Bool
     {
         var changedFlag:Bool = false
         if let playlist = self.playlist
@@ -121,7 +121,7 @@ public class Program
     
     //------------------------------------------------------------------------------
     
-    public func getNowPlaying() -> Spin?
+    public mutating func getNowPlaying() -> Spin?
     {
         self.bringCurrent()
         return nowPlaying

@@ -5,9 +5,9 @@
 def pods
     pod 'Alamofire', '4.5.0'
     pod 'PromiseKit', '~> 4.0'
-    pod 'AudioKit', '~> 3.7'
+    pod 'AudioKit', '~> 4.0'
     pod 'SwiftRemoteFileCache'
-    pod 'Kingfisher', '~> 3.13'
+    pod 'Kingfisher', '~> 4.2'
 end
 
 def testOnly
@@ -24,7 +24,7 @@ target 'PlayolaCoreIOS' do
 
   pods()
   
-  pod 'KDCircularProgress'
+  #  pod 'KDCircularProgress'   # included manually until he fixes cocoapod
 
   target 'PlayolaCoreIOSTests' do
     inherit! :search_paths

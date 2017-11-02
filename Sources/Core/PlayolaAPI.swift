@@ -1089,6 +1089,67 @@ public class PlayolaAPI:NSObject
     }
     
     // ----------------------------------------------------------------------------
+    //                          func findSongsByKeywords
+    // -----------------------------------------------------------------------------
+    /**
+     Gets a list of songs matching a searchString from the server
+     
+     - parameters:
+     - searchString: `(String)` - duh
+     
+     ### Usage Example: ###
+     ````
+     authService.findSongsByKeywords("Bob")
+     .then
+     {
+        (searchResults) -> Void in
+        for audioBlock in searchResults
+        {
+            print(audioBlock.title)
+        }
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Array<AudioBlock>>` - a promise
+     * resolves to: an array of the found AudioBlocks
+     * rejects: an AuthError
+     */
+    public func findSongsByKeywords(searchString:String) -> Promise<Array<AudioBlock>>
+    {
+        let url = "\(baseURL)/api/v1/songs/findByKeywords"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = ["searchString": searchString]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, parameters:parameters, headers:headers)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let foundSongs = arrayOfSongsFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                        {
+                            return fulfill(foundSongs)
+                        }
+                        return reject(AuthError(response: response))
+                    case .failure:
+                        reject(AuthError(response: response))
+                    }
+                }
+        }
+    }
+
+    
+    // ----------------------------------------------------------------------------
     //                          func getUser
     // -----------------------------------------------------------------------------
     /**
@@ -1645,6 +1706,21 @@ fileprivate func arrayOfUsersFromResultValue(resultValue:Any?, propertyName:Stri
                                     (rawUser) -> User in
                                     return User(userInfo: rawUser as NSDictionary)
                                 })
+        }
+    }
+    return nil
+}
+    
+fileprivate func arrayOfSongsFromResultValue(resultValue:Any?, propertyName:String) -> Array<AudioBlock>?
+{
+    if let resultDict = resultValue as? Dictionary<String,Any>
+    {
+        if let rawSongs = resultDict[propertyName] as? Array<NSDictionary>
+        {
+            return rawSongs.map({
+                (rawSong) -> AudioBlock in
+                return AudioBlock(audioBlockInfo: rawSong as! Dictionary<String,Any>)
+            })
         }
     }
     return nil

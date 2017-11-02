@@ -107,8 +107,9 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework"
   install_framework "${PODS_ROOT}/AudioKit/macOS/AudioKit.framework"
+  install_framework "${PODS_ROOT}/AudioKit/macOS/AudioKitUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore/PromiseKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -117,8 +118,9 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework"
   install_framework "${PODS_ROOT}/AudioKit/macOS/AudioKit.framework"
+  install_framework "${PODS_ROOT}/AudioKit/macOS/AudioKitUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore/PromiseKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

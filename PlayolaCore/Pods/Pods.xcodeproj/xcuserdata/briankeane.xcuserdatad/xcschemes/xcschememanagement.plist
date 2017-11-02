@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>KDCircularProgress.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Kingfisher-iOS.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -69,12 +64,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PromiseKit-iOS.xcscheme</key>
+		<key>PromiseKit.default-CorePromise.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PromiseKit-macOS.xcscheme</key>
+		<key>PromiseKit.root-CorePromise-Foundation-QuartzCore.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -101,102 +96,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>0EF4C6665DA681F96C4FD4C0A6BAF758</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>11BDFF08E8A4A8C7C631D20B6606274C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2A6362E277D10FB4CCEC2B83102CC151</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2DDBABAF0542AC6839056E9BED17229B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>322428ECC8C5EC71F14C92233787C7AC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4414095BAA7001D309114F655E471B41</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>47C746A2E5A4340390D396089A29088D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4D8199C20C1BE5F5BCDBC8F8CB4BF089</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5761B7D6C15213E122D4F5ECF1DD20F1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>769E688C11F1C0967AA8A75E805EAB15</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9C711AA0E0FC9B2F227E8D3153064ED8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D07BD5F96385B5706C8F495ADFA8BBE3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D76012BB8C0A9C809370218F857CD0A4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D929A5EB73B853951F884D4AC72AFA13</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DA63B20CF2DF7455F18B5BC16AA9EA4F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E07304DEA79BA17BA8F82709B411EE4F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E144F4E468D90CEB4134E84786C62D73</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EC577E04EF8F29E75A1B1E558059AB15</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EE8C1739E426AA017E30225F413BB0F1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

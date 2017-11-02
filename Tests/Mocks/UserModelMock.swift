@@ -21,4 +21,9 @@ class UserMock:User
     {
         self.autoAdvancingStarted = true
     }
+    
+    override func copy() -> User {
+        let userCopy = super.copy()
+        return UserMock(original: userCopy)
+    }
 }

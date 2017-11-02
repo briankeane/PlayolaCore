@@ -18,7 +18,7 @@ public class DateHandlerService
     /// - returns:
     ///     - Date - the current date
     /// --------------------------------------------------------------------------
-    func now() -> Date!
+    public func now() -> Date!
     {
         return Date()
     }
@@ -31,7 +31,7 @@ public class DateHandlerService
     /// - returns:
     ///     - Date! - the corresponding unwrapped NSDate
     /// --------------------------------------------------------------------------
-    func createNSDateFromReadableString (_ dateString:String!) -> Date!
+    public func createNSDateFromReadableString (_ dateString:String!) -> Date!
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
@@ -52,7 +52,7 @@ public class DateHandlerService
     ///    `NSDate?` - the adjusted date
     ///
     /// ----------------------------------------------------------------------------
-    func adjustedDate(_ date:Date?) -> Date?
+    public func adjustedDate(_ date:Date?) -> Date?
     {
         return date
     }
@@ -66,7 +66,7 @@ public class DateHandlerService
     ///    `DateHandlerClass` - the central image uploader instance
     ///
     /// ----------------------------------------------------------------------------
-    class func sharedInstance() -> DateHandlerService
+    public class func sharedInstance() -> DateHandlerService
     {
         if (self._instance == nil)
         {
@@ -87,7 +87,7 @@ public class DateHandlerService
     ///     - DateHandler: `(DateHandlerService)` - the new DateHandlerService
     ///
     /// ----------------------------------------------------------------------------
-    class func replaceSharedInstance(_ DateHandler:DateHandlerService)
+    public class func replaceSharedInstance(_ DateHandler:DateHandlerService)
     {
         self._instance = DateHandler
     }

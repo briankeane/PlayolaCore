@@ -79,6 +79,23 @@ class PlayolaProgramAdvancerTests: QuickSpec
                 expect(callCount).to(equal(1))
             }
             
+            it ("only advances one at a time")
+            {
+                let oldPlaylist0ID = user.program!.playlist![0].id!
+                let oldPlaylist1ID = user.program!.playlist![1].id!
+                let advancer = PlayolaProgramAutoAdvancer(user: user, dateHandler: dateHandlerMock)
+                let userCopy = user.copy()
+                let advancer2 = PlayolaProgramAutoAdvancer(user: userCopy, dateHandler: dateHandlerMock)
+                
+                advancer.advanceProgram()
+                advancer2.advanceProgram()
+                
+                expect(user.program!.nowPlaying!.id!).to(equal(oldPlaylist0ID))
+                expect(user.program!.playlist![0].id!).to(equal(oldPlaylist1ID))
+                expect(userCopy.program!.nowPlaying!.id!).to(equal(oldPlaylist0ID))
+                expect(userCopy.program!.playlist![0].id!).to(equal(oldPlaylist1ID))
+                
+            }
         }
     }
 }

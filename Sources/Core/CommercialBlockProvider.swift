@@ -102,7 +102,7 @@ public class CommercialBlockProviderService
     ///    `CommercialBlockProviderService` - the central CommercialBlockProviderService
     ///
     /// ----------------------------------------------------------------------------
-    class func sharedInstance() -> CommercialBlockProviderService
+    public class func sharedInstance() -> CommercialBlockProviderService
     {
         if (self._instance == nil)
         {

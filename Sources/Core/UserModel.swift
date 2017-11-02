@@ -85,7 +85,7 @@ public class User
         //adjust profileImageUrl for no scheme included
         if var profileImageString = userInfo["profileImageUrl"] as? String
         {
-            if (String(profileImageString.characters.prefix(2)) == "//")
+            if (String(profileImageString.prefix(2)) == "//")
             {
                 profileImageString = "https:" + profileImageString
             }
@@ -308,7 +308,14 @@ public class User
     
     public func startAutoAdvancing()
     {
-        self.advancer = PlayolaProgramAutoAdvancer(user: self)
+        if (self.advancer == nil)
+        {
+            self.advancer = PlayolaProgramAutoAdvancer(user: self)
+        }
+        else
+        {
+            puts("tried to double set")
+        }
         self.advancer?.startAutoAdvancing()
     }
     

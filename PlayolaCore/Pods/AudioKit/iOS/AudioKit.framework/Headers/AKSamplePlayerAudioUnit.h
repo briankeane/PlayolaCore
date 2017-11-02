@@ -9,7 +9,7 @@
 #pragma once
 #import "AKAudioUnit.h"
 
-typedef void (^AKCCallback)();
+typedef void (^AKCCallback)(void);
 
 @interface AKSamplePlayerAudioUnit : AKAudioUnit
 @property (nonatomic) float startPoint;
@@ -17,10 +17,12 @@ typedef void (^AKCCallback)();
 @property (nonatomic) float rate;
 @property (nonatomic) float volume;
 @property (nonatomic) BOOL loop;
+@property (nonatomic) float loopStartPoint;
+@property (nonatomic) float loopEndPoint;
 @property (nonatomic) AKCCallback completionHandler;
 
-- (void)setupAudioFileTable:(float *)data size:(UInt32)size;
-
+- (void)setupAudioFileTable:(UInt32)size;
+- (void)loadAudioData:(float *)data size:(UInt32)size;
 - (int)size;
 - (float)position;
 

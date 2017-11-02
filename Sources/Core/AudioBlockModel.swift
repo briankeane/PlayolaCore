@@ -142,9 +142,9 @@ open class AudioBlock
     
     func addSchemeIfNecessaryTo(urlString:String?) -> String?
     {
-        if var urlString = urlString
+        if let urlString = urlString
         {
-            if (String(urlString.characters.prefix(2)) == "//")
+            if (String(urlString.prefix(2)) == "//")
             {
                return "https:\(urlString)"
             }

@@ -61,7 +61,7 @@ public class PlayolaStationPlayer: NSObject
             {
                 (user) -> Void in
                 self.loadUserAndPlay(user: user)
-                fulfill()
+                fulfill(())
             }
             .catch
             {
@@ -240,7 +240,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    func downloadAndLoadQueueSpins()
+    @objc   func downloadAndLoadQueueSpins()
     {
         self.refreshDoNotDeleteCacheList()
         let spins = self.spinsToLoad()

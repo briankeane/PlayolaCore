@@ -85,7 +85,7 @@ public class PlayolaScheduler:NSObject
     
     func setupUser(user:User)
     {
-        self.user = user
+        self.user = user.copy()
         self.user.startAutoUpdating()
         self.user.startAutoAdvancing()
         self.user.onNowPlayingAdvanced
@@ -219,6 +219,146 @@ public class PlayolaScheduler:NSObject
         }
     }
     
+    // -----------------------------------------------------------------------------
+    //                          func removeSpin
+    // -----------------------------------------------------------------------------
+    /**
+     Removes a spin from the provided playlistPosition
+     
+     - parameters:
+     - atPlaylistPosition: `(Int)` - the playlistPosition of the spin to be removed
+     
+     ### Usage Example ###
+     ```
+     scheduler.removeSpin(atPlaylistPosition: 24)
+     .then
+     {
+        (playlist) -> Void in
+        print(playlist)
+     }
+     .catch
+     {
+        (error) -> Void in
+        print(error)
+     }
+     ```
+     
+     - returns:
+     `Promise<Array<Spin>>` - a promise that resolves to an array of Spins
+     * resolves to: the updated playlist
+     * rejects: an AuthError or a SchedulerError
+     */
+    public func removeSpin(atPlaylistPosition:Int) -> Promise<User>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+           
+            // check that playlist init has already occured
+            if (self.user.program == nil)
+            {
+                return reject(PlayolaErrorType.playlistInitRequired)
+            }
+            
+            if let spinID = self.getSpin(playlistPosition: atPlaylistPosition)?.id
+            {
+                if (self.playlistPositionIsValid(playlistPosition: atPlaylistPosition))
+                {
+                    self.storePlaylist(playlist: self.playlist())
+                    self.performTemporaryRemoveSpin(atPlaylistPosition: atPlaylistPosition)
+                    
+                    api.removeSpin(spinID: spinID)
+                    .then
+                    {
+                        (user) -> Void in
+                        if let playlist = user.program?.playlist
+                        {
+                            self.updatePlaylist(playlist: playlist)
+                        }
+                        fulfill(user)
+                    }
+                    .catch
+                    {
+                        (error) -> Void in
+                        self.restorePlaylist()
+                        reject(error)
+                    }
+                }
+                else
+                {
+                    reject(SchedulerError(type: .invalidPlaylistPosition))
+                }
+            }
+            else
+            {
+                reject(SchedulerError(type: .spinNotFound))
+            }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func insertAudioBlock
+    // -----------------------------------------------------------------------------
+    /**
+     Inserts an AudioBlock at the provided playlistPosition
+     
+     - parameters:
+     - audioBlock: `(String)` - the audioBlock to insert
+     - atPlaylistPosition: `(Int)` - the desired playlistPosition
+     
+     ### Usage Example ###
+     ```
+     scheduler.insertAudioBlock(audioBlock:song, atPlaylistPosition: 24)
+     .then
+     {
+        (playlist) -> Void in
+        print(playlist)
+     }
+     .catch
+     {
+        (error) -> Void in
+        print(error)
+     }
+     ```
+     
+     - returns:
+     `Promise<Array<Spin>>` - a promise that resolves to an array of Spins
+     * resolves to: the updated playlist
+     * rejects: an AuthError or a SchedulerError
+     */
+    public func insertAudioBlock(audioBlock:AudioBlock, atPlaylistPosition:Int) -> Promise<User>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+                
+            // check that playlist init has already occured
+            if (self.user.program == nil)
+            {
+                return reject(PlayolaErrorType.playlistInitRequired)
+            }
+            
+            self.storePlaylist(playlist: self.playlist())
+            self.performTemporaryInsertAudioBlock(audioBlock:audioBlock, playlistPosition:atPlaylistPosition)
+            
+            api.insertSpin(audioBlockID: audioBlock.id!, playlistPosition: atPlaylistPosition)
+            .then
+            {
+                (updatedUser) -> Void in
+                if let playlist = updatedUser.program?.playlist
+                {
+                    self.updatePlaylist(playlist:playlist)
+                }
+            }
+            .catch
+            {
+                (error) -> Void in
+                self.restorePlaylist()
+                reject(error)
+            }
+        }
+    }
+    
     //------------------------------------------------------------------------------
     
     func storePlaylist(playlist:[Spin]?)
@@ -244,6 +384,11 @@ public class PlayolaScheduler:NSObject
     
     func performTemporaryMoveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int)
     {
+        if (fromPlaylistPosition == toPlaylistPosition)
+        {
+            return
+        }
+        
         if var playlist = self.playlist()
         {
             let maxPlaylistPosition:Int = max(fromPlaylistPosition, toPlaylistPosition)
@@ -271,13 +416,56 @@ public class PlayolaScheduler:NSObject
             // IF moving towards the future
             if (fromPlaylistPosition == minPlaylistPosition)
             {
-                playlist.insert(playlist.remove(at: minIndex!), at: maxIndex!)
+                let movingSpin = playlist.remove(at: minIndex!)
+                playlist.insert(movingSpin, at: maxIndex!)
             }
             else
             {
-                playlist.insert(playlist.remove(at: maxIndex!), at: minIndex!)
+                let movingSpin = playlist.remove(at: maxIndex!)
+                playlist.insert(movingSpin, at: minIndex!)
             }
             self.updatePlaylist(playlist: playlist)
+        }
+    }
+    
+    func performTemporaryInsertAudioBlock(audioBlock:AudioBlock, playlistPosition:Int)
+    {
+        if var playlist = self.playlist()
+        {
+            for (index, spin) in playlist.enumerated()
+            {
+                if (spin.playlistPosition == playlistPosition)
+                {
+                    playlist.insert(Spin(audioBlock:audioBlock), at: index)
+                }
+                else if (spin.playlistPosition != nil) && (spin.playlistPosition! > playlistPosition)
+                {
+                    spin.airtime = nil
+                }
+            }
+            self.updatePlaylist(playlist: playlist)
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func performTemporaryRemoveSpin(atPlaylistPosition:Int)
+    {
+        if var playlist = self.playlist()
+        {
+            for index in (0..<playlist.count).reversed()
+            {
+                let spin = playlist[index]
+                if (spin.playlistPosition! > atPlaylistPosition)
+                {
+                    spin.airtime = nil
+                }
+                else if (atPlaylistPosition == spin.playlistPosition!)
+                {
+                    playlist.remove(at: index)
+                    self.updatePlaylist(playlist: playlist)
+                }
+            }
         }
     }
     
@@ -371,6 +559,21 @@ public class PlayolaScheduler:NSObject
                 if (spin.playlistPosition == playlistPosition)
                 {
                     return spin
+                }
+            }
+        }
+        return nil
+    }
+    
+    func getSpinIndex(playlistPosition:Int) -> Int?
+    {
+        if let playlist = self.playlist()
+        {
+            for (index, spin) in playlist.enumerated()
+            {
+                if (spin.playlistPosition == playlistPosition)
+                {
+                    return index
                 }
             }
         }

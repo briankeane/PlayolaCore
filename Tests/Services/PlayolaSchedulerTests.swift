@@ -46,12 +46,12 @@ class PlayolaSchedulerTests: QuickSpec
             {
                 it ("turns on autoUpdating")
                 {
-                    expect(user.autoAdvancingStarted).to(equal(true))
+                    expect((scheduler.user as! UserMock).autoAdvancingStarted).to(equal(true))
                 }
                 
                 it ("turns on autoAdvancing")
                 {
-                    expect(user.autoUpdatingStarted).to(equal(true))
+                    expect((scheduler.user as! UserMock).autoUpdatingStarted).to(equal(true))
                 }
             }
             
@@ -59,7 +59,7 @@ class PlayolaSchedulerTests: QuickSpec
             {
                 beforeEach
                 {
-                    user.program!.playlist = [
+                    scheduler.user.program!.playlist = [
                             Spin(id: "a", playlistPosition: 11, audioBlock: AudioBlock(id: "1a"), airtime: Date()),
                             Spin(id: "b", playlistPosition: 12, audioBlock: AudioBlock(id: "1b"), airtime: Date()),
                             Spin(id: "c", playlistPosition: 13, audioBlock: AudioBlock(id: "1c"), airtime: Date()),
@@ -75,7 +75,7 @@ class PlayolaSchedulerTests: QuickSpec
                     scheduler.performTemporaryMoveSpin(fromPlaylistPosition: 12, toPlaylistPosition: 15)
                     let idMap = scheduler.user.program!.playlist!.map({$0.id!})
                     expect(idMap).to(equal(["a","c","d","e","b","f","g"]))
-                    for (index, spin) in user.program!.playlist!.enumerated()
+                    for (index, spin) in scheduler.user.program!.playlist!.enumerated()
                     {
                         if ((index >= 1) && (index <= 4))
                         {
@@ -93,7 +93,7 @@ class PlayolaSchedulerTests: QuickSpec
                     scheduler.performTemporaryMoveSpin(fromPlaylistPosition: 15, toPlaylistPosition: 12)
                     let idMap = scheduler.user.program!.playlist!.map({$0.id!})
                     expect(idMap).to(equal(["a","e","b","c","d","f","g"]))
-                    for (index, spin) in user.program!.playlist!.enumerated()
+                    for (index, spin) in scheduler.user.program!.playlist!.enumerated()
                     {
                         if ((index >= 1) && (index <= 4))
                         {
@@ -108,17 +108,17 @@ class PlayolaSchedulerTests: QuickSpec
                 
                 it ("detects different indexes")
                 {
-                    var copiedPlaylist = user.program!.playlist!.map { $0.copy() }
+                    var copiedPlaylist = scheduler.user.program!.playlist!.map { $0.copy() }
                     copiedPlaylist[3].airtime = Date()
                     copiedPlaylist[2].id = "newID"
                     copiedPlaylist[5].audioBlock = AudioBlock(id:"newAudioBlockID")
-                    let differentIndexes = scheduler.differentIndexes(oldPlaylist: user.program!.playlist!, newPlaylist: copiedPlaylist)
+                    let differentIndexes = scheduler.differentIndexes(oldPlaylist: scheduler.user.program!.playlist!, newPlaylist: copiedPlaylist)
                     expect(differentIndexes).to(equal([2,3,5]))
                 }
                 
                 it ("returns nil if different counts")
                 {
-                    var copiedPlaylist = user.program!.playlist!.map { $0.copy() }
+                    var copiedPlaylist = scheduler.user.program!.playlist!.map { $0.copy() }
                     copiedPlaylist.remove(at: 0)
                     let differentIndexes = scheduler.differentIndexes(oldPlaylist: user.program!.playlist!, newPlaylist: copiedPlaylist)
                     expect(differentIndexes).to(beNil())
@@ -134,9 +134,9 @@ class PlayolaSchedulerTests: QuickSpec
                 
                 it ("nils the correct airtimes for a move")
                 {
-                    let movingSpin = user.program!.playlist![3]
+                    let movingSpin = scheduler.user.program!.playlist![3]
                     let fromPlaylistPosition = movingSpin.playlistPosition!
-                    let toPlaylistPosition = user.program!.playlist![6].playlistPosition!
+                    let toPlaylistPosition = scheduler.user.program!.playlist![6].playlistPosition!
                     apiMock.moveSpinShouldPause = true
                     scheduler.moveSpin(fromPlaylistPosition: fromPlaylistPosition, toPlaylistPosition: toPlaylistPosition)
                     .then
@@ -183,7 +183,7 @@ class PlayolaSchedulerTests: QuickSpec
                 beforeEach
                 {
                     // set date so that playlist[2] is the first ok airtime
-                    dateMocker.setDate(user.program!.playlist![2].airtime?.addSeconds(-(PlayolaConstants.LOCKED_SECONDS_OF_PRELOAD + 10)))
+                    dateMocker.setDate(scheduler.user.program!.playlist![2].airtime?.addSeconds(-(PlayolaConstants.LOCKED_SECONDS_OF_PRELOAD + 10)))
                 }
                 
                 it ("returns true if it's first changeable one")

@@ -26,6 +26,12 @@ public class PlayolaProgramRefresher:NSObject
         let _ = PlayolaModelRefreshHandler.sharedInstance()
     }
     
+    func onWakeNote(note:NSNotification)
+    {
+        self.requestUpdate()
+    }
+    
+    
     //------------------------------------------------------------------------------
     
     func setupListeners()

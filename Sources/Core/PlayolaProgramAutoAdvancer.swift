@@ -64,11 +64,18 @@ public class PlayolaProgramAutoAdvancer:NSObject
     
     func advanceProgram()
     {
+        puts("inAdvanceProgram!")
+        puts("User: \(String(describing: self.user))")
+        puts("self: \(self)")
+        puts("program: \(String(describing: self.user?.program))")
         if let playlist = self.user?.program?.playlist
         {
             if (playlist.count > 0)
             {
-                self.user?.program?.nowPlaying = self.user?.program?.playlist?.remove(at: 0)
+                if let newNowPlaying = self.user?.program?.playlist?.remove(at: 0)
+                {
+                    self.user?.program?.nowPlaying =  newNowPlaying
+                }
                 self.user?.handleNowPlayingAdvanced()
             }
         }
