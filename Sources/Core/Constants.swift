@@ -37,8 +37,10 @@ public enum PlayolaUserRole:Int {
 
 public struct PlayolaConstants {
     #if (arch(i386) || arch(x86_64)) && os(iOS)  // simulator
-    static let HOST_NAME = "127.0.0.1:9000"     // localhost must be 127.0.0.1 for OHHTTPStubs
-    public static let BASE_URL = "http://\(HOST_NAME)"
+//    static let HOST_NAME = "127.0.0.1:9000"     // localhost must be 127.0.0.1 for OHHTTPStubs
+    static let HOST_NAME = "api.playola.fm"
+    public static let BASE_URL = "https://\(HOST_NAME)"
+//    public static let BASE_URL = "http://\(HOST_NAME)"
     static let S3_SONGS_BUCKET = "playolasongsdevelopment"
     static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
     static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongsdevelopment"

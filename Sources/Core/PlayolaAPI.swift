@@ -1,5 +1,5 @@
-    //
-//  AuthService.swift
+//
+//  PlayolaAPI.swift
 //  PlayolaCore
 //
 //  Created by Brian D Keane on 8/16/17.
@@ -248,7 +248,9 @@ public class PlayolaAPI:NSObject
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {
-                            fulfill(User(userInfo: userData))
+                            let user = User(userInfo: userData)
+                            fulfill(user)
+                            NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                         }
                     }
                 case .failure:
@@ -314,6 +316,7 @@ public class PlayolaAPI:NSObject
                         if let receivedToken = foundUserData["token"] as? String
                         {
                             self.setAccessToken(tokenValue: receivedToken)
+                            NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
                         }
                         if let userData = foundUserData["user"] as? NSDictionary
                         {
@@ -345,6 +348,92 @@ public class PlayolaAPI:NSObject
             }
         }
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func createUser
+    // -----------------------------------------------------------------------------
+    /**
+     Gets a session token from the playola server via the local login info.  If the
+     user was successfully created, the user is signed in.
+     
+     - parameters:
+     - emailConfirmationID: `(String)` - the id of the emailConfirmation request
+     - passcode: `(String)` - the passcode that was included in the user's email
+     
+     - returns:
+     `Promise<User>` - a promise that resolves to the current User
+     
+     ### Usage Example: ###
+     ````
+     api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234)
+     .then
+     {
+        (user) -> Void in
+        print(user.name)
+     }
+     .catch
+     {
+     (err) -> Void in
+     print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: a User
+     * rejects: an AuthError
+     */
+    public func createUser(emailConfirmationID:String, passcode:String) -> Promise<User>
+    {
+        let url = "\(baseURL)/auth/local"
+        let parameters:Parameters = ["emailConfirmationID": emailConfirmationID, "passcode": passcode]
+        
+        return Promise
+        {
+            (fulfill, reject) in
+                
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let foundUserData = response.result.value as? [String:Any]
+                        {
+                            if let receivedToken = foundUserData["token"] as? String
+                            {
+                                self.setAccessToken(tokenValue: receivedToken)
+                                NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
+                            }
+                            if let userData = foundUserData["user"] as? NSDictionary
+                            {
+                                let user = User(userInfo: userData)
+                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                                fulfill(user)
+                            }
+                        }
+                    case .failure:
+                        if let data = response.data {
+                            if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any]
+                            {
+                                if let message = jsonObject?["message"] as? String
+                                {
+                                    if (message.lowercased().range(of: "passcode") != nil)
+                                    {
+                                        return reject(LoginErrorType.passcodeIncorrect)
+                                    }
+                                }
+                            }
+                        }
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
+
 
     
     // -----------------------------------------------------------------------------

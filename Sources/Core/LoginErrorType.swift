@@ -25,6 +25,8 @@ public enum LoginErrorType:Error, Equatable
             return true
         case (.passwordIncorrect, .passwordIncorrect):
             return true
+        case (.passcodeIncorrect, .passcodeIncorrect):
+            return true
         default:
             return false
         }
@@ -35,4 +37,7 @@ public enum LoginErrorType:Error, Equatable
     
     /// the password was incorrect -- corresponds to loginRejectionCode 2 on the server
     case passwordIncorrect
+    
+    /// the passcode was incorrect and the user could not be created.
+    case passcodeIncorrect
 }

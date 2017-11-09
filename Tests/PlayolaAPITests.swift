@@ -1913,6 +1913,108 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
             }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("createUser")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("loginSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
+                        .then
+                        {
+                            (createdUser) -> Void in
+                            let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/auth/local"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["emailConfirmationID"] as! String)).to(equal("anEmailConfirmationID"))
+                            expect((sentBody!["passcode"] as! String)).to(equal("1234"))
+                            
+                            // check response
+                            let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                            let rawID = rawUpdatedUser["id"] as! String
+                                    
+                            // check response
+                            expect(createdUser.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("createUser() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns .passcodeIncorrect")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("incorrectPasscode.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! LoginErrorType)).to(equal(LoginErrorType.passcodeIncorrect))
+                            done()
+                        }
+                    }
+                }
+            }
         }
     }
 }
