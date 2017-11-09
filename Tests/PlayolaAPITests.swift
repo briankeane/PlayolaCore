@@ -1936,7 +1936,7 @@ class PlayolaAPITests: QuickSpec {
                             let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
                                     
                             // check request
-                            expect(sentRequest!.url!.path).to(equal("/auth/local"))
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/users"))
                             expect(sentRequest!.httpMethod).to(equal("POST"))
                             expect((sentBody!["emailConfirmationID"] as! String)).to(equal("anEmailConfirmationID"))
                             expect((sentBody!["passcode"] as! String)).to(equal("1234"))
@@ -2015,6 +2015,81 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
             }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("createEmailConfirmation")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("emailConfirmationSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.createEmailConfirmation(email: "bob@bob.com", displayName: "Bob", password: "bobsSecurePassword")
+                        .then
+                        {
+                            (confirmationID) -> Void in
+                            let jsonDict = self.readLocalJsonFile("emailConfirmationSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/emailConfirmations"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["email"] as! String)).to(equal("bob@bob.com"))
+                            expect((sentBody!["displayName"] as! String)).to(equal("Bob"))
+                            expect((sentBody!["password"] as! String)).to(equal("bobsSecurePassword"))
+                                    
+                            // check response
+                            let rawID = jsonDict["id"] as! String
+                                    
+                            // check response
+                            expect(confirmationID).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("updateUser() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.createEmailConfirmation(email: "bob@bob.com", displayName: "Bob", password: "bobsSecurePassword")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            done()
+                        }
+                    }
+                }
+            }
+            
         }
     }
 }

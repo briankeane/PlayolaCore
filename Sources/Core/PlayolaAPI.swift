@@ -385,7 +385,7 @@ public class PlayolaAPI:NSObject
      */
     public func createUser(emailConfirmationID:String, passcode:String) -> Promise<User>
     {
-        let url = "\(baseURL)/auth/local"
+        let url = "\(baseURL)/api/v1/users"
         let parameters:Parameters = ["emailConfirmationID": emailConfirmationID, "passcode": passcode]
         
         return Promise
@@ -433,8 +433,72 @@ public class PlayolaAPI:NSObject
                 }
         }
     }
-
-
+    
+    // -----------------------------------------------------------------------------
+    //                          func createEmailConfirmation
+    // -----------------------------------------------------------------------------
+    /**
+     Creates an emailConfirmation on the server and requests that a confirmation email
+     be sent to the user containing a passcode.
+     
+     - parameters:
+     - email: `(String)` - the email for the new user
+     - displayName: `(String)` - the desired displayName for the new user
+     - password: `(String)` - the desired password for the new user
+     
+     - returns:
+     `Promise<String>` - a promise that resolves to the emailConfirmationID. This should be stored in order to call createUser later on when it works.
+     
+     ### Usage Example: ###
+     ````
+     api.createEmailConfirmation(email:"bob@bob.com", displayName: "Bob", password:"BobsSuperSecretPassword")
+     .then
+     {
+        (emailConfirmationID) -> Void in
+        print(emailConfirmationID)
+     }
+     .catch
+     {
+        (err) -> Void in
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an emailConfirmationID
+     * rejects: an AuthError
+     */
+    public func createEmailConfirmation(email:String, displayName:String, password:String) -> Promise<String>
+    {
+        let url = "\(baseURL)/api/v1/emailConfirmations"
+        let parameters:Parameters = ["email": email, "displayName": displayName, "password": password]
+        
+        return Promise
+        {
+            (fulfill, reject) in
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+                .validate(statusCode: 200..<300)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    switch response.result
+                    {
+                    case .success:
+                        if let emailConfirmationData = response.result.value as? [String:Any]
+                        {
+                            if let emailConfirmationID = emailConfirmationData["id"] as? String
+                            {
+                                fulfill(emailConfirmationID)
+                            }
+                        }
+                    case .failure:
+                        let authErr = AuthError(response: response)
+                        reject(authErr)
+                    }
+                }
+        }
+    }
     
     // -----------------------------------------------------------------------------
     //                          func getMe
