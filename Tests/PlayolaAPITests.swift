@@ -66,19 +66,29 @@ class PlayolaAPITests: QuickSpec {
             
             beforeEach
             {
+                sentBody = nil
+                sentRequest = nil
+                
                 UserDefaults.standard.removeObject(forKey: "playolaAccessToken")
                 api = PlayolaAPI(accessTokenString: "This Is A Token String", baseURL: "http://127.0.0.1:9000")
                 print(PlayolaConstants.HOST_NAME)
                 stub(condition: isHost("127.0.0.1"))
                 {
                     (request) in
-                    sentRequest = request
+                    
+                    if (sentRequest == nil)
+                    {
+                        sentRequest = request
+                    }
                     
                     let castRequest = request as NSURLRequest
                     if let bodyData = castRequest.ohhttpStubs_HTTPBody()
                     {
-                        sentBody = try! JSONSerialization.jsonObject(with: bodyData) as! [String:Any]
-                        
+                        // only capture initial sentBody
+                        if (sentBody == nil)
+                        {
+                            sentBody = try! JSONSerialization.jsonObject(with: bodyData) as! [String:Any]
+                        }
                     }
                     return stubbedResponse!
                 }
