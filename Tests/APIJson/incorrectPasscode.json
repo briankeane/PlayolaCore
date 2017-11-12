@@ -1,4 +1,5 @@
 {
     "code": 422,
-    "message": "Incorrect Passcode"
+    "message": "Incorrect Passcode",
+    "signUpRejectionCode": 1
 }

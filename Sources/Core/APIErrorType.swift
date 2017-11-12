@@ -1,5 +1,5 @@
 //
-//  AuthErrorType.swift
+//  APIErrorType.swift
 //  PlayolaCore
 //
 //  Created by Brian D Keane on 8/18/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum AuthErrorType:Error, Equatable
+public enum APIErrorType:Error, Equatable
 {
     /// Returns a Boolean value indicating whether two values are equal.
     ///
@@ -18,9 +18,15 @@ enum AuthErrorType:Error, Equatable
     /// - Parameters:
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
-    static func ==(lhs: AuthErrorType, rhs: AuthErrorType) -> Bool {
+    public static func ==(lhs: APIErrorType, rhs: APIErrorType) -> Bool {
         switch (lhs, rhs)
         {
+        case (.emailNotFound, .emailNotFound):
+            return true
+        case (.passwordIncorrect, .passwordIncorrect):
+            return true
+        case (.passcodeIncorrect, .passcodeIncorrect):
+            return true
         case (.unauthorized, .unauthorized):
             return true
         case (.notFound, .notFound):
@@ -35,6 +41,15 @@ enum AuthErrorType:Error, Equatable
             return false
         }
     }
+    
+    /// the email was not found -- localLogin only
+    case emailNotFound
+    
+    /// the password was incorrect -- localLogin only
+    case passwordIncorrect
+    
+    /// the passcode was incorrect -- createUser only
+    case passcodeIncorrect
     
     /// indicates statusCode 404 received from server
     case notFound

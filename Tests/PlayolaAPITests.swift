@@ -152,7 +152,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -218,7 +218,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -285,7 +285,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -386,7 +386,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -456,7 +456,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -534,7 +534,7 @@ class PlayolaAPITests: QuickSpec {
                             (error) -> Void in
                             let jsonDict = self.readLocalJsonFile("422.json")!
                             
-                            let authError = error as! AuthError
+                            let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
                         }
@@ -632,7 +632,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -730,7 +730,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -803,7 +803,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -876,7 +876,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -948,7 +948,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -1026,7 +1026,7 @@ class PlayolaAPITests: QuickSpec {
                         {
                             (error) -> Void in
                             let jsonDict = self.readLocalJsonFile("422.json")!
-                            let authError = error as! AuthError
+                            let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
                         }
@@ -1094,7 +1094,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -1158,7 +1158,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                                     done()
                         }
                     }
@@ -1223,7 +1223,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -1289,7 +1289,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                             done()
                         }
                     }
@@ -1353,7 +1353,7 @@ class PlayolaAPITests: QuickSpec {
                                 .catch
                                 {
                                     (error) -> Void in
-                                    expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                                    expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                                     done()
                             }
                     }
@@ -1418,7 +1418,7 @@ class PlayolaAPITests: QuickSpec {
                                 .catch
                                 {
                                     (error) -> Void in
-                                    expect((error as! AuthError).type).to(equal(AuthErrorType.notFound))
+                                    expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                                     done()
                             }
                     }
@@ -1491,7 +1491,7 @@ class PlayolaAPITests: QuickSpec {
                             (error) -> Void in
                             let jsonDict = self.readLocalJsonFile("422.json")!
                                     
-                            let authError = error as! AuthError
+                            let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
                         }
@@ -1564,7 +1564,7 @@ class PlayolaAPITests: QuickSpec {
                             (error) -> Void in
                             let jsonDict = self.readLocalJsonFile("422.json")!
                                     
-                            let authError = error as! AuthError
+                            let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
                         }
@@ -1639,7 +1639,7 @@ class PlayolaAPITests: QuickSpec {
                             (error) -> Void in
                             let jsonDict = self.readLocalJsonFile("422.json")!
                             
-                            let authError = error as! AuthError
+                            let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
                         }
@@ -1713,7 +1713,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
                             done()
                         }
                     }
@@ -1787,7 +1787,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
                             done()
                         }
                     }
@@ -1861,7 +1861,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
                             done()
                         }
                     }
@@ -1889,7 +1889,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! LoginErrorType)).to(equal(LoginErrorType.emailNotRegistered))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.emailNotFound))
                             done()
                         }
                     }
@@ -1917,7 +1917,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! LoginErrorType)).to(equal(LoginErrorType.passwordIncorrect))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.passwordIncorrect))
                             done()
                         }
                     }
@@ -1991,7 +1991,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
                             done()
                         }
                     }
@@ -2019,7 +2019,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! LoginErrorType)).to(equal(LoginErrorType.passcodeIncorrect))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.passcodeIncorrect))
                             done()
                         }
                     }
@@ -2093,7 +2093,7 @@ class PlayolaAPITests: QuickSpec {
                         .catch
                         {
                             (error) -> Void in
-                            expect((error as! AuthError).type).to(equal(AuthErrorType.badRequest))
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
                             done()
                         }
                     }

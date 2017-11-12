@@ -150,7 +150,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: a User
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     
     public func loginViaFacebook(accessTokenString:String) -> Promise<(User)>
@@ -162,31 +162,31 @@ public class PlayolaAPI:NSObject
             let url = "\(baseURL)/auth/facebook/mobile"
                 
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers:[:])
-            .validate(statusCode: 200..<300)
             .responseJSON
             {
                 (response) -> Void in
-                switch response.result
+                if let statusCode = response.response?.statusCode
                 {
-                case .success:
-                    if let foundUserData = response.result.value as? [String:Any]
+                    if (200..<300 ~= statusCode)
                     {
-                        if let receivedToken = foundUserData["token"] as? String
+                        
+                        if let foundUserData = response.result.value as? [String:Any]
                         {
-                            self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                        }
-                        if let userData = foundUserData["user"] as? NSDictionary
-                        {
-                            let user = User(userInfo: userData)
-                            fulfill(user)
-                            NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                            if let receivedToken = foundUserData["token"] as? String
+                            {
+                                self.setAccessToken(tokenValue: receivedToken)
+                                NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
+                            }
+                            if let userData = foundUserData["user"] as? NSDictionary
+                            {
+                                let user = User(userInfo: userData)
+                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                                return fulfill(user)
+                            }
                         }
                     }
-                case .failure:
-                    let authErr = AuthError(response: response)
-                    reject(authErr)
                 }
+                return reject(APIError(response: response))
             }
         }
     }
@@ -220,7 +220,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: a User
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func loginViaGoogle(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
     {
@@ -231,32 +231,30 @@ public class PlayolaAPI:NSObject
             
             Alamofire.request(url, method: .post, parameters: ["accessToken":accessTokenString,
                                                                 "refreshToken": refreshTokenString], encoding: JSONEncoding.default)
-            .validate(statusCode: 200..<300)
             .responseJSON
             {
                 (response) -> Void in
-            
-                switch response.result
+                if let statusCode = response.response?.statusCode
                 {
-                case .success:
-                    if let foundUserData = response.result.value as? [String:Any]
+                    if (200..<300 ~= statusCode)
                     {
-                        if let receivedToken = foundUserData["token"] as? String
+                        if let foundUserData = response.result.value as? [String:Any]
                         {
-                            self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                        }
-                        if let userData = foundUserData["user"] as? NSDictionary
-                        {
-                            let user = User(userInfo: userData)
-                            fulfill(user)
-                            NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                            if let receivedToken = foundUserData["token"] as? String
+                            {
+                                self.setAccessToken(tokenValue: receivedToken)
+                                NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
+                            }
+                            if let userData = foundUserData["user"] as? NSDictionary
+                            {
+                                let user = User(userInfo: userData)
+                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                                return fulfill(user)
+                            }
                         }
                     }
-                case .failure:
-                    let authErr = AuthError(response: response)
-                    reject(authErr)
                 }
+                return reject(APIError(response: response))
             }
         }
     }
@@ -292,7 +290,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: a User
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func loginLocal(email:String, password:String) -> Promise<User>
     {
@@ -304,47 +302,30 @@ public class PlayolaAPI:NSObject
             (fulfill, reject) in
                 
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
-            .validate(statusCode: 200..<300)
             .responseJSON
             {
                 (response) -> Void in
-                switch response.result
+                if let statusCode = response.response?.statusCode
                 {
-                case .success:
-                    if let foundUserData = response.result.value as? [String:Any]
+                    if (200..<300 ~= statusCode)
                     {
-                        if let receivedToken = foundUserData["token"] as? String
+                        if let foundUserData = response.result.value as? [String:Any]
                         {
+                            if let receivedToken = foundUserData["token"] as? String
+                            {
                             self.setAccessToken(tokenValue: receivedToken)
                             NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                        }
-                        if let userData = foundUserData["user"] as? NSDictionary
-                        {
-                            let user = User(userInfo: userData)
-                            NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                            fulfill(user)
-                        }
-                    }
-                case .failure:
-                    if let data = response.data {
-                        if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any]
-                        {
-                            if let rejectionCode = jsonObject?["loginRejectionCode"] as? Int
+                            }
+                            if let userData = foundUserData["user"] as? NSDictionary
                             {
-                                if (rejectionCode == 1)
-                                {
-                                    return reject(LoginErrorType.emailNotRegistered)
-                                }
-                                else
-                                {
-                                    return reject(LoginErrorType.passwordIncorrect)
-                                }
+                                let user = User(userInfo: userData)
+                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                                return fulfill(user)
                             }
                         }
                     }
-                    let authErr = AuthError(response: response)
-                    reject(authErr)
                 }
+                return reject(APIError(response: response))
             }
         }
     }
@@ -381,7 +362,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: a User
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func createUser(emailConfirmationID:String, passcode:String) -> Promise<User>
     {
@@ -393,43 +374,31 @@ public class PlayolaAPI:NSObject
             (fulfill, reject) in
                 
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
-                .validate(statusCode: 200..<300)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let foundUserData = response.result.value as? [String:Any]
+                        if (200..<300 ~= statusCode)
                         {
-                            if let receivedToken = foundUserData["token"] as? String
+                            if let foundUserData = response.result.value as? [String:Any]
                             {
-                                self.setAccessToken(tokenValue: receivedToken)
-                                NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                            }
-                            if let userData = foundUserData["user"] as? NSDictionary
-                            {
-                                let user = User(userInfo: userData)
-                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                fulfill(user)
-                            }
-                        }
-                    case .failure:
-                        if let data = response.data {
-                            if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:Any]
-                            {
-                                if let message = jsonObject?["message"] as? String
+                        
+                                if let receivedToken = foundUserData["token"] as? String
                                 {
-                                    if (message.lowercased().range(of: "passcode") != nil)
-                                    {
-                                        return reject(LoginErrorType.passcodeIncorrect)
-                                    }
+                                    self.setAccessToken(tokenValue: receivedToken)
+                                    NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
+                                }
+                                if let userData = foundUserData["user"] as? NSDictionary
+                                {
+                                    let user = User(userInfo: userData)
+                                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                                    return fulfill(user)
                                 }
                             }
                         }
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -467,7 +436,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: an emailConfirmationID
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func createEmailConfirmation(email:String, displayName:String, password:String) -> Promise<String>
     {
@@ -478,24 +447,23 @@ public class PlayolaAPI:NSObject
         {
             (fulfill, reject) in
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
-                .validate(statusCode: 200..<300)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let emailConfirmationData = response.result.value as? [String:Any]
+                        if (200..<300 ~= statusCode)
                         {
-                            if let emailConfirmationID = emailConfirmationData["id"] as? String
+                            if let foundUserData = response.result.value as? [String:Any]
                             {
-                                fulfill(emailConfirmationID)
+                                if let emailConfirmationID = foundUserData["id"] as? String
+                                {
+                                    return fulfill(emailConfirmationID)
+                                }
                             }
                         }
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -524,7 +492,7 @@ public class PlayolaAPI:NSObject
         `Promise<User>` - a promise
             
             * resolves to: a User
-            * rejects: an AuthError
+            * rejects: an APIError
      */
     public func getMe() -> Promise<User>
     {
@@ -536,20 +504,23 @@ public class PlayolaAPI:NSObject
         {
             (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers: headers)
-                .validate(statusCode: 200..<300)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        let user:User = User(userInfo: response.result.value! as! NSDictionary)
-                        NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                        fulfill(user)
-                    case .failure:  // could add (let error) later if needed
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
+                        if (200..<300 ~= statusCode)
+                        {
+                            if let userData = response.result.value as? [String:Any]
+                            {
+                                let user = User(userInfo: userData as NSDictionary)
+                            
+                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                                return fulfill(user)
+                            }
+                        }
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -578,7 +549,7 @@ public class PlayolaAPI:NSObject
      `Promise<Dictionary<String,Any>>` - a promise
      
      * resolves to: the raw response dictionary from the server
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
     {
@@ -590,19 +561,20 @@ public class PlayolaAPI:NSObject
         {
             (fulfill, reject) -> Void in
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .validate(statusCode: 200..<300)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        let responseDict = response.result.value as! Dictionary<String,Any>
-                        fulfill(responseDict)
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
+                        if (200..<300 ~= statusCode)
+                        {
+                            if let foundUserData = response.result.value as? [String:Any]
+                            {
+                                return fulfill(foundUserData)
+                            }
+                        }
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -632,7 +604,7 @@ public class PlayolaAPI:NSObject
      `Promise<Dictionary<String,Any>>` - a promise
      
      * resolves to: the raw response dictionary from the server
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func reportAnonymousListeningSession(broadcasterID:String, deviceID:String) -> Promise<Dictionary<String,Any>>
     {
@@ -647,35 +619,26 @@ public class PlayolaAPI:NSObject
         {
             (fulfill, reject) -> Void in
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .validate(statusCode: 200..<300)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        let responseDict = response.result.value as! Dictionary<String,Any>
-                        fulfill(responseDict)
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
+                        if (200..<300 ~= statusCode)
+                        {
+                            if let foundUserData = response.result.value as? [String:Any]
+                            {
+                                return fulfill(foundUserData)
+                            }
+                        }
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
 
     
-    // -----------------------------------------------------------------------------
-    //                      func reportEndOfListeningSession
-    // -----------------------------------------------------------------------------
-    /// tells the playolaServer that a listeningSession has ended
-    ///
-    /// - returns:
-    ///    `Promise<Dictionary<String,AnyObject>>` - resolves to the server response
-    ///                                              message body
-    ///
-    /// ----------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------
+    //  -----------------------------------------------------------------------------
     //                          func reportEndOfListeningSession
     // -----------------------------------------------------------------------------
     /**
@@ -699,7 +662,7 @@ public class PlayolaAPI:NSObject
      `Promise<Dictionary<String,Any>>` - a promise
      
      * resolves to: the raw response dictionary from the server
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
     {
@@ -711,19 +674,20 @@ public class PlayolaAPI:NSObject
         {
             (fulfill, reject) -> Void in
             Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
-                .validate(statusCode: 200..<300)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        let responseDict = response.result.value as! Dictionary<String,Any>
-                        fulfill(responseDict)
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
+                        if (200..<300 ~= statusCode)
+                        {
+                            if let foundUserData = response.result.value as? [String:Any]
+                            {
+                                return fulfill(foundUserData)
+                            }
+                        }
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -749,20 +713,21 @@ public class PlayolaAPI:NSObject
         return Promise
         {
             (fulfill, reject) -> Void in
-                Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                    .validate(statusCode: 200..<300)
-                    .responseJSON
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON
+                {
+                    (response) -> Void in
+                    if let statusCode = response.response?.statusCode
                     {
-                        (response) -> Void in
-                        switch response.result
+                        if (200..<300 ~= statusCode)
                         {
-                        case .success:
-                            let responseDict = response.result.value as! Dictionary<String,Any>
-                            fulfill(responseDict)
-                        case .failure:
-                            let authErr = AuthError(response: response)
-                            reject(authErr)
+                            if let foundUserData = response.result.value as? [String:Any]
+                            {
+                                return fulfill(foundUserData)
+                            }
                         }
+                    }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -791,7 +756,7 @@ public class PlayolaAPI:NSObject
         `Promise<User>` - a promise
      
             * resolves to: a RotationItemsCollection
-            * rejects: an AuthError
+            * rejects: an APIError
      */
     public func getRotationItems() -> Promise<RotationItemsCollection>
     {
@@ -807,16 +772,17 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: (response.result.value as? NSDictionary)!["rotationItems"] as! Dictionary<String, Array<Dictionary<String, AnyObject>>>)
-                            
-                            fulfill(rotationItemsCollection)
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
+                        if (200..<300 ~= statusCode)
+                        {
+                            if let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: (response.result.value as? NSDictionary)!["rotationItems"] as! Dictionary<String, Array<Dictionary<String, AnyObject>>>)
+                            {
+                                return fulfill(rotationItemsCollection)
+                            }
+                        }
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -847,7 +813,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Int>` - a promise
      * resolves to: an integer
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     
     public func getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
@@ -859,24 +825,23 @@ public class PlayolaAPI:NSObject
         {
             (fulfill, reject) -> Void in
             Alamofire.request(url, parameters:parameters, headers:headers)
-                .validate(statusCode: 200..<300)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let responseDictionary:NSDictionary = response.result.value as? NSDictionary
+                        if (200..<300 ~= statusCode)
                         {
-                            if let count = responseDictionary["count"] as? Int
+                            if let responseDict = response.result.value as? [String:Any]
                             {
-                                fulfill(count)
+                                if let count = responseDict["count"] as? Int
+                                {
+                                    return fulfill(count)
+                                }
                             }
                         }
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -911,7 +876,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Array<User>>` - a promise
      * resolves to: an array of Users
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func getPresets(userID:String="me") -> Promise<Array<User?>>
     {
@@ -927,18 +892,17 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                        if (200..<300 ~= statusCode)
                         {
-                            return fulfill(presets)
+                            if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            {
+                                return fulfill(presets)
+                            }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -969,7 +933,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Array<User>>` - a promise
      * resolves to: an array of Users
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func getTopUsers() -> Promise<Array<User?>>
     {
@@ -985,18 +949,18 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let users = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "topUsers")
+                        if (200..<300 ~= statusCode)
                         {
-                            return fulfill(users)
+
+                            if let users = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "topUsers")
+                            {
+                                return fulfill(users)
+                            }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1027,7 +991,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: an updated user
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User?>
     {
@@ -1042,28 +1006,21 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success(let JSON):
-                        let responseData = JSON as! NSDictionary
-                        if let statusCode:Int = response.response?.statusCode
+                        if (200..<300 ~= statusCode)
                         {
-                            if (statusCode == 200)
+                            if let responseDict = response.result.value as? [String:Any]
                             {
-                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
-                                let user:User = User(userInfo: rawUser as NSDictionary)
-                                NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
-                                fulfill(user)
-                            }
-                            else if (statusCode == 422)
-                            {
-                                reject(AuthError(response: response))
+                                if let rawUser = responseDict["user"] as? [String:AnyObject]
+                                {
+                                    let user = User(userInfo: rawUser as NSDictionary)
+                                    return fulfill(user)
+                                }
                             }
                         }
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1094,7 +1051,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Array<User>>` - a promise
      * resolves to: the updated presets array
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func follow(broadcasterID:String) -> Promise<Array<User?>>
     {
@@ -1109,17 +1066,17 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                        if (200..<300 ~= statusCode)
                         {
-                            return fulfill(presets)
+                            if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            {
+                                return fulfill(presets)
+                            }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        reject(AuthError(response: response))
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1150,7 +1107,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Array<User>>` - a promise
      * resolves to: the updated presets array
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func unfollow(broadcasterID:String) -> Promise<Array<User?>>
     {
@@ -1165,17 +1122,17 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                        if (200..<300 ~= statusCode)
                         {
-                            return fulfill(presets)
+                            if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            {
+                                return fulfill(presets)
+                            }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        reject(AuthError(response: response))
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1209,7 +1166,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Array<User>>` - a promise
      * resolves to: the updated presets array
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func findUsersByKeywords(searchString:String) -> Promise<Array<User?>>
     {
@@ -1226,17 +1183,17 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                        if (200..<300 ~= statusCode)
                         {
-                            return fulfill(foundUsers)
+                            if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                            {
+                                return fulfill(foundUsers)
+                            }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        reject(AuthError(response: response))
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1270,7 +1227,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Array<AudioBlock>>` - a promise
      * resolves to: an array of the found AudioBlocks
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func findSongsByKeywords(searchString:String) -> Promise<Array<AudioBlock>>
     {
@@ -1286,17 +1243,17 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let foundSongs = arrayOfSongsFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                        if (200..<300 ~= statusCode)
                         {
-                            return fulfill(foundSongs)
+                            if let foundSongs = arrayOfSongsFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                            {
+                                return fulfill(foundSongs)
+                            }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        reject(AuthError(response: response))
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1328,7 +1285,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: an up-to-date User object
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func getUser(userID:String) -> Promise<User>
     {
@@ -1345,18 +1302,18 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if let foundUserData = response.result.value as? NSDictionary
+                        if (200..<300 ~= statusCode)
                         {
-                            let user = User(userInfo: foundUserData)
-                            return fulfill(user)
+                            if let foundUserData = response.result.value as? NSDictionary
+                            {
+                                let user = User(userInfo: foundUserData)
+                                return fulfill(user)
+                            }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        reject(AuthError(response: response))
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1394,7 +1351,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<Array<User>>` - a promise
      * resolves to: the updated presets array
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
     {
@@ -1409,21 +1366,18 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success:
-                        if ((response.response!.statusCode >= 200) && (response.response!.statusCode <= 300))
+                        if (200..<300 ~= statusCode)
                         {
                             if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
                             {
                                 return fulfill(foundUsers)
                             }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        reject(AuthError(response: response))                    }
+                    }
+                    return reject(APIError(response: response))
                 }
-            
         }
     }
 
@@ -1456,7 +1410,7 @@ public class PlayolaAPI:NSObject
      `Promise<RotationItemsCollection>` - a promise
      
      * resolves to: a RotationItemsCollection
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
     {
@@ -1471,25 +1425,19 @@ public class PlayolaAPI:NSObject
             .responseJSON
             {
                 (response) -> Void in
-                switch response.result
+                if let statusCode:Int = response.response?.statusCode
                 {
-                case .success(let JSON):
-                    if let statusCode:Int = response.response?.statusCode
+                    if (200..<300 ~= statusCode)
                     {
-                        if (200..<300 ~= statusCode)
+                        if let responseDictionary = response.result.value as? [String:Any]
                         {
-                            if let responseDictionary:NSDictionary = JSON as? NSDictionary
-                            {
-                                let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary.object(forKey: "rotationItems") as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
-                                let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
-                                return fulfill(rotationItemsCollection)
-                            }
+                            let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
+                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                            return fulfill(rotationItemsCollection)
                         }
                     }
-                    return reject(AuthError(response: response))
-                case .failure:
-                    return reject(AuthError(response: response))
                 }
+                return reject(APIError(response: response))
             }
         }
     }
@@ -1520,7 +1468,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<RotationItemsCollection>` - a promise
      * resolves to: a RotationItemsCollection
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
     {
@@ -1535,25 +1483,19 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode:Int = response.response?.statusCode
                     {
-                    case .success(let JSON):
-                        if let statusCode:Int = response.response?.statusCode
+                        if (200..<300 ~= statusCode)
                         {
-                            if (200..<300 ~= statusCode)
+                            if let responseDictionary = response.result.value as? [String:Any]
                             {
-                                if let responseDictionary:NSDictionary = JSON as? NSDictionary
-                                {
-                                    let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary.object(forKey: "rotationItems") as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
-                                    let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
-                                    return fulfill(rotationItemsCollection)
-                                }
+                                let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
+                                let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                                return fulfill(rotationItemsCollection)
                             }
                         }
-                        return reject(AuthError(response: response))
-                    case .failure:
-                        return reject(AuthError(response: response))
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1587,7 +1529,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: an updated user
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User>
     {
@@ -1598,36 +1540,24 @@ public class PlayolaAPI:NSObject
         return Promise
         {
             (fulfill, reject) -> Void in
-            print("headers")
-            print(headers!)
-            print("parameters")
-            print(parameters!)
             Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result  
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success(let JSON):
-                        let responseData = JSON as! NSDictionary
-                        if let statusCode:Int = response.response?.statusCode
+                        if (200..<300 ~= statusCode)
                         {
-                            if (statusCode == 200)
+                            if let responseData = response.result.value as? [String:Any]
                             {
-                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
+                                let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
                                 let user:User = User(userInfo: rawUser as NSDictionary)
                                     NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
-                                fulfill(user)
-                            }
-                            else if (statusCode == 422)
-                            {
-                                reject(AuthError(response: response))
+                                return fulfill(user)
                             }
                         }
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    reject(APIError(response: response))
                 }
         }
     }
@@ -1660,7 +1590,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: an updated user
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func removeSpin(spinID:String) -> Promise<User>
     {
@@ -1674,28 +1604,20 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success(let JSON):
-                        let responseData = JSON as! NSDictionary
-                        if let statusCode:Int = response.response?.statusCode
+                        if (200..<300 ~= statusCode)
                         {
-                            if (statusCode == 200)
+                            if let responseData = response.result.value as? [String:Any]
                             {
-                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
+                                let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
                                 let user:User = User(userInfo: rawUser as NSDictionary)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
-                                fulfill(user)
-                            }
-                            else if (statusCode == 422)
-                            {
-                                reject(AuthError(response: response))
+                                return fulfill(user)
                             }
                         }
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1728,7 +1650,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<User>` - a promise
      * resolves to: an updated user
-     * rejects: an AuthError
+     * rejects: an APIError
      */
     public func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User>
     {
@@ -1743,28 +1665,20 @@ public class PlayolaAPI:NSObject
                 .responseJSON
                 {
                     (response) -> Void in
-                    switch response.result
+                    if let statusCode = response.response?.statusCode
                     {
-                    case .success(let JSON):
-                        let responseData = JSON as! NSDictionary
-                        if let statusCode:Int = response.response?.statusCode
+                        if (200..<300 ~= statusCode)
                         {
-                            if (statusCode == 200)
+                            if let responseData = response.result.value as? [String:Any]
                             {
-                                let rawUser:Dictionary<String,AnyObject> = (responseData.object(forKey: "user") as? Dictionary<String, AnyObject>)!
+                                let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
                                 let user:User = User(userInfo: rawUser as NSDictionary)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
-                                fulfill(user)
-                            }
-                            else if (statusCode == 422)
-                            {
-                                reject(AuthError(response: response))
+                                return fulfill(user)
                             }
                         }
-                    case .failure:
-                        let authErr = AuthError(response: response)
-                        reject(authErr)
                     }
+                    return reject(APIError(response: response))
                 }
         }
     }
@@ -1796,7 +1710,7 @@ public class PlayolaAPI:NSObject
      - returns:
      `Promise<RotationItemsCollection>` - a promise
      * resolves to: a RotationItemsCollection
-     * rejects: an AuthError
+     * rejects: an APIError
      */
 
     fileprivate func broadcastUsersUpdated(_ users:Array<User>)
