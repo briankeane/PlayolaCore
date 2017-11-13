@@ -1,5 +1,6 @@
 {
-    "code": 422,
-    "message": "Incorrect Passcode",
-    "signUpRejectionCode": 1
+    "playolaError": {
+        "code": 1001,
+        "description": "passcode incorrect"
+    }
 }

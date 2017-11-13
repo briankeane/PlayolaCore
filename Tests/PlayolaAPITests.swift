@@ -1872,7 +1872,7 @@ class PlayolaAPITests: QuickSpec {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
                         fileAtPath: OHPathForFile("emailNotFound.json", type(of: self))!,
-                        statusCode: 401,
+                        statusCode: 404,
                         headers: [:]
                     )
                     

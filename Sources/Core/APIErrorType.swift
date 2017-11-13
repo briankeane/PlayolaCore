@@ -21,19 +21,25 @@ public enum APIErrorType:Error, Equatable
     public static func ==(lhs: APIErrorType, rhs: APIErrorType) -> Bool {
         switch (lhs, rhs)
         {
+        case (.passcodeIncorrect, .passcodeIncorrect):
+            return true
+        case (.invalidEmail, .invalidEmail):
+            return true
         case (.emailNotFound, .emailNotFound):
             return true
         case (.passwordIncorrect, .passwordIncorrect):
             return true
-        case (.passcodeIncorrect, .passcodeIncorrect):
+        case (.badRequest, .badRequest):
             return true
-        case (.unauthorized, .unauthorized):
+        case (.zipcodeNotFound, .zipcodeNotFound):
             return true
         case (.notFound, .notFound):
             return true
-        case (.badRequest, .badRequest):
+        case (.unauthorized, .unauthorized):
             return true
         case (.parsingError, .parsingError):
+            return true
+        case (.networkConnectionError, .networkConnectionError):
             return true
         case (.unknown, .unknown):
             return true
@@ -42,14 +48,23 @@ public enum APIErrorType:Error, Equatable
         }
     }
     
+    /// the passcode was incorrect -- createUser only
+    case passcodeIncorrect
+    
+    /// the provided email was not reachable
+    case invalidEmail
+    
     /// the email was not found -- localLogin only
     case emailNotFound
     
     /// the password was incorrect -- localLogin only
     case passwordIncorrect
     
-    /// the passcode was incorrect -- createUser only
-    case passcodeIncorrect
+    /// indicates statusCode 422 received from server.
+    case badRequest
+    
+    /// the provided zipcode could not be found in the db
+    case zipcodeNotFound
     
     /// indicates statusCode 404 received from server
     case notFound
@@ -57,11 +72,11 @@ public enum APIErrorType:Error, Equatable
     /// indicates statusCode 411 received from server
     case unauthorized
     
-    /// indicates statusCode 422 received from server.
-    case badRequest
-    
     /// indicates an error parsing the server response
     case parsingError
+    
+    /// playola is having trouble reaching the server
+    case networkConnectionError
     
     /// indicates unknown/undocumented error received from the server
     case unknown

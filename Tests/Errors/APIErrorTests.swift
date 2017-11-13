@@ -90,8 +90,10 @@ class APIErrorTests: QuickSpec
                 
                 it ("works for passcodeIncorrect")
                 {
-                    let resultDict:NSDictionary = [ "signUpRejectionCode": 1,
-                                                    "message": "incorrect passcode"]
+                    let resultDict:NSDictionary = [ "playolaError": [
+                                                                    "code": 1001,
+                                                                    "decription": "passcode incorrect"]
+                                                  ]
                     let result = Result<Any>.success(resultDict)
                     let httpResponse = HTTPURLResponse(url: URL(string: "a/url/address")!, statusCode: 422, httpVersion: nil, headerFields: nil)
                     let response = DataResponse(request: nil, response: httpResponse, data: Data(), result: result)

@@ -1,4 +1,6 @@
 {
-    "message": "This email is not registered.",
-    "loginRejectionCode": 1
+    "playolaError": {
+        "code": 2001,
+        "description": "email not found"
+    }
 }

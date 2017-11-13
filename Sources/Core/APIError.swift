@@ -46,44 +46,58 @@ public class APIError:NSObject, Error
         self.init(statusCode: response.response?.statusCode, message: message, rawResponse: response)
     }
     
-    func type() -> APIErrorType
+    public func type() -> APIErrorType
     {
+        // playolaError object overrides type
+        if let dict = self.rawResponse?.result.value as? [String:Any]
+        {
+            if let playolaError = dict["playolaError"] as? [String:Any]
+            {
+                if let code = playolaError["code"] as? Int
+                {
+                    switch code
+                    {
+                    case 1001:
+                        return .passcodeIncorrect
+                    case 1002:
+                        return .invalidEmail
+                    case 2001:
+                        return .emailNotFound
+                    case 2002:
+                        return .passwordIncorrect
+                    case 3001:
+                        return .badRequest
+                    case 3101:
+                        return .zipcodeNotFound
+                    case 3001:
+                        return .notFound
+                    default:
+                        return .unknown
+                    }
+                }
+            }
+        }
+        
         if let statusCode = self.rawResponse?.response?.statusCode
         {
             switch statusCode
             {
             case 401:
-                if let dict = self.rawResponse?.result.value as? [String:Any]
-                {
-                    if let loginRejectionCode = dict["loginRejectionCode"] as? Int
-                    {
-                        if (loginRejectionCode == 1)
-                        {
-                            return .emailNotFound
-                        }
-                        else if (loginRejectionCode == 2)
-                        {
-                            return .passwordIncorrect
-                        }
-                    }
-                }
                 return .unauthorized
             case 404:
                 return .notFound
             case 422:
-                if let dict = self.rawResponse?.result.value as? [String:Any]
-                {
-                    if let signUpRejectionCode = dict["signUpRejectionCode"] as? Int
-                    {
-                        if (signUpRejectionCode == 1)
-                        {
-                            return .passcodeIncorrect
-                        }
-                    }
-                }
                 return .badRequest
             default:
                 return .unknown
+            }
+        }
+        
+        if let error = self.rawResponse?.error as NSError?
+        {
+            if (error.code != 499)
+            {
+                return .networkConnectionError
             }
         }
         return .unknown
