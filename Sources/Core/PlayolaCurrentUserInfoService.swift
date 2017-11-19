@@ -154,6 +154,26 @@ import Foundation
     
     //------------------------------------------------------------------------------
     
+    func isInPresets(userID:String?) -> Bool
+    {
+        if let presets = self.presets, let userID = userID
+        {
+            for preset in presets
+            {
+                if let id = preset.id
+                {
+                    if (id == userID)
+                    {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+    
+    //------------------------------------------------------------------------------
+    
     private func updatePresets(presets:[User]?, error:APIError?)
     {
         if let error = error

@@ -163,7 +163,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                     }
                 }
                 
-                    describe ("presets")
+                describe ("presets")
                 {
                     it ("loads presets on .signedIn")
                     {
@@ -197,6 +197,34 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                         expect {
                             NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": replacementPresets])
                         }.toEventually(postNotifications(contain(updatedNotification)))
+                    }
+                }
+                
+                describe ("isInPresets")
+                {
+                    it ("returns true if the userID is in the presets")
+                    {
+                        userInfoService!.presets = presets
+                        let isPresentID = presets[2].id!
+                        expect(userInfoService!.isInPresets(userID: isPresentID)).to(equal(true))
+                    }
+                    
+                    it ("returns false if it is not")
+                    {
+                        userInfoService!.presets = presets
+                        expect(userInfoService!.isInPresets(userID: "notInThePresetsID")).to(equal(false))
+                    }
+                    
+                    it ("returns false if userID is nil")
+                    {
+                        userInfoService!.presets = presets
+                        expect(userInfoService!.isInPresets(userID: nil)).to(equal(false))
+                    }
+                    
+                    it ("returns fals if presets is nil")
+                    {
+                        userInfoService!.presets = nil
+                        expect(userInfoService!.isInPresets(userID: "notInThePresetsID")).to(equal(false))
                     }
                 }
             }
