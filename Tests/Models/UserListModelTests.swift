@@ -16,13 +16,13 @@ import Nimble
 //    {
 //        describe("List Model Tests")
 //        {
-//            var dataMocker:MockerOfData!
+//            var dataMocker:DataMocker!
 //            var dateHandlerMock:DateHandlerMock!
 //            
 //            beforeEach
 //            {
 //                dateHandlerMock = DateHandlerMock(dateAsReadableString: "2015-03-15 13:15:00")
-//                dataMocker = MockerOfData(DateHandler: dateHandlerMock)
+//                dataMocker = DataMocker(DateHandler: dateHandlerMock)
 //            }
 //            
 //            describe ("getIndex")

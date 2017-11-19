@@ -7,50 +7,22 @@
 //
 
 import Foundation
-
-// Unique Identifier
 #if os(OSX)
     import Cocoa
-
-    func uniqueIdentifier() -> String?
-    {
-        // Get the platform expert
-        let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));
-    
-        // Get the serial number as a CFString ( actually as Unmanaged<AnyObject>! )
-        let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformSerialNumberKey as CFString, kCFAllocatorDefault, 0);
-    
-        // Release the platform expert (we're responsible)
-        IOObjectRelease(platformExpert);
-    
-        // Take the unretained value of the unmanaged-any-object
-        // (so we're not responsible for releasing it)
-        // and pass it back as a String or, if it fails, an empty string
-        return (serialNumberAsCFString?.takeUnretainedValue() as? String)
-    }
-    
 #elseif os(iOS)
     import UIKit
-    func uniqueIdentifier() -> String?
-    {
-        if let deviceID = UIDevice.current.identifierForVendor?.uuidString
-        {
-            return deviceID
-        }
-        return nil
-    }
 #endif
 
-public class PlayolaCurrentUserInfoService:NSObject
+@objc open class PlayolaCurrentUserInfoService:NSObject
 {
-    override init() {
+    public override init() {
         super.init()
         self.setupListeners()
         self.initializeInfo()
     }
     
     private var _user:User?
-    public var user:User?
+    open var user:User?
     {
         get
         {
@@ -70,20 +42,17 @@ public class PlayolaCurrentUserInfoService:NSObject
             }
         }
     }
+    open var presets:[User]? = nil
+    open var presetsRetrievalError:APIError? = nil
     fileprivate var observers:[NSObjectProtocol] = Array()
     
     
     // dependency injections
-    var api:PlayolaAPI = PlayolaAPI.sharedInstance()
-    
-    func injectDependencies(api:PlayolaAPI=PlayolaAPI.sharedInstance())
-    {
-        self.api = api
-    }
-    
+    @objc var api:PlayolaAPI = PlayolaAPI.sharedInstance()
+
     //------------------------------------------------------------------------------
     
-    func setupListeners()
+    open func setupListeners()
     {
         // Listen for user-modifying updates
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.getCurrentUserReceived, object: nil, queue: .main)
@@ -98,18 +67,35 @@ public class PlayolaCurrentUserInfoService:NSObject
             }
         })
         
-        // Listen for user-modifying updates
+        // Clear on sign out
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedOut, object: nil, queue: .main)
         {
             (notification) -> Void in
             self.user = nil
+            self.presets = nil
         })
         
+        // get the presets on signedIn
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedIn, object: nil, queue: .main)
+        {
+            (notification) -> Void in
+            self.getPresets()
+        })
+        
+        // update the presets when a new version is received
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
+        {
+            (notification) -> Void in
+            if let presets = notification.userInfo?["presets"] as? [User]
+            {
+                self.updatePresets(presets: presets, error: nil)
+            }
+        })
     }
     
     //------------------------------------------------------------------------------
     
-    func initializeInfo()
+    open func initializeInfo()
     {
         if (self.api.isSignedIn())
         {
@@ -147,13 +133,44 @@ public class PlayolaCurrentUserInfoService:NSObject
                 }
             }
         }
-        
-       
     }
     
     //------------------------------------------------------------------------------
     
-    public func isSignedIn() -> Bool
+    func getPresets()
+    {
+        self.api.getPresets()
+        .then
+        {
+            (presets) -> Void in
+            self.updatePresets(presets: presets, error: nil)
+        }
+        .catch
+        {
+            (error) -> Void in
+            self.updatePresets(presets: nil, error: (error as? APIError))
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    private func updatePresets(presets:[User]?, error:APIError?)
+    {
+        if let error = error
+        {
+            self.presetsRetrievalError = error
+        }
+        else
+        {
+            self.presetsRetrievalError = nil
+            self.presets = presets
+            NotificationCenter.default.post(name: PlayolaEvents.presetsUpdated, object: nil, userInfo: ["presets": presets])
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    open func isSignedIn() -> Bool
     {
         return (self.user != nil)
     }
@@ -225,4 +242,32 @@ public class PlayolaCurrentUserInfoService:NSObject
     }
 }
 
+#if os(OSX)
+    func uniqueIdentifier() -> String?
+    {
+        // Get the platform expert
+        let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));
+        
+        // Get the serial number as a CFString ( actually as Unmanaged<AnyObject>! )
+        let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformSerialNumberKey as CFString, kCFAllocatorDefault, 0);
+        
+        // Release the platform expert (we're responsible)
+        IOObjectRelease(platformExpert);
+        
+        // Take the unretained value of the unmanaged-any-object
+        // (so we're not responsible for releasing it)
+        // and pass it back as a String or, if it fails, an empty string
+        return (serialNumberAsCFString?.takeUnretainedValue() as? String)
+    }
+    
+#elseif os(iOS)
+    func uniqueIdentifier() -> String?
+    {
+        if let deviceID = UIDevice.current.identifierForVendor?.uuidString
+        {
+            return deviceID
+        }
+        return nil
+    }
+#endif
 fileprivate let createInstance = PlayolaCurrentUserInfoService.sharedInstance()

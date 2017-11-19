@@ -19,10 +19,12 @@ class PlayolaProgramAdvancerTests: QuickSpec
         {
             let dateHandlerMock:DateHandlerMock = DateHandlerMock()
             var user:User!
+            var dataMocker:DataMocker!
             
             beforeEach
             {
-                user = DataMocker.generateUsers(1)[0]!
+                dataMocker = DataMocker()
+                user = dataMocker.generateUsers(1)[0]
             }
             
             it ("schedules the next advance")

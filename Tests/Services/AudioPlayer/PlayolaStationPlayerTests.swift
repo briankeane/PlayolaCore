@@ -17,12 +17,14 @@ class PlayolaStationPlayerTests: QuickSpec {
     {
         describe("PlayolaStationPlayer")
         {
-            var user:User! = DataMocker.users[1]!
+            var dataMocker:DataMocker!
+            var user:User!
             
             beforeEach
             {
-                DataMocker.loadMocks()
-                user = DataMocker.users[1]!
+                dataMocker = DataMocker()
+                dataMocker.loadMocks()
+                user = dataMocker.users[1]!
             }
             
             describe("loadUser")
@@ -37,7 +39,10 @@ class PlayolaStationPlayerTests: QuickSpec {
                     PAPMock = PlayolaAudioPlayerMock()
                     dateHandlerMock = DateHandlerMock(dateAsReadableString: "2015-03-15 13:15:00")
                     stationPlayer = PlayolaStationPlayer()
-                    stationPlayer.injectDependencies(PAPlayer: PAPMock, dateHandler: dateHandlerMock)
+                    stationPlayer.setValuesForKeys([
+                        "PAPlayer": PAPMock,
+                        "dateHandler": dateHandlerMock
+                        ])
                 }
                 
                 it ("does nothing if already playing the same user")
@@ -67,7 +72,7 @@ class PlayolaStationPlayerTests: QuickSpec {
                 {
                     PAPMock = PlayolaAudioPlayerMock()
                     stationPlayer = PlayolaStationPlayer()
-                    stationPlayer.injectDependencies(PAPlayer: PAPMock)
+                    stationPlayer.setValuesForKeys(["PAPlayer": PAPMock])
                     stationPlayer.userPlaying = user
                 }
                 

@@ -17,6 +17,13 @@ class UserModelQuickTests: QuickSpec {
     {
         describe("User Model Tests")
         {
+            var dataMocker:DataMocker!
+            
+            beforeEach
+            {
+                dataMocker = DataMocker()
+            }
+            
             it ("initializes correctly with raw server info")
             {
                 let userInfo:NSDictionary = [  "displayName": "Bob",
@@ -63,7 +70,7 @@ class UserModelQuickTests: QuickSpec {
             
             it ("does not create a program if the playlist is nil")
             {
-                var rawBob:Dictionary<String,Any> = DataMocker.getRawServerUsers(1)[0]
+                var rawBob:Dictionary<String,Any> = dataMocker.getRawServerUsers(1)[0]
                 rawBob["playlist"] = nil
                 let bob = User(userInfo: rawBob as NSDictionary)
                 expect(bob.program).to(beNil())
@@ -71,7 +78,7 @@ class UserModelQuickTests: QuickSpec {
             
             it ("does not create a program if the playlist is empty")
             {
-                var rawBob:Dictionary<String,Any> = DataMocker.getRawServerUsers(1)[0]
+                var rawBob:Dictionary<String,Any> = dataMocker.getRawServerUsers(1)[0]
                 rawBob["playlist"] = Array<Dictionary<String,Any>>() as Any?
                 let bob = User(userInfo: rawBob as NSDictionary)
                 expect(bob.program).to(beNil())

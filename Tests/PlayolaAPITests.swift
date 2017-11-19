@@ -52,7 +52,7 @@ class PlayolaAPITests: QuickSpec {
     
     override func spec()
     {
-        describe("AuthService")
+        describe("PlayolaAPI")
         {
             var api:PlayolaAPI!
             var sentRequest:URLRequest?
@@ -325,7 +325,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawID = rawPresets[0]["id"] as! String
                             // check response
                             print(rawID)
-                            expect(presets[0]!.id!).to(equal(rawID))
+                            expect(presets[0].id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -496,7 +496,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawUpdatedUser = jsonDict["user"] as! NSDictionary
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
-                            expect(updatedUser!.id!).to(equal(rawID))
+                            expect(updatedUser.id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -571,7 +571,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
                             let rawID = rawPresets[0]["id"] as! String
                             // check response
-                            expect(presets[0]!.id!).to(equal(rawID))
+                            expect(presets[0].id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -669,7 +669,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawID = rawPresets[0]["id"] as! String
                             
                             // check response
-                            expect(presets[0]!.id!).to(equal(rawID))
+                            expect(presets[0].id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -768,7 +768,7 @@ class PlayolaAPITests: QuickSpec {
                             let rawID = rawSearchResults[0]["id"] as! String
                                 
                             // check response
-                            expect(presets[0]!.id!).to(equal(rawID))
+                            expect(presets[0].id!).to(equal(rawID))
                             done()
                         }
                         .catch

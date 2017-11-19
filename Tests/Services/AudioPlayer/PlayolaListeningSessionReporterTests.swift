@@ -29,7 +29,10 @@ class PlayolaListeningSessionReporterQuickTests: QuickSpec
                 apiMock = PlayolaAPIMock()
                 currentUserInfoMock = PlayolaCurrentUserInfoMock()
                 reporter = PlayolaListeningSessionReporter()
-                reporter.injectDependencies(api: apiMock, currentUserInfo: currentUserInfoMock)
+                reporter.setValuesForKeys([
+                    "api": apiMock,
+                    "currentUserInfo": currentUserInfoMock
+                ])
             }
             
             afterEach

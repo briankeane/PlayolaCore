@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class DateHandlerService
+@objc public class DateHandlerService:NSObject
 {
     // -----------------------------------------------------------------------------
     //                          func now

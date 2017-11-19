@@ -15,7 +15,7 @@ import Alamofire
 /**
  Playola's custom server communication error.
  */
-public class APIError:NSObject, Error
+open class APIError:NSObject, Error
 {
     /// the statusCode of the response
     public var statusCode:Int?
@@ -46,7 +46,7 @@ public class APIError:NSObject, Error
         self.init(statusCode: response.response?.statusCode, message: message, rawResponse: response)
     }
     
-    public func type() -> APIErrorType
+    open func type() -> APIErrorType
     {
         // playolaError object overrides type
         if let dict = self.rawResponse?.result.value as? [String:Any]

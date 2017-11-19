@@ -14,14 +14,9 @@ import Foundation
 /// a service that provides commercialBlocks to be injected into the playlists.
 /// Used as a Singleton with the name CommercialBlockProviderInstance
 /// ----------------------------------------------------------------------------
-public class CommercialBlockProviderService
+public class CommercialBlockProviderService:NSObject
 {
-    var currentUserInfo:PlayolaCurrentUserInfoService! = PlayolaCurrentUserInfoService.sharedInstance()
-    
-    func injectDependencies(currentUserInfo:PlayolaCurrentUserInfoService=PlayolaCurrentUserInfoService.sharedInstance())
-    {
-        self.currentUserInfo = currentUserInfo
-    }
+    @objc var currentUserInfo:PlayolaCurrentUserInfoService! = PlayolaCurrentUserInfoService.sharedInstance()
     
     
     // -----------------------------------------------------------------------------

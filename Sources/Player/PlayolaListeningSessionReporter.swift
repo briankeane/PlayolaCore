@@ -11,16 +11,11 @@ import Foundation
 class PlayolaListeningSessionReporter:NSObject
 {
     // dependency injections
-    var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
-    var currentUserInfo:PlayolaCurrentUserInfoService! = PlayolaCurrentUserInfoService.sharedInstance()
+    @objc var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
+    @objc var currentUserInfo:PlayolaCurrentUserInfoService! = PlayolaCurrentUserInfoService.sharedInstance()
     
     var observers:[NSObjectProtocol] = Array()
     
-    func injectDependencies(api:PlayolaAPI=PlayolaAPI.sharedInstance(), currentUserInfo:PlayolaCurrentUserInfoService=PlayolaCurrentUserInfoService.sharedInstance())
-    {
-        self.api = api
-        self.currentUserInfo = currentUserInfo
-    }
     
     //------------------------------------------------------------------------------
         

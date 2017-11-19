@@ -161,4 +161,24 @@ class PlayolaAPIMock:PlayolaAPI {
             }
         }
     }
+    
+    var getPresetsCallCount:Int = 0
+    var getPresetsShouldSucceed:Bool = true
+    var getPresetsArgs:[[String:Any?]] = Array()
+    var getPresetsPresets:[User]?
+    var getPresetsError:APIError?
+    override func getPresets(userID: String) -> Promise<[User]>
+    {
+        self.getPresetsCallCount += 1
+        self.getPresetsArgs.append(["userID": userID])
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.getPresetsShouldSucceed)
+            {
+                return fulfill(self.getPresetsPresets!)
+            }
+            return reject(self.getPresetsError!)
+        }
+    }
 }

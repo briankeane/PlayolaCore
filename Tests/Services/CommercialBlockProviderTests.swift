@@ -16,16 +16,21 @@ class CommercialBlockProviderServiceQuickTests: QuickSpec {
     {
         describe("CommercialBlockProviderService")
         {
+            var dataMocker:DataMocker!
             var currentUser:User?
             var mockedCurrentUserInfo:PlayolaCurrentUserInfoService!
             let commercialBlockProvider:CommercialBlockProviderService = CommercialBlockProviderService.sharedInstance()
             
             beforeEach
             {
+                dataMocker = DataMocker()
                 mockedCurrentUserInfo = PlayolaCurrentUserInfoService()
-                mockedCurrentUserInfo.user = DataMocker.generateUsers(1)[0]
+                mockedCurrentUserInfo.user = dataMocker.generateUsers(1)[0]
                 currentUser = mockedCurrentUserInfo.user
-                commercialBlockProvider.injectDependencies(currentUserInfo: mockedCurrentUserInfo)
+                
+                commercialBlockProvider.setValuesForKeys([
+                    "currentUserInfo": mockedCurrentUserInfo
+                    ])
             }
             
             it ("provides a commercial block")

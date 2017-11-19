@@ -21,11 +21,13 @@ public struct PlayolaEvents
     public static let schedulerRefreshedPlaylist:Notification.Name! = Notification.Name(rawValue: "kPlayolaSchedulerRefreshedPlaylist")
     public static let schedulerNowPlayingAdvanced:Notification.Name! = Notification.Name(rawValue: "kPlayolaSchedulerNowPlayingAdvanced")
     public static let currentUserPlaylistAdvanced:Notification.Name! = Notification.Name(rawValue: "kPlayolaCurrentUserPlaylistAdvanced")
+    public static let presetsUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaPresetsUpdated")
     
     // seen by Playola only
     static let getCurrentUserReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaGetMeReceived")
     static let userUpdateRequested:Notification.Name! = Notification.Name(rawValue: "kPlayolaUserUpdateRequested")
     static let accessTokenReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaAccessTokenReceived")
+    static let currentUserPresetsReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaCurrentUserPresetsReceived")
     
 }
 

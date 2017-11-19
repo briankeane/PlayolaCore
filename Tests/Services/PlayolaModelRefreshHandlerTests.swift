@@ -19,15 +19,19 @@ class PlayolaModelRefreshHandlerTests: QuickSpec {
             var apiMock:PlayolaAPIMock!
             var observers:[NSObjectProtocol] = Array()
             var refresher:PlayolaModelRefreshHandler = PlayolaModelRefreshHandler()
+            var dataMocker:DataMocker!
             
             beforeEach
             {
+                dataMocker = DataMocker()
                 apiMock = PlayolaAPIMock()
-                DataMocker.loadMocks()
-                apiMock.getUserSuccessUser = DataMocker.users[0]!
+                dataMocker.loadMocks()
+                apiMock.getUserSuccessUser = dataMocker.users[0]!
                 observers = Array()
                 refresher = PlayolaModelRefreshHandler()
-                refresher.injectDependencies(api: apiMock)
+                refresher.setValuesForKeys([
+                    "api": apiMock
+                    ])
             }
             
             afterEach
@@ -59,7 +63,7 @@ class PlayolaModelRefreshHandlerTests: QuickSpec {
                     broadcastDisplayName = user.displayName!
                 }
                 observers.append(observer)
-                expect(broadcastDisplayName).toEventually(equal(DataMocker.users[0]?.displayName))
+                expect(broadcastDisplayName).toEventually(equal(dataMocker.users[0]?.displayName))
             }
         }
     }

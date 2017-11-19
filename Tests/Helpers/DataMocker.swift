@@ -7,7 +7,7 @@
 //
 import Foundation
 
-class MockerOfData
+class DataMocker
 {
     var defaultRules = [
         "artistMinimumRest": [ "minutesOfRest": 70 ],
@@ -73,7 +73,7 @@ class MockerOfData
         return rawUsers
     }
     
-    func generateUsers (_ count:Int) -> [User?] {
+    func generateUsers (_ count:Int) -> [User] {
         let rawUsers = self.getRawServerUsers(count)
         return rawUsers.map({ (rawUser) -> User! in
             return User(userInfo: rawUser as NSDictionary)
@@ -263,5 +263,3 @@ func generateRandomKey (_ len : Int) -> String
     
     return randomString as String
 }
-
-let DataMocker = MockerOfData()

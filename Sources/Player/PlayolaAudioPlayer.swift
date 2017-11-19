@@ -15,15 +15,8 @@ class PlayolaAudioPlayer: NSObject
     var mixer:AKMixer!
     var playerBank:Array<(AKAudioPlayer, String?)>!
     
-    //------------------------------------------------------------------------------
     // dependency injections
-    //------------------------------------------------------------------------------
-    var DateHandler:DateHandlerService = DateHandlerService.sharedInstance()
-    
-    func injectDependencies(dateHandler:DateHandlerService=DateHandlerService.sharedInstance())
-    {
-        self.DateHandler = dateHandler
-    }
+    @objc var DateHandler:DateHandlerService = DateHandlerService.sharedInstance()
     
     //------------------------------------------------------------------------------
     

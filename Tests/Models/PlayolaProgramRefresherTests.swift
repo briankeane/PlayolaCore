@@ -20,11 +20,13 @@ class PlayolaProgramRefresherTests: QuickSpec
             var user:User!
             var observers:[NSObjectProtocol] = Array()
             var refresher:PlayolaProgramRefresher!
+            var dataMocker:DataMocker!
             
             beforeEach
             {
-                DataMocker.loadMocks()
-                user = DataMocker.users[0]!
+                dataMocker = DataMocker()
+                dataMocker.loadMocks()
+                user = dataMocker.users[0]!
                 observers = Array()
                 user.startAutoUpdating()
                 refresher = PlayolaProgramRefresher(user: user)

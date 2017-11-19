@@ -25,7 +25,9 @@ class PlayolaAudioPlayerTests: QuickSpec {
                 {
                     PAP = PlayolaAudioPlayer()
                     dateHandlerMock = DateHandlerMock(dateAsReadableString: "2015-03-15 13:15:00")
-                    PAP.injectDependencies(dateHandler: dateHandlerMock)
+                    PAP.setValuesForKeys([
+                        "dateHandler": dateHandlerMock
+                        ])
                 }
                 
                 // TODO: Figure out how to fucking test this

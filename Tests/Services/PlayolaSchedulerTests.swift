@@ -20,6 +20,7 @@ class PlayolaSchedulerTests: QuickSpec
     {
         describe("PlayolaSchedulerTests")
         {
+            var dataMocker:DataMocker!
             var dateMocker:DateHandlerMock! = DateHandlerMock()
             var user:UserMock!
             var apiMock:PlayolaAPIMock! = PlayolaAPIMock()
@@ -27,13 +28,17 @@ class PlayolaSchedulerTests: QuickSpec
             
             beforeEach
             {
+                dataMocker = DataMocker()
                 dateMocker = DateHandlerMock()
-                let seedUser = DataMocker.generateUsers(1)[0]!
+                let seedUser = dataMocker.generateUsers(1)[0]
                 user = UserMock(original: seedUser)
                 dateMocker.setDate(user.program!.playlist![0].airtime!.addSeconds(-5))
                 apiMock = PlayolaAPIMock()
                 scheduler = PlayolaScheduler()
-                scheduler.injectDependencies(DateHandler: dateMocker, api: apiMock)
+                scheduler.setValuesForKeys([
+                    "DateHandler": dateMocker,
+                    "api": apiMock
+                    ])
                 scheduler.setupUser(user: user)
             }
             

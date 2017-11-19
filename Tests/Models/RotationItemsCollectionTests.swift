@@ -16,16 +16,19 @@ class RotationItemsCollectionModelQuickTests: QuickSpec
     {
         describe("Rotation Items Collection")
         {
+            var dataMocker:DataMocker!
+            
             beforeEach
             {
-                DataMocker.loadMocks()
+                dataMocker = DataMocker()
+                dataMocker.loadMocks()
             }
             
             describe("listBins()")
             {
                 it ("lists the bins")
                 {
-                    let bins:Array<String> = DataMocker.rotationItemsCollection.listBins()
+                    let bins:Array<String> = dataMocker.rotationItemsCollection.listBins()
                     expect(bins).to(equal(["heavy", "light", "medium"]))
                 }
             }
@@ -34,14 +37,14 @@ class RotationItemsCollectionModelQuickTests: QuickSpec
             {
                 it ("works if it should be true")
                 {
-                    let song:Dictionary<String,AnyObject> = DataMocker.rawRotationItemsCollection["heavy"]![0]["song"]! as! Dictionary<String, AnyObject>
+                    let song:Dictionary<String,AnyObject> = dataMocker.rawRotationItemsCollection["heavy"]![0]["song"]! as! Dictionary<String, AnyObject>
                     let id = song["id"] as! String
-                    expect(DataMocker.rotationItemsCollection.isInRotation(id)).to(beTrue())
+                    expect(dataMocker.rotationItemsCollection.isInRotation(id)).to(beTrue())
                 }
                 
                 it ("works if it should be false")
                 {
-                    expect(DataMocker.rotationItemsCollection.isInRotation("fakeID")).to(beFalse())
+                    expect(dataMocker.rotationItemsCollection.isInRotation("fakeID")).to(beFalse())
                 }
             }
             
@@ -49,12 +52,12 @@ class RotationItemsCollectionModelQuickTests: QuickSpec
             {
                 it ("returns the correct rotationItemID")
                 {
-                    expect(DataMocker.rotationItemsCollection.rotationItemIDFromSongID(DataMocker.rotationItemsCollection.rotationItems[0].song.id!)).to(equal(DataMocker.rotationItemsCollection.rotationItems[0].id))
+                    expect(dataMocker.rotationItemsCollection.rotationItemIDFromSongID(dataMocker.rotationItemsCollection.rotationItems[0].song.id!)).to(equal(dataMocker.rotationItemsCollection.rotationItems[0].id))
                 }
                 
                 it ("returns nil if not found")
                 {
-                    expect(DataMocker.rotationItemsCollection.rotationItemIDFromSongID("fakeID")).to(beNil())
+                    expect(dataMocker.rotationItemsCollection.rotationItemIDFromSongID("fakeID")).to(beNil())
                 }
             }
         }

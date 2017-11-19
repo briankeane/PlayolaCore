@@ -22,14 +22,8 @@ class UserList
     // because of circular dependencies... these must be mocked globally
     //                                     in tests
     //------------------------------------------------------------------------------
-    var api:PlayolaAPI = PlayolaAPI.sharedInstance()
-    var DateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
-    
-    func injectDependencies (_ DateHandler: DateHandlerService = DateHandlerService.sharedInstance(), api:PlayolaAPI = PlayolaAPI.sharedInstance())
-    {
-        self.DateHandler = DateHandler
-        self.api = api
-    }
+    @objc var api:PlayolaAPI = PlayolaAPI.sharedInstance()
+    @objc var DateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
     
     //------------------------------------------------------------------------------
     

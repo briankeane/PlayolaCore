@@ -11,24 +11,24 @@ import SwiftRemoteFileCache
 import PromiseKit
 import AudioKit
 
-public class PlayolaStationPlayer: NSObject
+@objc open class PlayolaStationPlayer: NSObject
 {
     
     /// a listeningSessionReporter
     var reporter:PlayolaListeningSessionReporter!
     
     /// true if the station is in the process of loading a user
-    public var isLoading:Bool = false
+    open var isLoading:Bool = false
     
     /// the user whose station is currently playing
-    public var userPlaying:User?
+    open var userPlaying:User?
     
     var automaticQueueLoadingTimer:Timer?
     
     /// buffering progress
-    public var loadingProgress:Double?
+    open var loadingProgress:Double?
     
-    var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
+    open var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
     
     override public init()
     {
@@ -37,21 +37,13 @@ public class PlayolaStationPlayer: NSObject
     }
     
     // dependecy injections
-    var PAPlayer:PlayolaAudioPlayer! = PlayolaAudioPlayer()
-    var dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
-    var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
-    func injectDependencies(
-                                PAPlayer:PlayolaAudioPlayer!=PlayolaAudioPlayer(),
-                                dateHandler:DateHandlerService! = DateHandlerService.sharedInstance(),
-                                api:PlayolaAPI! = PlayolaAPI()
-                            )
-    {
-        self.PAPlayer = PAPlayer
-        self.dateHandler = dateHandler
-        self.api = api
-    }
+    @objc var PAPlayer:PlayolaAudioPlayer! = PlayolaAudioPlayer()
+    @objc var dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
+    @objc var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
     
-    public func loadUserAndPlay(userID:String) -> Promise<Void>
+    //------------------------------------------------------------------------------
+    
+    open func loadUserAndPlay(userID:String) -> Promise<Void>
     {
         return Promise
         {
@@ -71,12 +63,12 @@ public class PlayolaStationPlayer: NSObject
         }
     }
     
-    public func isPlaying() -> Bool
+    open func isPlaying() -> Bool
     {
         return (self.userPlaying != nil) && (self.isLoading != true)
     }
     
-    public func loadUserAndPlay(user:User)
+    open func loadUserAndPlay(user:User)
     {
         if (self.PAPlayer.isPlaying() && self.userPlaying?.id == user.id)
         {
@@ -139,7 +131,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    func startNowPlayingMonitoring()
+    open func startNowPlayingMonitoring()
     {
         self.userPlaying?.onNowPlayingAdvanced()
         {
@@ -153,7 +145,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    func broadcastNowPlayingChanged()
+    open func broadcastNowPlayingChanged()
     {
         var userInfo:[String:Any] = [:]
         
@@ -177,7 +169,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    public func stop()
+    open func stop()
     {
         PAPlayer.stop()
         let previousUserPlaying = userPlaying
@@ -191,7 +183,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    func refreshDoNotDeleteCacheList()
+    open func refreshDoNotDeleteCacheList()
     {
         let audioBlocksToLoad = self.spinsToLoad().map({$0.audioBlock!})
         var doNotDeleteDict:Dictionary<URL, RemoteFilePriorityLevel> = Dictionary()
@@ -207,7 +199,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    public func nowPlaying() -> Spin?
+    open func nowPlaying() -> Spin?
     {
         if let spin = self.userPlaying?.program?.nowPlaying
         {
@@ -240,7 +232,7 @@ public class PlayolaStationPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    @objc   func downloadAndLoadQueueSpins()
+    @objc func downloadAndLoadQueueSpins()
     {
         self.refreshDoNotDeleteCacheList()
         let spins = self.spinsToLoad()

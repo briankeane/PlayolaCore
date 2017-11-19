@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-public class PlayolaScheduler:NSObject
+open class PlayolaScheduler:NSObject
 {
     var user:User!
     var onPlaylistChangedBlocks:Array<((Array<Spin>)->Void)> = Array()
@@ -18,18 +18,12 @@ public class PlayolaScheduler:NSObject
     var observers:[NSObjectProtocol] = Array()
     
     // dependency injections:
-    var DateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
-    var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
-    
-    func injectDependencies(DateHandler:DateHandlerService=DateHandlerService.sharedInstance(), api:PlayolaAPI=PlayolaAPI.sharedInstance())
-    {
-        self.DateHandler = DateHandler
-        self.api = api
-    }
+    @objc var DateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
+    @objc var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
     
     //------------------------------------------------------------------------------
     
-    override init()
+    public override init()
     {
         super.init()
         self.setupListeners()
@@ -39,7 +33,7 @@ public class PlayolaScheduler:NSObject
         }
     }
     
-    func setupListeners()
+    open func setupListeners()
     {
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedIn, object: nil, queue: .main)
         {
@@ -99,7 +93,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    public func onPlaylistChanged(_ block:((Array<Spin>)->Void)!) -> PlayolaScheduler
+    open func onPlaylistChanged(_ block:((Array<Spin>)->Void)!) -> PlayolaScheduler
     {
         self.onPlaylistChangedBlocks.append(block)
         return self
@@ -107,7 +101,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func executeOnPlaylistChanged()
+    open func executeOnPlaylistChanged()
     {
         for block in onPlaylistChangedBlocks
         {
@@ -172,7 +166,7 @@ public class PlayolaScheduler:NSObject
      * resolves to: the updated playlist
      * rejects: an AuthError or a SchedulerError
      */
-    public func moveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int) -> Promise<User>
+    open func moveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int) -> Promise<User>
     {
         return Promise
         {
@@ -248,7 +242,7 @@ public class PlayolaScheduler:NSObject
      * resolves to: the updated playlist
      * rejects: an AuthError or a SchedulerError
      */
-    public func removeSpin(atPlaylistPosition:Int) -> Promise<User>
+    open func removeSpin(atPlaylistPosition:Int) -> Promise<User>
     {
         return Promise
         {
@@ -326,7 +320,7 @@ public class PlayolaScheduler:NSObject
      * resolves to: the updated playlist
      * rejects: an AuthError or a SchedulerError
      */
-    public func insertAudioBlock(audioBlock:AudioBlock, atPlaylistPosition:Int) -> Promise<User>
+    open func insertAudioBlock(audioBlock:AudioBlock, atPlaylistPosition:Int) -> Promise<User>
     {
         return Promise
         {
@@ -361,7 +355,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func storePlaylist(playlist:[Spin]?)
+    open func storePlaylist(playlist:[Spin]?)
     {
         if let playlist = playlist
         {
@@ -371,7 +365,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func restorePlaylist()
+    open func restorePlaylist()
     {
         if let playlist = self.previousPlaylist
         {
@@ -382,7 +376,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func performTemporaryMoveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int)
+    open func performTemporaryMoveSpin(fromPlaylistPosition:Int, toPlaylistPosition:Int)
     {
         if (fromPlaylistPosition == toPlaylistPosition)
         {
@@ -428,7 +422,7 @@ public class PlayolaScheduler:NSObject
         }
     }
     
-    func performTemporaryInsertAudioBlock(audioBlock:AudioBlock, playlistPosition:Int)
+    open func performTemporaryInsertAudioBlock(audioBlock:AudioBlock, playlistPosition:Int)
     {
         if var playlist = self.playlist()
         {
@@ -449,7 +443,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func performTemporaryRemoveSpin(atPlaylistPosition:Int)
+    open func performTemporaryRemoveSpin(atPlaylistPosition:Int)
     {
         if var playlist = self.playlist()
         {
@@ -471,7 +465,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func updatePlaylist(playlist:[Spin])
+    open func updatePlaylist(playlist:[Spin])
     {
         var fullReload:Bool = true
         var differentIndexes:[Int]?
@@ -491,8 +485,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    
-    func differentIndexes(oldPlaylist:[Spin]?, newPlaylist:[Spin]?) -> [Int]?
+    open func differentIndexes(oldPlaylist:[Spin]?, newPlaylist:[Spin]?) -> [Int]?
     {
         if let oldPlaylist = oldPlaylist
         {
@@ -530,7 +523,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func playlistPositionIsValid(playlistPosition:Int) -> Bool
+    open func playlistPositionIsValid(playlistPosition:Int) -> Bool
     {
         if let firstOKPosition = self.firstChangeablePlaylistPosition()
         {
@@ -550,7 +543,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func getSpin(playlistPosition:Int) -> Spin?
+    open func getSpin(playlistPosition:Int) -> Spin?
     {
         if let playlist = self.playlist()
         {
@@ -565,7 +558,7 @@ public class PlayolaScheduler:NSObject
         return nil
     }
     
-    func getSpinIndex(playlistPosition:Int) -> Int?
+    open func getSpinIndex(playlistPosition:Int) -> Int?
     {
         if let playlist = self.playlist()
         {
@@ -582,7 +575,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func lastPlaylistPosition() -> Int?
+    open func lastPlaylistPosition() -> Int?
     {
         if let playlist = self.playlist()
         {
@@ -596,7 +589,7 @@ public class PlayolaScheduler:NSObject
     
     //------------------------------------------------------------------------------
     
-    func firstChangeablePlaylistPosition() -> Int?
+    open func firstChangeablePlaylistPosition() -> Int?
     {
         if let playlist = self.playlist()
         {
@@ -618,8 +611,8 @@ public class PlayolaScheduler:NSObject
     // Singleton
     //------------------------------------------------------------------------------
     
-    public static var _instance:PlayolaScheduler?
-    public static func sharedInstance() -> PlayolaScheduler
+    private static var _instance:PlayolaScheduler?
+    open static func sharedInstance() -> PlayolaScheduler
     {
         if let instance = self._instance
         {

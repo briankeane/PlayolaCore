@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-public class PlayolaAPI:NSObject
+@objc open class PlayolaAPI:NSObject
 {
     // temporary
     var baseURL = PlayolaConstants.BASE_URL
@@ -21,17 +21,17 @@ public class PlayolaAPI:NSObject
     
     
     /// use to set your own development Playola server or to
-    public func setBaseURL(baseURL:String)
+    open func setBaseURL(baseURL:String)
     {
         self.baseURL = baseURL
     }
     
-    public func isSignedIn() -> Bool
+    open func isSignedIn() -> Bool
     {
         return self.accessToken != nil
     }
     
-    public func signOut()
+    open func signOut()
     {
         self.clearAccessToken()
         NotificationCenter.default.post(name: PlayolaEvents.signedOut, object: nil)
@@ -153,7 +153,7 @@ public class PlayolaAPI:NSObject
      * rejects: an APIError
      */
     
-    public func loginViaFacebook(accessTokenString:String) -> Promise<(User)>
+    open func loginViaFacebook(accessTokenString:String) -> Promise<(User)>
     {
         return Promise
         {
@@ -222,7 +222,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a User
      * rejects: an APIError
      */
-    public func loginViaGoogle(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
+    open func loginViaGoogle(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
     {
         return Promise
         {
@@ -292,7 +292,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a User
      * rejects: an APIError
      */
-    public func loginLocal(email:String, password:String) -> Promise<User>
+    open func loginLocal(email:String, password:String) -> Promise<User>
     {
         let url = "\(baseURL)/auth/local"
         let parameters:Parameters = ["email": email, "password": password]
@@ -364,7 +364,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a User
      * rejects: an APIError
      */
-    public func createUser(emailConfirmationID:String, passcode:String) -> Promise<User>
+    open func createUser(emailConfirmationID:String, passcode:String) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/users"
         let parameters:Parameters = ["emailConfirmationID": emailConfirmationID, "passcode": passcode]
@@ -438,7 +438,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an emailConfirmationID
      * rejects: an APIError
      */
-    public func createEmailConfirmation(email:String, displayName:String, password:String) -> Promise<String>
+    open func createEmailConfirmation(email:String, displayName:String, password:String) -> Promise<String>
     {
         let url = "\(baseURL)/api/v1/emailConfirmations"
         let parameters:Parameters = ["email": email, "displayName": displayName, "password": password]
@@ -494,7 +494,7 @@ public class PlayolaAPI:NSObject
             * resolves to: a User
             * rejects: an APIError
      */
-    public func getMe() -> Promise<User>
+    open func getMe() -> Promise<User>
     {
         let url = "\(self.baseURL)/api/v1/users/me"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -551,7 +551,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the raw response dictionary from the server
      * rejects: an APIError
      */
-    public func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
+    open func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -606,7 +606,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the raw response dictionary from the server
      * rejects: an APIError
      */
-    public func reportAnonymousListeningSession(broadcasterID:String, deviceID:String) -> Promise<Dictionary<String,Any>>
+    open func reportAnonymousListeningSession(broadcasterID:String, deviceID:String) -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/anonymous"
         let headers:HTTPHeaders? = nil
@@ -664,7 +664,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the raw response dictionary from the server
      * rejects: an APIError
      */
-    public func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
+    open func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/endSession"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -704,7 +704,7 @@ public class PlayolaAPI:NSObject
     ///                                              message body
     ///
     /// ----------------------------------------------------------------------------
-    public func reportEndOfAnonymousListeningSession(deviceID:String) -> Promise<Dictionary<String,Any>>
+    open func reportEndOfAnonymousListeningSession(deviceID:String) -> Promise<Dictionary<String,Any>>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/endAnonymous"
         let headers:HTTPHeaders? = nil
@@ -758,7 +758,7 @@ public class PlayolaAPI:NSObject
             * resolves to: a RotationItemsCollection
             * rejects: an APIError
      */
-    public func getRotationItems() -> Promise<RotationItemsCollection>
+    open func getRotationItems() -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/users/me/rotationItems"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -816,7 +816,7 @@ public class PlayolaAPI:NSObject
      * rejects: an APIError
      */
     
-    public func getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
+    open func getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
     {
         let url = "\(baseURL)/api/v1/listeningSessions/activeSessionsCount"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -878,7 +878,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an array of Users
      * rejects: an APIError
      */
-    public func getPresets(userID:String="me") -> Promise<Array<User?>>
+    open func getPresets(userID:String="me") -> Promise<[User]>
     {
         let url = "\(baseURL)/api/v1/users/\(userID)/presets"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -898,6 +898,10 @@ public class PlayolaAPI:NSObject
                         {
                             if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
+                                if (userID == "me")
+                                {
+                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
+                                }
                                 return fulfill(presets)
                             }
                         }
@@ -935,7 +939,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an array of Users
      * rejects: an APIError
      */
-    public func getTopUsers() -> Promise<Array<User?>>
+    open func getTopUsers() -> Promise<Array<User?>>
     {
         let url = "\(baseURL)/api/v1/users/topUsers"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -993,7 +997,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an APIError
      */
-    public func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User?>
+    open func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/users/me"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1015,6 +1019,7 @@ public class PlayolaAPI:NSObject
                                 if let rawUser = responseDict["user"] as? [String:AnyObject]
                                 {
                                     let user = User(userInfo: rawUser as NSDictionary)
+                                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                     return fulfill(user)
                                 }
                             }
@@ -1053,7 +1058,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an APIError
      */
-    public func follow(broadcasterID:String) -> Promise<Array<User?>>
+    open func follow(broadcasterID:String) -> Promise<Array<User>>
     {
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/follow"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1109,7 +1114,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an APIError
      */
-    public func unfollow(broadcasterID:String) -> Promise<Array<User?>>
+    open func unfollow(broadcasterID:String) -> Promise<Array<User>>
     {
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/unfollow"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1168,7 +1173,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an APIError
      */
-    public func findUsersByKeywords(searchString:String) -> Promise<Array<User?>>
+    open func findUsersByKeywords(searchString:String) -> Promise<Array<User>>
     {
         let url = "\(baseURL)/api/v1/users/findByKeywords"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1229,7 +1234,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an array of the found AudioBlocks
      * rejects: an APIError
      */
-    public func findSongsByKeywords(searchString:String) -> Promise<Array<AudioBlock>>
+    open func findSongsByKeywords(searchString:String) -> Promise<Array<AudioBlock>>
     {
         let url = "\(baseURL)/api/v1/songs/findByKeywords"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1287,7 +1292,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an up-to-date User object
      * rejects: an APIError
      */
-    public func getUser(userID:String) -> Promise<User>
+    open func getUser(userID:String) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/users/\(userID)"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1353,7 +1358,7 @@ public class PlayolaAPI:NSObject
      * resolves to: the updated presets array
      * rejects: an APIError
      */
-    public func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
+    open func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
     {
         let url = "\(baseURL)/api/v1/users/getByAttributes"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1412,7 +1417,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a RotationItemsCollection
      * rejects: an APIError
      */
-    public func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
+    open func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1470,7 +1475,7 @@ public class PlayolaAPI:NSObject
      * resolves to: a RotationItemsCollection
      * rejects: an APIError
      */
-    public func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
+    open func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems/\(rotationItemID)"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1531,7 +1536,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an APIError
      */
-    public func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User>
+    open func moveSpin(spinID:String, newPlaylistPosition:Int) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins/\(spinID)/move"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1592,7 +1597,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an APIError
      */
-    public func removeSpin(spinID:String) -> Promise<User>
+    open func removeSpin(spinID:String) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins/\(spinID)"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1652,7 +1657,7 @@ public class PlayolaAPI:NSObject
      * resolves to: an updated user
      * rejects: an APIError
      */
-    public func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User>
+    open func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User>
     {
         let url = "\(baseURL)/api/v1/spins"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1735,7 +1740,7 @@ public class PlayolaAPI:NSObject
     ///    `AuthService` - the central Auth Service instance
     ///
     /// ----------------------------------------------------------------------------
-    public class func sharedInstance() -> PlayolaAPI
+    open class func sharedInstance() -> PlayolaAPI
     {
         if (self._instance == nil)
         {
