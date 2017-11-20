@@ -1077,6 +1077,7 @@ import PromiseKit
                         {
                             if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
                                 return fulfill(presets)
                             }
                         }
@@ -1133,6 +1134,7 @@ import PromiseKit
                         {
                             if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
                                 return fulfill(presets)
                             }
                         }

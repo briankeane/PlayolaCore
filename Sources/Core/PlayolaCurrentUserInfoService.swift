@@ -154,7 +154,7 @@ import Foundation
     
     //------------------------------------------------------------------------------
     
-    func isInPresets(userID:String?) -> Bool
+    open func isInPresets(userID:String?) -> Bool
     {
         if let presets = self.presets, let userID = userID
         {

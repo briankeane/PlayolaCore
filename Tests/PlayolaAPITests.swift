@@ -337,6 +337,73 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
                 
+                describe ("notification check")
+                {
+                    var observers:[NSObjectProtocol] = Array()
+                    var checkNotificationBlock:((_ notification: Notification) -> ())?
+                    var checkNotificationsFinished:Bool = false
+                    
+                    beforeEach
+                    {
+                        checkNotificationsFinished = false
+                        observers = Array()
+                        observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
+                        {
+                            (notification) -> Void in
+                            checkNotificationBlock?(notification)
+                        })
+                    }
+                    
+                    afterEach
+                    {
+                        for observer in observers
+                        {
+                            NotificationCenter.default.removeObserver(observer)
+                        }
+                    }
+                
+                
+                    it ("broadcasts ")
+                    {
+                        // setup
+                        stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("getPresetsSuccess.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                        waitUntil()
+                        {
+                            (done) in
+                            
+                            checkNotificationBlock = {
+                                (notification) -> Void in
+                                let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
+                                let presets = notification.userInfo?["presets"] as! [User]
+                                let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                                let rawID = rawPresets[0]["id"] as! String
+                                expect(presets[0].id!).to(equal(rawID))
+                                checkNotificationsFinished = true
+                                done()
+                            }
+                            
+                            api.getPresets()
+                            .then
+                            {
+                                (presets) -> Void in
+                                // wait for checkNotificationsBlock to execute
+//                                expect(checkNotificationsFinished).toEventually(equal(true))
+//                                done()
+                            }
+                            .catch
+                            {
+                                (error) -> Void in
+                                print(error)
+                                fail("getRotationItems() should not have errored")
+                            }
+                        }
+                    }
+                }
+                
                 it ("passes the proper id in params")
                 {
                     // setup
@@ -583,6 +650,71 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
                 
+                describe ("notification check")
+                {
+                    var observers:[NSObjectProtocol] = Array()
+                    var checkNotificationBlock:((_ notification: Notification) -> ())?
+                    var checkNotificationsFinished:Bool = false
+                    
+                    beforeEach
+                        {
+                            checkNotificationsFinished = false
+                            observers = Array()
+                            observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
+                            {
+                                (notification) -> Void in
+                                checkNotificationBlock?(notification)
+                            })
+                    }
+                    
+                    afterEach
+                        {
+                            for observer in observers
+                            {
+                                NotificationCenter.default.removeObserver(observer)
+                            }
+                    }
+                    
+                    
+                    it ("broadcasts ")
+                    {
+                        // setup
+                        stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("getPresetsSuccess.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                        waitUntil()
+                        {
+                            (done) in
+                            checkNotificationBlock = {
+                                (notification) -> Void in
+                                let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
+                                let presets = notification.userInfo?["presets"] as! [User]
+                                let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                                let rawID = rawPresets[0]["id"] as! String
+                                expect(presets[0].id!).to(equal(rawID))
+                                checkNotificationsFinished = true
+                                done()
+                            }
+                            
+                            api.follow(broadcasterID: "aBroadcasterID")
+                            .then
+                            {
+                                (presets) -> Void in
+                                // tests are in async block above
+                            }
+                            .catch
+                            {
+                                (error) -> Void in
+                                print(error)
+                                fail("getRotationItems() should not have errored")
+                            }
+                        }
+                    }
+                }
+                
+                
                 it ("passes the proper id in params")
                 {
                     // setup
@@ -680,6 +812,71 @@ class PlayolaAPITests: QuickSpec {
                         }
                     }
                 }
+                
+                describe ("notification check")
+                {
+                    var observers:[NSObjectProtocol] = Array()
+                    var checkNotificationBlock:((_ notification: Notification) -> ())?
+                    var checkNotificationsFinished:Bool = false
+                    
+                    beforeEach
+                    {
+                        checkNotificationsFinished = false
+                        observers = Array()
+                        observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
+                        {
+                            (notification) -> Void in
+                            checkNotificationBlock?(notification)
+                        })
+                    }
+                    
+                    afterEach
+                    {
+                        for observer in observers
+                        {
+                            NotificationCenter.default.removeObserver(observer)
+                        }
+                    }
+                    
+                    
+                    it ("broadcasts ")
+                    {
+                        // setup
+                        stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("getPresetsSuccess.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                        waitUntil()
+                        {
+                            (done) in
+                            checkNotificationBlock = {
+                                (notification) -> Void in
+                                let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
+                                let presets = notification.userInfo?["presets"] as! [User]
+                                let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                                let rawID = rawPresets[0]["id"] as! String
+                                expect(presets[0].id!).to(equal(rawID))
+                                checkNotificationsFinished = true
+                                done()
+                            }
+                                
+                            api.unfollow(broadcasterID: "aBroadcasterID")
+                            .then
+                            {
+                                (presets) -> Void in
+                                // tests are in async block above
+                            }
+                            .catch
+                            {
+                                (error) -> Void in
+                                print(error)
+                                fail("getRotationItems() should not have errored")
+                            }
+                        }
+                    }
+                }
+                
                 
                 it ("passes the proper id in params")
                 {
