@@ -939,7 +939,7 @@ import PromiseKit
      * resolves to: an array of Users
      * rejects: an APIError
      */
-    open func getTopUsers() -> Promise<Array<User?>>
+    open func getTopStations() -> Promise<[User]>
     {
         let url = "\(baseURL)/api/v1/users/topUsers"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -1027,6 +1027,59 @@ import PromiseKit
                     }
                     return reject(APIError(response: response))
                 }
+        }
+    }
+    
+    // ----------------------------------------------------------------------------
+    //                          func updateUser
+    // -----------------------------------------------------------------------------
+    /**
+     Updates the current user's info on the playola server.
+     
+     /// - parameters:
+     ///     - updateInfo: `(Dictionary<String,Any>)` - a dictionary of the properties to update
+     
+     ### Usage Example: ###
+     ````
+     authService.updateUser(["displayName":""])
+     .then
+     {
+     (updated) -> Void in
+     print(updatedUser.displayName)
+     }
+     .catch (err)
+     {
+     print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an updated user
+     * rejects: an APIError
+     */
+    func changePassword(oldPassword:String, newPassword:String) -> Promise<Void>
+    {
+        let url = "\(baseURL)/api/v1/users/me/changePassword"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters = ["newPassword": newPassword, "oldPassword": oldPassword]
+    
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON
+            {
+                (response) -> Void in
+                if let statusCode = response.response?.statusCode
+                {
+                    if (200..<300 ~= statusCode)
+                    {
+                        fulfill(())
+                    }
+                }
+                return reject(APIError(response: response))
+            }
         }
     }
     

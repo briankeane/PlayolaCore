@@ -42,12 +42,13 @@ class PlayolaAPITests: QuickSpec {
     let getRotationItemsPath        =        "/api/v1/users/me/rotationItems"
     let getActiveSessionsCountPath  =        "/api/v1/listeningSessions/activeSessionsCount"
     let getMyPresetsPath            =        "/api/v1/users/me/presets"
-    let getTopUsersPath             =        "/api/v1/users/topUsers"
+    let getTopStationsPath          =        "/api/v1/users/topUsers"
     let updateUserPath              =        "/api/v1/users/me"
     let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
     let findSongsByKeywordPath      =        "/api/v1/songs/findByKeywords"
     let getUsersByAttributesPath    =        "/api/v1/users/getByAttributes"
     let addSongToBinPath            =        "/api/v1/rotationItems"
+    let changePasswordPath          =        "/api/v1/users/me/changePassword"
     
     
     override func spec()
@@ -462,34 +463,34 @@ class PlayolaAPITests: QuickSpec {
             
             //------------------------------------------------------------------------------
             
-            describe("getTopUsers()")
+            describe("getTopStations()")
             {
                 it ("works for the current User")
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
-                        fileAtPath: OHPathForFile("getTopUsersSuccess.json", type(of: self))!,
+                        fileAtPath: OHPathForFile("getTopStationsSuccess.json", type(of: self))!,
                         statusCode: 200,
                         headers: ["Content-Type":"application/json"]
                     )
                     waitUntil()
                     {
                         (done) in
-                        api.getTopUsers()
+                        api.getTopStations()
                         .then
                         {
                             (topUsers) -> Void in
-                            let jsonDict = self.readLocalJsonFile("getTopUsersSuccess.json")!
+                            let jsonDict = self.readLocalJsonFile("getTopStationsSuccess.json")!
                             
                             // check request
-                            expect(sentRequest!.url!.path).to(equal(self.getTopUsersPath))
+                            expect(sentRequest!.url!.path).to(equal(self.getTopStationsPath))
                             expect(sentRequest!.httpMethod).to(equal("GET"))
                             
                             // check response
                             let rawTopUsers = (jsonDict["topUsers"] as! Array<NSDictionary>)
                             let rawID = rawTopUsers[0]["id"] as! String
                             // check response
-                            expect(topUsers[0]!.id!).to(equal(rawID))
+                            expect(topUsers[0].id!).to(equal(rawID))
                             done()
                         }
                         .catch
@@ -514,7 +515,7 @@ class PlayolaAPITests: QuickSpec {
                     waitUntil()
                     {
                         (done) in
-                        api.getTopUsers()
+                        api.getTopStations()
                         .then
                         {
                             (topUsers) -> Void in
@@ -1192,7 +1193,7 @@ class PlayolaAPITests: QuickSpec {
                                 {
                                     (error) -> Void in
                                     print(error)
-                                    fail("updateUser() should not have errored")
+                                    fail("getUserByAttributes() should not have errored")
                             }
                     }
                 }
@@ -1659,7 +1660,7 @@ class PlayolaAPITests: QuickSpec {
                         {
                             (error) -> Void in
                             print(error)
-                            fail("updateUser() should not have errored")
+                            fail("moveSpin() should not have errored")
                         }
                     }
                 }
@@ -1732,7 +1733,7 @@ class PlayolaAPITests: QuickSpec {
                         {
                             (error) -> Void in
                             print(error)
-                            fail("updateUser() should not have errored")
+                            fail("removeSpin() should not have errored")
                         }
                     }
                 }
@@ -1807,7 +1808,7 @@ class PlayolaAPITests: QuickSpec {
                         {
                             (error) -> Void in
                             print(error)
-                            fail("updateUser() should not have errored")
+                            fail("insertSpin() should not have errored")
                         }
                     }
                 }
@@ -1882,7 +1883,7 @@ class PlayolaAPITests: QuickSpec {
                         {
                             (error) -> Void in
                             print(error)
-                            fail("updateUser() should not have errored")
+                            fail("loginViaFacebook() should not have errored")
                             done()
                         }
                     }
@@ -1956,7 +1957,7 @@ class PlayolaAPITests: QuickSpec {
                                 {
                                     (error) -> Void in
                                     print(error)
-                                    fail("updateUser() should not have errored")
+                                    fail("loginViaGoogle() should not have errored")
                                     done()
                             }
                     }
@@ -2030,7 +2031,7 @@ class PlayolaAPITests: QuickSpec {
                         {
                             (error) -> Void in
                             print(error)
-                            fail("updateUser() should not have errored")
+                            fail("loginLocak() should not have errored")
                             done()
                         }
                     }
@@ -2262,7 +2263,7 @@ class PlayolaAPITests: QuickSpec {
                         {
                             (error) -> Void in
                             print(error)
-                            fail("updateUser() should not have errored")
+                            fail("createUserConfirmation() should not have errored")
                             done()
                         }
                     }
@@ -2297,6 +2298,75 @@ class PlayolaAPITests: QuickSpec {
                 }
             }
             
+            //------------------------------------------------------------------------------
+            
+            describe("changePassword")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("genericSuccess200.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.changePassword(oldPassword: "oldPasswordExample",
+                                           newPassword: "newPasswordExample")
+                        .then
+                        {
+                            () -> Void in
+                            let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
+                            
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.changePasswordPath))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                            expect((sentBody!["oldPassword"] as! String)).to(equal("oldPasswordExample"))
+                            expect((sentBody!["newPassword"] as! String)).to(equal("newPasswordExample"))
+                            
+                            // check response
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("changePassword() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("passwordIncorrect.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.changePassword(oldPassword: "oldPasswordExample",
+                                           newPassword: "newPasswordExample")
+                        .then
+                        {
+                            (topUsers) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.passwordIncorrect))
+                            done()
+                        }
+                    }
+                }
+            }
         }
     }
 }

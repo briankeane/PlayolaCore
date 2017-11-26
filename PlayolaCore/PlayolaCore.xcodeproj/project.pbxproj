@@ -276,8 +276,8 @@
 		4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FD1F472CDE0010C420 /* getPresetsSuccess.json */; };
 		4BE007031F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FE1F472CDE0010C420 /* getUserRotationItemsSuccess.json */; };
 		4BE007041F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE006FE1F472CDE0010C420 /* getUserRotationItemsSuccess.json */; };
-		4BE007061F47326D0010C420 /* getTopUsersSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007051F47326D0010C420 /* getTopUsersSuccess.json */; };
-		4BE007071F47326D0010C420 /* getTopUsersSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007051F47326D0010C420 /* getTopUsersSuccess.json */; };
+		4BE007061F47326D0010C420 /* getTopStationsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007051F47326D0010C420 /* getTopStationsSuccess.json */; };
+		4BE007071F47326D0010C420 /* getTopStationsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007051F47326D0010C420 /* getTopStationsSuccess.json */; };
 		4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007081F473BEB0010C420 /* updateUserSuccess.json */; };
 		4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE007081F473BEB0010C420 /* updateUserSuccess.json */; };
 		4BE0070C1F47517F0010C420 /* 422.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BE0070B1F47517F0010C420 /* 422.json */; };
@@ -448,7 +448,7 @@
 		4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getActiveSessionsCountSuccess.json; path = ../Tests/APIJson/getActiveSessionsCountSuccess.json; sourceTree = "<group>"; };
 		4BE006FD1F472CDE0010C420 /* getPresetsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getPresetsSuccess.json; path = ../Tests/APIJson/getPresetsSuccess.json; sourceTree = "<group>"; };
 		4BE006FE1F472CDE0010C420 /* getUserRotationItemsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getUserRotationItemsSuccess.json; path = ../Tests/APIJson/getUserRotationItemsSuccess.json; sourceTree = "<group>"; };
-		4BE007051F47326D0010C420 /* getTopUsersSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getTopUsersSuccess.json; path = ../Tests/APIJson/getTopUsersSuccess.json; sourceTree = "<group>"; };
+		4BE007051F47326D0010C420 /* getTopStationsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = getTopStationsSuccess.json; path = ../Tests/APIJson/getTopStationsSuccess.json; sourceTree = "<group>"; };
 		4BE007081F473BEB0010C420 /* updateUserSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = updateUserSuccess.json; path = ../Tests/APIJson/updateUserSuccess.json; sourceTree = "<group>"; };
 		4BE0070B1F47517F0010C420 /* 422.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = 422.json; path = ../Tests/APIJson/422.json; sourceTree = "<group>"; };
 		4BE007131F4757E40010C420 /* APIErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIErrorTests.swift; path = ../Tests/Errors/APIErrorTests.swift; sourceTree = "<group>"; };
@@ -780,7 +780,7 @@
 				4BE006FE1F472CDE0010C420 /* getUserRotationItemsSuccess.json */,
 				4B361C731F45CC7100654968 /* getUserSuccess.json */,
 				4BE006F01F460E3F0010C420 /* 404.json */,
-				4BE007051F47326D0010C420 /* getTopUsersSuccess.json */,
+				4BE007051F47326D0010C420 /* getTopStationsSuccess.json */,
 				4BE007081F473BEB0010C420 /* updateUserSuccess.json */,
 				4BE0070B1F47517F0010C420 /* 422.json */,
 				4B9358941F47788A0038C327 /* userSearchResultsSuccess.json */,
@@ -1063,7 +1063,7 @@
 				4BF10AAE1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
-				4BE007061F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
+				4BE007061F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
 				4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B737B8D1FB4A25E00EBFEDA /* incorrectPasscode.json in Resources */,
@@ -1096,7 +1096,7 @@
 				4BF10AAF1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
-				4BE007071F47326D0010C420 /* getTopUsersSuccess.json in Resources */,
+				4BE007071F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
 				4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B737B8E1FB4A26000EBFEDA /* incorrectPasscode.json in Resources */,

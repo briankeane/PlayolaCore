@@ -184,7 +184,7 @@ import Foundation
         {
             self.presetsRetrievalError = nil
             self.presets = presets
-            NotificationCenter.default.post(name: PlayolaEvents.presetsUpdated, object: nil, userInfo: ["presets": presets])
+            NotificationCenter.default.post(name: PlayolaEvents.presetsUpdated, object: nil, userInfo: ["presets": presets as Any])
         }
     }
     
