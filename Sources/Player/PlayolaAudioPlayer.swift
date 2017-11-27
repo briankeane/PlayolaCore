@@ -8,7 +8,8 @@
 
 import AudioKit
 
-class PlayolaAudioPlayer: NSObject
+
+open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
 {
     var nowPlayingPapSpin:PAPSpin?
     var queueDictionary:Dictionary<String, PAPSpin> = Dictionary()
@@ -20,35 +21,20 @@ class PlayolaAudioPlayer: NSObject
     
     //------------------------------------------------------------------------------
     
-    override init()
+    override public init()
     {
         super.init()
-        
         AKSettings.playbackWhileMuted = true  // allows playback to continue after screen is locked
         self.setupPlayerBank()
     }
     
-    // ----------------------------------------------------------------------------
-    //                           func loadAudio
-    // -----------------------------------------------------------------------------
-    /**
-     Loads the audio into the queue for scheduling.
-     
-     - parameters:
-          - audioFileURL: `(URL)` - the local url of the file to play
-          - startTime: `(Date)` - the time when playing should begin.  If in the past, the spin will begin at the appropriate seek point.
-          - beginFadeOutTime: `(Date)` - The time when the spin should begin fading out
-          - spinInfo: `(Dictionary<String,Any>)` - a dictionary to be broadcast with any notifications regarding this spin.  (Usually used to store title, artist, etc.)
-     */
-    func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
+    
+    open func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
     {
         let papSpin = PAPSpin(audioFileURL: audioFileURL, player: self.requestAvailablePlayer(key: audioFileURL.absoluteString), startTime: startTime, beginFadeOutTime: beginFadeOutTime, spinInfo: spinInfo)
         self.loadPAPSpin(papSpin)
     }
     
-    // -----------------------------------------------------------------------------
-    //                          func loadPAPSpin
-    // -----------------------------------------------------------------------------
     /**
      loads a PAPSpin into the queue and schedules it for play.  The Audio should
      be already downloaded by the time this function is called.
@@ -203,7 +189,7 @@ class PlayolaAudioPlayer: NSObject
     /// returns an AudioKit audio node for output
     ///
     /// ----------------------------------------------------------------------------
-    func getOutputNode() -> AKNode
+    open func getOutputNode() -> AKNode
     {
         return self.mixer
     }
@@ -237,7 +223,7 @@ class PlayolaAudioPlayer: NSObject
     ///    `BOOL` - true if the localFile has already been scheduled
     ///
     /// ----------------------------------------------------------------------------
-    public func isQueued(localFileURL:URL) -> Bool
+    open func isQueued(localFileURL:URL) -> Bool
     {
         return (self.queueDictionary[localFileURL.absoluteString] != nil)
     }
@@ -458,7 +444,7 @@ class PlayolaAudioPlayer: NSObject
     /// cleanly stop the player and post kAudioPlayerStopped notification
     ///
     /// ----------------------------------------------------------------------------
-    func stop()
+    open func stop()
     {
         let wasPlaying = self.isPlaying()
         

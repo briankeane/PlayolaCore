@@ -1058,7 +1058,7 @@ import PromiseKit
      * resolves to: an updated user
      * rejects: an APIError
      */
-    func changePassword(oldPassword:String, newPassword:String) -> Promise<Void>
+    open func changePassword(oldPassword:String, newPassword:String) -> Promise<Void>
     {
         let url = "\(baseURL)/api/v1/users/me/changePassword"
         let headers:HTTPHeaders? = self.headersWithAuth()

@@ -34,10 +34,11 @@ import AudioKit
     {
         super.init()
         self.reporter = PlayolaListeningSessionReporter()
+        self.PAPlayer = PlayolaAudioPlayer()
     }
     
     // dependecy injections
-    @objc var PAPlayer:PlayolaAudioPlayer! = PlayolaAudioPlayer()
+    @objc var PAPlayer:PlayolaAudioPlayer!
     @objc var dateHandler:DateHandlerService! = DateHandlerService.sharedInstance()
     @objc var api:PlayolaAPI! = PlayolaAPI.sharedInstance()
     
@@ -315,13 +316,18 @@ import AudioKit
     ///    `PlayolaStationPlayer` - the central PlayolaStationPlayer instance
     ///
     /// ----------------------------------------------------------------------------
-    public class func sharedInstance() -> PlayolaStationPlayer
+    open static func sharedInstance() -> PlayolaStationPlayer
     {
         if (self._instance == nil)
         {
             self._instance = PlayolaStationPlayer()
         }
         return self._instance!
+    }
+    
+    open static func replaceSharedInstance(_ instance:PlayolaStationPlayer?)
+    {
+        self._instance = instance
     }
     
     /// internally shared singleton instance

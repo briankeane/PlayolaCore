@@ -26,9 +26,6 @@ public class CommercialBlockProviderService:NSObject
     ///
     /// - parameters:
     ///     - count: `(Int)` - the number of commercialBlocks required
-    ///     - SharedData: `(SharedDataService)` - the SharedDataService to reference.
-    ///                                           this must be provided to avoid
-    ///                                           circular dependency
     ///
     /// - returns:
     ///    `[AudioBlock]` - an array of commercialBlocks

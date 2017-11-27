@@ -43,6 +43,7 @@ import Foundation
         }
     }
     open var presets:[User]? = nil
+    open var rotationItemsCollection:RotationItemsCollection? = nil
     open var presetsRetrievalError:APIError? = nil
     fileprivate var observers:[NSObjectProtocol] = Array()
     
