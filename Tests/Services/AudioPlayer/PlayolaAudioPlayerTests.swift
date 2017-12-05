@@ -18,16 +18,16 @@ class PlayolaAudioPlayerTests: QuickSpec {
         {
             describe("loadAudio")
             {
-                var dateHandlerMock:DateHandlerMock!
-                var PAP:PlayolaAudioPlayer!
-                
+//                var dateHandlerMock:DateHandlerMock!
+//                var PAP:PlayolaAudioPlayer!
+//                
                 beforeEach
                 {
-                    PAP = PlayolaAudioPlayer()
-                    dateHandlerMock = DateHandlerMock(dateAsReadableString: "2015-03-15 13:15:00")
-                    PAP.setValuesForKeys([
-                        "dateHandler": dateHandlerMock
-                        ])
+//                    PAP = PlayolaAudioPlayerMock()
+//                    dateHandlerMock = DateHandlerMock(dateAsReadableString: "2015-03-15 13:15:00")
+//                    PAP.setValuesForKeys([
+//                        "dateHandler": dateHandlerMock
+//                        ])
                 }
                 
                 // TODO: Figure out how to fucking test this

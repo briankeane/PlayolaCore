@@ -9,13 +9,7 @@
 import Foundation
 
 class PlayolaStationPlayerMock:PlayolaStationPlayer
-{
-    override init()
-    {
-        // do nothing
-        print("hi")
-    }
-    
+{    
     var nowPlayingSpin:Spin?
     override func nowPlaying() -> Spin?
     {

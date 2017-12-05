@@ -13,7 +13,6 @@ import AudioKit
 
 @objc open class PlayolaStationPlayer: NSObject
 {
-    
     /// a listeningSessionReporter
     var reporter:PlayolaListeningSessionReporter!
     
@@ -30,11 +29,18 @@ import AudioKit
     
     open var cacheManager:RemoteFileCacheManager = RemoteFileCacheManager(subFolder: "PlayolaStationPlayer")
     
-    override public init()
+    public init(paPlayer:PlayolaAudioPlayer?=nil)
     {
         super.init()
         self.reporter = PlayolaListeningSessionReporter()
-        self.PAPlayer = PlayolaAudioPlayer()
+        if let paPlayer = paPlayer
+        {
+            self.PAPlayer = paPlayer
+        }
+        else
+        {
+            self.PAPlayer = PAKAudioPlayer()
+        }
     }
     
     // dependecy injections

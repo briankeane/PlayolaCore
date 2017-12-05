@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AudioKit
 
 // ----------------------------------------------------------------------------
 //                           protocol PlayolaAudioPlayer
@@ -14,7 +15,7 @@ import Foundation
 /**
  Interface for a playola audio player.
  */
-protocol PlayolaAudioPlayer
+@objc public protocol PlayolaAudioPlayer
 {
     // ----------------------------------------------------------------------------
     //                           func loadAudio
@@ -28,7 +29,7 @@ protocol PlayolaAudioPlayer
         - beginFadeOutTime: `Date` - The time when the spin should begin fading out
         - spinInfo: `[String:Any]` - a dictionary to be broadcast with any notifications regarding this spin.  (Usually used to store title, artist, etc.)
      */
-    open func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
+    func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
     
     // -----------------------------------------------------------------------------
     //                         func getOutputNode
@@ -38,7 +39,7 @@ protocol PlayolaAudioPlayer
      
      TODO: -- figure out how to un-audioKit-ize this
     */
-    open func getOutputNode() -> AKNode
+    func getOutputNode() -> AKNode
     
     // -----------------------------------------------------------------------------
     //                           func stop
@@ -48,7 +49,7 @@ protocol PlayolaAudioPlayer
      
      TODO: -- figure out how to un-audioKit-ize this
      */
-    open func stop()
+    func stop()
     
     // -----------------------------------------------------------------------------
     //                          func isPlaying
@@ -59,5 +60,19 @@ protocol PlayolaAudioPlayer
         - returns:
             `Bool` - true if the station is playing
     */
-    open func isPlaying() -> Bool
+    func isPlaying() -> Bool
+    
+    // -----------------------------------------------------------------------------
+    //                          func isQueued
+    // -----------------------------------------------------------------------------
+    /**
+        tells whether a localURL is queued or not.
+ 
+        - parameters:
+            - localURL: `localURL` - the localURL of the audioFile to check for
+ 
+        - returns:
+            `BOOL` - true if the localFile has already been scheduled
+    */
+    func isQueued(localFileURL:URL) -> Bool
 }

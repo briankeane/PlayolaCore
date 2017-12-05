@@ -22,6 +22,7 @@ public class Playola:NSObject
     {
         _ = Playola.sharedInstance()
         _ = PlayolaAPI.sharedInstance()
+        _ = PlayolaCurrentUserInfoService.sharedInstance()
     }
     
     //------------------------------------------------------------------------------

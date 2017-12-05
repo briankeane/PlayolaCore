@@ -32,7 +32,6 @@ class PlayolaStationPlayerTests: QuickSpec {
                 var stationPlayer:PlayolaStationPlayer!
                 var dateHandlerMock:DateHandlerMock!
                 var PAPMock:PlayolaAudioPlayerMock!
-                let emptyAKAudioFile = try! AKAudioFile()
                 
                 beforeEach
                 {
@@ -47,8 +46,7 @@ class PlayolaStationPlayerTests: QuickSpec {
                 
                 it ("does nothing if already playing the same user")
                 {
-                    try! PAPMock.nowPlayingPapSpin = PAPSpinMock(
-                        audioFileURL: URL(fileURLWithPath: "/fakePath") , player: AKAudioPlayer(file: emptyAKAudioFile), startTime: dateHandlerMock.now().addSeconds(-10), beginFadeOutTime: dateHandlerMock.now().addSeconds(10), spinInfo: [:])
+                    PAPMock.shouldBePlaying = true
                     stationPlayer.userPlaying = user
                     stationPlayer.loadUserAndPlay(user: user)
                     expect(PAPMock.loadAudioCalledCount).to(equal(0))

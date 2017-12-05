@@ -7,8 +7,27 @@
 //
 
 import Foundation
+import AudioKit
 
-class PlayolaAudioPlayerMock: PlayolaAudioPlayer {
+class PlayolaAudioPlayerMock:NSObject, PlayolaAudioPlayer {
+    
+    func getOutputNode() -> AKNode
+    {
+        return AKNode()
+    }
+    
+    var shouldBePlaying:Bool = true
+    func isPlaying() -> Bool
+    {
+        return self.shouldBePlaying
+    }
+    
+    var shouldBeQueued:Bool = true
+    func isQueued(localFileURL: URL) -> Bool
+    {
+        return self.shouldBeQueued
+    }
+    
     
     // just skip
     override init()
@@ -18,7 +37,7 @@ class PlayolaAudioPlayerMock: PlayolaAudioPlayer {
     
     var loadAudioCalledCount = 0
     var loadAudioCalledArgs:Array<[String:Any]> = []
-    override func loadAudio(audioFileURL: URL, startTime: Date, beginFadeOutTime: Date, spinInfo: [String : Any])
+    func loadAudio(audioFileURL: URL, startTime: Date, beginFadeOutTime: Date, spinInfo: [String : Any])
     {
         self.loadAudioCalledCount += 1
         self.loadAudioCalledArgs.append([
@@ -31,7 +50,7 @@ class PlayolaAudioPlayerMock: PlayolaAudioPlayer {
     }
     
     var stopCalledCount = 0
-    override func stop() {
+    func stop() {
         self.stopCalledCount += 1
     }
 }

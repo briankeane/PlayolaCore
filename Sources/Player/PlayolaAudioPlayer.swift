@@ -8,7 +8,6 @@
 
 import AudioKit
 
-
 open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
 {
     var nowPlayingPapSpin:PAPSpin?
@@ -211,18 +210,8 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
         return (self.queueDictionary[papSpin.audioFileURL.absoluteString] != nil)
     }
     
-    // -----------------------------------------------------------------------------
-    //                          func isQueued
-    // -----------------------------------------------------------------------------
-    /// tells whether a localURL is queued or not.
-    ///
-    /// - parameters:
-    ///     - papSpin: `(localURL)` - the localURL of the audioFile to check for
-    ///
-    /// - returns:
-    ///    `BOOL` - true if the localFile has already been scheduled
-    ///
-    /// ----------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    
     open func isQueued(localFileURL:URL) -> Bool
     {
         return (self.queueDictionary[localFileURL.absoluteString] != nil)
@@ -467,7 +456,7 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     ///    `Bool` - true if the station is playing
     ///
     /// ----------------------------------------------------------------------------
-    func isPlaying() -> Bool
+    open func isPlaying() -> Bool
     {
         return (self.nowPlayingPapSpin != nil)
     }
