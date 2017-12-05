@@ -331,6 +331,76 @@ import PromiseKit
     }
     
     // -----------------------------------------------------------------------------
+    //                          func loginLocal
+    // -----------------------------------------------------------------------------
+    /**
+     Gets a session token from the playola server via the local login info.
+     
+     - parameters:
+     - email: `(String)` - the user's email
+     - password: `(String)` - the user's password
+     
+     - returns:
+     `Promise<User>` - a promise that resolves to the current User
+     
+     ### Usage Example: ###
+     ````
+     api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
+     .then
+     {
+     (user) -> Void in
+     print(user.name)
+     }
+     .catch
+     {
+     (err) -> Void in
+     print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: a User
+     * rejects: an APIError
+     */
+    open func requestSongBySpotifyID(spotifyID:String) -> Promise<(songStatus:SongStatus, song:AudioBlock?)>
+    {
+        let url = "\(baseURL)/api/v1/songs/requestBySpotifyID/\(spotifyID)"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = nil
+        return Promise
+        {
+            (fulfill, reject) in
+            
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON
+            {
+                (response) -> Void in
+                if let resultDict = response.result.value as? [String:Any]
+                {
+                    if let songStatusInt = (resultDict["songStatus"] as? [String:Any])?["code"] as? Int
+                    {
+                        if let songStatus = SongStatus(rawValue: songStatusInt)
+                        {
+                            var song:AudioBlock?
+                            
+                            // add the song if it has been included
+                            if (songStatus == .songExists)
+                            {
+                                if let songDict = resultDict["song"] as? [String:Any]
+                                {
+                                    song = AudioBlock(audioBlockInfo: songDict)
+                                }
+                            }
+                            fulfill((songStatus: songStatus, song: song))
+                        }
+                    }
+                }
+                return reject(APIError(response: response))
+            }
+        }
+    }
+    // -----------------------------------------------------------------------------
     //                          func createUser
     // -----------------------------------------------------------------------------
     /**

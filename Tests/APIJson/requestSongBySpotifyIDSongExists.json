@@ -1,0 +1,23 @@
+{
+    "song": {
+        "id": "5531636b4b1f7e86214235cc",
+        "title": "Fade to Gray",
+        "artist": "Rachel Loy",
+        "album": "Broken Machine",
+        "isrc": "ushm21226779",
+        "key": "-pl-0000012-Rachel-Loy-Fade-to-Gray.mp3",
+        "audioFileUrl": "//songs.playola.fm/-pl-0000438-RachelLoy-AfterTheStorm.mp3",
+        "duration": 290925,
+        "albumArtworkUrl": "http://is1.mzstatic.com/image/pf/us/r30/Music/v4/72/1b/62/721b6246-b012-ef31-c2e8-0a141c81517c/884501724586.600x600-75.jpg",
+        "albumArtworkUrlSmall": "http://is1.mzstatic.com/image/pf/us/r30/Music/v4/72/1b/62/721b6246-b012-ef31-c2e8-0a141c81517c/884501724586.100x100-75.jpg",
+        "spotifyID": "7BvpGkNPd49xhN7EguxJz0",
+        "trackViewUrl": "https://itunes.apple.com/us/album/fade-to-gray/id571168342?i=571168348&uo=4",
+        "eom": 160000,
+        "boo": 155000,
+        "eoi": 8000
+    },
+    "songStatus": {
+        "description": "string",
+        "code": 9001
+    }
+}
