@@ -2228,7 +2228,7 @@ class PlayolaAPITests: QuickSpec {
             
             describe("requestSongFromSpotifyID")
             {
-                fit ("works when song exists")
+                it ("works when song exists")
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
@@ -2268,6 +2268,41 @@ class PlayolaAPITests: QuickSpec {
                     }
                 }
                 
+                it ("works when song is processing")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("requestSongBySpotifyIDSongProcessing.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                        .then
+                        {
+                            (songStatus, song) -> Void in
+                            
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestBySpotifyID/bobsSpotifyID"))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                                    
+                            // check response
+                            expect(songStatus).to(equal(SongStatus.processing))
+                            expect(song).to(beNil())
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("requestSongBySong() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
                 it ("properly returns an error")
                 {
                     // setup
@@ -2279,48 +2314,20 @@ class PlayolaAPITests: QuickSpec {
                     
                     // test
                     waitUntil()
+                    {
+                        (done) in
+                        api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                        .then
                         {
-                            (done) in
-                            api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
-                                .then
-                                {
-                                    (user) -> Void in
-                                    fail("there should have been an error")
-                                }
-                                .catch
-                                {
-                                    (error) -> Void in
-                                    expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                                    done()
-                            }
-                    }
-                }
-                
-                it ("properly returns .passcodeIncorrect")
-                {
-                    // setup
-                    stubbedResponse = OHHTTPStubsResponse(
-                        fileAtPath: OHPathForFile("incorrectPasscode.json", type(of: self))!,
-                        statusCode: 422,
-                        headers: [:]
-                    )
-                    
-                    // test
-                    waitUntil()
+                            (songStatus, song) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
                         {
-                            (done) in
-                            api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
-                                .then
-                                {
-                                    (user) -> Void in
-                                    fail("there should have been an error")
-                                }
-                                .catch
-                                {
-                                    (error) -> Void in
-                                    expect((error as! APIError).type()).to(equal(APIErrorType.passcodeIncorrect))
-                                    done()
-                            }
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
+                            done()
+                        }
                     }
                 }
             }
