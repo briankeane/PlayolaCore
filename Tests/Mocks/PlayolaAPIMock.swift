@@ -181,4 +181,25 @@ class PlayolaAPIMock:PlayolaAPI {
             return reject(self.getPresetsError!)
         }
     }
+    
+    var requestSongBySpotifyIDShouldSucceed:Bool = true
+    var requestSongBySpotifyIDCount:Int = 0
+    var requestSongBySpotifyIDResponses:[(songStatus:SongStatus, song:AudioBlock?)]? = nil
+    var requestSongBySpotifyIDSongStatus:SongStatus? = nil
+    var requestSongBySpotifyIDError:APIError?
+    var requestSongBySpotifyIDArgs:[[String:Any]] = Array()
+    override func requestSongBySpotifyID(spotifyID: String) -> Promise<(songStatus: SongStatus, song: AudioBlock?)>
+    {
+        self.requestSongBySpotifyIDCount += 1
+        self.requestSongBySpotifyIDArgs.append(["spotifyID": spotifyID])
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.requestSongBySpotifyIDShouldSucceed)
+            {
+                return fulfill(self.requestSongBySpotifyIDResponses!.removeFirst())
+            }
+            return reject(self.requestSongBySpotifyIDError!)
+        }
+    }
 }

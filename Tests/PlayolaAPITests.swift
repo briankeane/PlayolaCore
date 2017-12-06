@@ -14,8 +14,8 @@ import Alamofire
 import OHHTTPStubs
 import OHHTTPStubs.NSURLRequest_HTTPBodyTesting
 
-class PlayolaAPITests: QuickSpec {
-    
+class PlayolaAPITests: QuickSpec
+{
     private func readLocalJsonFile(_ filename:String!) -> [String:AnyObject]?
     {
         if let urlPathString = OHPathForFile(filename, type(of: self))
