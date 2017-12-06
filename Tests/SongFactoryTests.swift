@@ -14,7 +14,7 @@ class SongFactoryTests: QuickSpec
 {
     override func spec()
     {
-        describe ("SongFactory")
+        fdescribe ("SongFactory")
         {
             var songFactory:SongFactory!
             var apiMock:PlayolaAPIMock!
@@ -75,11 +75,11 @@ class SongFactoryTests: QuickSpec
                         (songStatus: .notFound,           song: nil)
                     ]
                     songFactory.songRequests = songRequestInfos
-                    songFactory.sendAllSongRequests()
                 }
                 
                 it ("makes multiple requests")
                 {
+                    songFactory.sendAllSongRequests()
                     let allRequests:[String] = apiMock.requestSongBySpotifyIDArgs.map({$0["spotifyID"] as! String})
                     expect(apiMock.requestSongBySpotifyIDCount).toEventually(equal(4))
                     expect(allRequests).to(contain(songRequestInfos[0].spotifyID))
@@ -90,6 +90,7 @@ class SongFactoryTests: QuickSpec
 
                 it ("handles multiple responses")
                 {
+                    songFactory.sendAllSongRequests()
                     expect(songFactory.songRequests[0].songStatus).toEventually(equal(SongStatus.processing))
                     expect(songFactory.songRequests[0].song).to(beNil())
                     
@@ -102,6 +103,46 @@ class SongFactoryTests: QuickSpec
                     
                     expect(songFactory.songRequests[3].songStatus).toEventually(equal(SongStatus.notFound))
                     expect(songFactory.songRequests[3].song?.id).to(beNil())
+                }
+                
+                describe ("on progress, on completion")
+                {
+                    beforeEach
+                    {
+                        // set all to compelete
+                        apiMock.requestSongBySpotifyIDResponses = [
+                            (songStatus: .failedToAcquire, song: nil),
+                            (songStatus: .failedToAcquire, song: nil),
+                            (songStatus: .failedToAcquire, song: nil),
+                            (songStatus: .failedToAcquire, song: nil)
+                        ]
+                    }
+                    it ("properly calls onProgress blocks")
+                    {
+                        var progressCallCount:Int = 0
+                        songFactory
+                        .onProgress(
+                        {
+                            (songFactory) in
+                            progressCallCount += 1
+                        })
+                        songFactory.sendAllSongRequests()
+                        expect(progressCallCount).toEventually(equal(4))
+                    }
+                    
+                    it ("properly calls onCompletion blocks")
+                    {
+                        var completionCallCount:Int = 0
+                        songFactory
+                        .onCompletion(
+                        {
+                            (songFactory) in
+                            completionCallCount += 1
+                        })
+                        songFactory.sendAllSongRequests()
+                        expect(completionCallCount).toEventually(equal(1))
+                        expect(completionCallCount).toEventuallyNot(equal(2))
+                    }
                 }
             }
         }

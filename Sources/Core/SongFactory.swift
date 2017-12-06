@@ -50,6 +50,7 @@ import Foundation
                 songRequest.songStatus = songStatus
                 songRequest.song = song
                 self.executeOnProgressBlocks()
+                
                 if (self.completedCount() == self.totalCount())
                 {
                     self.checkRequestsTimer?.invalidate()
