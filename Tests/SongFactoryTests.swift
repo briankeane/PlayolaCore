@@ -14,7 +14,7 @@ class SongFactoryTests: QuickSpec
 {
     override func spec()
     {
-        fdescribe ("SongFactory")
+        describe ("SongFactory")
         {
             var songFactory:SongFactory!
             var apiMock:PlayolaAPIMock!
