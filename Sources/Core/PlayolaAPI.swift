@@ -365,7 +365,7 @@ import PromiseKit
      */
     open func requestSongBySpotifyID(spotifyID:String) -> Promise<(songStatus:SongStatus, song:AudioBlock?)>
     {
-        let url = "\(baseURL)/api/v1/songs/requestBySpotifyID/\(spotifyID)"
+        let url = "\(baseURL)/api/v1/songs/requestViaSpotifyID/\(spotifyID)"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         return Promise
@@ -376,9 +376,9 @@ import PromiseKit
             .responseJSON
             {
                 (response) -> Void in
-                if let resultDict = response.result.value as? [String:Any]
+                if let resultDict = response.result.value as? [String:Any?]
                 {
-                    if let songStatusInt = (resultDict["songStatus"] as? [String:Any])?["code"] as? Int
+                    if let songStatusInt = (resultDict["songStatus"] as? [String:Any?])?["code"] as? Int
                     {
                         if let songStatus = SongStatus(rawValue: songStatusInt)
                         {
@@ -392,7 +392,7 @@ import PromiseKit
                                     song = AudioBlock(audioBlockInfo: songDict)
                                 }
                             }
-                            fulfill((songStatus: songStatus, song: song))
+                            return fulfill((songStatus: songStatus, song: song))
                         }
                     }
                 }
@@ -1812,6 +1812,136 @@ import PromiseKit
                 }
         }
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func resetRotationItems
+    // -----------------------------------------------------------------------------
+    /**
+     Completely resets the rotationItems for the current user.
+     
+     - parameters:
+        - items: `[(songID:String, bin:String)]` - an array of tuples containing the
+                playola songID and desired bin for each.
+
+     NOTE:
+     The bin minumums must be met!
+     
+     ### Usage Example: ###
+     ````
+     authService.addSongsToBin(items: ([(songID: "playolaSongID1", bin: "heavy"),
+                                        (songID: "playolaSongID2", bin: "medium"),
+                                        (songID: "playolaSongID3", bin: "light")
+                                      ])
+     .then
+     {
+        (user, updatedRotationItemsCollection) -> Void in
+        print(updatedRotationItemsCollection.listBins())
+        print(user.displayName!)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<RotationItemsCollection>` - a promise
+     
+     * resolves to: a tuple containing the updated user and rotationItemsCollection
+     * rejects: an APIError
+     */
+    open func resetRotationItems(items:[(songID:String, bin:String)]) -> Promise<RotationItemsCollection>
+    {
+        let itemsDict = items.map { (tuple) -> [String:String] in
+            return ["songID": tuple.songID, "bin": tuple.bin]
+        }
+        let url = "\(baseURL)/api/v1/rotationItems/reset"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = ["items": itemsDict]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON
+            {
+                (response) -> Void in
+                if let statusCode:Int = response.response?.statusCode
+                {
+                    if (200..<300 ~= statusCode)
+                    {
+                        if let responseDictionary = response.result.value as? [String:Any]
+                        {
+                            let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
+                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                            return fulfill(rotationItemsCollection)
+                        }
+                    }
+                }
+                return reject(APIError(response: response))
+            }
+        }
+    }
+    
+    // ----------------------------------------------------------------------------
+    //                          func insertSpin
+    // -----------------------------------------------------------------------------
+    /**
+     Inserts a spin
+     
+     - parameters:
+     - audioBlockID: `(String)` - the id of the audioBlock to insert
+     - playlistPosition: `(Int)` - the desired playlistPosition
+     
+     ### Usage Example: ###
+     ````
+     api.insertSpin(audioBlockID:"thisIsASpinID", playlistPosition:42)
+     .then
+     {
+     (updatedUser) -> Void in
+     print(updatedUser.program?.playlist)
+     }
+     .catch
+     {
+     (error) -> Void in
+     print(error)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an updated user
+     * rejects: an APIError
+     */
+    open func startStation() -> Promise<User>
+    {
+        let url = "\(baseURL)/api/v1/users/startStation"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = nil
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON
+            {
+                (response) -> Void in
+                if let statusCode = response.response?.statusCode
+                {
+                    if (200..<300 ~= statusCode)
+                    {
+                        if let responseData = response.result.value as? [String:Any]
+                        {
+                            let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
+                            let user:User = User(userInfo: rawUser as NSDictionary)
+                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                            return fulfill(user)
+                        }
+                    }
+                }
+                return reject(APIError(response: response))
+            }
+        }
+    }
 
     
     // -----------------------------------------------------------------------------
@@ -1821,28 +1951,22 @@ import PromiseKit
      Broadcast when a new version of a user comes in.
      
      - parameters:
-     - rotationItemID: `(String)` - the id of the RotationItem to deactivate
+        - users: `[User]` - an array of the new users updated
      
      ### Usage Example: ###
      ````
      authService.deactivateRotationItem(rotationItemID: "thisIsASongID")
      .then
      {
-     (updatedRotationItemsCollection) -> Void in
-     print(updatedRotationItemsCollection.listBins())
+        (updatedRotationItemsCollection) -> Void in
+        print(updatedRotationItemsCollection.listBins())
      }
      .catch (err)
      {
-     print(err)
+        print(err)
      }
      ````
-     
-     - returns:
-     `Promise<RotationItemsCollection>` - a promise
-     * resolves to: a RotationItemsCollection
-     * rejects: an APIError
      */
-
     fileprivate func broadcastUsersUpdated(_ users:Array<User>)
     {
         for user in users

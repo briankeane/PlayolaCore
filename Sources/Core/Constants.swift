@@ -42,6 +42,8 @@ public struct PlayolaConstants {
 //    static let HOST_NAME = "127.0.0.1:9000"     // localhost must be 127.0.0.1 for OHHTTPStubs
 //    static let HOST_NAME = "api.playola.fm"
 //    public static let BASE_URL = "https://\(HOST_NAME)"
+    
+//
     static let HOST_NAME = "127.0.0.1:9000"
     public static let BASE_URL = "http://\(HOST_NAME)"
     static let S3_SONGS_BUCKET = "playolasongsdevelopment"
@@ -59,6 +61,10 @@ public struct PlayolaConstants {
     #endif
     
     
+    /// song bin minimums
+    public static let SONG_BIN_MINIMUMS:[String:Int] = ["heavy": 20,
+                                                        "medium": 30,
+                                                        "light": 40]
     
     /// the number of seconds from now when station editing can begins.
     public static let LOCKED_SECONDS_OF_PRELOAD = 180

@@ -1,0 +1,18 @@
+{
+    "playolaError": {
+        "code": 5001,
+        "description": "the user's song bins do not all meet their minimum levels.",
+        "info": {
+            "required": {
+                "heavy": 20,
+                "medium": 30,
+                "light": 40
+            },
+            "currentCount": {
+                "heavy": 20,
+                "medium": 30,
+                "light": 40
+            }
+        }
+    }
+}

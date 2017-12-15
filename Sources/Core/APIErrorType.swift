@@ -35,6 +35,8 @@ public enum APIErrorType:Error, Equatable
             return true
         case (.notFound, .notFound):
             return true
+        case (.rotationItemMinimumsNotMet, .rotationItemMinimumsNotMet):
+            return true
         case (.unauthorized, .unauthorized):
             return true
         case (.parsingError, .parsingError):
@@ -65,6 +67,9 @@ public enum APIErrorType:Error, Equatable
     
     /// the provided zipcode could not be found in the db
     case zipcodeNotFound
+    
+    /// the operation could not be completed because the rotationItem bin minimums are not currently above the required minimum levels
+    case rotationItemMinimumsNotMet
     
     /// indicates statusCode 404 received from server
     case notFound

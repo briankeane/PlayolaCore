@@ -30,10 +30,10 @@ class SongFactoryTests: QuickSpec
                     "api":apiMock
                     ])
                 songRequestInfos = Array()
-                songRequestInfos.append(SongRequestInfo(spotifyID: "song1"))
-                songRequestInfos.append(SongRequestInfo(spotifyID: "song2"))
-                songRequestInfos.append(SongRequestInfo(spotifyID: "song3"))
-                songRequestInfos.append(SongRequestInfo(spotifyID: "song4"))
+                songRequestInfos.append(SongRequestInfo(spotifyTrack: SpotifyTrack(spotifyID: "song1")))
+                songRequestInfos.append(SongRequestInfo(spotifyTrack: SpotifyTrack(spotifyID: "song2")))
+                songRequestInfos.append(SongRequestInfo(spotifyTrack: SpotifyTrack(spotifyID: "song3")))
+                songRequestInfos.append(SongRequestInfo(spotifyTrack: SpotifyTrack(spotifyID: "song4")))
             }
             
             beforeEach
@@ -82,10 +82,10 @@ class SongFactoryTests: QuickSpec
                     songFactory.sendAllSongRequests()
                     let allRequests:[String] = apiMock.requestSongBySpotifyIDArgs.map({$0["spotifyID"] as! String})
                     expect(apiMock.requestSongBySpotifyIDCount).toEventually(equal(4))
-                    expect(allRequests).to(contain(songRequestInfos[0].spotifyID))
-                    expect(allRequests).to(contain(songRequestInfos[1].spotifyID))
-                    expect(allRequests).to(contain(songRequestInfos[2].spotifyID))
-                    expect(allRequests).to(contain(songRequestInfos[3].spotifyID))
+                    expect(allRequests).to(contain(songRequestInfos[0].spotifyTrack.spotifyID!))
+                    expect(allRequests).to(contain(songRequestInfos[1].spotifyTrack.spotifyID!))
+                    expect(allRequests).to(contain(songRequestInfos[2].spotifyTrack.spotifyID!))
+                    expect(allRequests).to(contain(songRequestInfos[3].spotifyTrack.spotifyID!))
                 }
 
                 it ("handles multiple responses")
@@ -123,7 +123,7 @@ class SongFactoryTests: QuickSpec
                         songFactory
                         .onProgress(
                         {
-                            (songFactory) in
+                            (songFactory, song) -> Void in
                             progressCallCount += 1
                         })
                         songFactory.sendAllSongRequests()

@@ -8,6 +8,7 @@ def pods
     pod 'AudioKit', '~> 4.0'
     pod 'SwiftRemoteFileCache'
     pod 'Kingfisher', '~> 4.2'
+    pod 'SwiftyJSON'
 end
 
 def testOnly

@@ -27,6 +27,7 @@ Pod::Spec.new do |s|
     s.dependency 'AudioKit', '~> 4.0'
     s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
     s.dependency 'Kingfisher', '~> 4.2.0'
+    s.dependency 'SwiftyJSON', '~> 4.0.0'
 
     # s.ios.dependency 'KDCircularProgress', '~> 1.5.2'  # manually include until he fixes cocoapod
 

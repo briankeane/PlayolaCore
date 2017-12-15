@@ -176,6 +176,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import AudioToolbox;
 @import AVFoundation;
 @import Foundation;
+@import CoreAudio;
 @import Accelerate;
 @import AppKit;
 @import CoreGraphics;
@@ -192,12 +193,15 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #pragma clang diagnostic ignored "-Wnullability"
 
 SWIFT_MODULE_NAMESPACE_PUSH("AudioKit")
+@class AVAudioNode;
 
 /// Parent class for all nodes in AudioKit
 SWIFT_CLASS("_TtC8AudioKit6AKNode")
 @interface AKNode : NSObject
 /// Create the node
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/// Initialize the node
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -210,7 +214,18 @@ SWIFT_CLASS("_TtC8AudioKit10AK3DPanner")
 @property (nonatomic) double y;
 /// Position of sound source along z-axis
 @property (nonatomic) double z;
+/// Initialize the panner node
+/// \param input Node to pan in 3D Space
+///
+/// \param x x-axis location in meters
+///
+/// \param y y-axis location in meters
+///
+/// \param z z-axis location in meters
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input x:(double)x y:(double)y z:(double)z OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -223,32 +238,6 @@ SWIFT_PROTOCOL("_TtP8AudioKit12AKToggleable_")
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
-@end
-
-
-/// This is was built using the JC reverb implentation found in FAUST. According
-/// to the source code, the specifications for this implementation were found on
-/// an old SAIL DART backup tape.
-/// This class is derived from the CLM JCRev function, which is based on the use
-/// of networks of simple allpass and comb delay filters.  This class implements
-/// three series allpass units, followed by four parallel comb filters, and two
-/// decorrelation delay lines in parallel at the output.
-SWIFT_CLASS("_TtC8AudioKit17AK4ChowningReverb")
-@interface AK4ChowningReverb : AKNode <AKToggleable>
-/// Four letter unique description of the node
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescription ComponentDescription;)
-+ (AudioComponentDescription)ComponentDescription SWIFT_WARN_UNUSED_RESULT;
-/// Tells whether the node is processing (ie. started, playing, or active)
-@property (nonatomic, readonly) BOOL isStarted;
-/// Initialize this reverb node
-/// \param input Input node to process
-///
-- (nonnull instancetype)init:(AKNode * _Nullable)input OBJC_DESIGNATED_INITIALIZER;
-/// Function to start, play, or activate the node, all do the same thing
-- (void)start;
-/// Function to stop or bypass the node, both are equivalent
-- (void)stop;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
 
@@ -270,11 +259,24 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double releaseDuration;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this envelope node
+/// \param input Input node to process
+///
+/// \param attackDuration Attack time
+///
+/// \param decayDuration Decay time
+///
+/// \param sustainLevel Sustain Level
+///
+/// \param releaseDuration Release time
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input attackDuration:(double)attackDuration decayDuration:(double)decayDuration sustainLevel:(double)sustainLevel releaseDuration:(double)releaseDuration OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -295,11 +297,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) double rightAmplitude;
 /// Threshold amplitude
 @property (nonatomic) double threshold;
+/// Initialize this amplitude tracker node
+/// \param input Input node to process
+///
+/// \param halfPowerPoint Half-power point (in Hz) of internal lowpass filter.
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input halfPowerPoint:(double)halfPowerPoint threshold:(double)threshold thresholdCallback:(void (^ _Nonnull)(BOOL))thresholdCallback OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -451,6 +460,7 @@ SWIFT_CLASS("_TtC8AudioKit13AKAudioPlayer")
 - (void)stopAtNextLoopEnd;
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 @class AKTuningTable;
@@ -481,6 +491,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) AKTuningTable * _Nonnu
 ///
 - (void)stopWithNoteNumber:(uint8_t)noteNumber;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -504,6 +515,7 @@ SWIFT_CLASS("_TtC8AudioKit16AKMIDIInstrument")
 /// \param channel Channel on which to stop the note
 ///
 - (void)stopWithNoteNumber:(uint8_t)noteNumber channel:(uint8_t)channel;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -569,6 +581,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -585,11 +598,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 + (AudioComponentDescription)ComponentDescription SWIFT_WARN_UNUSED_RESULT;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this balance node
+/// \param input Input node to process
+///
+/// \param comparator Audio to match power with
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input comparator:(AKNode * _Nonnull)comparator OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -621,6 +641,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -652,6 +673,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -669,11 +691,20 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double sampleRate;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this bitcrusher node
+/// \param input Input node to process
+///
+/// \param bitDepth The bit depth of signal output. Typically in range (1-24). Non-integer values are OK.
+///
+/// \param sampleRate The sample rate of signal output.
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input bitDepth:(double)bitDepth sampleRate:(double)sampleRate OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -695,11 +726,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double dB;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this booster node
+/// \param input AKNode whose output will be amplified
+///
+/// \param gain Amplification factor (Default: 1, Minimum: 0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input gain:(double)gain OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -717,11 +755,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double dB;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this booster node
+/// \param input AKNode whose output will be amplified
+///
+/// \param gain Amplification factor (Default: 1, Minimum: 0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input gain:(double)gain OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -737,11 +782,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double amplitude;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this noise node
+/// \param amplitude Amplitude. (Value between 0-1).
+///
+- (nonnull instancetype)initWithAmplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -789,6 +839,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -808,10 +859,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the mandolin with defaults
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+/// Initialize the STK Clarinet model
+/// \param frequency Variable frequency. Values less than the initial frequency will be doubled until it is
+/// greater than that.
+///
+/// \param amplitude Amplitude
+///
+- (nonnull instancetype)initWithFrequency:(double)frequency amplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -862,9 +921,43 @@ SWIFT_CLASS("_TtC8AudioKit12AKClipMerger")
 @end
 
 
+/// A timing protocol used for syncronizing different audio sources.
+SWIFT_PROTOCOL("_TtP8AudioKit8AKTiming_")
+@protocol AKTiming
+/// Starts playback at a specific time.
+/// \param audioTime A time in the audio render context.
+///
+- (void)playAt:(AVAudioTime * _Nullable)audioTime;
+/// Stops playback immediately.
+- (void)stop;
+/// Start playback immediately.
+- (void)play;
+/// Set time in playback timeline (seconds).
+- (void)setTime:(double)time;
+/// Timeline time at an audio time
+/// <ul>
+///   <li>
+///     Return: Time in the timeline context (seconds).
+///   </li>
+/// </ul>
+/// \param audioTime A time in the audio render context.
+///
+- (double)timeAtAudioTime:(AVAudioTime * _Nullable)audioTime SWIFT_WARN_UNUSED_RESULT;
+/// Audio time at timeline time
+/// <ul>
+///   <li>
+///     Return: A time in the audio render context.
+///   </li>
+/// </ul>
+/// \param time Time in the timeline context (seconds).
+///
+- (AVAudioTime * _Nullable)audioTimeAtTime:(double)time SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
 /// Schedules multiple audio files to be played in a sequence.
 SWIFT_CLASS("_TtC8AudioKit12AKClipPlayer")
-@interface AKClipPlayer : AKNode
+@interface AKClipPlayer : AKNode <AKTiming>
 /// Sets the current time in seconds.
 - (void)setTime:(double)time;
 /// Time in seconds at a given audio time
@@ -891,6 +984,7 @@ SWIFT_CLASS("_TtC8AudioKit12AKClipPlayer")
 - (void)playAt:(AVAudioTime * _Nullable)audioTime;
 /// Stops playback.
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -907,11 +1001,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double limit;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this clipper node
+/// \param input Input node to process
+///
+/// \param limit Threshold / limiting value.
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input limit:(double)limit OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -946,6 +1047,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -975,6 +1077,20 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double dryWetMix;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize the dynamics processor node
+/// \param input Input node to process
+///
+/// \param threshold Threshold (dB) ranges from -40 to 20 (Default: -20)
+///
+/// \param headRoom Head Room (dB) ranges from 0.1 to 40.0 (Default: 5)
+///
+/// \param attackTime Attack Time (secs) ranges from 0.0001 to 0.2 (Default: 0.001)
+///
+/// \param releaseTime Release Time (secs) ranges from 0.01 to 3 (Default: 0.05)
+///
+/// \param masterGain Master Gain (dB) ranges from -40 to 40 (Default: 0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input threshold:(double)threshold headRoom:(double)headRoom attackTime:(double)attackTime releaseTime:(double)releaseTime masterGain:(double)masterGain OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
@@ -982,6 +1098,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1008,6 +1125,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1043,6 +1161,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1086,6 +1205,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1103,6 +1223,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double mix;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize the decimator node
+/// \param input Input node to process
+///
+/// \param decimation Decimation (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param rounding Rounding (Normalized Value) ranges from 0 to 1 (Default: 0)
+///
+/// \param mix Mix (Normalized Value) ranges from 0 to 1 (Default: 1)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input decimation:(double)decimation rounding:(double)rounding mix:(double)mix OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
@@ -1110,6 +1240,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1143,6 +1274,7 @@ SWIFT_CLASS("_TtC8AudioKit7AKDelay")
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1151,6 +1283,12 @@ SWIFT_CLASS("_TtC8AudioKit7AKDelay")
 /// Wrapper for audio device selection
 SWIFT_CLASS("_TtC8AudioKit8AKDevice")
 @interface AKDevice : NSObject
+/// Initialize the device
+/// \param name The human-readable name for the device.
+///
+/// \param deviceID The device identifier.
+///
+- (nonnull instancetype)initWithName:(NSString * _Nonnull)name deviceID:(AudioDeviceID)deviceID dataSource:(NSString * _Nonnull)dataSource OBJC_DESIGNATED_INITIALIZER;
 /// Printable device description
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -1197,6 +1335,42 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double finalMix;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize the distortion node
+/// \param input Input node to process
+///
+/// \param delay Delay (Milliseconds) ranges from 0.1 to 500 (Default: 0.1)
+///
+/// \param decay Decay (Rate) ranges from 0.1 to 50 (Default: 1.0)
+///
+/// \param delayMix Delay Mix (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param decimation Decimation (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param rounding Rounding (Normalized Value) ranges from 0 to 1 (Default: 0.0)
+///
+/// \param decimationMix Decimation Mix (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param linearTerm Linear Term (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param squaredTerm Squared Term (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param cubicTerm Cubic Term (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param polynomialMix Polynomial Mix (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param ringModFreq1 Ring Mod Freq1 (Hertz) ranges from 0.5 to 8000 (Default: 100)
+///
+/// \param ringModFreq2 Ring Mod Freq2 (Hertz) ranges from 0.5 to 8000 (Default: 100)
+///
+/// \param ringModBalance Ring Mod Balance (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param ringModMix Ring Mod Mix (Normalized Value) ranges from 0 to 1 (Default: 0.0)
+///
+/// \param softClipGain Soft Clip Gain (dB) ranges from -80 to 20 (Default: -6)
+///
+/// \param finalMix Final Mix (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input delay:(double)delay decay:(double)decay delayMix:(double)delayMix decimation:(double)decimation rounding:(double)rounding decimationMix:(double)decimationMix linearTerm:(double)linearTerm squaredTerm:(double)squaredTerm cubicTerm:(double)cubicTerm polynomialMix:(double)polynomialMix ringModFreq1:(double)ringModFreq1 ringModFreq2:(double)ringModFreq2 ringModBalance:(double)ringModBalance ringModMix:(double)ringModMix softClipGain:(double)softClipGain finalMix:(double)finalMix OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
@@ -1204,6 +1378,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1236,10 +1411,27 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the drip with defaults
 - (nonnull instancetype)init;
+/// Initialize this drip node
+/// \param intensity The intensity of the dripping sound.
+///
+/// \param dampingFactor The damping factor. Maximum value is 2.0.
+///
+/// \param energyReturn The amount of energy to add back into the system.
+///
+/// \param mainResonantFrequency Main resonant frequency.
+///
+/// \param firstResonantFrequency The first resonant frequency.
+///
+/// \param secondResonantFrequency The second resonant frequency.
+///
+/// \param amplitude Amplitude.
+///
+- (nonnull instancetype)initWithIntensity:(double)intensity dampingFactor:(double)dampingFactor energyReturn:(double)energyReturn mainResonantFrequency:(double)mainResonantFrequency firstResonantFrequency:(double)firstResonantFrequency secondResonantFrequency:(double)secondResonantFrequency amplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1250,8 +1442,17 @@ SWIFT_CLASS("_TtC8AudioKit13AKDryWetMixer")
 @property (nonatomic) double balance;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize this dry wet mixer node
+/// \param dry Dry Input (or just input 1)
+///
+/// \param wet Wet Input (or just input 2)
+///
+/// \param balance Balance Point (0 = all dry, 1 = all wet)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)dry :(AKNode * _Nullable)wet balance:(double)balance OBJC_DESIGNATED_INITIALIZER;
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1278,11 +1479,24 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) BOOL rageIsOn;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this compressor node
+/// \param input Input node to process
+///
+/// \param ratio Ratio to compress with, a value > 1 will compress
+///
+/// \param threshold Threshold (in dB) 0 = max
+///
+/// \param attackTime Attack time
+///
+/// \param releaseTime Release time
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input ratio:(double)ratio threshold:(double)threshold attackTime:(double)attackTime releaseTime:(double)releaseTime rageAmount:(double)rageAmount rageIsOn:(BOOL)rageIsOn OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1304,11 +1518,24 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double releaseTime;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this compressor node
+/// \param input Input node to process
+///
+/// \param ratio Ratio to compress with, a value > 1 will compress
+///
+/// \param threshold Threshold (in dB) 0 = max
+///
+/// \param attackTime Attack time
+///
+/// \param releaseTime Release time
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input ratio:(double)ratio threshold:(double)threshold attackTime:(double)attackTime releaseTime:(double)releaseTime OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1342,6 +1569,30 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double dryWetMix;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize the dynamics processor node
+/// \param input Input node to process
+///
+/// \param threshold Threshold (dB) ranges from -40 to 20 (Default: -20)
+///
+/// \param headRoom Head Room (dB) ranges from 0.1 to 40.0 (Default: 5)
+///
+/// \param expansionRatio Expansion Ratio (rate) ranges from 1 to 50.0 (Default: 2)
+///
+/// \param expansionThreshold Expansion Threshold (rate) ranges from 1 to 50.0 (Default: 2)
+///
+/// \param attackTime Attack Time (secs) ranges from 0.0001 to 0.2 (Default: 0.001)
+///
+/// \param releaseTime Release Time (secs) ranges from 0.01 to 3 (Default: 0.05)
+///
+/// \param masterGain Master Gain (dB) ranges from -40 to 40 (Default: 0)
+///
+/// \param compressionAmount Compression Amount (dB) ranges from -40 to 40 (Default: 0)
+///
+/// \param inputAmplitude Input Amplitude (dB) ranges from -40 to 40 (Default: 0)
+///
+/// \param outputAmplitude Output Amplitude (dB) ranges from -40 to 40 (Default: 0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input threshold:(double)threshold headRoom:(double)headRoom expansionRatio:(double)expansionRatio expansionThreshold:(double)expansionThreshold attackTime:(double)attackTime releaseTime:(double)releaseTime masterGain:(double)masterGain compressionAmount:(double)compressionAmount inputAmplitude:(double)inputAmplitude outputAmplitude:(double)outputAmplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
@@ -1349,6 +1600,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1386,6 +1638,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1415,6 +1668,20 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double dryWetMix;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize the dynamics processor node
+/// \param input Input node to process
+///
+/// \param expansionRatio Expansion Ratio (rate) ranges from 1 to 50.0 (Default: 2)
+///
+/// \param expansionThreshold Expansion Threshold (rate) ranges from 1 to 50.0 (Default: 2)
+///
+/// \param attackTime Attack Time (secs) ranges from 0.0001 to 0.2 (Default: 0.001)
+///
+/// \param releaseTime Release Time (secs) ranges from 0.01 to 3 (Default: 0.05)
+///
+/// \param masterGain Master Gain (dB) ranges from -40 to 40 (Default: 0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input threshold:(double)threshold headRoom:(double)headRoom expansionRatio:(double)expansionRatio expansionThreshold:(double)expansionThreshold attackTime:(double)attackTime releaseTime:(double)releaseTime masterGain:(double)masterGain compressionAmount:(double)compressionAmount inputAmplitude:(double)inputAmplitude outputAmplitude:(double)outputAmplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
@@ -1422,6 +1689,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 @class EZAudioFFT;
@@ -1429,11 +1697,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// FFT Calculation for any node
 SWIFT_CLASS("_TtC8AudioKit8AKFFTTap")
 @interface AKFFTTap : NSObject <EZAudioFFTDelegate>
+/// Initialze the FFT calculation on a given node
+/// \param input Node on whose output the FFT will be computed
+///
+- (nonnull instancetype)init:(AKNode * _Nonnull)input OBJC_DESIGNATED_INITIALIZER;
 /// Callback function for FFT computation
 - (void)fft:(EZAudioFFT * _Null_unspecified)fft updatedWithFFTData:(float * _Nonnull)fftData bufferSize:(vDSP_Length)bufferSize;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
+@class AKTable;
 
 /// Classic FM Synthesis audio generation.
 SWIFT_CLASS("_TtC8AudioKit14AKFMOscillator")
@@ -1457,10 +1730,25 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param waveform Shape of the oscillation
+///
+/// \param baseFrequency In Hz, this is the common denominator for the carrier and modulating frequencies.
+///
+/// \param carrierMultiplier This multiplied by the baseFrequency gives the carrier frequency.
+///
+/// \param modulatingMultiplier This multiplied by the baseFrequency gives the modulating frequency.
+///
+/// \param modulationIndex This multiplied by the modulating frequency gives the modulation amplitude.
+///
+/// \param amplitude Output Amplitude.
+///
+- (nonnull instancetype)initWithWaveform:(AKTable * _Nonnull)waveform baseFrequency:(double)baseFrequency carrierMultiplier:(double)carrierMultiplier modulatingMultiplier:(double)modulatingMultiplier modulationIndex:(double)modulationIndex amplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1496,9 +1784,34 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double vibratoRate;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param waveform The waveform of oscillation
+///
+/// \param carrierMultiplier This multiplied by the baseFrequency gives the carrier frequency.
+///
+/// \param modulatingMultiplier This multiplied by the baseFrequency gives the modulating frequency.
+///
+/// \param modulationIndex This multiplied by the modulating frequency gives the modulation amplitude.
+///
+/// \param attackDuration Attack time
+///
+/// \param decayDuration Decay time
+///
+/// \param sustainLevel Sustain Level
+///
+/// \param releaseDuration Release time
+///
+/// \param pitchBend Change of pitch in semitones
+///
+/// \param vibratoDepth Vibrato size in semitones
+///
+/// \param vibratoRate Frequency of vibrato in Hz
+///
+- (nonnull instancetype)initWithWaveform:(AKTable * _Nonnull)waveform carrierMultiplier:(double)carrierMultiplier modulatingMultiplier:(double)modulatingMultiplier modulationIndex:(double)modulationIndex attackDuration:(double)attackDuration decayDuration:(double)decayDuration sustainLevel:(double)sustainLevel releaseDuration:(double)releaseDuration pitchBend:(double)pitchBend vibratoDepth:(double)vibratoDepth vibratoRate:(double)vibratoRate OBJC_DESIGNATED_INITIALIZER;
 - (void)playWithNoteNumber:(uint8_t)noteNumber velocity:(uint8_t)velocity frequency:(double)frequency;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stopWithNoteNumber:(uint8_t)noteNumber;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1520,6 +1833,16 @@ SWIFT_CLASS("_TtC8AudioKit10AKFileClip")
 @property (nonatomic) double offset;
 /// The duration of playback.
 @property (nonatomic) double duration;
+/// Create a new file clip.
+/// \param audioFile The audio file that will be read.
+///
+/// \param time The time in the timeline that the clip should begin playing.
+///
+/// \param offset The offset into the clip’s audio (where to start playing from within the clip).
+///
+/// \param duration The duration of playback.
+///
+- (nonnull instancetype)initWithAudioFile:(AKAudioFile * _Nonnull)audioFile time:(double)time offset:(double)offset duration:(double)duration OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
@@ -1598,6 +1921,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1617,10 +1941,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the mandolin with defaults
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+/// Initialize the STK Flute model
+/// \param frequency Variable frequency. Values less than the initial frequency will be doubled until it is
+/// greater than that.
+///
+/// \param amplitude Amplitude
+///
+- (nonnull instancetype)initWithFrequency:(double)frequency amplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1653,6 +1985,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1668,11 +2001,20 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) double amplitude;
 /// Detected frequency
 @property (nonatomic, readonly) double frequency;
+/// Initialize this Pitch-tracker node
+/// \param input Input node to process
+///
+/// \param hopSize Hop size.
+///
+/// \param peakCount Number of peaks.
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input hopSize:(double)hopSize peakCount:(double)peakCount OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1700,6 +2042,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1732,6 +2075,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1764,6 +2108,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1798,6 +2143,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1839,6 +2185,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1866,6 +2213,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1898,6 +2246,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1930,6 +2279,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1965,6 +2315,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -1973,7 +2324,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// should be triggerable via MIDI or sequenced with the sequencer.
 SWIFT_CLASS("_TtC8AudioKit10AKMIDINode")
 @interface AKMIDINode : AKNode
+/// Initialize the MIDI node
+/// \param node A polyphonic node that will be triggered via MIDI
+///
+- (nonnull instancetype)initWithNode:(AKPolyphonicNode * _Nonnull)node OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 @class AVAudioUnitSampler;
@@ -2044,6 +2400,7 @@ SWIFT_CLASS("_TtC8AudioKit9AKSampler")
 /// \param channel MIDI Channnel
 ///
 - (void)stopWithNoteNumber:(uint8_t)noteNumber channel:(uint8_t)channel;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2072,6 +2429,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double detune;
 /// Relative size of the mandoline (Default: 1, ranges ~ 0.5 - 2)
 @property (nonatomic) double bodySize;
+/// Initialize the 4 course (string-pair) Mandolin
+/// \param detune Detuning of second string in the course (1=Unison (deault), 2=Octave)
+///
+/// \param bodySize Relative size of the mandoline (Default: 1, ranges ~ 0.5 - 2)
+///
+- (nonnull instancetype)initWithDetune:(double)detune bodySize:(double)bodySize OBJC_DESIGNATED_INITIALIZER;
 /// Strum all strings of the mandolin
 /// \param position Position lengthwise along the string to pluck (0 - 1)
 ///
@@ -2079,6 +2442,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 ///
 - (void)strum:(double)position velocity:(uint8_t)velocity;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2108,11 +2472,32 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double strikeWidth;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this Bar node
+/// \param leftBoundaryCondition Boundary condition at left end of bar. 1 = clamped, 2 = pivoting, 3 = free
+///
+/// \param rightBoundaryCondition Boundary condition at right end of bar. 1 = clamped, 2 = pivoting, 3 = free
+///
+/// \param decayDuration 30db decay time (in seconds).
+///
+/// \param scanSpeed Speed of scanning the output location.
+///
+/// \param position Position along bar that strike occurs.
+///
+/// \param strikeVelocity Normalized strike velocity
+///
+/// \param strikeWidth Spatial width of strike.
+///
+/// \param stiffness Dimensionless stiffness parameter
+///
+/// \param highFrequencyDamping High-frequency loss parameter. Keep this small
+///
+- (nonnull instancetype)initWithLeftBoundaryCondition:(double)leftBoundaryCondition rightBoundaryCondition:(double)rightBoundaryCondition decayDuration:(double)decayDuration scanSpeed:(double)scanSpeed position:(double)position strikeVelocity:(double)strikeVelocity strikeWidth:(double)strikeWidth stiffness:(double)stiffness highFrequencyDamping:(double)highFrequencyDamping OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2128,17 +2513,25 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, copy) NSString * _Nonnull sporth;
 /// Parameters for changing internal operations
 @property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull parameters;
+/// Initialize this generator node with a generic sporth stack and a triggering flag
+/// \param sporth String of valid Sporth code
+///
+- (nonnull instancetype)initWithSporth:(NSString * _Nonnull)sporth customUgens:(NSArray<AKCustomUgen *> * _Nonnull)customUgens OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
 /// Useful metronome class that you can utilize for your own projects
 SWIFT_CLASS("_TtC8AudioKit11AKMetronome")
 @interface AKMetronome : AKOperationGenerator
+/// Initialize the metronome
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSporth:(NSString * _Nonnull)sporth customUgens:(NSArray<AKCustomUgen *> * _Nonnull)customUgens SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2155,6 +2548,7 @@ SWIFT_CLASS("_TtC8AudioKit12AKMicrophone")
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2181,6 +2575,7 @@ SWIFT_CLASS("_TtC8AudioKit7AKMixer")
 - (void)connectWithInput:(AKNode * _Nullable)input bus:(NSInteger)bus;
 /// Connect for Objectivec access
 - (void)connectWithInput:(AKNode * _Nullable)input;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2213,6 +2608,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2250,6 +2646,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2278,10 +2675,27 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this Morpher node
+/// \param waveformArray An array of exactly four waveforms
+///
+/// \param frequency Frequency (in Hz)
+///
+/// \param amplitude Amplitude (typically a value between 0 and 1).
+///
+/// \param index Index of the wavetable to use (fractional are okay).
+///
+/// \param detuningOffset Frequency offset in Hz.
+///
+/// \param detuningMultiplier Frequency detuning multiplier
+///
+/// \param phase Initial phase of waveform, expects a value 0-1
+///
+- (nonnull instancetype)initWithWaveformArray:(NSArray<AKTable *> * _Nonnull)waveformArray frequency:(double)frequency amplitude:(double)amplitude index:(double)index detuningOffset:(double)detuningOffset detuningMultiplier:(double)detuningMultiplier phase:(double)phase OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2312,9 +2726,30 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double vibratoRate;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param waveformArray An array of 4 waveforms
+///
+/// \param index Index of the wavetable to use (fractional are okay).
+///
+/// \param attackDuration Attack time
+///
+/// \param decayDuration Decay time
+///
+/// \param sustainLevel Sustain Level
+///
+/// \param releaseDuration Release time
+///
+/// \param pitchBend Change of pitch in semitones
+///
+/// \param vibratoDepth Vibrato size in semitones
+///
+/// \param vibratoRate Frequency of vibrato in Hz
+///
+- (nonnull instancetype)initWithWaveformArray:(NSArray<AKTable *> * _Nonnull)waveformArray index:(double)index attackDuration:(double)attackDuration decayDuration:(double)decayDuration sustainLevel:(double)sustainLevel releaseDuration:(double)releaseDuration pitchBend:(double)pitchBend vibratoDepth:(double)vibratoDepth vibratoRate:(double)vibratoRate OBJC_DESIGNATED_INITIALIZER;
 - (void)playWithNoteNumber:(uint8_t)noteNumber velocity:(uint8_t)velocity frequency:(double)frequency;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stopWithNoteNumber:(uint8_t)noteNumber;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2323,7 +2758,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 - (void)disconnect SWIFT_DEPRECATED_MSG("", "detach");
 @end
 
-@class AVAudioNode;
 
 /// Simplify making connections from a node.
 SWIFT_PROTOCOL("_TtP8AudioKit8AKOutput_")
@@ -2359,11 +2793,48 @@ SWIFT_CLASS("_TtC8AudioKit14AKNodeRecorder")
 @end
 
 
-SWIFT_CLASS("_TtC8AudioKit19AKOfflineRenderNode")
+/// An AKTiming implementation that uses a node for it’s render time info.
+SWIFT_CLASS("_TtC8AudioKit12AKNodeTiming")
+@interface AKNodeTiming : NSObject <AKTiming>
+/// Sets the current time in the timeline (seconds).
+- (void)setTime:(double)time;
+/// Timeline time at an audio time
+/// <ul>
+///   <li>
+///     Return: Time in the timeline context (seconds).
+///   </li>
+/// </ul>
+/// \param audioTime A time in the audio render context.
+///
+- (double)timeAtAudioTime:(AVAudioTime * _Nullable)audioTime SWIFT_WARN_UNUSED_RESULT;
+/// Audio time at timeline time
+/// <ul>
+///   <li>
+///     Return: A time in the audio render context.
+///   </li>
+/// </ul>
+/// \param time Time in the timeline context (seconds).
+///
+- (AVAudioTime * _Nullable)audioTimeAtTime:(double)time SWIFT_WARN_UNUSED_RESULT;
+/// Starts playback at a specific time.
+/// \param audioTime A time in the audio render context.
+///
+- (void)playAt:(AVAudioTime * _Nullable)audioTime;
+/// Start playback immediately.
+- (void)play;
+/// Stops playback immediately.
+- (void)stop;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC8AudioKit19AKOfflineRenderNode") SWIFT_AVAILABILITY(macos,obsoleted=10.13) SWIFT_AVAILABILITY(tvos,obsoleted=11) SWIFT_AVAILABILITY(ios,obsoleted=11)
 @interface AKOfflineRenderNode : AKNode
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescription ComponentDescription;)
 + (AudioComponentDescription)ComponentDescription SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init:(AKNode * _Nullable)input OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2377,11 +2848,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Parameters for changing internal operations
 @property (nonatomic, copy) NSArray<NSNumber *> * _Nonnull parameters;
+/// Initialize the effect with an input and a valid Sporth string
+/// \param input AKNode to use for processing
+///
+/// \param sporth String of valid Sporth code
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input sporth:(NSString * _Nonnull)sporth customUgens:(NSArray<AKCustomUgen *> * _Nonnull)customUgens OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2407,10 +2885,23 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param waveform The waveform of oscillation
+///
+/// \param frequency Frequency in cycles per second
+///
+/// \param amplitude Output Amplitude.
+///
+/// \param detuningOffset Frequency offset in Hz.
+///
+/// \param detuningMultiplier Frequency detuning multiplier
+///
+- (nonnull instancetype)initWithWaveform:(AKTable * _Nonnull)waveform frequency:(double)frequency amplitude:(double)amplitude detuningOffset:(double)detuningOffset detuningMultiplier:(double)detuningMultiplier OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2439,9 +2930,28 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double vibratoRate;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param waveform The waveform of oscillation
+///
+/// \param attackDuration Attack time
+///
+/// \param decayDuration Decay time
+///
+/// \param sustainLevel Sustain Level
+///
+/// \param releaseDuration Release time
+///
+/// \param pitchBend Change of pitch in semitones
+///
+/// \param vibratoDepth Vibrato size in semitones
+///
+/// \param vibratoRate Frequency of vibrato in Hz
+///
+- (nonnull instancetype)initWithWaveform:(AKTable * _Nonnull)waveform attackDuration:(double)attackDuration decayDuration:(double)decayDuration sustainLevel:(double)sustainLevel releaseDuration:(double)releaseDuration pitchBend:(double)pitchBend vibratoDepth:(double)vibratoDepth vibratoRate:(double)vibratoRate OBJC_DESIGNATED_INITIALIZER;
 - (void)playWithNoteNumber:(uint8_t)noteNumber velocity:(uint8_t)velocity frequency:(double)frequency;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stopWithNoteNumber:(uint8_t)noteNumber;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2468,10 +2978,23 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param frequency In cycles per second, or Hz.
+///
+/// \param amplitude Output amplitude
+///
+/// \param pulseWidth Duty cycle width (range 0-1).
+///
+/// \param detuningOffset Frequency offset in Hz.
+///
+/// \param detuningMultiplier Frequency detuning multiplier
+///
+- (nonnull instancetype)initWithFrequency:(double)frequency amplitude:(double)amplitude pulseWidth:(double)pulseWidth detuningOffset:(double)detuningOffset detuningMultiplier:(double)detuningMultiplier OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2501,9 +3024,28 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double vibratoRate;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param pulseWidth Duty cycle width (range 0-1).
+///
+/// \param attackDuration Attack time
+///
+/// \param decayDuration Decay time
+///
+/// \param sustainLevel Sustain Level
+///
+/// \param releaseDuration Release time
+///
+/// \param pitchBend Change of pitch in semitones
+///
+/// \param vibratoDepth Vibrato size in semitones
+///
+/// \param vibratoRate Frequency of vibrato in Hz
+///
+- (nonnull instancetype)initWithPulseWidth:(double)pulseWidth attackDuration:(double)attackDuration decayDuration:(double)decayDuration sustainLevel:(double)sustainLevel releaseDuration:(double)releaseDuration pitchBend:(double)pitchBend vibratoDepth:(double)vibratoDepth vibratoRate:(double)vibratoRate OBJC_DESIGNATED_INITIALIZER;
 - (void)playWithNoteNumber:(uint8_t)noteNumber velocity:(uint8_t)velocity frequency:(double)frequency;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stopWithNoteNumber:(uint8_t)noteNumber;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2530,6 +3072,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2549,6 +3092,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double dryWetMix;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize the peak limiter node
+/// \param input Input node to process
+///
+/// \param attackTime Attack Time (Secs) ranges from 0.001 to 0.03 (Default: 0.012)
+///
+/// \param decayTime Decay Time (Secs) ranges from 0.001 to 0.06 (Default: 0.024)
+///
+/// \param preGain Pre Gain (dB) ranges from -40 to 40 (Default: 0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input attackTime:(double)attackTime decayTime:(double)decayTime preGain:(double)preGain OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
@@ -2556,6 +3109,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2590,12 +3144,20 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
 /// A class to periodically perform a callback
 SWIFT_CLASS("_TtC8AudioKit18AKPeriodicFunction")
 @interface AKPeriodicFunction : AKOperationGenerator
+/// Repeat this loop at a given period with a code block
+/// \param period Interval between block executions
+///
+/// \param handler Code block to execute
+///
+- (nonnull instancetype)initWithEvery:(double)period handler:(void (^ _Nonnull)(void))handler OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSporth:(NSString * _Nonnull)sporth customUgens:(NSArray<AKCustomUgen *> * _Nonnull)customUgens SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2621,10 +3183,25 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param waveform The waveform of oscillation
+///
+/// \param frequency In cycles per second, or Hz.
+///
+/// \param amplitude Output amplitude
+///
+/// \param phaseDistortion Duty cycle width (range -1 - 1).
+///
+/// \param detuningOffset Frequency offset in Hz.
+///
+/// \param detuningMultiplier Frequency detuning multiplier
+///
+- (nonnull instancetype)initWithWaveform:(AKTable * _Nonnull)waveform frequency:(double)frequency amplitude:(double)amplitude phaseDistortion:(double)phaseDistortion detuningOffset:(double)detuningOffset detuningMultiplier:(double)detuningMultiplier OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2654,9 +3231,30 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double vibratoRate;
 /// Initialize the oscillator with defaults
 - (nonnull instancetype)init;
+/// Initialize this oscillator node
+/// \param waveform The waveform of oscillation
+///
+/// \param phaseDistortion Phase distortion amount (range -1 - 1).
+///
+/// \param attackDuration Attack time
+///
+/// \param decayDuration Decay time
+///
+/// \param sustainLevel Sustain Level
+///
+/// \param releaseDuration Release time
+///
+/// \param pitchBend Change of pitch in semitones
+///
+/// \param vibratoDepth Vibrato size in semitones
+///
+/// \param vibratoRate Frequency of vibrato in Hz
+///
+- (nonnull instancetype)initWithWaveform:(AKTable * _Nonnull)waveform phaseDistortion:(double)phaseDistortion attackDuration:(double)attackDuration decayDuration:(double)decayDuration sustainLevel:(double)sustainLevel releaseDuration:(double)releaseDuration pitchBend:(double)pitchBend vibratoDepth:(double)vibratoDepth vibratoRate:(double)vibratoRate OBJC_DESIGNATED_INITIALIZER;
 - (void)playWithNoteNumber:(uint8_t)noteNumber velocity:(uint8_t)velocity frequency:(double)frequency;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stopWithNoteNumber:(uint8_t)noteNumber;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2678,11 +3276,22 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double pitchRatio;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this Phase-Locked Vocoder node
+/// \param file Location of the audio file to use.
+///
+/// \param position Position in time. When non-changing it will do a spectral freeze of a the current point in time.
+///
+/// \param amplitude Amplitude.
+///
+/// \param pitchRatio Pitch ratio. A value of 1 is normal, 2 is double speed, 0.5 is halfspeed, etc.
+///
+- (nonnull instancetype)initWithFile:(AVAudioFile * _Nonnull)file position:(double)position amplitude:(double)amplitude pitchRatio:(double)pitchRatio OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2742,6 +3351,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2757,11 +3367,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double amplitude;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this noise node
+/// \param amplitude Amplitude. (Value between 0-1).
+///
+- (nonnull instancetype)initWithAmplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2796,6 +3411,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2815,10 +3431,21 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the pluck with defaults
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+/// Initialize this pluck node
+/// \param frequency Variable frequency. Values less than the initial frequency will be
+/// doubled until it is greater than that.
+///
+/// \param amplitude Amplitude
+///
+/// \param lowestFrequency This frequency is used to allocate all the buffers needed for the delay.
+/// This should be the lowest frequency you plan on using.
+///
+- (nonnull instancetype)initWithFrequency:(double)frequency amplitude:(double)amplitude lowestFrequency:(double)lowestFrequency OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2875,6 +3502,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2896,6 +3524,7 @@ SWIFT_CLASS("_TtC8AudioKit8AKReverb")
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2943,6 +3572,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2962,10 +3592,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the mandolin with defaults
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+/// Initialize the STK RhodesPiano model
+/// \param frequency Variable frequency. Values less than the initial frequency will be doubled until it is
+/// greater than that.
+///
+/// \param amplitude Amplitude
+///
+- (nonnull instancetype)initWithFrequency:(double)frequency amplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -2985,6 +3623,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double mix;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic) BOOL isStarted;
+/// Initialize the ring modulator node
+/// \param input Input node to process
+///
+/// \param frequency1 Frequency1 (Hertz) ranges from 0.5 to 8000 (Default: 100)
+///
+/// \param frequency2 Frequency2 (Hertz) ranges from 0.5 to 8000 (Default: 100)
+///
+/// \param balance Balance (Normalized Value) ranges from 0 to 1 (Default: 0.5)
+///
+/// \param mix Mix (Normalized Value) ranges from 0 to 1 (Default: 1)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input frequency1:(double)frequency1 frequency2:(double)frequency2 balance:(double)balance mix:(double)mix OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
@@ -2992,6 +3642,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Disconnect the node
 - (void)disconnect;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3033,6 +3684,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3062,11 +3714,28 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) BOOL loopEnabled;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this SamplePlayer node
+/// \param file Initial file to load (defining maximum size unless maximum samples are also set
+///
+/// \param startPoint Point in samples from which to start playback
+///
+/// \param endPoint Point in samples at which to stop playback
+///
+/// \param rate Multiplication factor from original speed (Default: 1)
+///
+/// \param volume Multiplication factor of the overall amplitude (Default: 1)
+///
+/// \param maximumSamples Largest number of samples that will be loaded into the sample player
+///
+/// \param completionHandler Callback to run when the sample playback is completed
+///
+- (nonnull instancetype)initWithFile:(AVAudioFile * _Nonnull)file startPoint:(uint32_t)startPoint endPoint:(uint32_t)endPoint rate:(double)rate volume:(double)volume maximumSamples:(NSInteger)maximumSamples completionHandler:(void (^ _Nonnull)(void))completionHandler OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3231,6 +3900,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3246,11 +3916,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double amount;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this stereo field limiter node
+/// \param input AKNode whose output will be limited
+///
+/// \param amount limit factor (Default: 1, Minimum: 0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input amount:(double)amount OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3289,6 +3966,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3307,6 +3985,8 @@ SWIFT_CLASS("_TtC8AudioKit11AKSynthKick")
 /// Snare Drum Synthesizer Instrument
 SWIFT_CLASS("_TtC8AudioKit12AKSynthSnare")
 @interface AKSynthSnare : AKMIDIInstrument
+/// Create the synth snare voice
+- (nonnull instancetype)initWithDuration:(double)duration resonance:(double)resonance OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)playWithNoteNumber:(uint8_t)noteNumber velocity:(uint8_t)velocity;
 /// Unneeded stop function since the sounds all decay quickly
@@ -3314,10 +3994,19 @@ SWIFT_CLASS("_TtC8AudioKit12AKSynthSnare")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
+enum AKTableType : NSInteger;
 
 /// A table of values accessible as a waveform or lookup mechanism
 SWIFT_CLASS("_TtC8AudioKit7AKTable")
 @interface AKTable : NSObject
+/// Initialize and set up the default table
+/// \param type AKTableType of the new table
+///
+/// \param phase Phase offset
+///
+/// \param count Size of the table (multiple of 2)
+///
+- (nonnull instancetype)init:(enum AKTableType)type phase:(float)phase count:(NSInteger)count OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
@@ -3366,11 +4055,24 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double negativeShapeParameter;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this distortion node
+/// \param input Input node to process
+///
+/// \param pregain The amount of gain applied to the signal before waveshaping. A value of 1 gives slight distortion.
+///
+/// \param postgain Gain applied after waveshaping
+///
+/// \param postiveShapeParameter Shape of the positive part of the signal. A value of 0 gets a flat clip.
+///
+/// \param negativeShapeParameter Like the positive shape parameter, only for the negative part.
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input pregain:(double)pregain postgain:(double)postgain postiveShapeParameter:(double)postiveShapeParameter negativeShapeParameter:(double)negativeShapeParameter OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3382,11 +4084,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 + (AudioComponentDescription)ComponentDescription SWIFT_WARN_UNUSED_RESULT;
 /// Flag on whether or not the test is still in progress
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this test node
+/// \param input AKNode to test
+///
+/// \param samples Number of samples to produce
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input samples:(NSInteger)samples OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3427,6 +4136,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3456,7 +4166,9 @@ SWIFT_CLASS("_TtC8AudioKit11AKTimePitch")
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
+
 
 
 
@@ -3483,6 +4195,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3509,6 +4222,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3526,11 +4240,22 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double depth;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this tremolo node
+/// \param input Input node to process
+///
+/// \param frequency Frequency (Hz)
+///
+/// \param depth Depth
+///
+/// \param waveform Shape of the tremolo (default to sine)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input frequency:(double)frequency depth:(double)depth waveform:(AKTable * _Nonnull)waveform OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3550,10 +4275,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic, readonly) BOOL isStarted;
 /// Initialize the mandolin with defaults
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+/// Initialize the STK TubularBells model
+/// \param frequency Variable frequency. Values less than the initial frequency will be doubled until it is
+/// greater than that.
+///
+/// \param amplitude Amplitude
+///
+- (nonnull instancetype)initWithFrequency:(double)frequency amplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3605,11 +4338,18 @@ SWIFT_CLASS("_TtC8AudioKit11AKVariSpeed")
 @property (nonatomic) double rate;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize the varispeed node
+/// \param input Input node to process
+///
+/// \param rate Rate (rate) ranges from 0.25 to 4.0 (Default: 1.0)
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input rate:(double)rate OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3627,11 +4367,22 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double feedback;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this delay node
+/// \param input Input node to process
+///
+/// \param time Delay time (in seconds). This value must not exceed the maximum delay time.
+///
+/// \param feedback Feedback amount. Should be a value between 0-1.
+///
+/// \param maximumDelayTime The maximum delay time, in seconds.
+///
+- (nonnull instancetype)init:(AKNode * _Nullable)input time:(double)time feedback:(double)feedback maximumDelayTime:(double)maximumDelayTime OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3658,11 +4409,24 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double nasality;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this vocal tract node
+/// \param frequency Glottal frequency.
+///
+/// \param tonguePosition Tongue position (0-1)
+///
+/// \param tongueDiameter Tongue diameter (0-1)
+///
+/// \param tenseness Vocal tenseness. 0 = all breath. 1=fully saturated.
+///
+/// \param nasality Sets the velum size. Larger values of this creates more nasally sounds.
+///
+- (nonnull instancetype)initWithFrequency:(double)frequency tonguePosition:(double)tonguePosition tongueDiameter:(double)tongueDiameter tenseness:(double)tenseness nasality:(double)nasality OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3678,11 +4442,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 @property (nonatomic) double amplitude;
 /// Tells whether the node is processing (ie. started, playing, or active)
 @property (nonatomic, readonly) BOOL isStarted;
+/// Initialize this noise node
+/// \param amplitude Amplitude. (Value between 0-1).
+///
+- (nonnull instancetype)initWithAmplitude:(double)amplitude OBJC_DESIGNATED_INITIALIZER;
 /// Function to start, play, or activate the node, all do the same thing
 - (void)start;
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3745,6 +4514,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) AudioComponentDescri
 /// Function to stop or bypass the node, both are equivalent
 - (void)stop;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (nonnull instancetype)initWithAvAudioNode:(AVAudioNode * _Nonnull)avAudioNode attach:(BOOL)attach SWIFT_UNAVAILABLE;
 @end
 
 
@@ -3880,6 +4650,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) AKTester * _Nullable t
 + (void)connect:(AVAudioNode * _Nonnull)node1 to:(AVAudioNode * _Nonnull)node2 fromBus:(AVAudioNodeBus)bus1 toBus:(AVAudioNodeBus)bus2 format:(AVAudioFormat * _Nullable)format;
 + (void)connect:(AVAudioNode * _Nonnull)node1 to:(AVAudioNode * _Nonnull)node2 format:(AVAudioFormat * _Nullable)format;
 + (void)detachWithNodes:(NSArray<AVAudioNode *> * _Nonnull)nodes;
+/// Render output to an AVAudioFile for a duration.
+/// - Parameters
+/// - audioFile: An file initialized for writing
+/// - seconds: Duration to render
+/// - prerender: A closure called before rendering starts, use this to start players, set initial parameters, etc…
++ (BOOL)renderToFile:(AVAudioFile * _Nonnull)audioFile seconds:(double)seconds error:(NSError * _Nullable * _Nullable)error prerender:(void (^ _Nullable)(void))prerender SWIFT_AVAILABILITY(tvos,introduced=11) SWIFT_AVAILABILITY(macos,introduced=10.13) SWIFT_AVAILABILITY(ios,introduced=11);
 @end
 
 

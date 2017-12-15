@@ -49,6 +49,8 @@ class PlayolaAPITests: QuickSpec
     let getUsersByAttributesPath    =        "/api/v1/users/getByAttributes"
     let addSongToBinPath            =        "/api/v1/rotationItems"
     let changePasswordPath          =        "/api/v1/users/me/changePassword"
+    let resetRotationItemsPath      =        "/api/v1/rotationItems/reset"
+    let startStationPath            =        "/api/v1/users/startStation"
     
     
     override func spec()
@@ -1826,10 +1828,10 @@ class PlayolaAPITests: QuickSpec
                     waitUntil()
                     {
                         (done) in
-                        api.removeSpin(spinID:"thisIsASpinID")
+                        api.insertSpin(audioBlockID:"thisIsAnAudioBlockID", playlistPosition:42)
                         .then
                         {
-                            (topUsers) -> Void in
+                            (updatedUser) -> Void in
                             fail("there should have been an error")
                         }
                         .catch
@@ -2246,7 +2248,7 @@ class PlayolaAPITests: QuickSpec
                             let jsonDict = self.readLocalJsonFile("requestSongBySpotifyIDSongExists.json")!
                             
                             // check request
-                            expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestBySpotifyID/bobsSpotifyID"))
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
                             expect(sentRequest!.httpMethod).to(equal("POST"))
                             
                             // check response
@@ -2285,7 +2287,7 @@ class PlayolaAPITests: QuickSpec
                             (songStatus, song) -> Void in
                             
                             // check request
-                            expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestBySpotifyID/bobsSpotifyID"))
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
                             expect(sentRequest!.httpMethod).to(equal("POST"))
                                     
                             // check response
@@ -2470,6 +2472,156 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.passwordIncorrect))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("resetRotationItems")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getUserRotationItemsSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.resetRotationItems(items:[(songID:"song1ID", bin: "heavy"),
+                                                      (songID:"song2ID", bin: "medium"),
+                                                      (songID:"song3ID", bin: "light")
+                                               ])
+                        .then
+                        {
+                            (rotationItemsCollection) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.resetRotationItemsPath))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                            let sentItemDicts = sentBody!["items"] as! [[String:String]]
+                            expect(sentItemDicts[0]["songID"]).to(equal("song1ID"))
+                            expect(sentItemDicts[1]["songID"]).to(equal("song2ID"))
+                            expect(sentItemDicts[2]["songID"]).to(equal("song3ID"))
+                            expect(sentItemDicts[0]["bin"]).to(equal("heavy"))
+                            expect(sentItemDicts[1]["bin"]).to(equal("medium"))
+                            expect(sentItemDicts[2]["bin"]).to(equal("light"))
+                            
+                            // check response
+                            expect(rotationItemsCollection).toNot(beNil())
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns a rotationItemBinMinimumsNotMet error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("binMinimums.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.resetRotationItems(items:[(songID:"song1ID", bin: "heavy"),
+                                                      (songID:"song2ID", bin: "medium"),
+                                                      (songID:"song3ID", bin: "light")])
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.rotationItemMinimumsNotMet))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("startStation")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("startStationSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.startStation()
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.startStationPath))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+
+                            // check response
+                            let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                            let rawID = rawUpdatedUser["id"] as! String
+                            // check response
+                            expect(updatedUser.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("startStation() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.startStation()
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            let jsonDict = self.readLocalJsonFile("422.json")!
+                            
+                            let authError = error as! APIError
+                            expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
                         }
                     }

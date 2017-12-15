@@ -14,7 +14,7 @@ import Foundation
     var checkRequestsTimer:Timer?
     
     fileprivate var onCompletionBlocks:Array<((SongFactory)->Void)> = Array()
-    fileprivate var onProgressBlocks:Array<((SongFactory)->Void)> = Array()
+    fileprivate var onProgressBlocks:Array<((SongFactory, AudioBlock?)->Void)> = Array()
     fileprivate var onErrorBlocks:Array<((NSError)->Void)> = Array()
     
     // dependency injections
@@ -27,21 +27,45 @@ import Foundation
     
     //------------------------------------------------------------------------------
     
-    func requestSong(spotifyID:String)
+    open func requestSong(spotifyTrack:SpotifyTrack)
     {
-        // do nothing if the song has already been added
-        if (!self.songRequests.contains(where: {$0.spotifyID == spotifyID}))
+        self.addRequest(spotifyTrack: spotifyTrack)
+        self.startRequests()
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    private func addRequest(spotifyTrack:SpotifyTrack)
+    {
+        // do nothing if there is not a proper spotifyID
+        guard let spotifyID = spotifyTrack.spotifyID else { return }
+        
+        // do nothing if the song is already in process
+        guard (!self.songRequests.contains(where: {$0.spotifyTrack.spotifyID == spotifyID })) else { return }
+        
+        songRequests.append(SongRequestInfo(spotifyTrack: spotifyTrack, songStatus: nil, song: nil))
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    open func requestSongs(spotifyTracks:[SpotifyTrack]) -> SongFactory
+    {
+        for spotifyTrack in spotifyTracks
         {
-            songRequests.append(SongRequestInfo(spotifyID: spotifyID, songStatus: nil, song: nil))
+            self.addRequest(spotifyTrack: spotifyTrack)
         }
         self.startRequests()
+        return self
     }
     
     //------------------------------------------------------------------------------
     
     func makeSongRequest(songRequest:SongRequestInfo)
     {
-        self.api.requestSongBySpotifyID(spotifyID: songRequest.spotifyID)
+        // do nothing if there is no spotifyID
+        guard let spotifyID = songRequest.spotifyTrack.spotifyID else { return }
+        
+        self.api.requestSongBySpotifyID(spotifyID: spotifyID)
         .then
         {
             (songStatus, song) -> Void in
@@ -49,7 +73,7 @@ import Foundation
             {
                 songRequest.songStatus = songStatus
                 songRequest.song = song
-                self.executeOnProgressBlocks()
+                self.executeOnProgressBlocks(song: song)
                 
                 if (self.completedCount() == self.totalCount())
                 {
@@ -94,32 +118,53 @@ import Foundation
     
     //------------------------------------------------------------------------------
     
-    func completedCount() -> Int
+    func completed() -> [SongRequestInfo]
     {
-        return self.songRequests.filter({ $0.hasCompleted() == true }).count
+        return self.songRequests.filter({ $0.hasCompleted() == true })
     }
     
     //------------------------------------------------------------------------------
     
-    func successCount() -> Int
+    public func completedCount() -> Int
     {
-        return self.songRequests.filter({ $0.songStatus == SongStatus.songExists }).count
+        return self.completed().count
     }
     
     //------------------------------------------------------------------------------
     
-    func totalCount() -> Int
+    public func successfulSongInfos() -> [(spotifyTrack:SpotifyTrack, songStatus:SongStatus?, song:AudioBlock?)]
+    {
+        return self.songRequests.map({$0.toTuple()})
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func success() -> [SongRequestInfo]
+    {
+        return self.songRequests.filter({ $0.songStatus == SongStatus.songExists })
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func successCount() -> Int
+    {
+        return self.success().count
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func totalCount() -> Int
     {
         return self.songRequests.count
     }
     
     //------------------------------------------------------------------------------
     
-    fileprivate func executeOnProgressBlocks()
+    fileprivate func executeOnProgressBlocks(song:AudioBlock?=nil)
     {
         for block in self.onProgressBlocks
         {
-            block(self)
+            block(self, song)
         }
     }
     
@@ -156,7 +201,7 @@ import Foundation
     ///                             block is passed the AudioCacheObject that completed
     ///
     /// ----------------------------------------------------------------------------
-    @discardableResult func onCompletion(_ onCompletionBlock:((SongFactory)->Void)!) -> SongFactory
+    @discardableResult public func onCompletion(_ onCompletionBlock:((SongFactory)->Void)!) -> SongFactory
     {
         self.onCompletionBlocks.append(onCompletionBlock)
         
@@ -180,7 +225,7 @@ import Foundation
     ///                          block is passed the SongFactory itself
     ///
     /// ----------------------------------------------------------------------------
-    @discardableResult func onProgress(_ onProgressBlock:((SongFactory)->Void)!) -> SongFactory
+    @discardableResult public func onProgress(_ onProgressBlock:((SongFactory, AudioBlock?)->Void)!) -> SongFactory
     {
         self.onProgressBlocks.append(onProgressBlock)
         return self
@@ -190,13 +235,13 @@ import Foundation
 
 class SongRequestInfo
 {
-    var spotifyID:String!
+    var spotifyTrack:SpotifyTrack!
     var songStatus:SongStatus?
     var song:AudioBlock?
     
-    init(spotifyID:String!, songStatus:SongStatus?=nil, song:AudioBlock?=nil)
+    init(spotifyTrack:SpotifyTrack!, songStatus:SongStatus?=nil, song:AudioBlock?=nil)
     {
-        self.spotifyID = spotifyID
+        self.spotifyTrack = spotifyTrack
         self.songStatus = songStatus
         self.song = song
     }
@@ -204,7 +249,13 @@ class SongRequestInfo
     func hasCompleted() -> Bool
     {
         if (self.songStatus == SongStatus.failedToAcquire) { return true }
-        if (self.songStatus == SongStatus.notFound) { return true }
+        if (self.songStatus == SongStatus.notFound ) { return true }
+        if (self.songStatus == SongStatus.songExists) { return true }
         return false
+    }
+    
+    func toTuple() -> (spotifyTrack:SpotifyTrack, songStatus:SongStatus?, song:AudioBlock?)
+    {
+        return (spotifyTrack:self.spotifyTrack, songStatus:self.songStatus, song:self.song)
     }
 }

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "11BDFF08E8A4A8C7C631D20B6606274C"
+               BlueprintIdentifier = "892A55731CCB508A36AE5CEA5DBB42D0"
                BuildableName = "Kingfisher.framework"
                BlueprintName = "Kingfisher-macOS"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "11BDFF08E8A4A8C7C631D20B6606274C"
+            BlueprintIdentifier = "892A55731CCB508A36AE5CEA5DBB42D0"
             BuildableName = "Kingfisher.framework"
             BlueprintName = "Kingfisher-macOS"
             ReferencedContainer = "container:Pods.xcodeproj">
