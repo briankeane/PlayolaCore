@@ -33,6 +33,8 @@ open class PlayolaScheduler:NSObject
         }
     }
     
+    //------------------------------------------------------------------------------
+    
     open func setupListeners()
     {
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedIn, object: nil, queue: .main)
@@ -86,9 +88,13 @@ open class PlayolaScheduler:NSObject
         {
             (user) -> Void in
             self.executeOnPlaylistChanged()
-            NotificationCenter.default.post(name: PlayolaEvents.schedulerNowPlayingAdvanced, object: nil, userInfo: ["playlist": self.playlist() as Any])
+            NotificationCenter.default.post(name: PlayolaEvents.schedulerNowPlayingAdvanced, object: nil, userInfo: ["nowPlaying": self.nowPlaying() as Any])
+            NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo:
+                ["refreshInstructions": PlaylistRefreshInstructions(fullReload: false, removeFirstItem: true)]
+            )
+        
         }
-        NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: ["playlist": self.playlist() as Any])
+        NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: ["refreshInstructions": PlaylistRefreshInstructions(fullReload: true) as Any])
     }
     
     //------------------------------------------------------------------------------
@@ -467,59 +473,15 @@ open class PlayolaScheduler:NSObject
     
     open func updatePlaylist(playlist:[Spin])
     {
-        var fullReload:Bool = true
-        var differentIndexes:[Int]?
-        
-        if let getIndexes = self.differentIndexes(oldPlaylist: self.playlist(), newPlaylist: playlist)
-        {
-            fullReload = false
-            differentIndexes = getIndexes
-        }
+        let oldPlaylist = self.playlist()
         
         self.user?.program?.playlist = playlist
         
-        NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: ["fullReload": fullReload,
-                                    "changedIndexes": differentIndexes as Any
-                                    ])
+        NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: [
+            "refreshInstructions" : PlaylistRefreshInstructions(oldPlaylist: oldPlaylist, newPlaylist: playlist)
+                    ])
     }
     
-    //------------------------------------------------------------------------------
-    
-    open func differentIndexes(oldPlaylist:[Spin]?, newPlaylist:[Spin]?) -> [Int]?
-    {
-        if let oldPlaylist = oldPlaylist
-        {
-            if let newPlaylist = newPlaylist
-            {
-                if (oldPlaylist.count != newPlaylist.count)
-                {
-                    return nil
-                }
-                var differentIndexes:[Int] = Array()
-                for (index, spin) in newPlaylist.enumerated()
-                {
-                    if (spin.airtime != oldPlaylist[index].airtime)
-                    {
-                        differentIndexes.append(index)
-                        continue
-                    }
-                    
-                    if (spin.id != oldPlaylist[index].id)
-                    {
-                        differentIndexes.append(index)
-                        continue
-                    }
-                    if (spin.audioBlock?.id != oldPlaylist[index].audioBlock?.id)
-                    {
-                        differentIndexes.append(index)
-                        continue
-                    }
-                }
-                return differentIndexes
-            }
-        }
-        return nil
-    }
     
     //------------------------------------------------------------------------------
     
@@ -557,6 +519,8 @@ open class PlayolaScheduler:NSObject
         }
         return nil
     }
+    
+    //------------------------------------------------------------------------------
     
     open func getSpinIndex(playlistPosition:Int) -> Int?
     {

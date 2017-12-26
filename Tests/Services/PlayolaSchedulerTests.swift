@@ -110,24 +110,6 @@ class PlayolaSchedulerTests: QuickSpec
                         }
                     }
                 }
-                
-                it ("detects different indexes")
-                {
-                    var copiedPlaylist = scheduler.user.program!.playlist!.map { $0.copy() }
-                    copiedPlaylist[3].airtime = Date()
-                    copiedPlaylist[2].id = "newID"
-                    copiedPlaylist[5].audioBlock = AudioBlock(id:"newAudioBlockID")
-                    let differentIndexes = scheduler.differentIndexes(oldPlaylist: scheduler.user.program!.playlist!, newPlaylist: copiedPlaylist)
-                    expect(differentIndexes).to(equal([2,3,5]))
-                }
-                
-                it ("returns nil if different counts")
-                {
-                    var copiedPlaylist = scheduler.user.program!.playlist!.map { $0.copy() }
-                    copiedPlaylist.remove(at: 0)
-                    let differentIndexes = scheduler.differentIndexes(oldPlaylist: user.program!.playlist!, newPlaylist: copiedPlaylist)
-                    expect(differentIndexes).to(beNil())
-                }
             }
             
             describe("moveSpin")
