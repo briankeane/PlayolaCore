@@ -189,6 +189,11 @@ import Foundation
         }
     }
     
+    open func hasRunningStation() -> Bool
+    {
+        return (self.user?.program?.playlist != nil)    
+    }
+    
     //------------------------------------------------------------------------------
     
     open func isSignedIn() -> Bool

@@ -14,6 +14,7 @@ open class SpotifyTrack
     public var duration:Int?
     public var title:String?
     public var artist:String?
+    public var artistID:String?
     public var album:String?
     public var isrc:String?
     public var albumImagesData:JSON?
@@ -23,6 +24,7 @@ open class SpotifyTrack
          duration:Int? = nil,
          title:String? = nil,
          artist:String? = nil,
+         artistID:String? = nil,
          album:String? = nil,
          isrc:String? = nil,
          albumImagesData:JSON? = nil,
@@ -32,6 +34,7 @@ open class SpotifyTrack
         self.duration = duration
         self.title = title
         self.artist = artist
+        self.artistID = artistID
         self.album = album
         self.isrc = isrc
         self.albumImagesData = albumImagesData
@@ -49,6 +52,11 @@ open class SpotifyTrack
         {
             self.artist = artistName
             
+        }
+        
+        if let artistID = JSON["artists"][0]["id"].string
+        {
+            self.artistID = artistID
         }
         
         if let title = JSON["name"].string

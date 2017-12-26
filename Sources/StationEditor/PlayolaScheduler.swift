@@ -63,14 +63,14 @@ open class PlayolaScheduler:NSObject
 
     //------------------------------------------------------------------------------
     
-    public func playlist() -> Array<Spin>?
+    open func playlist() -> Array<Spin>?
     {
         return self.user?.program?.playlist
     }
     
     //------------------------------------------------------------------------------
     
-    public func nowPlaying() -> Spin?
+    open func nowPlaying() -> Spin?
     {
         return self.user?.program?.nowPlaying
     }
@@ -479,7 +479,7 @@ open class PlayolaScheduler:NSObject
         self.user?.program?.playlist = playlist
         
         NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo: ["fullReload": fullReload,
-                            "changedIndexes": differentIndexes as Any
+                                    "changedIndexes": differentIndexes as Any
                                     ])
     }
     
@@ -620,6 +620,11 @@ open class PlayolaScheduler:NSObject
         }
         self._instance = PlayolaScheduler()
         return self._instance!
+    }
+    
+    open static func replaceSharedInstance(instance:PlayolaScheduler)
+    {
+        self._instance = instance
     }
 }
 

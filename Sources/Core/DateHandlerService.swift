@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class DateHandlerService:NSObject
+@objc open class DateHandlerService:NSObject
 {
     // -----------------------------------------------------------------------------
     //                          func now
@@ -18,7 +18,7 @@ import Foundation
     /// - returns:
     ///     - Date - the current date
     /// --------------------------------------------------------------------------
-    public func now() -> Date!
+    open func now() -> Date!
     {
         return Date()
     }
@@ -31,7 +31,7 @@ import Foundation
     /// - returns:
     ///     - Date! - the corresponding unwrapped NSDate
     /// --------------------------------------------------------------------------
-    public func createNSDateFromReadableString (_ dateString:String!) -> Date!
+    open func createNSDateFromReadableString (_ dateString:String!) -> Date!
     {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
@@ -52,7 +52,7 @@ import Foundation
     ///    `NSDate?` - the adjusted date
     ///
     /// ----------------------------------------------------------------------------
-    public func adjustedDate(_ date:Date?) -> Date?
+    open func adjustedDate(_ date:Date?) -> Date?
     {
         return date
     }

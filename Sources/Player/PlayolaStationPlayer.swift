@@ -330,12 +330,7 @@ import AudioKit
         }
         return self._instance!
     }
-    
-    open static func replaceSharedInstance(_ instance:PlayolaStationPlayer?)
-    {
-        self._instance = instance
-    }
-    
+
     /// internally shared singleton instance
     fileprivate static var _instance:PlayolaStationPlayer?
     
@@ -348,7 +343,7 @@ import AudioKit
     ///     - DateHandler: `(DateHandlerService)` - the new DateHandlerService
     ///
     /// ----------------------------------------------------------------------------
-    class func replaceSharedInstance(_ stationPlayer:PlayolaStationPlayer)
+    open class func replaceSharedInstance(_ stationPlayer:PlayolaStationPlayer)
     {
         self._instance = stationPlayer
     }

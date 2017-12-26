@@ -23,7 +23,7 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     override public init()
     {
         super.init()
-        AKSettings.playbackWhileMuted = true  // allows playback to continue after screen is locked
+//        AKSettings.playbackWhileMuted = true  // allows playback to continue after screen is locked
         self.setupPlayerBank()
     }
     
@@ -121,8 +121,8 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
             }
         }
         self.mixer = AKMixer(self.playerBank.map({$0.0}))
-        AudioKit.output = self.mixer
-        AudioKit.start()
+//        AudioKit.output = self.mixer
+//        AudioKit.start()
     }
     
     // -----------------------------------------------------------------------------
