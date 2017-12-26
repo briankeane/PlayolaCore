@@ -319,6 +319,8 @@ public class User
         self.advancer?.startAutoAdvancing()
     }
     
+    //------------------------------------------------------------------------------
+    
     func handleNowPlayingAdvanced()
     {
         for block in self.onNowPlayingAdvancedBlocks
