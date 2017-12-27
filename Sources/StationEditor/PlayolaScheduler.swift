@@ -90,7 +90,7 @@ open class PlayolaScheduler:NSObject
             self.executeOnPlaylistChanged()
             NotificationCenter.default.post(name: PlayolaEvents.schedulerNowPlayingAdvanced, object: nil, userInfo: ["nowPlaying": self.nowPlaying() as Any])
             NotificationCenter.default.post(name: PlayolaEvents.schedulerRefreshedPlaylist, object: nil, userInfo:
-                ["refreshInstructions": PlaylistRefreshInstructions(fullReload: false, removeFirstItem: true)]
+                ["refreshInstructions": PlaylistRefreshInstructions(fullReload: false, removeItemAtIndex: 0)]
             )
         
         }

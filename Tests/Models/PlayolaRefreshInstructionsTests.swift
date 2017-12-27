@@ -50,6 +50,7 @@ class PlaylistRefreshInstructionsTests: QuickSpec
                 let instructions = PlaylistRefreshInstructions(oldPlaylist: oldProgram.playlist, newPlaylist: newProgram.playlist)
                 expect(instructions.fullReload).to(equal(false))
                 expect(instructions.reloadIndexes.count).to(equal(0))
+                expect(instructions.removeItemAtIndex).to(beNil())
             }
             
             describe ("nowPlayingAdvanced")
@@ -60,7 +61,7 @@ class PlaylistRefreshInstructionsTests: QuickSpec
                     newProgram.nowPlaying = newProgram.playlist?.removeFirst()
                     let instructions = PlaylistRefreshInstructions(oldPlaylist: oldProgram.playlist, newPlaylist: newProgram.playlist)
                     expect(instructions.fullReload).to(equal(false))
-                    expect(instructions.removeFirstItem).to(equal(true))
+                    expect(instructions.removeItemAtIndex).to(equal(0))
                     expect(instructions.reloadIndexes).to(equal([]))
                 }
                 
@@ -71,7 +72,7 @@ class PlaylistRefreshInstructionsTests: QuickSpec
                     newProgram.playlist![2].id = "randomID"
                     newProgram.playlist![3].airtime = nil
                     let instructions = PlaylistRefreshInstructions(oldPlaylist: oldProgram.playlist, newPlaylist: newProgram.playlist)
-                    expect(instructions.removeFirstItem).to(equal(true))
+                    expect(instructions.removeItemAtIndex).to(equal(0))
                     expect(instructions.reloadIndexes).to(equal([2,3]))
                 }
                 
@@ -82,8 +83,24 @@ class PlaylistRefreshInstructionsTests: QuickSpec
                     newProgram.playlist!.insert(movedSpin, at: 2)
                     let instructions = PlaylistRefreshInstructions(oldPlaylist: oldProgram.playlist, newPlaylist: newProgram.playlist)
                     expect(instructions.fullReload).to(equal(false))
-                    expect(instructions.removeFirstItem).to(equal(false))
+                    expect(instructions.removeItemAtIndex).to(beNil())
                     expect(instructions.reloadIndexes).to(equal([2,3,4]))
+                }
+                
+                it ("properly works for a removed spin")
+                {
+                    var newProgram = oldProgram.copy()
+                    let removedSpin = newProgram.playlist!.remove(at: 4)
+                    for index in 4..<newProgram.playlist!.count
+                    {
+                        newProgram.playlist![index].airtime = nil
+                    }
+                    let instructions = PlaylistRefreshInstructions(oldPlaylist: oldProgram.playlist, newPlaylist: newProgram.playlist)
+                    expect(instructions.fullReload).to(equal(false))
+                    expect(instructions.removeItemAtIndex).to(equal(4))
+                    
+                    let reloadIndexes = [Int](4...(newProgram.playlist!.count-1))
+                    expect(instructions.reloadIndexes).to(equal(reloadIndexes))
                 }
             }
         }

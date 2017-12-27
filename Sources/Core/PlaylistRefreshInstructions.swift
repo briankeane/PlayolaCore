@@ -8,16 +8,14 @@
 
 import UIKit
 
-class PlaylistRefreshInstructions: NSObject
+open class PlaylistRefreshInstructions: NSObject
 {
-    var fullReload:Bool! = false
-    var reloadIndexes:[Int]! = Array()
-    var removeFirstItem:Bool! = false
+    open var fullReload:Bool! = false
+    open var reloadIndexes:[Int]! = Array()
+    open var removeItemAtIndex:Int? = nil
     
-    convenience init(oldPlaylist:[Spin]?, newPlaylist:[Spin]?)
+    public convenience init(oldPlaylist:[Spin]?, newPlaylist:[Spin]?)
     {
-        var removeFirstItem:Bool = false
-        
         // if both playlists are nil
         if ((oldPlaylist == nil) && (newPlaylist == nil))
         {
@@ -45,24 +43,46 @@ class PlaylistRefreshInstructions: NSObject
         }
             
         // newPlaylist is one shorter than old playlist
-        else if (newPlaylist!.count == (oldPlaylist!.count - 1)) &&
-                (newPlaylist![0].id == oldPlaylist![1].id)
+        else if (newPlaylist!.count == (oldPlaylist!.count - 1))
         {
-            let reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: Array(oldPlaylist![1...]))
-            self.init(fullReload: false, removeFirstItem: true, reloadIndexes: reloadIndexes)
+            // find the removed spin
+            var missingSpinIndex:Int?
+            for (i, spin) in newPlaylist!.enumerated()
+            {
+                if ((spin.id != oldPlaylist![i].id)  && (spin.id == oldPlaylist![i+1].id))
+                {
+                    missingSpinIndex = i
+                    break
+                }
+            }
+            
+            if let missingSpinIndex = missingSpinIndex
+            {
+                var adjustedOldPlaylist = oldPlaylist!
+                adjustedOldPlaylist.remove(at: missingSpinIndex)
+                
+                let reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: adjustedOldPlaylist)
+                self.init(fullReload: false, removeItemAtIndex: missingSpinIndex, reloadIndexes: reloadIndexes)
+            }
+            else
+            {
+                self.init(fullReload:true)
+            }
+        }
         
         // ELSE playlists are same length
-        }
         else if (newPlaylist!.count == oldPlaylist!.count)
         {
+            
             let reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: oldPlaylist!)
+            
             if (reloadIndexes.count == newPlaylist!.count)
             {
                 self.init(fullReload: true)
             }
             else
             {
-                self.init(fullReload: false, removeFirstItem: false, reloadIndexes: reloadIndexes)
+                self.init(fullReload: false, reloadIndexes: reloadIndexes)
             }
         }
             
@@ -73,11 +93,11 @@ class PlaylistRefreshInstructions: NSObject
         }
     }
     
-    init(fullReload:Bool!, removeFirstItem:Bool!=false, reloadIndexes:[Int]=Array())
+    init(fullReload:Bool!, removeItemAtIndex:Int?=nil, reloadIndexes:[Int]=Array())
     {
         self.fullReload = fullReload
         self.reloadIndexes = reloadIndexes
-        self.removeFirstItem = removeFirstItem
+        self.removeItemAtIndex = removeItemAtIndex
     }
     
     static func areSame(playlist1:[Spin], playlist2:[Spin]) -> Bool
