@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import AudioKit
 
 class PAPSpin
 {
     var fadeOutTimer:Timer?
     var audioFileURL:URL!
-    var player:AKAudioPlayer!
+    var player:Player!
     var playerSet:Bool = false
     var beginFadeOutTime:Date
     var startTime:Date
@@ -21,7 +20,7 @@ class PAPSpin
     
     //------------------------------------------------------------------------------
     
-    init(audioFileURL:URL, player:AKAudioPlayer!, startTime:Date, beginFadeOutTime:Date,spinInfo:[String:Any]=[:])
+    init(audioFileURL:URL, player:Player!, startTime:Date, beginFadeOutTime:Date,spinInfo:[String:Any]=[:])
     {
         self.audioFileURL = audioFileURL
         self.player = player
@@ -35,15 +34,7 @@ class PAPSpin
     
     func loadPlayer()
     {
-        do
-        {
-            let file = try AKAudioFile(forReading: self.audioFileURL)
-            try self.player.replace(file: file)
-        }
-        catch let err
-        {
-            print("error loading file in papSpin: \(err.localizedDescription)")
-        }
+        player.loadFile(with: self.audioFileURL)
     }
     
     //------------------------------------------------------------------------------

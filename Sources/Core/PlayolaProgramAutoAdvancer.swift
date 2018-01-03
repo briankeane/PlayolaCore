@@ -51,16 +51,22 @@ public class PlayolaProgramAutoAdvancer:NSObject
         }
     }
     
+    //------------------------------------------------------------------------------
+    
     public func startAutoAdvancing()
     {
         self.scheduleNextAdvance()
     }
+    
+    //------------------------------------------------------------------------------
     
     func handleAdvanceFired()
     {
         self.advanceProgram()
         self.scheduleNextAdvance()
     }
+    
+    //------------------------------------------------------------------------------
     
     func advanceProgram()
     {

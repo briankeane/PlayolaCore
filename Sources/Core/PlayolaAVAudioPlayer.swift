@@ -1,51 +1,127 @@
 //
-//  PlayolaAudioPlayer.swift
+//  AudioPlayerService.swift
 //  PlayolaCore
 //
 //  Created by Brian D Keane on 8/19/17.
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
-import AudioKit
+import UIKit
 
-open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
+class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
 {
+    var isPlayingFlag:Bool = false
+    var identifier:String!
+    
+    var delegate:PlayerDelegate?
+    
     var nowPlayingPapSpin:PAPSpin?
     var queueDictionary:Dictionary<String, PAPSpin> = Dictionary()
-    var mixer:AKMixer!
-    var playerBank:Array<(AKAudioPlayer, String?)>!
+    var playerBank:[(Player, String?)]!
     
-    // dependency injections
-    @objc var DateHandler:DateHandlerService = DateHandlerService.sharedInstance()
-    
-    //------------------------------------------------------------------------------
-    
-    override public init()
+    init(identifier:String, delegate:PlayerDelegate?=nil)
     {
         super.init()
-//        AKSettings.playbackWhileMuted = true  // allows playback to continue after screen is locked
+        self.identifier = identifier
+        self.delegate = delegate
         self.setupPlayerBank()
     }
     
-    
-    open func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
+    func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
     {
         let papSpin = PAPSpin(audioFileURL: audioFileURL, player: self.requestAvailablePlayer(key: audioFileURL.absoluteString), startTime: startTime, beginFadeOutTime: beginFadeOutTime, spinInfo: spinInfo)
         self.loadPAPSpin(papSpin)
     }
     
-    /**
-     loads a PAPSpin into the queue and schedules it for play.  The Audio should
-     be already downloaded by the time this function is called.
-     
-     If the spin should already be playing, it will begin playing from the correct
-     time in the middle of the song.  If the spin should start later, it will schedule
-     a timer.
-     
-     - parameters:
-        - papSpin: `(PAPSpin)` - the papSpin to load
-    */
-    fileprivate func loadPAPSpin(_ papSpin:PAPSpin)
+    func addToQueueDictionary(papSpin:PAPSpin)
+    {
+        self.queueDictionary[papSpin.audioFileURL.absoluteString] = papSpin
+    }
+    
+    func removeFromQueueDictionary(papSpin:PAPSpin)
+    {
+        self.queueDictionary.removeValue(forKey: papSpin.audioFileURL.absoluteString)
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                      private func setupPlayerBank
+    // -----------------------------------------------------------------------------
+    /// loads a bank of audioPlayers and gets them ready to play spins
+    ///
+    /// ----------------------------------------------------------------------------
+    private func setupPlayerBank()
+    {
+        self.playerBank = Array()
+        for _ in 0...10
+        {
+            self.playerBank.append((Player(delegate: self.delegate),nil))
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                     func requestAvailablePlayer
+    // -----------------------------------------------------------------------------
+    /// grabs an available player from the playerBank and marks it as 'in use'
+    ///
+    /// ----------------------------------------------------------------------------
+    func requestAvailablePlayer(key:String) -> Player?
+    {
+        for (index, playerTuple) in self.playerBank.enumerated()
+        {
+            if (playerTuple.1 == nil)
+            {
+                puts("getting player: \(index)")
+                self.playerBank[index].1 = key
+                return playerTuple.0
+            }
+        }
+        return nil
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                    private func freePlayer
+    // -----------------------------------------------------------------------------
+    /// marks a player as free
+    ///
+    /// ----------------------------------------------------------------------------
+    func freePlayer(key:String)
+    {
+        for (index, playerTuple) in self.playerBank.enumerated()
+        {
+            if (playerTuple.1 == key)
+            {
+                puts("freeing \(index)")
+                self.playerBank[index].0.stop()
+                self.playerBank[index].1 = nil
+                return
+            }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                    private func freeAllPlayers
+    // -----------------------------------------------------------------------------
+    /// marks all players as free
+    ///
+    /// ----------------------------------------------------------------------------
+    func freeAllPlayers()
+    {
+        for (i, _) in self.playerBank.enumerated()
+        {
+            self.playerBank[i].1 = nil
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func loadPAPSpin
+    // -----------------------------------------------------------------------------
+    /// loads a PAPSpin into the queue and schedules it for play.  The Audio should
+    /// be already downloaded and ready to go by the time this function is called.
+    /// If the song should already be playing, it will seek to the proper spot and
+    /// begin playback immediately.
+    ///
+    /// ----------------------------------------------------------------------------
+    func loadPAPSpin(_ papSpin:PAPSpin)
     {
         if (!self.isQueued(papSpin))
         {
@@ -63,159 +139,28 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
         }
     }
     
-    // ----------------------------------------------------------------------------
-    //                           func addToQueueDictionary
-    // -----------------------------------------------------------------------------
-    /**
-     Adds a PAPSpin to the queue dictionary.
-     
-     - parameters:
-        - papSpin: `(PAPSpin)` - the papSpin to add to the queue
-     */
-    fileprivate func addToQueueDictionary(papSpin:PAPSpin)
-    {
-        self.queueDictionary[papSpin.audioFileURL.absoluteString] = papSpin
-    }
-    
-    // ----------------------------------------------------------------------------
-    //                           func removeFromQueueDictionary
-    // -----------------------------------------------------------------------------
-    /**
-     Removes a PAPSpin from the queue dictionary.
-     
-     - parameters:
-        - papSpin: `(PAPSpin)` - the papSpin to remove from the queue
-     */
-    fileprivate func removeFromQueueDictionary(papSpin:PAPSpin)
-    {
-        self.queueDictionary.removeValue(forKey: papSpin.audioFileURL.absoluteString)
-    }
-    
-    // ----------------------------------------------------------------------------
-    //                     fileprivate func setupPlayerBank
-    // -----------------------------------------------------------------------------
-    /**
-     Instantiates a mixer (self.mixer) containing a bank of reusable AKAudioPlayers and connects them to the audio graph.
-     
-      - parameters:
-          - numberOfPlayers: `(Int)` - the number of players to set up and connect.  Default is 10.
-     */
-    fileprivate func setupPlayerBank(_ numberOfPlayers:Int=10)
-    {
-        self.playerBank = Array()
-        for _ in 0...numberOfPlayers
-        {
-            var player:AKAudioPlayer?
-            do
-            {
-                let file = try AKAudioFile()
-                player = try AKAudioPlayer(file: file)
-            }
-            catch let err
-            {
-                print("error creating player: \(err.localizedDescription)")
-            }
-            if let player = player
-            {
-                self.playerBank.append((player, nil))
-            }
-        }
-        self.mixer = AKMixer(self.playerBank.map({$0.0}))
-//        AudioKit.output = self.mixer
-//        AudioKit.start()
-    }
-    
-    // -----------------------------------------------------------------------------
-    //               fileprivate func requestAvailablePlayer
-    // -----------------------------------------------------------------------------
-    /// grabs an available player from the playerBank and marks it as 'in use'
-    ///
-    /// - parameters:
-    ///     - key: `(String)` - A unique identifier to associate with the player
-    ///
-    /// ----------------------------------------------------------------------------
-    fileprivate func requestAvailablePlayer(key:String) -> AKAudioPlayer?
-    {
-        for (index, playerTuple) in self.playerBank.enumerated()
-        {
-            if (playerTuple.1 == nil)
-            {
-                self.playerBank[index].1 = key
-                return playerTuple.0
-            }
-        }
-        return nil
-    }
-    
-    // -----------------------------------------------------------------------------
-    //                    private func freePlayer
-    // -----------------------------------------------------------------------------
-    /// marks a player as free
-    ///
-    /// - parameters:
-    ///     - key: `(String)` - the unique identifier of the player to mark as free
-    ///
-    /// ----------------------------------------------------------------------------
-    fileprivate func freePlayer(key:String)
-    {
-        for (index, playerTuple) in self.playerBank.enumerated()
-        {
-            if (playerTuple.1 == key)
-            {
-                self.playerBank[index].1 = nil
-                return
-            }
-        }
-    }
-    
-    // -----------------------------------------------------------------------------
-    //                    private func freeAllPlayers
-    // -----------------------------------------------------------------------------
-    /// marks all players as free
-    ///
-    /// ----------------------------------------------------------------------------
-    fileprivate func freeAllPlayers()
-    {
-        for (i, _) in self.playerBank.enumerated()
-        {
-            self.playerBank[i].1 = nil
-        }
-    }
-    
-    // -----------------------------------------------------------------------------
-    //                          func getOutputNode
-    // -----------------------------------------------------------------------------
-    /// returns an AudioKit audio node for output
-    ///
-    /// ----------------------------------------------------------------------------
-    open func getOutputNode() -> AKNode
-    {
-        return self.mixer
-    }
-    
     // -----------------------------------------------------------------------------
     //                          func isQueued
     // -----------------------------------------------------------------------------
-    /**
-     tells whether a papSpin is queued or not
-    
-     - parameters:
-        - papSpin: `(PAPSpin)` - the PAPSpin to check for
-    
-     - returns:
-        `BOOL` - true if papSpin is in the queue
-    */
-    fileprivate func isQueued(_ papSpin:PAPSpin) -> Bool
+    /// tells whether a papSpin is queued or not
+    ///
+    /// - parameters:
+    ///     - papSpin: `(PAPSpin)` - the PAPSpin to check for
+    ///
+    /// - returns:
+    ///    `BOOL` - true if papSpin is in the queue
+    ///
+    /// ----------------------------------------------------------------------------
+    func isQueued(_ papSpin:PAPSpin) -> Bool
     {
         return (self.queueDictionary[papSpin.audioFileURL.absoluteString] != nil)
     }
     
-    //------------------------------------------------------------------------------
-    
-    open func isQueued(localFileURL:URL) -> Bool
+    func isQueued(localFileURL: URL) -> Bool
     {
         return (self.queueDictionary[localFileURL.absoluteString] != nil)
     }
+    
     
     // -----------------------------------------------------------------------------
     //                          func clearQueue()
@@ -223,7 +168,7 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     /// cleanly clears the queue of PAPSpins... invalidating all timers
     ///
     /// ----------------------------------------------------------------------------
-    fileprivate func clearQueue()
+    func clearQueue()
     {
         for (key,papSpin) in self.queueDictionary
         {
@@ -259,16 +204,11 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     /// ----------------------------------------------------------------------------
     fileprivate func scheduleFuturePapSpin(_ papSpin:PAPSpin)
     {
-        print("scheduleFuturePapSpin \(papSpin.audioFileURL.lastPathComponent)")
         if (!papSpin.playerSet) {
             
             if (!papSpin.startTime.isBefore(Date()))
             {
-                let secsTill = papSpin.startTime.timeIntervalSinceNow
-                let avTime = AKAudioPlayer.secondsToAVAudioTime(hostTime: mach_absolute_time(), time: secsTill)
-                print("avTime: \(avTime)")
-                papSpin.player!.stop()
-                papSpin.player!.play(from: 0, to: papSpin.player!.duration, avTime: avTime)
+                papSpin.player.schedulePlay(at: papSpin.startTime)
                 papSpin.playerSet = true
             }
         }
@@ -325,7 +265,6 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
         {
             self.fadePlayer(player, fromVolume: 1.0, toVolume: 0, overTime: 3.0)
             {
-                () -> Void in
                 self.freePlayer(key: papSpin.audioFileURL.absoluteString)
                 self.removeFromQueueDictionary(papSpin: papSpin)
             }
@@ -335,45 +274,26 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     // -----------------------------------------------------------------------------
     //                          func playPapSpin
     // -----------------------------------------------------------------------------
-    /// starts playing a papSpin.
+    /// starts a papSpin
     ///
     /// - parameters:
     ///     - papSpin: `(PAPSpin)` - the papSpin to fadeOut and delete
     /// ----------------------------------------------------------------------------
     func playPapSpin(_ papSpin:PAPSpin)
     {
-        let wasPlaying = self.isPlaying()
-        
-        var currentTimeInSeconds:TimeInterval = 0.0
-        
-        // IF it's the current spin, start it at the right position immediately
-        if (papSpin.isPlaying())
-        {
-            // grab current time in secs from DateHandler
-            let adjustedAirtime = papSpin.startTime
-            
-            currentTimeInSeconds = Date().timeIntervalSince(adjustedAirtime)
-        }
-        let beginFadeOutTimeInterval = papSpin.beginFadeOutTime.timeIntervalSince(papSpin.startTime)
-        var endFadeOutTimeInterval = beginFadeOutTimeInterval + 3.0
-        
-        if (endFadeOutTimeInterval > papSpin.player.duration)
-        {
-            endFadeOutTimeInterval = papSpin.player.duration
-        }
-
-        papSpin.player.play(from: currentTimeInSeconds, to: endFadeOutTimeInterval)
+        let currentTimeInSeconds = Date().timeIntervalSince(papSpin.startTime)
+        papSpin.player.play(from: currentTimeInSeconds, to: nil)
         
         self.nowPlayingPapSpin = papSpin
         
         // report player start if starting for the first time.
-        if (!wasPlaying)
+        if (!self.isPlayingFlag)
         {
-            NotificationCenter.default.post(name: PAPEvents.playerStarted, object: nil, userInfo: self.nowPlayingPapSpin?.spinInfo)
+            self.isPlayingFlag = true
+            // -------- Post Notification (started playing) ------------
         }
         
-        // report new nowPlaying spin either way.
-        NotificationCenter.default.post(name: PAPEvents.nowPlayingChanged, object: nil, userInfo: self.nowPlayingPapSpin?.spinInfo)
+        // -------------- Post Notification (nowPlaying changed) -------------
     }
     
     // -----------------------------------------------------------------------------
@@ -390,7 +310,7 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     ///     - completionBlock: `(()->())` - code to execute upon completion (optional)
     ///
     /// ----------------------------------------------------------------------------
-    fileprivate func fadePlayer(_ player: AKAudioPlayer,
+    fileprivate func fadePlayer(_ player: PAPSpinPlayer,
                                 fromVolume startVolume : Float,
                                 toVolume endVolume : Float,
                                 overTime time : Float,
@@ -401,7 +321,7 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
         // Work out how much time each step will take
         let timePerStep:Float = 1 / 100.0
         
-        player.volume = Double(startVolume)
+        player.setVolume(startVolume)
         
         // Schedule a number of volume changes
         for step in 0...fadeSteps
@@ -409,20 +329,22 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
             let delayInSeconds : Float = Float(step) * timePerStep
             
             let popTime = DispatchTime.now() + Double(Int64(delayInSeconds * Float(NSEC_PER_SEC))) / Double(NSEC_PER_SEC);
+            
             DispatchQueue.main.asyncAfter(deadline: popTime)
             {
                 let fraction:Float = (Float(step) / Float(fadeSteps))
                 
-                player.volume = Double(startVolume +
+                player.setVolume(startVolume +
                     (endVolume - startVolume) * fraction)
                 
                 // if it was the final step, execute the completion block
                 if (step == fadeSteps)
                 {
-                    player.stop()
-                    player.volume = 1.0
+                    //                    player.stop()
+                    player.setVolume(1.0)
                     completionBlock?()
                 }
+                
             }
         }
     }
@@ -433,18 +355,13 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     /// cleanly stop the player and post kAudioPlayerStopped notification
     ///
     /// ----------------------------------------------------------------------------
-    open func stop()
+    func stop()
     {
-        let wasPlaying = self.isPlaying()
-        
         self.clearQueue()
         self.freeAllPlayers()
-        self.nowPlayingPapSpin = nil
-        
-        if (wasPlaying)
-        {
-            NotificationCenter.default.post(name: PAPEvents.playerStopped, object: nil, userInfo: nil)
-        }
+        self.isPlayingFlag = false
+        //        NotificationCenter.default.post(name: kPAPStopped, object: nil, userInfo: ["playerIdentifier":self.identifier,
+        //                                                                                   "player":self])
     }
     
     // -----------------------------------------------------------------------------
@@ -456,8 +373,8 @@ open class PAKAudioPlayer: NSObject, PlayolaAudioPlayer
     ///    `Bool` - true if the station is playing
     ///
     /// ----------------------------------------------------------------------------
-    open func isPlaying() -> Bool
+    func isPlaying() -> Bool
     {
-        return (self.nowPlayingPapSpin != nil)
+        return self.isPlayingFlag
     }
 }

@@ -39,7 +39,7 @@ import AudioKit
         }
         else
         {
-            self.PAPlayer = PAKAudioPlayer()
+            self.PAPlayer = PlayolaAVAudioPlayer(identifier: "PlayolaAudioPlayer")
         }
     }
     
@@ -182,9 +182,14 @@ import AudioKit
         let previousUserPlaying = userPlaying
         self.userPlaying = nil
         self.stopAutomaticQueueDownloading()
-        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object  : nil, userInfo: ["user":previousUserPlaying as Any])
-        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["user":self.userPlaying as Any])
-        NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin":self.nowPlaying() as Any])
+        
+        if (previousUserPlaying != nil)
+        {
+            NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stationChanged, object: nil, userInfo: ["user":self.userPlaying as Any])
+            NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin":self.nowPlaying() as Any])
+            NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object  : nil, userInfo: ["user":previousUserPlaying as Any])
+        }
+        
         
     }
     
@@ -306,7 +311,7 @@ import AudioKit
     /// ----------------------------------------------------------------------------
     public func getOutputNode() -> AKNode
     {
-        return self.PAPlayer.getOutputNode()
+        return AKNode()
     }
     
     //------------------------------------------------------------------------------

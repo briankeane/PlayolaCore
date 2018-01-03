@@ -212,6 +212,40 @@ public class User
         self.program = program
     }
     
+    func refresh(updatedUser: User)
+    {
+        self.id = updatedUser.id
+        self.displayName = updatedUser.displayName
+        self.twitterUID = updatedUser.twitterUID
+        self.facebookUID = updatedUser.facebookUID
+        self.googleUID = updatedUser.googleUID
+        self.instagramUID = updatedUser.instagramUID
+        self.email = updatedUser.email
+        self.birthYear = updatedUser.birthYear
+        self.gender = updatedUser.gender
+        self.zipcode = updatedUser.zipcode
+        self.timezone = updatedUser.timezone
+        self.role = updatedUser.role
+        self.lastCommercial = updatedUser.lastCommercial
+        self.profileImageUrl = updatedUser.profileImageUrl
+        self.profileImageUrlSmall = updatedUser.profileImageUrlSmall
+        self.profileImageKey = updatedUser.profileImageKey
+        self.secsOfCommercialPerHour = updatedUser.secsOfCommercialPerHour
+        self.dailyListenTimeMS = updatedUser.dailyListenTimeMS
+        self.dailyListenTimeCalculationDate = updatedUser.dailyListenTimeCalculationDate
+        self.warnings = updatedUser.warnings
+        self.deepLink = updatedUser.deepLink
+        self.minListenersToReport = updatedUser.minListenersToReport
+        self.bio = updatedUser.bio
+        self.passwordExists = updatedUser.passwordExists
+        self.deviceID = updatedUser.deviceID
+        self.stationStatus = updatedUser.stationStatus
+        self.minListenersToReport = updatedUser.minListenersToReport
+        self.program = updatedUser.program
+        
+        // (program autoAdvancer and program refresher should be retained)
+    }
+    
     //------------------------------------------------------------------------------
     
     deinit

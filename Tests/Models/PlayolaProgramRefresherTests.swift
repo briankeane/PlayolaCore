@@ -61,6 +61,15 @@ class PlayolaProgramRefresherTests: QuickSpec
                 NotificationCenter.default.post(name: PlayolaEvents.userUpdated, object: nil, userInfo: ["user":userCopy])
                 expect(refresher.refreshTimer!.fireDate).to(beGreaterThan(oldFireDate))
             }
+            
+            fit ("refreshes if app enters foreground")
+            {
+                let userCopy = user.copy()
+                userCopy.updatedAt = Date(dateString: "2090-3-15 08:55:55")
+                userCopy.program?.nowPlaying = Spin(id: "theNewSpinID")
+//                NotificationCenter.default.post(Notification.Name.UIApplicationWillEnterForeground)
+                expect(user.program?.nowPlaying?.id).toEventually(equal("theNewSpinID"))
+            }
         }
     }
 }

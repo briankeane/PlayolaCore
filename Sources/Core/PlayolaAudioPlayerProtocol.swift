@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AudioKit
 
 // ----------------------------------------------------------------------------
 //                           protocol PlayolaAudioPlayer
@@ -30,16 +29,6 @@ import AudioKit
         - spinInfo: `[String:Any]` - a dictionary to be broadcast with any notifications regarding this spin.  (Usually used to store title, artist, etc.)
      */
     func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
-    
-    // -----------------------------------------------------------------------------
-    //                         func getOutputNode
-    // -----------------------------------------------------------------------------
-    /**
-        returns an AudioKit audio node for output.
-     
-     TODO: -- figure out how to un-audioKit-ize this
-    */
-    func getOutputNode() -> AKNode
     
     // -----------------------------------------------------------------------------
     //                           func stop

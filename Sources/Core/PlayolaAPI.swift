@@ -19,6 +19,7 @@ import PromiseKit
     let defaults:UserDefaults = UserDefaults.standard
     var observers:[NSObjectProtocol] = Array()
     
+    let userCache:UserCache = UserCache.sharedInstance()
     
     /// use to set your own development Playola server or to
     open func setBaseURL(baseURL:String)
@@ -179,7 +180,8 @@ import PromiseKit
                             }
                             if let userData = foundUserData["user"] as? NSDictionary
                             {
-                                let user = User(userInfo: userData)
+                                var user = User(userInfo: userData)
+                                user = self.userCache.refresh(user: user)
                                 NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
                             }
@@ -247,7 +249,8 @@ import PromiseKit
                             }
                             if let userData = foundUserData["user"] as? NSDictionary
                             {
-                                let user = User(userInfo: userData)
+                                var user = User(userInfo: userData)
+                                user = self.userCache.refresh(user: user)
                                 NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
                             }
@@ -318,7 +321,8 @@ import PromiseKit
                             }
                             if let userData = foundUserData["user"] as? NSDictionary
                             {
-                                let user = User(userInfo: userData)
+                                var user = User(userInfo: userData)
+                                user = self.userCache.refresh(user: user)
                                 NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
                             }
@@ -461,7 +465,8 @@ import PromiseKit
                                 }
                                 if let userData = foundUserData["user"] as? NSDictionary
                                 {
-                                    let user = User(userInfo: userData)
+                                    var user = User(userInfo: userData)
+                                    user = self.userCache.refresh(user: user)
                                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                     return fulfill(user)
                                 }
@@ -583,7 +588,8 @@ import PromiseKit
                         {
                             if let userData = response.result.value as? [String:Any]
                             {
-                                let user = User(userInfo: userData as NSDictionary)
+                                var user = User(userInfo: userData as NSDictionary)
+                                user = self.userCache.refresh(user: user)
                             
                                 NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
@@ -966,8 +972,9 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            if var presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
+                                presets = self.userCache.refresh(users: presets)
                                 if (userID == "me")
                                 {
                                     NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
@@ -1028,8 +1035,9 @@ import PromiseKit
                         if (200..<300 ~= statusCode)
                         {
 
-                            if let users = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "topUsers")
+                            if var users = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "topUsers")
                             {
+                                users = self.userCache.refresh(users: users)
                                 return fulfill(users)
                             }
                         }
@@ -1088,7 +1096,8 @@ import PromiseKit
                             {
                                 if let rawUser = responseDict["user"] as? [String:AnyObject]
                                 {
-                                    let user = User(userInfo: rawUser as NSDictionary)
+                                    var user = User(userInfo: rawUser as NSDictionary)
+                                    user = self.userCache.refresh(user: user)
                                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                     return fulfill(user)
                                 }
@@ -1200,8 +1209,9 @@ import PromiseKit
                         {
                             if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
-                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
-                                return fulfill(presets)
+                                let cachedPresets = self.userCache.refresh(users: presets)
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": cachedPresets])
+                                return fulfill(cachedPresets)
                             }
                         }
                     }
@@ -1255,8 +1265,9 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            if var presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
+                                presets = self.userCache.refresh(users: presets)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
                                 return fulfill(presets)
                             }
@@ -1317,8 +1328,9 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                            if var foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
                             {
+                                foundUsers = self.userCache.refresh(users: foundUsers)
                                 return fulfill(foundUsers)
                             }
                         }
@@ -1438,7 +1450,8 @@ import PromiseKit
                         {
                             if let foundUserData = response.result.value as? NSDictionary
                             {
-                                let user = User(userInfo: foundUserData)
+                                var user = User(userInfo: foundUserData)
+                                user = self.userCache.refresh(user: user)
                                 return fulfill(user)
                             }
                         }
@@ -1500,8 +1513,9 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if let foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
+                            if var foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
                             {
+                                foundUsers = self.userCache.refresh(users: foundUsers)
                                 return fulfill(foundUsers)
                             }
                         }
@@ -1681,7 +1695,8 @@ import PromiseKit
                             if let responseData = response.result.value as? [String:Any]
                             {
                                 let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
-                                let user:User = User(userInfo: rawUser as NSDictionary)
+                                var user:User = User(userInfo: rawUser as NSDictionary)
+                                user = self.userCache.refresh(user: user)
                                     NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
                             }
@@ -1741,7 +1756,8 @@ import PromiseKit
                             if let responseData = response.result.value as? [String:Any]
                             {
                                 let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
-                                let user:User = User(userInfo: rawUser as NSDictionary)
+                                var user:User = User(userInfo: rawUser as NSDictionary)
+                                user = self.userCache.refresh(user: user)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
                             }
@@ -1802,7 +1818,8 @@ import PromiseKit
                             if let responseData = response.result.value as? [String:Any]
                             {
                                 let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
-                                let user:User = User(userInfo: rawUser as NSDictionary)
+                                var user:User = User(userInfo: rawUser as NSDictionary)
+                                user = self.userCache.refresh(user: user)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
                             }
@@ -1932,7 +1949,8 @@ import PromiseKit
                         if let responseData = response.result.value as? [String:Any]
                         {
                             let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
-                            let user:User = User(userInfo: rawUser as NSDictionary)
+                            var user:User = User(userInfo: rawUser as NSDictionary)
+                            user = self.userCache.refresh(user: user)
                                     NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
                             return fulfill(user)
                         }
@@ -2025,7 +2043,8 @@ fileprivate func arrayOfUsersFromResultValue(resultValue:Any?, propertyName:Stri
         {
             return rawUsers.map({
                                     (rawUser) -> User in
-                                    return User(userInfo: rawUser as NSDictionary)
+                let user = User(userInfo: rawUser as NSDictionary)
+                return user
                                 })
         }
     }

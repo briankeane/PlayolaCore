@@ -46,6 +46,7 @@ open class PlayolaScheduler:NSObject
             }
         })
     }
+    
     //------------------------------------------------------------------------------
     
     deinit
@@ -451,7 +452,7 @@ open class PlayolaScheduler:NSObject
     
     open func performTemporaryRemoveSpin(atPlaylistPosition:Int)
     {
-        if var playlist = self.playlist()
+        if var playlist = self.playlist()?.map({$0.copy()})
         {
             for index in (0..<playlist.count).reversed()
             {
@@ -473,7 +474,7 @@ open class PlayolaScheduler:NSObject
     
     open func updatePlaylist(playlist:[Spin])
     {
-        let oldPlaylist = self.playlist()
+        let oldPlaylist = self.playlist()?.map({$0.copy()})
         
         self.user?.program?.playlist = playlist
         

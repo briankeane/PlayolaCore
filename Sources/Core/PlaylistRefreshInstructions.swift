@@ -58,10 +58,9 @@ open class PlaylistRefreshInstructions: NSObject
             
             if let missingSpinIndex = missingSpinIndex
             {
-                var adjustedOldPlaylist = oldPlaylist!
-                adjustedOldPlaylist.remove(at: missingSpinIndex)
+                var adjustedOldPlaylist = oldPlaylist!.map({$0.copy()})
                 
-                let reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: adjustedOldPlaylist)
+                var reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: adjustedOldPlaylist)
                 self.init(fullReload: false, removeItemAtIndex: missingSpinIndex, reloadIndexes: reloadIndexes)
             }
             else
@@ -73,7 +72,6 @@ open class PlaylistRefreshInstructions: NSObject
         // ELSE playlists are same length
         else if (newPlaylist!.count == oldPlaylist!.count)
         {
-            
             let reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: oldPlaylist!)
             
             if (reloadIndexes.count == newPlaylist!.count)
@@ -130,9 +128,13 @@ open class PlaylistRefreshInstructions: NSObject
             {
                 differentIndexes.append(i)
             }
+            // ELSE if the ids are different and they are not both commercialBlocks
             else if (spin.id != playlist2[i].id)
             {
-                differentIndexes.append(i)
+                if ((spin.audioBlock?.__t == "CommercialBlock") && (playlist2[i].audioBlock?.__t != "CommercialBlock"))
+                {
+                   differentIndexes.append(i)
+                }
             }
         }
         return differentIndexes

@@ -29,6 +29,9 @@ public struct PlayolaEvents
     static let accessTokenReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaAccessTokenReceived")
     static let currentUserPresetsReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaCurrentUserPresetsReceived")
     
+    
+    public static let nowPlayingAdvanced:Notification.Name! = Notification.Name("kNotification.Name")
+    
 }
 
 public enum PlayolaUserRole:Int {
@@ -40,15 +43,15 @@ public enum PlayolaUserRole:Int {
 public struct PlayolaConstants {
     #if (arch(i386) || arch(x86_64)) && os(iOS)  // simulator
     
-    // --------- USE THESE FOR DEV SERVER --------  //
-//    static let HOST_NAME = "127.0.0.1:9000"
+//    // --------- USE THESE FOR DEV SERVER --------  //
+//    public static let HOST_NAME = "127.0.0.1:9000"
 //    public static let BASE_URL = "http://\(HOST_NAME)"
-//    static let S3_SONGS_BUCKET = "playolasongsdevelopment"
-//    static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
-//    static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongsdevelopment"
-//    static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimagesdevelopment"
+//    public static let S3_SONGS_BUCKET = "playolasongsdevelopment"
+//    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
+//    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongsdevelopment"
+//    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimagesdevelopment"
     
-    // --------- USE THESE FOR PRODUCTION SERVER --------  //
+//     --------- USE THESE FOR PRODUCTION SERVER --------  //
     public static let HOST_NAME = "api.playola.fm"
     public static let S3_SONGS_BUCKET = "playolasongs"
     public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongs"
