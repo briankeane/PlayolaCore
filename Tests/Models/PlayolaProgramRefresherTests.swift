@@ -62,7 +62,7 @@ class PlayolaProgramRefresherTests: QuickSpec
                 expect(refresher.refreshTimer!.fireDate).to(beGreaterThan(oldFireDate))
             }
             
-            fit ("refreshes if app enters foreground")
+            xit ("refreshes if app enters foreground")
             {
                 let userCopy = user.copy()
                 userCopy.updatedAt = Date(dateString: "2090-3-15 08:55:55")

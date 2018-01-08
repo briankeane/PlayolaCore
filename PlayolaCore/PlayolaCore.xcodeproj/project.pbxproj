@@ -26,6 +26,8 @@
 		4B1690101FFAAD8600C2EDBF /* UserCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16900E1FFAAD8600C2EDBF /* UserCache.swift */; };
 		4B1690111FFAAD8600C2EDBF /* UserCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16900E1FFAAD8600C2EDBF /* UserCache.swift */; };
 		4B1690121FFAAD8600C2EDBF /* UserCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16900E1FFAAD8600C2EDBF /* UserCache.swift */; };
+		4B1690161FFD8A0100C2EDBF /* OSXPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */; };
+		4B1690171FFD8A0100C2EDBF /* OSXPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */; };
 		4B1A112B1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
 		4B1A112C1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
 		4B1A112D1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
@@ -66,6 +68,14 @@
 		4B1F65A21F521022003CC78A /* PlayolaProgramRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F659E1F521022003CC78A /* PlayolaProgramRefresher.swift */; };
 		4B1F65A41F52104C003CC78A /* PlayolaProgramRefresherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F65A31F52104C003CC78A /* PlayolaProgramRefresherTests.swift */; };
 		4B1F65A51F52104C003CC78A /* PlayolaProgramRefresherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F65A31F52104C003CC78A /* PlayolaProgramRefresherTests.swift */; };
+		4B221DCC2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B221DCB2003E64200575D6A /* createVoiceTrackProcessing.json */; };
+		4B221DCD2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B221DCB2003E64200575D6A /* createVoiceTrackProcessing.json */; };
+		4B221DCF2003FFDB00575D6A /* createVoiceTrackExists.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B221DCE2003FFDB00575D6A /* createVoiceTrackExists.json */; };
+		4B221DD02003FFDB00575D6A /* createVoiceTrackExists.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B221DCE2003FFDB00575D6A /* createVoiceTrackExists.json */; };
+		4B221DD2200400BD00575D6A /* VoiceTrackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B221DD1200400BD00575D6A /* VoiceTrackStatus.swift */; };
+		4B221DD3200400BD00575D6A /* VoiceTrackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B221DD1200400BD00575D6A /* VoiceTrackStatus.swift */; };
+		4B221DD4200400BD00575D6A /* VoiceTrackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B221DD1200400BD00575D6A /* VoiceTrackStatus.swift */; };
+		4B221DD5200400BD00575D6A /* VoiceTrackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B221DD1200400BD00575D6A /* VoiceTrackStatus.swift */; };
 		4B2318B01F801EF1000B354A /* PlayButtonUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2318AE1F801EF1000B354A /* PlayButtonUpdaterTests.swift */; };
 		4B2318B21F801EF1000B354A /* PlayButtonUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2318AE1F801EF1000B354A /* PlayButtonUpdaterTests.swift */; };
 		4B2D38AD1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2D38AC1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift */; };
@@ -118,10 +128,8 @@
 		4B2E97BB1FF5876600C85CCC /* PlayolaAVAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97B91FF5876600C85CCC /* PlayolaAVAudioPlayer.swift */; };
 		4B2E97BC1FF5876600C85CCC /* PlayolaAVAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97B91FF5876600C85CCC /* PlayolaAVAudioPlayer.swift */; };
 		4B2E97BD1FF5876600C85CCC /* PlayolaAVAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97B91FF5876600C85CCC /* PlayolaAVAudioPlayer.swift */; };
-		4B2E97BF1FF58A5200C85CCC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97BE1FF58A5200C85CCC /* Player.swift */; };
-		4B2E97C01FF58A5200C85CCC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97BE1FF58A5200C85CCC /* Player.swift */; };
-		4B2E97C11FF58A5200C85CCC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97BE1FF58A5200C85CCC /* Player.swift */; };
-		4B2E97C21FF58A5200C85CCC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97BE1FF58A5200C85CCC /* Player.swift */; };
+		4B2E97BF1FF58A5200C85CCC /* IOSPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97BE1FF58A5200C85CCC /* IOSPlayer.swift */; };
+		4B2E97C01FF58A5200C85CCC /* IOSPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97BE1FF58A5200C85CCC /* IOSPlayer.swift */; };
 		4B2E97C41FF58AA100C85CCC /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97C31FF58AA100C85CCC /* PlayerDelegate.swift */; };
 		4B2E97C51FF58AA100C85CCC /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97C31FF58AA100C85CCC /* PlayerDelegate.swift */; };
 		4B2E97C61FF58AA100C85CCC /* PlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E97C31FF58AA100C85CCC /* PlayerDelegate.swift */; };
@@ -399,6 +407,7 @@
 		4B139F521F7C0938007021FA /* StationPlayingDisplayNameLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StationPlayingDisplayNameLabel.swift; path = ../Sources/Player/StationPlayingDisplayNameLabel.swift; sourceTree = "<group>"; };
 		4B139F5A1F7C1930007021FA /* IOSAutoUpdatingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IOSAutoUpdatingImageView.swift; path = ../Sources/iosOnly/IOSAutoUpdatingImageView.swift; sourceTree = "<group>"; };
 		4B16900E1FFAAD8600C2EDBF /* UserCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserCache.swift; path = ../Sources/Core/UserCache.swift; sourceTree = "<group>"; };
+		4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OSXPlayer.swift; path = ../Sources/osxOnly/OSXPlayer.swift; sourceTree = "<group>"; };
 		4B1A112A1FD70D3100F357CE /* SongStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SongStatus.swift; path = ../Sources/Core/SongStatus.swift; sourceTree = "<group>"; };
 		4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = requestSongBySpotifyIDSongExists.json; path = ../Tests/APIJson/requestSongBySpotifyIDSongExists.json; sourceTree = "<group>"; };
 		4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = requestSongBySpotifyIDSongProcessing.json; sourceTree = "<group>"; };
@@ -415,6 +424,9 @@
 		4B1F65991F520AA1003CC78A /* MiscHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiscHelpers.swift; path = ../Sources/Core/MiscHelpers.swift; sourceTree = "<group>"; };
 		4B1F659E1F521022003CC78A /* PlayolaProgramRefresher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayolaProgramRefresher.swift; sourceTree = "<group>"; };
 		4B1F65A31F52104C003CC78A /* PlayolaProgramRefresherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaProgramRefresherTests.swift; path = ../Tests/Models/PlayolaProgramRefresherTests.swift; sourceTree = "<group>"; };
+		4B221DCB2003E64200575D6A /* createVoiceTrackProcessing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = createVoiceTrackProcessing.json; path = ../Tests/APIJson/createVoiceTrackProcessing.json; sourceTree = "<group>"; };
+		4B221DCE2003FFDB00575D6A /* createVoiceTrackExists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = createVoiceTrackExists.json; path = ../Tests/APIJson/createVoiceTrackExists.json; sourceTree = "<group>"; };
+		4B221DD1200400BD00575D6A /* VoiceTrackStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VoiceTrackStatus.swift; path = ../Sources/Core/VoiceTrackStatus.swift; sourceTree = "<group>"; };
 		4B2318AE1F801EF1000B354A /* PlayButtonUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayButtonUpdaterTests.swift; path = ../Tests/PlayButtonUpdaterTests.swift; sourceTree = "<group>"; };
 		4B2D38AC1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingArtistLabel.swift; path = ../Sources/Player/NowPlayingArtistLabel.swift; sourceTree = "<group>"; };
 		4B2D38AF1F7AA247006F6348 /* NowPlayingLabelUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingLabelUpdater.swift; path = ../Sources/Player/NowPlayingLabelUpdater.swift; sourceTree = "<group>"; };
@@ -431,7 +443,7 @@
 		4B2E97AF1FF1429A00C85CCC /* PlayolaRefreshInstructionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlayolaRefreshInstructionsTests.swift; path = ../Tests/Models/PlayolaRefreshInstructionsTests.swift; sourceTree = "<group>"; };
 		4B2E97B21FF1437100C85CCC /* PlaylistRefreshInstructions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlaylistRefreshInstructions.swift; path = ../Sources/Core/PlaylistRefreshInstructions.swift; sourceTree = "<group>"; };
 		4B2E97B91FF5876600C85CCC /* PlayolaAVAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlayolaAVAudioPlayer.swift; path = ../Sources/Core/PlayolaAVAudioPlayer.swift; sourceTree = "<group>"; };
-		4B2E97BE1FF58A5200C85CCC /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = ../Sources/Core/Player.swift; sourceTree = "<group>"; };
+		4B2E97BE1FF58A5200C85CCC /* IOSPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IOSPlayer.swift; path = ../Sources/iosOnly/IOSPlayer.swift; sourceTree = "<group>"; };
 		4B2E97C31FF58AA100C85CCC /* PlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlayerDelegate.swift; path = ../Sources/Core/PlayerDelegate.swift; sourceTree = "<group>"; };
 		4B361B821F44663D00654968 /* PlayolaCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayolaCoreIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B361B841F44663D00654968 /* PlayolaCoreIOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayolaCoreIOS.h; sourceTree = "<group>"; };
@@ -591,6 +603,7 @@
 		4B2D38A41F7A9FE2006F6348 /* iosOnly */ = {
 			isa = PBXGroup;
 			children = (
+				4B2E97BE1FF58A5200C85CCC /* IOSPlayer.swift */,
 				4B2D38BF1F7ABC2C006F6348 /* IOSAutoUpdatingLabel.swift */,
 				4B139F5A1F7C1930007021FA /* IOSAutoUpdatingImageView.swift */,
 				4BA3DA5D1F7D3EC80013491E /* IOSUIImageExtension.swift */,
@@ -606,6 +619,7 @@
 				4B2D38C21F7AD385006F6348 /* OSXAutoUpdatingLabel.swift */,
 				4BA3DA5A1F7D3A1E0013491E /* OSXNSImageExtension.swift */,
 				4BF434BD1F7ECC1500E79F59 /* OSXAutoUpdatingButton.swift */,
+				4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */,
 			);
 			name = osxOnly;
 			sourceTree = "<group>";
@@ -784,7 +798,6 @@
 				4B37BDE91FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift */,
 				4B16900E1FFAAD8600C2EDBF /* UserCache.swift */,
 				4B2E97B91FF5876600C85CCC /* PlayolaAVAudioPlayer.swift */,
-				4B2E97BE1FF58A5200C85CCC /* Player.swift */,
 				4B2E97C31FF58AA100C85CCC /* PlayerDelegate.swift */,
 				4B7C90B51FACF308004EBC0B /* Playola.swift */,
 				4BA66CA91F65FE8D0097F04D /* PlayolaScheduler.swift */,
@@ -862,6 +875,8 @@
 				4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json */,
 				4B1DFC421FE054330081674D /* binMinimums.json */,
 				4BDDE7BC1FE4329E00342B33 /* startStationSuccess.json */,
+				4B221DCB2003E64200575D6A /* createVoiceTrackProcessing.json */,
+				4B221DCE2003FFDB00575D6A /* createVoiceTrackExists.json */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -875,6 +890,7 @@
 				4B361C7A1F45E20A00654968 /* APIError.swift */,
 				4BF4CF131F743DCB0011C117 /* PlayolaErrorType.swift */,
 				4B1A112A1FD70D3100F357CE /* SongStatus.swift */,
+				4B221DD1200400BD00575D6A /* VoiceTrackStatus.swift */,
 			);
 			name = Errors;
 			sourceTree = "<group>";
@@ -1138,8 +1154,10 @@
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007061F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
+				4B221DCC2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */,
 				4B1A11301FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */,
 				4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */,
+				4B221DCF2003FFDB00575D6A /* createVoiceTrackExists.json in Resources */,
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B737B8D1FB4A25E00EBFEDA /* incorrectPasscode.json in Resources */,
 				4B9358951F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
@@ -1175,8 +1193,10 @@
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007071F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
+				4B221DCD2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */,
 				4B1A11311FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */,
 				4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */,
+				4B221DD02003FFDB00575D6A /* createVoiceTrackExists.json in Resources */,
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B737B8E1FB4A26000EBFEDA /* incorrectPasscode.json in Resources */,
 				4B9358961F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
@@ -1425,7 +1445,7 @@
 				4B92E3F01F66D4FB00BEB077 /* PlayolaSchedulerErrorType.swift in Sources */,
 				4B361C3B1F44BCC800654968 /* DateHandlerService.swift in Sources */,
 				4B361C5D1F44C86300654968 /* RotationItemsCollection.swift in Sources */,
-				4B2E97BF1FF58A5200C85CCC /* Player.swift in Sources */,
+				4B2E97BF1FF58A5200C85CCC /* IOSPlayer.swift in Sources */,
 				4B2D38B01F7AA247006F6348 /* NowPlayingLabelUpdater.swift in Sources */,
 				4BA3DA691F7D53F30013491E /* StationPlayingImageViewUpdater.swift in Sources */,
 				4B91A5271F8058B500B1CF83 /* AutoUpdatingPlayButtonWithImage.swift in Sources */,
@@ -1435,6 +1455,7 @@
 				4BF4CF141F743DCB0011C117 /* PlayolaErrorType.swift in Sources */,
 				4B1F659A1F520AA1003CC78A /* MiscHelpers.swift in Sources */,
 				4B2D38D21F7AE006006F6348 /* NowPlayingTitleAndArtistLabel.swift in Sources */,
+				4B221DD2200400BD00575D6A /* VoiceTrackStatus.swift in Sources */,
 				4B361C0F1F44B54E00654968 /* SpinModel.swift in Sources */,
 				4B361C251F44B6B800654968 /* AudioBlockModel.swift in Sources */,
 				4B7C605F1F7C42D100806F30 /* NowPlayingImageView.swift in Sources */,
@@ -1489,6 +1510,7 @@
 				4B2E97C51FF58AA100C85CCC /* PlayerDelegate.swift in Sources */,
 				4B2D38B11F7AA247006F6348 /* NowPlayingLabelUpdater.swift in Sources */,
 				4B2D38D91F7BE4E2006F6348 /* StationPlayingLabel.swift in Sources */,
+				4B221DD3200400BD00575D6A /* VoiceTrackStatus.swift in Sources */,
 				4B42C5721F586F0900E11538 /* PlayolaListeningSessionReporterTests.swift in Sources */,
 				4B2D38E31F7BE9C9006F6348 /* StationPlayingLabelDelegateProtocol.swift in Sources */,
 				4B2D38B51F7AA6EA006F6348 /* NowPlayingLabelUpdaterTests.swift in Sources */,
@@ -1563,7 +1585,7 @@
 				4BF4CF151F743DCB0011C117 /* PlayolaErrorType.swift in Sources */,
 				4B361C211F44B69C00654968 /* ProgramModelTests.swift in Sources */,
 				4B361BF51F44AF1700654968 /* PlayolaAPI.swift in Sources */,
-				4B2E97C01FF58A5200C85CCC /* Player.swift in Sources */,
+				4B2E97C01FF58A5200C85CCC /* IOSPlayer.swift in Sources */,
 				4B1F65971F5203D2003CC78A /* PlayolaAPIMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1583,6 +1605,7 @@
 				4B1F65901F5202F2003CC78A /* PlayolaModelRefreshHandler.swift in Sources */,
 				4BA66CAC1F65FE8D0097F04D /* PlayolaScheduler.swift in Sources */,
 				4B37BDEC1FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift in Sources */,
+				4B1690161FFD8A0100C2EDBF /* OSXPlayer.swift in Sources */,
 				4B42C5781F58710800E11538 /* PlayolaCurrentUserInfoMock.swift in Sources */,
 				4B2D38CA1F7AD708006F6348 /* NowPlayingLabelDelegateProtocol.swift in Sources */,
 				4BE0071D1F4769AB0010C420 /* APIErrorType.swift in Sources */,
@@ -1601,7 +1624,6 @@
 				4B361C111F44B54E00654968 /* SpinModel.swift in Sources */,
 				4B1DFC351FDC506D0081674D /* SpotifyTrack.swift in Sources */,
 				4B2D38D41F7AE006006F6348 /* NowPlayingTitleAndArtistLabel.swift in Sources */,
-				4B2E97C11FF58A5200C85CCC /* Player.swift in Sources */,
 				4B361C271F44B6BA00654968 /* AudioBlockModel.swift in Sources */,
 				4BC0B9C81F55E5A200C0AED3 /* PlayolaProgramAutoAdvancer.swift in Sources */,
 				4B7C60611F7C42D100806F30 /* NowPlayingImageView.swift in Sources */,
@@ -1633,6 +1655,7 @@
 				4B2E97C61FF58AA100C85CCC /* PlayerDelegate.swift in Sources */,
 				4BF434B81F7ECB4600E79F59 /* AutoUpdatingPlayButtonWithText.swift in Sources */,
 				4B361C421F44BD1C00654968 /* Constants.swift in Sources */,
+				4B221DD4200400BD00575D6A /* VoiceTrackStatus.swift in Sources */,
 				4B2D38C81F7AD4A2006F6348 /* NowPlayingTitleLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1661,6 +1684,7 @@
 				4BA3DA5C1F7D3A1E0013491E /* OSXNSImageExtension.swift in Sources */,
 				4B2E97B81FF1478C00C85CCC /* PlaylistRefreshInstructions.swift in Sources */,
 				4BC0B9CC1F55E5D100C0AED3 /* PlayolaProgramAutoAdvancerTests.swift in Sources */,
+				4B1690171FFD8A0100C2EDBF /* OSXPlayer.swift in Sources */,
 				4BC1C3151F4A2ADA00B7415C /* PlayolaAudioPlayerMock.swift in Sources */,
 				4B2D38B91F7AABA4006F6348 /* PlayolaStationPlayerMock.swift in Sources */,
 				4B2D38D01F7ADAC4006F6348 /* NowPlayingArtistLabel.swift in Sources */,
@@ -1668,6 +1692,7 @@
 				4B361C431F44BD1C00654968 /* Constants.swift in Sources */,
 				4BE0071B1F4769680010C420 /* APIErrorType.swift in Sources */,
 				4B361C691F44C91E00654968 /* RotationItem.swift in Sources */,
+				4B221DD5200400BD00575D6A /* VoiceTrackStatus.swift in Sources */,
 				4BF434C71F7ECD6600E79F59 /* PlayButtonUpdater.swift in Sources */,
 				4B7C60671F7C437600806F30 /* NowPlayingImageViewUpdater.swift in Sources */,
 				4B361C6F1F44D58400654968 /* DataMocker.swift in Sources */,
@@ -1677,7 +1702,6 @@
 				4B2D38C41F7AD386006F6348 /* OSXAutoUpdatingLabel.swift in Sources */,
 				4BF434BF1F7ECC1500E79F59 /* OSXAutoUpdatingButton.swift in Sources */,
 				4BA3DA621F7D4D0C0013491E /* NowPlayingImageUpdaterTests.swift in Sources */,
-				4B2E97C21FF58A5200C85CCC /* Player.swift in Sources */,
 				4B93589C1F488D0F0038C327 /* DateHandlerMock.swift in Sources */,
 				4B1DFC361FDC506D0081674D /* SpotifyTrack.swift in Sources */,
 				4B361C601F44C86300654968 /* RotationItemsCollection.swift in Sources */,

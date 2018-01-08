@@ -51,6 +51,7 @@ class PlayolaAPITests: QuickSpec
     let changePasswordPath          =        "/api/v1/users/me/changePassword"
     let resetRotationItemsPath      =        "/api/v1/rotationItems/reset"
     let startStationPath            =        "/api/v1/users/startStation"
+    let createVoiceTrackPath        =        "/api/v1/voiceTracks"
     
     
     override func spec()
@@ -2330,6 +2331,117 @@ class PlayolaAPITests: QuickSpec
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
                             done()
                         }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("createVoiceTrack")
+            {
+                fit ("works when a voiceTrack exists")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("createVoiceTrackExists.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        let myVoiceTrackURL = "https://www.briankeane.net/myVoiceTrack.m4a"
+                        api.createVoiceTrack(voiceTrackURL: myVoiceTrackURL)
+                        .then
+                        {
+                            (voiceTrackStatus, voiceTrack) -> Void in
+                            let jsonDict = self.readLocalJsonFile("createVoiceTrackExists.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.createVoiceTrackPath))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["url"] as! String)).to(equal(myVoiceTrackURL))
+                                    
+                            // check response
+                            let rawVoiceTrack = jsonDict["voiceTrack"] as! NSDictionary
+                            let rawID = rawVoiceTrack["id"] as! String
+                            
+                                    
+                            // check response
+                            expect(voiceTrackStatus).to(equal(VoiceTrackStatus.completed))
+                            expect(voiceTrack?.id).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("createVoiceTrack() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("works when a voiceTrack is processing")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("requestVoiceTrackProcessing.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                        .then
+                        {
+                                    (songStatus, song) -> Void in
+                                    
+                                    // check request
+                                    expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
+                                    expect(sentRequest!.httpMethod).to(equal("POST"))
+                                    
+                                    // check response
+                                    expect(songStatus).to(equal(SongStatus.processing))
+                                    expect(song).to(beNil())
+                                    done()
+                                }
+                                .catch
+                                {
+                                    (error) -> Void in
+                                    print(error)
+                                    fail("requestSongBySong() should not have errored")
+                                    done()
+                            }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                        {
+                            (done) in
+                            api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                                .then
+                                {
+                                    (songStatus, song) -> Void in
+                                    fail("there should have been an error")
+                                }
+                                .catch
+                                {
+                                    (error) -> Void in
+                                    expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
+                                    done()
+                            }
                     }
                 }
             }

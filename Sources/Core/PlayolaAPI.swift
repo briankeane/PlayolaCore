@@ -335,30 +335,28 @@ import PromiseKit
     }
     
     // -----------------------------------------------------------------------------
-    //                          func loginLocal
+    //                          func requestSongBySpotifyID
     // -----------------------------------------------------------------------------
     /**
      Gets a session token from the playola server via the local login info.
      
      - parameters:
-     - email: `(String)` - the user's email
-     - password: `(String)` - the user's password
+     - spotifyID: `(String)` - the spotifyID of the desired song
      
      - returns:
      `Promise<User>` - a promise that resolves to the current User
      
      ### Usage Example: ###
      ````
-     api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
+     api.requestSongBySpotifyID(spotifyID: "aSpotifyID")
      .then
      {
-     (user) -> Void in
-     print(user.name)
+        (result) -> Void in
      }
      .catch
      {
-     (err) -> Void in
-     print(err)
+        (err) -> Void in
+        print(err)
      }
      ````
      
@@ -404,6 +402,79 @@ import PromiseKit
             }
         }
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func createVoiceTrack
+    // -----------------------------------------------------------------------------
+    /**
+     Creates a voiceTrack from the audio file located at the specified url.
+     
+     - parameters:
+     - url: `(String)` - the url of the audioFile to import
+     
+     - returns:
+     `Promise<(voiceTrackStatus:VoiceTrackStatus, voiceTrack: AudioBlock?)>` - a promise that resolves to
+      a tuple comtaining the voiceTrackStatus and the resulting voiceTrack if successful.
+     
+     ### Usage Example: ###
+     ````
+     api.createVoiceTrack(url: "https://www.briankeane.com/myVoiceTrack.m4a")
+     .then
+     {
+        (result) -> Void in
+        print(result.voiceTrackStatus)
+        print(result.voiceTrack)
+     }
+     .catch
+     {
+        (err) -> Void in
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<(voiceTrackStatus:VoiceTrackStatus, voiceTrack:AudioBlock?)>` - a promise
+     * that resolves to: a User
+     * rejects: an APIError
+     */
+    open func createVoiceTrack(voiceTrackURL:String) -> Promise<(voiceTrackStatus:VoiceTrackStatus, voiceTrack:AudioBlock?)>
+    {
+        let url = "\(baseURL)/api/v1/voiceTracks/"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = [ "url": voiceTrackURL ]
+        return Promise
+        {
+            (fulfill, reject) in
+                
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON
+            {
+                (response) -> Void in
+                if let resultDict = response.result.value as? [String:Any?]
+                {
+                    if let voiceTrackStatusInt = (resultDict["voiceTrackStatus"] as? [String:Any?])?["code"] as? Int
+                    {
+                        if let voiceTrackStatus = VoiceTrackStatus(rawValue: voiceTrackStatusInt)
+                        {
+                            var voiceTrack:AudioBlock?
+                            
+                            // add the song if it has been included
+                            if (voiceTrackStatus == .completed)
+                            {
+                                if let voiceTrackDict = resultDict["voiceTrack"] as? [String:Any]
+                                {
+                                    voiceTrack = AudioBlock(audioBlockInfo: voiceTrackDict)
+                                }
+                            }
+                            return fulfill((voiceTrackStatus: voiceTrackStatus, voiceTrack: voiceTrack))
+                        }
+                    }
+                }
+                return reject(APIError(response: response))
+            }
+        }
+    }
+    
     // -----------------------------------------------------------------------------
     //                          func createUser
     // -----------------------------------------------------------------------------

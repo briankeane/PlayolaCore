@@ -1,0 +1,19 @@
+{
+    "voiceTrack": {
+        "id": "5531636b4b1f7e86214235cc",
+        "__t": "Commentary",
+        "userID": "7BvpGkNPd49xhN7EguxJz0",
+        "eom": 160000,
+        "boo": 155000,
+        "eoi": 8000,
+        "title": "bob talks #55",
+        "key": "-pl-0000012-Rachel-Loy-Fade-to-Gray.mp3",
+        "audioFileUrl": "//songs.playola.fm/-pl-0000438-RachelLoy-AfterTheStorm.mp3",
+        "duration": 290925,
+        "originalURL": "https://www.voiceTracks.com/myVoiceTrack.m4a",
+    },
+    "voiceTrackStatus": {
+        "description": "voiceTrack acquisition complete",
+        "code": 9200
+    }
+}

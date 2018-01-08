@@ -6,7 +6,7 @@
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 open class PlaylistRefreshInstructions: NSObject
 {
