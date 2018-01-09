@@ -131,7 +131,7 @@ open class PlaylistRefreshInstructions: NSObject
             // ELSE if the ids are different and they are not both commercialBlocks
             else if (spin.id != playlist2[i].id)
             {
-                if ((spin.audioBlock?.__t == "CommercialBlock") && (playlist2[i].audioBlock?.__t != "CommercialBlock"))
+                if ((spin.audioBlock?.__t == .commercialBlock) && (playlist2[i].audioBlock?.__t != .commercialBlock))
                 {
                    differentIndexes.append(i)
                 }

@@ -129,7 +129,7 @@ class NowPlayingLabelUpdater:NSObject
             {
                 return "Commercials"
             }
-            else if (audioBlock.__t == "Commentary")
+            else if (audioBlock.__t == .voiceTrack)
             {
                 return "VoiceTrack"
             }

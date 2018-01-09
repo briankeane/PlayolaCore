@@ -2339,7 +2339,9 @@ class PlayolaAPITests: QuickSpec
             
             describe("createVoiceTrack")
             {
-                fit ("works when a voiceTrack exists")
+                let myVoiceTrackURL = "https://www.briankeane.net/myVoiceTrack.m4a"
+                
+                it ("works when a voiceTrack exists")
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
@@ -2350,7 +2352,6 @@ class PlayolaAPITests: QuickSpec
                     waitUntil()
                     {
                         (done) in
-                        let myVoiceTrackURL = "https://www.briankeane.net/myVoiceTrack.m4a"
                         api.createVoiceTrack(voiceTrackURL: myVoiceTrackURL)
                         .then
                         {
@@ -2386,34 +2387,35 @@ class PlayolaAPITests: QuickSpec
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
-                        fileAtPath: OHPathForFile("requestVoiceTrackProcessing.json", type(of: self))!,
+                        fileAtPath: OHPathForFile("createVoiceTrackProcessing.json", type(of: self))!,
                         statusCode: 200,
                         headers: ["Content-Type":"application/json"]
                     )
                     waitUntil()
                     {
                         (done) in
-                        api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                        
+                        api.createVoiceTrack(voiceTrackURL: myVoiceTrackURL)
                         .then
                         {
-                                    (songStatus, song) -> Void in
+                            (voiceTrackStatus, voiceTrack) -> Void in
                                     
-                                    // check request
-                                    expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
-                                    expect(sentRequest!.httpMethod).to(equal("POST"))
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.createVoiceTrackPath))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
                                     
-                                    // check response
-                                    expect(songStatus).to(equal(SongStatus.processing))
-                                    expect(song).to(beNil())
-                                    done()
-                                }
-                                .catch
-                                {
-                                    (error) -> Void in
-                                    print(error)
-                                    fail("requestSongBySong() should not have errored")
-                                    done()
-                            }
+                            // check response
+                            expect(voiceTrackStatus).to(equal(VoiceTrackStatus.processing))
+                            expect(voiceTrack).to(beNil())
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("requestSongBySong() should not have errored")
+                            done()
+                        }
                     }
                 }
                 
@@ -2428,20 +2430,20 @@ class PlayolaAPITests: QuickSpec
                     
                     // test
                     waitUntil()
+                    {
+                        (done) in
+                        api.createVoiceTrack(voiceTrackURL: myVoiceTrackURL)
+                        .then
                         {
-                            (done) in
-                            api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                                .then
-                                {
-                                    (songStatus, song) -> Void in
-                                    fail("there should have been an error")
-                                }
-                                .catch
-                                {
-                                    (error) -> Void in
-                                    expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                                    done()
-                            }
+                            (voiceTrackStatus, voiceTrack) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
+                            done()
+                        }
                     }
                 }
             }

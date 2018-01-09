@@ -13,7 +13,7 @@ import Alamofire
 open class AudioBlock
 {
     public var id:String?
-    public var __t:String?
+    public var __t:AudioBlockType?
     public var duration:Int?
     public var echonestID:String?
     public var itunesID:String?
@@ -36,7 +36,10 @@ open class AudioBlock
     public init(audioBlockInfo:Dictionary<String,Any> = Dictionary())
     {
         id = audioBlockInfo["id"] as? String
-        __t = audioBlockInfo["__t"] as? String
+        if let __tString = audioBlockInfo["__t"] as? String
+        {
+            __t = AudioBlockType(rawValue: __tString)
+        }
         duration = audioBlockInfo["duration"] as? Int
         echonestID = audioBlockInfo["echonestID"] as? String
         itunesID = audioBlockInfo["itunesID"] as? String
@@ -85,7 +88,7 @@ open class AudioBlock
     //------------------------------------------------------------------------------
     
     public init(id:String?=nil,
-         __t:String?=nil,
+         __t:AudioBlockType?=nil,
          duration:Int?=nil,
          echonestID:String?=nil,
          itunesID:String?=nil,
@@ -136,7 +139,8 @@ open class AudioBlock
                 "albumArtworkUrl": self.albumArtworkUrl as Any,
                 "voiceTrackLocalUrl": self.voiceTrackLocalUrl as Any,
                 "isCommercialBlock": self.isCommercialBlock as Any,
-                "key": self.key as Any
+                "key": self.key as Any,
+                "__t": self.__t?.rawValue
                 ]
     }
     

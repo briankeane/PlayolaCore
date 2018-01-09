@@ -37,7 +37,7 @@ class CommercialBlockProviderServiceQuickTests: QuickSpec {
             {
                 mockedCurrentUserInfo.user!.lastCommercial!["audioFileID"] = 50
                 var commercialBlocks:[AudioBlock] = commercialBlockProvider.getCommercialBlocks(5)
-                expect(commercialBlocks[0].__t).to(equal("CommercialBlock"))
+                expect(commercialBlocks[0].__t).to(equal(AudioBlockType.commercialBlock))
                 expect(commercialBlocks[0].duration).to(equal(currentUser!.secsOfCommercialPerHour!/2*1000))
                 expect(commercialBlocks[0].title!).to(equal("Commercial Block"))
                 
