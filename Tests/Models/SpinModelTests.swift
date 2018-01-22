@@ -13,8 +13,8 @@ import XCTest
 import Quick
 import Nimble
 
-class SpinModelQuickTests: QuickSpec {
-    
+class SpinModelQuickTests: QuickSpec
+{
     override func spec()
     {
         describe("List Model Tests")
@@ -24,13 +24,14 @@ class SpinModelQuickTests: QuickSpec {
                 let newSpin = Spin(spinInfo: ["id": "idSample",
                                               "isCommercialBlock": false,
                                               "playlistPosition": 12,
-                                              "audioBlock": ["id": "audioBlockIDSample"],
+                                              "audioBlock": ["id": "audioBlockIDSample",
+                                                             "__t": "Song"],
                                               "audioBlockID": "audioBlockIDSample2",
                                               "userID": "userIDSample",
                                               "airtime": "2015-03-15T12:00:00.616Z",
                                               "endTime": "2015-03-15T13:00:00.616Z"])
                 expect(newSpin.id).to(equal("idSample"))
-                expect(newSpin.isCommercialBlock).to(equal(false))
+                expect(newSpin.isCommercialBlock()).to(equal(false))
                 expect(newSpin.playlistPosition).to(equal(12))
                 expect(newSpin.audioBlock!.id).to(equal("audioBlockIDSample"))
                 expect(newSpin.audioBlockID).to(equal("audioBlockIDSample2"))
@@ -38,12 +39,18 @@ class SpinModelQuickTests: QuickSpec {
                 expect(newSpin.airtime!).to(equal(Date(isoString: "2015-03-15T12:00:00.616Z")))
             }
             
-            it ("stores isCommercialBlock correctly")
+            it ("stores checks itself for commercialBlock correctly")
             {
-                let newSpin = Spin(spinInfo: ["isCommercialBlock": true])
-                expect(newSpin.isCommercialBlock).to(beTrue())
-                let otherNewSpin = Spin(spinInfo: ["test":"test"])
-                expect(otherNewSpin.isCommercialBlock).to(beFalse())
+                let commercialBlockSpin = Spin(audioBlock: AudioBlock(id: "id", __t: .commercialBlock))
+                expect(commercialBlockSpin.isCommercialBlock()).to(beTrue())
+                let songSpin = Spin(audioBlock: AudioBlock(id: "id", __t: .song))
+                expect(songSpin.isCommercialBlock()).to(beFalse())
+                let voiceTrackSpin = Spin(audioBlock: AudioBlock(id: "id", __t: .voiceTrack))
+                expect(voiceTrackSpin.isCommercialBlock()).to(beFalse())
+                let localVoiceTrackSpin = Spin(audioBlock: AudioBlock(id: "id", __t: .localVoiceTrack))
+                expect(localVoiceTrackSpin.isCommercialBlock()).to(beFalse())
+                let nilAudioBlock = Spin()
+                expect(nilAudioBlock.isCommercialBlock()).to(beFalse())
             }
             
             it ("can tell if it is not currently playing")

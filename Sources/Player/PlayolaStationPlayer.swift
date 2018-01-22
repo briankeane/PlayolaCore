@@ -9,7 +9,6 @@
 import Foundation
 import SwiftRemoteFileCache
 import PromiseKit
-import AudioKit
 
 @objc open class PlayolaStationPlayer: NSObject
 {
@@ -39,7 +38,7 @@ import AudioKit
         }
         else
         {
-            self.PAPlayer = PlayolaAVAudioPlayer(identifier: "PlayolaAudioPlayer")
+            self.PAPlayer = PlayolaAVAudioPlayer.sharedInstance()
         }
     }
     
@@ -70,10 +69,7 @@ import AudioKit
         }
     }
     
-    open func isPlaying() -> Bool
-    {
-        return (self.userPlaying != nil) && (self.isLoading != true)
-    }
+    //------------------------------------------------------------------------------
     
     open func loadUserAndPlay(user:User)
     {
@@ -121,19 +117,26 @@ import AudioKit
                 NotificationCenter.default.post(name: PlayolaStationPlayerEvents.finishedLoadingStation, object: nil)
                 self.broadcastNowPlayingChanged()
                 NotificationCenter.default.post(name: PlayolaStationPlayerEvents.startedPlayingStation, object: nil)
-
+                    
                 // IF the audioBlock is the same (i.e. nowPlaying did not advance while song was being downloaded)
                 if (downloader.remoteURL == self.nowPlaying()?.audioBlock?.audioFileUrl)
                 {
                     self.PAPlayer.loadAudio(audioFileURL: downloader.localURL, startTime: self.nowPlaying()!.airtime!, beginFadeOutTime: self.nowPlaying()!.eomTime()!, spinInfo: self.nowPlaying()!.audioBlock!.toDictionary())
                 }
-                
+                    
                 self.loadingProgress = nil
                 self.startAutomaticQueueLoading()
                 self.downloadAndLoadQueueSpins()
                 self.startNowPlayingMonitoring()
             }
         }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    open func isPlaying() -> Bool
+    {
+        return (self.userPlaying != nil) && (self.isLoading != true)
     }
     
     //------------------------------------------------------------------------------
@@ -189,8 +192,6 @@ import AudioKit
             NotificationCenter.default.post(name: PlayolaStationPlayerEvents.nowPlayingChanged, object: nil, userInfo: ["spin":self.nowPlaying() as Any])
             NotificationCenter.default.post(name: PlayolaStationPlayerEvents.stoppedPlayingStation, object  : nil, userInfo: ["user":previousUserPlaying as Any])
         }
-        
-        
     }
     
     //------------------------------------------------------------------------------
@@ -207,6 +208,7 @@ import AudioKit
                 doNotDeleteDict[url] = RemoteFilePriorityLevel.doNotDelete
             }
         }
+        self.cacheManager.filePriorities = doNotDeleteDict
     }
     
     //------------------------------------------------------------------------------
@@ -301,17 +303,6 @@ import AudioKit
         let spinMap = spins.map({spin in return spin.audioBlock!.title!})
         print(spinMap)
         return spins
-    }
-    
-    // -----------------------------------------------------------------------------
-    //                          func getOutputNode
-    // -----------------------------------------------------------------------------
-    /// returns an AudioKit audio node for output
-    ///
-    /// ----------------------------------------------------------------------------
-    public func getOutputNode() -> AKNode
-    {
-        return AKNode()
     }
     
     //------------------------------------------------------------------------------

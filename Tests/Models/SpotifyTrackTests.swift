@@ -111,7 +111,7 @@ class SpotifyTrackModelQuickTests: QuickSpec
             it ("stores and retrieves albumArtUrl")
             {
                 let spotifyTrack = SpotifyTrack(JSON: spotifyTrackInfo)
-                expect(spotifyTrack.albumImageURLString()).to(equal("https://i.scdn.co/image/b16064142fcd2bd318b08aab0b93b46e87b1ebf5"))
+                expect(spotifyTrack.albumArtworkUrl?.absoluteString).to(equal("https://i.scdn.co/image/b16064142fcd2bd318b08aab0b93b46e87b1ebf5"))
             }
         }
     }

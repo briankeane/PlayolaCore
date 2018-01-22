@@ -2003,7 +2003,7 @@ import PromiseKit
      */
     open func startStation() -> Promise<User>
     {
-        let url = "\(baseURL)/api/v1/users/startStation"
+        let url = "\(baseURL)/api/v1/users/me/startStation"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
         return Promise
@@ -2072,10 +2072,10 @@ import PromiseKit
     // -----------------------------------------------------------------------------
     //                      class func sharedInstance()
     // -----------------------------------------------------------------------------
-    /// provides a Singleton of the AuthService for all to use
+    /// provides a Singleton of the PlayolaAPI for all to use
     ///
     /// - returns:
-    ///    `AuthService` - the central Auth Service instance
+    ///    `PlayolaAPI` - the central PlayolaAPI Service instance
     ///
     /// ----------------------------------------------------------------------------
     open class func sharedInstance() -> PlayolaAPI

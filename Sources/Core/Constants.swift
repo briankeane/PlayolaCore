@@ -44,20 +44,20 @@ public struct PlayolaConstants {
     #if (arch(i386) || arch(x86_64)) && os(iOS)  // simulator
     
 //    // --------- USE THESE FOR DEV SERVER --------  //
-//    public static let HOST_NAME = "127.0.0.1:9000"
-//    public static let BASE_URL = "http://\(HOST_NAME)"
-//    public static let S3_SONGS_BUCKET = "playolasongsdevelopment"
-//    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
-//    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongsdevelopment"
-//    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimagesdevelopment"
+    public static let HOST_NAME = "127.0.0.1:9000"
+    public static let BASE_URL = "http://\(HOST_NAME)"
+    public static let S3_SONGS_BUCKET = "playolasongsdevelopment"
+    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
+    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongsdevelopment"
+    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimagesdevelopment"
     
 //     --------- USE THESE FOR PRODUCTION SERVER --------  //
-    public static let HOST_NAME = "api.playola.fm"
-    public static let S3_SONGS_BUCKET = "playolasongs"
-    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongs"
-    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
-    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimages"
-    public static let BASE_URL = "https://\(HOST_NAME)"
+//    public static let HOST_NAME = "api.playola.fm"
+//    public static let S3_SONGS_BUCKET = "playolasongs"
+//    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongs"
+//    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
+//    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimages"
+//    public static let BASE_URL = "https://\(HOST_NAME)"
     
     
     #else

@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 import Alamofire
 
-open class AudioBlock
+open class AudioBlock:NSObject
 {
     public var id:String?
     public var __t:AudioBlockType?
@@ -35,6 +35,7 @@ open class AudioBlock
     
     public init(audioBlockInfo:Dictionary<String,Any> = Dictionary())
     {
+        super.init()
         id = audioBlockInfo["id"] as? String
         if let __tString = audioBlockInfo["__t"] as? String
         {
@@ -65,6 +66,7 @@ open class AudioBlock
     
     public init(original:AudioBlock)
     {
+        super.init()
         self.id = original.id
         self.__t = original.__t
         self.duration = original.duration
@@ -106,6 +108,7 @@ open class AudioBlock
          voiceTrackLocalUrl:URL?=nil,
          isCommercialBlock:Bool=false)
     {
+        super.init()
         self.id = id
         self.__t = __t
         self.duration = duration

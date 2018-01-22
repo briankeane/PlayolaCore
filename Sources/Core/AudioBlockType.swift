@@ -14,4 +14,6 @@ public enum AudioBlockType:String
     case voiceTrack = "Commentary"
     case localVoiceTrack = "LocalVoiceTrack"
     case song = "Song"
+    case playolaFailedToAcquire = "PlayolaFailedToAcquire"
+    case spotifyTrack = "SpotifyTrack"
 }

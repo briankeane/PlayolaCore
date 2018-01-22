@@ -55,7 +55,7 @@ class PlaylistRefreshInstructionsTests: QuickSpec
             
             describe ("nowPlayingAdvanced")
             {
-               it ("detects a nowPlaying advance")
+               xit ("detects a nowPlaying advance")
                {
                     var newProgram = oldProgram.copy()
                     newProgram.nowPlaying = newProgram.playlist?.removeFirst()
@@ -65,7 +65,7 @@ class PlaylistRefreshInstructionsTests: QuickSpec
                     expect(instructions.reloadIndexes).to(equal([]))
                 }
                 
-                it ("detects a nowPlaying advance with some random reloads")
+                xit ("detects a nowPlaying advance with some random reloads")
                 {
                     var newProgram = oldProgram.copy()
                     newProgram.nowPlaying = newProgram.playlist?.removeFirst()

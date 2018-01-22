@@ -8,15 +8,15 @@
 
 import Foundation
 
-class PAPSpin
+open class PAPSpin
 {
-    var fadeOutTimer:Timer?
-    var audioFileURL:URL!
-    var player:Player!
-    var playerSet:Bool = false
-    var beginFadeOutTime:Date
-    var startTime:Date
-    var spinInfo:[String:Any]
+    open var fadeOutTimer:Timer?
+    open var audioFileURL:URL!
+    open var player:Player!
+    open var playerSet:Bool = false
+    open var beginFadeOutTime:Date
+    open var startTime:Date
+    open var spinInfo:[String:Any]
     
     //------------------------------------------------------------------------------
     
@@ -32,14 +32,14 @@ class PAPSpin
     
     //------------------------------------------------------------------------------
     
-    func loadPlayer()
+    open func loadPlayer()
     {
         player.loadFile(with: self.audioFileURL)
     }
     
     //------------------------------------------------------------------------------
     
-    func isPlaying() -> Bool
+    open func isPlaying() -> Bool
     {
         return (Date().isAfter(self.startTime) && Date().isBefore(self.beginFadeOutTime))
     }

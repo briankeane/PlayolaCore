@@ -110,10 +110,16 @@ public struct Program
         {
             for i in 0..<self.playlist!.count
             {
-                if (self.playlist![i].isCommercialBlock == true)
+                if (self.playlist![i].isCommercialBlock() == true)
                 {
                     self.playlist![i].audioBlock = commercials[commercialIndex]
                     commercialIndex += 1
+                    
+                    // if we're at the end, start over
+                    if (commercialIndex >= commercials.count)
+                    {
+                        commercialIndex = 0
+                    }
                 }
             }
         }

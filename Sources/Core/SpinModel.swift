@@ -11,7 +11,6 @@ import Foundation
 public class Spin
 {
     public var id:String?
-    public var isCommercialBlock:Bool?
     public var playlistPosition:Int?
     public var audioBlock:AudioBlock?
     public var audioBlockID:String?
@@ -24,14 +23,6 @@ public class Spin
     public init(spinInfo:Dictionary<String,Any>, DateHandler:DateHandlerService = DateHandlerService.sharedInstance())
     {
         id = spinInfo["id"] as? String
-        if let _ = spinInfo["isCommercialBlock"]
-        {
-            isCommercialBlock = spinInfo["isCommercialBlock"] as? Bool
-        }
-        else
-        {
-            isCommercialBlock = false
-        }
         
         playlistPosition = spinInfo["playlistPosition"] as? Int
         
@@ -57,7 +48,6 @@ public class Spin
     public init(original:Spin)
     {
         self.id = original.id
-        self.isCommercialBlock = original.isCommercialBlock
         self.playlistPosition = original.playlistPosition
         self.audioBlock = original.audioBlock?.copy()
         self.userID = original.userID
@@ -71,7 +61,6 @@ public class Spin
                 playlistPosition:Int? = nil, audioBlock:AudioBlock? = nil, audioBlockID:String? = nil, userID:String? = nil, airtime:Date? = nil, endTime:Date? = nil)
     {
         self.id = id
-        self.isCommercialBlock = isCommercialBlock
         self.playlistPosition = playlistPosition
         self.audioBlock = audioBlock
         self.audioBlockID = audioBlockID
@@ -126,5 +115,10 @@ public class Spin
             }
         }
         return nil
+    }
+    
+    public func isCommercialBlock() -> Bool
+    {
+        return (self.audioBlock?.__t == AudioBlockType.commercialBlock)
     }
 }

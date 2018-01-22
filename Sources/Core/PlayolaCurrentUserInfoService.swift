@@ -233,7 +233,7 @@ import Foundation
     /// provides a Singleton of the AuthService for all to use
     ///
     /// - returns:
-    ///    `AuthService` - the central Auth Service instance
+    ///    `PlayolaCurrentUserInfoService` - the central PlayolaCurrentUserInfoService instance
     ///
     /// ----------------------------------------------------------------------------
     public class func sharedInstance() -> PlayolaCurrentUserInfoService
@@ -251,10 +251,10 @@ import Foundation
     // -----------------------------------------------------------------------------
     //                          func replaceSharedInstance
     // -----------------------------------------------------------------------------
-    /// replaces the Singleton shared instance of the DateHandlerService class
+    /// replaces the Singleton shared instance of the PlayolaCurrentUserInfoService class
     ///
     /// - parameters:
-    ///     - DateHandler: `(DateHandlerService)` - the new DateHandlerService
+    ///     - DateHandler: `(PlayolaCurrentUserInfoService)` - the new PlayolaCurrentUserInfoService
     ///
     /// ----------------------------------------------------------------------------
     class func replaceSharedInstance(_ authService:PlayolaCurrentUserInfoService)

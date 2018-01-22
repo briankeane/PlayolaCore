@@ -50,7 +50,7 @@ class PlayolaAPITests: QuickSpec
     let addSongToBinPath            =        "/api/v1/rotationItems"
     let changePasswordPath          =        "/api/v1/users/me/changePassword"
     let resetRotationItemsPath      =        "/api/v1/rotationItems/reset"
-    let startStationPath            =        "/api/v1/users/startStation"
+    let startStationPath            =        "/api/v1/users/me/startStation"
     let createVoiceTrackPath        =        "/api/v1/voiceTracks"
     
     

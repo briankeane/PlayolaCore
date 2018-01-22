@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
+open class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
 {
     var isPlayingFlag:Bool = false
     var identifier:String!
@@ -19,7 +19,7 @@ class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
     var queueDictionary:Dictionary<String, PAPSpin> = Dictionary()
     var playerBank:[(Player, String?)]!
     
-    init(identifier:String, delegate:PlayerDelegate?=nil)
+    public init(identifier:String, delegate:PlayerDelegate?=nil)
     {
         super.init()
         self.identifier = identifier
@@ -27,18 +27,18 @@ class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
         self.setupPlayerBank()
     }
     
-    func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
+    open func loadAudio(audioFileURL:URL, startTime: Date, beginFadeOutTime: Date, spinInfo:[String:Any])
     {
         let papSpin = PAPSpin(audioFileURL: audioFileURL, player: self.requestAvailablePlayer(key: audioFileURL.absoluteString), startTime: startTime, beginFadeOutTime: beginFadeOutTime, spinInfo: spinInfo)
         self.loadPAPSpin(papSpin)
     }
     
-    func addToQueueDictionary(papSpin:PAPSpin)
+    open func addToQueueDictionary(papSpin:PAPSpin)
     {
         self.queueDictionary[papSpin.audioFileURL.absoluteString] = papSpin
     }
     
-    func removeFromQueueDictionary(papSpin:PAPSpin)
+    open func removeFromQueueDictionary(papSpin:PAPSpin)
     {
         self.queueDictionary.removeValue(forKey: papSpin.audioFileURL.absoluteString)
     }
@@ -64,7 +64,7 @@ class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
     /// grabs an available player from the playerBank and marks it as 'in use'
     ///
     /// ----------------------------------------------------------------------------
-    func requestAvailablePlayer(key:String) -> Player?
+    open func requestAvailablePlayer(key:String) -> Player?
     {
         for (index, playerTuple) in self.playerBank.enumerated()
         {
@@ -121,7 +121,7 @@ class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
     /// begin playback immediately.
     ///
     /// ----------------------------------------------------------------------------
-    func loadPAPSpin(_ papSpin:PAPSpin)
+    open func loadPAPSpin(_ papSpin:PAPSpin)
     {
         if (!self.isQueued(papSpin))
         {
@@ -156,7 +156,7 @@ class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
         return (self.queueDictionary[papSpin.audioFileURL.absoluteString] != nil)
     }
     
-    func isQueued(localFileURL: URL) -> Bool
+    open func isQueued(localFileURL: URL) -> Bool
     {
         return (self.queueDictionary[localFileURL.absoluteString] != nil)
     }
@@ -355,7 +355,7 @@ class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
     /// cleanly stop the player and post kAudioPlayerStopped notification
     ///
     /// ----------------------------------------------------------------------------
-    func stop()
+    open func stop()
     {
         self.clearQueue()
         self.freeAllPlayers()
@@ -373,8 +373,44 @@ class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
     ///    `Bool` - true if the station is playing
     ///
     /// ----------------------------------------------------------------------------
-    func isPlaying() -> Bool
+    open func isPlaying() -> Bool
     {
         return self.isPlayingFlag
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                      class func sharedInstance()
+    // -----------------------------------------------------------------------------
+    /// provides a Singleton of the AdminSharedData for all to use
+    ///
+    /// - returns:
+    ///    `DateHandlerClass` - the central SharedData instance
+    ///
+    /// ----------------------------------------------------------------------------
+    open class func sharedInstance() -> PlayolaAVAudioPlayer
+    {
+        if (self._instance == nil)
+        {
+            self._instance = PlayolaAVAudioPlayer(identifier: "playolaSharedPAPPlayer")
+        }
+        return self._instance!
+    }
+    
+    /// internally shared singleton instance
+    fileprivate static var _instance:PlayolaAVAudioPlayer?
+    
+    // -----------------------------------------------------------------------------
+    //                          func replaceSharedInstance
+    // -----------------------------------------------------------------------------
+    /// replaces the Singleton shared instance of the AdminSharedData class
+    ///
+    /// - parameters:
+    ///     - voiceTrackPreviewPlayer: `(VoiceTrackPreviewPlayerService)` - the new
+    //                                    VoiceTrackPreviewPlayerService
+    ///
+    /// ----------------------------------------------------------------------------
+    class func replaceSharedInstance(_ playolaAVAudioPlayer:PlayolaAVAudioPlayer)
+    {
+        self._instance = playolaAVAudioPlayer
     }
 }

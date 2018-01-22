@@ -329,18 +329,18 @@ open class PlayolaScheduler:NSObject
      */
     open func insertAudioBlock(audioBlock:AudioBlock, atPlaylistPosition:Int) -> Promise<User>
     {
+        // check that playlist init has already occured
+        if (self.user.program == nil)
+        {
+            return Promise.init(error: PlayolaErrorType.playlistInitRequired)
+        }
+        
+        self.storePlaylist(playlist: self.playlist())
+        self.performTemporaryInsertAudioBlock(audioBlock:audioBlock, playlistPosition:atPlaylistPosition)
+        
         return Promise
         {
             (fulfill, reject) -> Void in
-                
-            // check that playlist init has already occured
-            if (self.user.program == nil)
-            {
-                return reject(PlayolaErrorType.playlistInitRequired)
-            }
-            
-            self.storePlaylist(playlist: self.playlist())
-            self.performTemporaryInsertAudioBlock(audioBlock:audioBlock, playlistPosition:atPlaylistPosition)
             
             api.insertSpin(audioBlockID: audioBlock.id!, playlistPosition: atPlaylistPosition)
             .then

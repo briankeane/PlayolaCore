@@ -7,15 +7,8 @@
 //
 
 import Foundation
-import AudioKit
 
 class PlayolaAudioPlayerMock:NSObject, PlayolaAudioPlayer {
-    
-    func getOutputNode() -> AKNode
-    {
-        return AKNode()
-    }
-    
     var shouldBePlaying:Bool = true
     func isPlaying() -> Bool
     {

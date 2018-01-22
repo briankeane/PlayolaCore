@@ -7,15 +7,10 @@
 
 import Alamofire
 import SwiftyJSON
-
-open class SpotifyTrack
+open class SpotifyTrack:AudioBlock
 {
     public var spotifyID:String?
-    public var duration:Int?
-    public var title:String?
-    public var artist:String?
     public var artistID:String?
-    public var album:String?
     public var isrc:String?
     public var albumImagesData:JSON?
     public var popularity:Int?
@@ -30,6 +25,8 @@ open class SpotifyTrack
          albumImagesData:JSON? = nil,
          popularity:Int? = nil)
     {
+        super.init()
+        self.__t = .spotifyTrack
         self.spotifyID = spotifyID
         self.duration = duration
         self.title = title
@@ -43,6 +40,8 @@ open class SpotifyTrack
     
     public init(JSON:JSON)
     {
+        super.init()
+        self.__t = .spotifyTrack
         if let album = JSON["album"]["name"].string
         {
             self.album = album
@@ -82,21 +81,33 @@ open class SpotifyTrack
         if (JSON["album"]["images"].exists())
         {
             self.albumImagesData = JSON["album"]["images"]
+            if let urlString = self.albumImagesData?[0]["url"].string
+            {
+                self.albumArtworkUrl = URL(string: urlString)
+            }
         }
+        
         if let popularity = JSON["popularity"].int
         {
             self.popularity = popularity
         }
     }
     
-    //------------------------------------------------------------------------------
-    
-    func albumImageURLString() -> String?
+    open static func removeDuplicatesFromList(tracks:[SpotifyTrack]) -> [SpotifyTrack]
     {
-        if let albumImagesData = self.albumImagesData
+        var exists = Set<String>()
+        var uniqueTracks:Array<SpotifyTrack> = Array()
+        for track in tracks
         {
-            return albumImagesData[0]["url"].string
+            if let trackID = track.spotifyID
+            {
+                if (!exists.contains(trackID))
+                {
+                    uniqueTracks.append(track)
+                    exists.insert(trackID)
+                }
+            }
         }
-        return nil
+        return uniqueTracks
     }
 }

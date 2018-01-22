@@ -10,7 +10,6 @@ import Foundation
 import XCTest
 import Quick
 import Nimble
-import AudioKit
 
 class PlayolaStationPlayerTests: QuickSpec {
     override func spec()
