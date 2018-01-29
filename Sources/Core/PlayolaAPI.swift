@@ -1046,6 +1046,8 @@ import PromiseKit
                             if var presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
                                 presets = self.userCache.refresh(users: presets)
+                                
+                                // if this is the current user's then broadcast the update
                                 if (userID == "me")
                                 {
                                     NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])

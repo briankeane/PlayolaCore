@@ -42,11 +42,11 @@ import Foundation
             }
         }
     }
+    
     open var presets:[User]? = nil
     open var rotationItemsCollection:RotationItemsCollection? = nil
     open var presetsRetrievalError:APIError? = nil
     fileprivate var observers:[NSObjectProtocol] = Array()
-    
     
     // dependency injections
     @objc var api:PlayolaAPI = PlayolaAPI.sharedInstance()
@@ -81,6 +81,7 @@ import Foundation
         {
             (notification) -> Void in
             self.getPresets()
+            self.getRotationItemsCollection()
         })
         
         // update the presets when a new version is received
@@ -155,6 +156,18 @@ import Foundation
     
     //------------------------------------------------------------------------------
     
+    func getRotationItemsCollection()
+    {
+        self.api.getRotationItems()
+        .then
+        {
+            (rotationItemsCollection) -> Void in
+            self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
     open func isInPresets(userID:String?) -> Bool
     {
         if let presets = self.presets, let userID = userID
@@ -189,6 +202,16 @@ import Foundation
         }
     }
     
+    //------------------------------------------------------------------------------
+    
+    private func updateRotationItemsCollection(rotationItemsCollection:RotationItemsCollection)
+    {
+        self.rotationItemsCollection = rotationItemsCollection
+        NotificationCenter.default.post(name: PlayolaEvents.rotationItemsCollectionUpdated, object: nil, userInfo: ["rotationItemsCollection": rotationItemsCollection])
+    }
+    
+    //------------------------------------------------------------------------------
+    
     open func hasRunningStation() -> Bool
     {
         return (self.user?.program?.playlist != nil)    
@@ -217,6 +240,8 @@ import Foundation
             NotificationCenter.default.removeObserver(observer)
         }
     }
+    
+    //------------------------------------------------------------------------------
     
     deinit
     {

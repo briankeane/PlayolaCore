@@ -112,9 +112,6 @@ public class User
         {
             self.warnings = warnings
         }
-        
-        
-        
     }
     
     public init(original:User)
@@ -280,6 +277,7 @@ public class User
             self.role = .guest
         }
     }
+    
     //------------------------------------------------------------------------------
     
     public func copy() -> User
@@ -328,7 +326,9 @@ public class User
     
     public func startAutoUpdating()
     {
-        self.refresher = PlayolaProgramRefresher(user: self)
+        if (self.refresher == nil) {
+            self.refresher = PlayolaProgramRefresher(user: self)
+        }
     }
     
     //------------------------------------------------------------------------------
