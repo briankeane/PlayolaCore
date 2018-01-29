@@ -125,7 +125,7 @@ class NowPlayingLabelUpdater:NSObject
     {
         if let audioBlock = spin?.audioBlock
         {
-            if (audioBlock.isCommercialBlock)
+            if (audioBlock.__t == .commercialBlock)
             {
                 return "Commercials"
             }

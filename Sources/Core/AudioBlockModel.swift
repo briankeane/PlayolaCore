@@ -29,7 +29,6 @@ open class AudioBlock:NSObject
     public var albumArtworkUrlSmall:URL?
     public var trackViewUrl:URL?
     public var voiceTrackLocalUrl:URL?
-    public var isCommercialBlock:Bool = false
     
     //------------------------------------------------------------------------------
     
@@ -55,11 +54,6 @@ open class AudioBlock:NSObject
         albumArtworkUrl = URL(stringOptional: audioBlockInfo["albumArtworkUrl"] as? String)
         albumArtworkUrlSmall = URL(stringOptional: audioBlockInfo["albumArtworkUrlSmall"] as? String)
         trackViewUrl = URL(stringOptional: audioBlockInfo["trackViewUrl"] as? String)
-        
-        if let isCommercialBlock = audioBlockInfo["isCommercialBlock"] as? Bool
-        {
-            self.isCommercialBlock = isCommercialBlock
-        }
     }
     
     //------------------------------------------------------------------------------
@@ -83,7 +77,6 @@ open class AudioBlock:NSObject
         self.albumArtworkUrl = original.albumArtworkUrl
         self.albumArtworkUrlSmall = original.albumArtworkUrlSmall
         self.trackViewUrl = original.trackViewUrl
-        self.isCommercialBlock = original.isCommercialBlock
         self.audioFileUrl = original.audioFileUrl
     }
     
@@ -105,8 +98,7 @@ open class AudioBlock:NSObject
          albumArtworkUrl:URL?=nil,
          albumArtworkUrlSmall:URL?=nil,
          trackViewUrl:URL?=nil,
-         voiceTrackLocalUrl:URL?=nil,
-         isCommercialBlock:Bool=false)
+         voiceTrackLocalUrl:URL?=nil)
     {
         super.init()
         self.id = id
@@ -126,7 +118,6 @@ open class AudioBlock:NSObject
         self.albumArtworkUrlSmall = albumArtworkUrlSmall
         self.trackViewUrl = trackViewUrl
         self.voiceTrackLocalUrl = voiceTrackLocalUrl
-        self.isCommercialBlock = isCommercialBlock
     }
     
     //------------------------------------------------------------------------------
@@ -141,9 +132,8 @@ open class AudioBlock:NSObject
                 "album": self.album as Any,
                 "albumArtworkUrl": self.albumArtworkUrl as Any,
                 "voiceTrackLocalUrl": self.voiceTrackLocalUrl as Any,
-                "isCommercialBlock": self.isCommercialBlock as Any,
                 "key": self.key as Any,
-                "__t": self.__t?.rawValue
+                "__t": self.__t as Any
                 ]
     }
     

@@ -110,6 +110,9 @@ public struct Program
         {
             for i in 0..<self.playlist!.count
             {
+                if (self.playlist![i].audioBlock?.__t == nil) {
+                    puts("nil!")
+                }
                 if (self.playlist![i].isCommercialBlock() == true)
                 {
                     self.playlist![i].audioBlock = commercials[commercialIndex]

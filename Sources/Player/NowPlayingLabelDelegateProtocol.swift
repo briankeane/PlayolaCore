@@ -22,9 +22,9 @@ import Foundation
      ````
      func alternateDisplayText(_ label:UILabel, audioBlockDict:[String:Any]?)
      {
-        if let isCommercialBlock = audioBlockDict?["isCommercialBlock"] as? Bool
+        if let type = audioBlockDict?["__t"] as? AudioBlockType
         {
-            if (isCommercialBlock)
+            if (type == .commercialBlock)
             {
                 return "Money, Money, Money"
             }

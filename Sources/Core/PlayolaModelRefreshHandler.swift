@@ -42,7 +42,7 @@ public class PlayolaModelRefreshHandler:NSObject
         .catch
         {
             (err) -> Void in
-            delay(5)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0)
             {
                 // in case of server error... wait 5 secs and try again
                 self.updateUser(userID: userID)
