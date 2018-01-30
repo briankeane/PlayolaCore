@@ -44,7 +44,8 @@ class UserModelQuickTests: QuickSpec {
                                   "profileImageUrlSmall":"profileImageUrlSmall",
                                   "id": "sampleID",
                                   "secsOfCommercialPerHour": 180,
-                                  "dailyListenTimeMS": 50
+                                  "dailyListenTimeMS": 50,
+                                  "apotifyPlaylistID": "aSampleSpotifyPlaylistID"
                                 ]
                 let bob = User(userInfo: userInfo)
                 expect(bob.birthYear).to(equal("1977"))
@@ -66,6 +67,7 @@ class UserModelQuickTests: QuickSpec {
                 expect(bob.dailyListenTimeMS).to(equal(50))
                 expect(bob.program).toNot(beNil())
                 expect(bob.updatedAt?.toISOString()).to(equal(userInfo["updatedAt"] as? String))
+                expect(bob.spotifyPlaylistID).to(equal("aSampleSpotifyPlaylistID"))
             }
             
             it ("does not create a program if the playlist is nil")

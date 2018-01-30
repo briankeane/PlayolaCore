@@ -39,6 +39,7 @@ public class User
     public var deviceID:String?
     public var stationStatus:String?
     public var updatedAt:Date?
+    public var spotifyPlaylistID:String?
     
     var refresher:PlayolaProgramRefresher?
     var advancer:PlayolaProgramAutoAdvancer?
@@ -99,6 +100,7 @@ public class User
         dailyListenTimeMS = userInfo["dailyListenTimeMS"] as? Int
         dailyListenTimeCalculationDate = userInfo["dailyListenTimeCalculationDate"] as? Date
         deviceID = userInfo["deviceID"] as? String
+        spotifyPlaylistID = userInfo["spotifyPlaylistID"] as? String
         
         if let rawPlaylist = userInfo["playlist"] as? Array<Dictionary<String,AnyObject>>
         {
@@ -142,6 +144,7 @@ public class User
         self.passwordExists = original.passwordExists
         self.deviceID = original.deviceID
         self.stationStatus = original.stationStatus
+        self.spotifyPlaylistID = original.spotifyPlaylistID
         if let minListeners = original.minListenersToReport
         {
             self.minListenersToReport = minListeners
@@ -177,6 +180,7 @@ public class User
                 minListenersToReport:Int?=nil,
                 deviceID:String?=nil,
                 stationStatus:String?=nil,
+                spotifyPlaylistID:String?=nil,
                 updatedAt:Date?=nil)
     {
         self.id = id
@@ -205,6 +209,7 @@ public class User
         self.passwordExists = passwordExists
         self.deviceID = deviceID
         self.stationStatus = stationStatus
+        self.spotifyPlaylistID = spotifyPlaylistID
         self.minListenersToReport = minListenersToReport
         self.program = program
     }
@@ -238,6 +243,7 @@ public class User
         self.deviceID = updatedUser.deviceID
         self.stationStatus = updatedUser.stationStatus
         self.minListenersToReport = updatedUser.minListenersToReport
+        self.spotifyPlaylistID = updatedUser.spotifyPlaylistID
         self.program = updatedUser.program
         
         // (program autoAdvancer and program refresher should be retained)
@@ -390,7 +396,8 @@ public class User
             "bio": self.bio as Any,
             "passwordExists": self.passwordExists as Any,
             "deviceID": self.deviceID as Any,
-            "stationStatus": self.stationStatus as Any
+            "stationStatus": self.stationStatus as Any,
+            "spotifyPlaylistID": self.spotifyPlaylistID as Any
         ]
     }
     
