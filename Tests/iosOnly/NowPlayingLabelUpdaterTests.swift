@@ -143,7 +143,7 @@ class NowPlayingLabelUpdaterTests: QuickSpec
                 
                 it ("properly displays a commercial")
                 {
-                    let commercialBlock = AudioBlock(__t: .commercialBlock, isCommercialBlock:true)
+                    let commercialBlock = AudioBlock(__t: .commercialBlock)
                     playerMock.nowPlayingSpin = Spin(audioBlock: commercialBlock)
                     let label = NowPlayingTitleAndArtistLabel()
                     expect(label.text).toEventually(equal("Commercials"))

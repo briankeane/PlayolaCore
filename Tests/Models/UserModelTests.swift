@@ -45,7 +45,7 @@ class UserModelQuickTests: QuickSpec {
                                   "id": "sampleID",
                                   "secsOfCommercialPerHour": 180,
                                   "dailyListenTimeMS": 50,
-                                  "apotifyPlaylistID": "aSampleSpotifyPlaylistID"
+                                  "spotifyPlaylistID": "aSampleSpotifyPlaylistID"
                                 ]
                 let bob = User(userInfo: userInfo)
                 expect(bob.birthYear).to(equal("1977"))

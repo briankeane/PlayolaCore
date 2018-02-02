@@ -42,7 +42,7 @@ open class RotationItem
     
     //------------------------------------------------------------------------------
     
-    public init(bin:String, song:AudioBlock, userID:String, boo:Int?=nil, eoi:Int?=nil, eom:Int?=nil, history:Array<Dictionary<String,AnyObject>>=[], id:String)
+    public init(id:String="", bin:String="", song:AudioBlock, userID:String="", boo:Int?=nil, eoi:Int?=nil, eom:Int?=nil, history:[Dictionary<String,AnyObject>]=Array())
     {
         self.bin = bin
         self.eoi = eoi

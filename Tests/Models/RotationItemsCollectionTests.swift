@@ -60,6 +60,36 @@ class RotationItemsCollectionModelQuickTests: QuickSpec
                     expect(dataMocker.rotationItemsCollection.rotationItemIDFromSongID("fakeID")).to(beNil())
                 }
             }
+            
+            describe("asList")
+            {
+                var rotationItemsArray:[RotationItem]!
+                var rotationItemsCollection:RotationItemsCollection!
+                
+                beforeEach
+                {
+                    rotationItemsArray = [
+                        RotationItem(id: "1", song: AudioBlock(__t: .song, title: "Apple", artist: "Zebra")),
+                        RotationItem(id: "2", song: AudioBlock(__t: .song, title: "Banana", artist: "Stone")),
+                        RotationItem(id: "3", song: AudioBlock(__t: .song, title: "Cherry", artist: "Kaia")),
+                        RotationItem(id: "4", song: AudioBlock(__t: .song, title: "Cherry", artist: "Ruby")),
+                        RotationItem(id: "5", song: AudioBlock(__t: .song, title: "Fruitcake", artist: "Ruby")),
+                        RotationItem(id: "6", song: AudioBlock(__t: .song, title: "Fruitcake", artist: "Amy"))
+                    ]
+                    rotationItemsCollection = RotationItemsCollection(rotationItems: rotationItemsArray)
+                }
+                it ("returns in order of artist")
+                {
+                    let sortedByArtist = rotationItemsCollection.asList(listOrder: .artist)
+                    expect(sortedByArtist.map({$0.id})).to(equal(["6","3","4","5","2","1"]))
+                }
+                
+                it ("returns in order of song title")
+                {
+                    let sortedByTitle = rotationItemsCollection.asList(listOrder: .title)
+                    expect(sortedByTitle.map({$0.id})).to(equal(["1","2","3","4","6","5"]))
+                }
+            }
         }
     }
     

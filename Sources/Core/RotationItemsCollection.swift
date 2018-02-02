@@ -130,4 +130,61 @@ public struct RotationItemsCollection
         }
     }
     
+    //------------------------------------------------------------------------------
+    
+    public mutating func asList(listOrder:RotationItemsListOrder = .artist) -> [RotationItem]
+    {
+        switch listOrder
+        {
+        case .artist:
+            return self.rotationItemsSortedByArtist()
+        case .title:
+            return self.rotationItemsSortedByTitle()
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    private func rotationItemsSortedByArtist() -> [RotationItem]
+    {
+        return rotationItems.sorted(by: { (itemA, itemB) -> Bool in
+            if let artistA = itemA.song.artist, let artistB = itemB.song.artist
+            {
+                if (artistA == artistB)
+                {
+                    if let titleA = itemA.song.title, let titleB = itemB.song.title
+                    {
+                        return (titleA < titleB)
+                    }
+                }
+                return (artistA < artistB)
+            }
+            return false
+        })
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    private func rotationItemsSortedByTitle() -> [RotationItem]
+    {
+        return rotationItems.sorted(by: { (itemA, itemB) -> Bool in
+            if let titleA = itemA.song.title, let titleB = itemB.song.title
+            {
+                if (titleA == titleB)
+                {
+                    if let artistA = itemA.song.artist, let artistB = itemB.song.artist
+                    {
+                        return (artistA < artistB)
+                    }
+                }
+                return (titleA < titleB)
+            }
+            return false
+        })
+    }
+}
+
+public enum RotationItemsListOrder {
+    case artist
+    case title
 }

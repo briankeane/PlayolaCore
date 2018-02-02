@@ -61,19 +61,6 @@ class AudioBlockModelTests: QuickSpec
                 expect(song.trackViewUrl).to(equal(URL(string:"trackViewUrlSample")))
             }
             
-            it ("defaults to false isCommercialBlock")
-            {
-                let song = AudioBlock(audioBlockInfo: audioBlockInfo)
-                expect(song.isCommercialBlock).to(beFalse())
-            }
-            
-            it ("correctly initializes isCommercialBlock otherwise")
-            {
-                audioBlockInfo["isCommercialBlock"] = true
-                let song = AudioBlock(audioBlockInfo: audioBlockInfo)
-                expect(song.isCommercialBlock).to(beTrue())
-            }
-            
             describe ("__t")
             {
                 it ("CommercialBlock")

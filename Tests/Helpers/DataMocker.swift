@@ -221,13 +221,14 @@ class DataMocker
         {
             let key:String = generateRandomKey(5)
             let bin:String = determineBin(songs.count, index: i)
-            let rotationItem = RotationItem(    bin: bin,
+            let rotationItem = RotationItem(    id: "id\(key)",
+                                                bin: bin,
                                                 song: songs[i],
                                                 userID: userID,
                                                 boo: 170000,
                                                 eoi: 1000,
-                                                eom: 178000,
-                                                id: "id\(key)")
+                                                eom: 178000
+                                                )
             
             rotationItems.append(rotationItem)
         }
