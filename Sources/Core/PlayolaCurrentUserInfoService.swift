@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import PromiseKit
+
 #if os(OSX)
     import Cocoa
 #elseif os(iOS)
@@ -111,6 +113,34 @@ import Foundation
             {
                 (error) -> Void in
                 print(error)
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    open func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if let oldRotationItem = self.rotationItemsCollection?.getRotationItem(rotationItemID: rotationItemID)
+            {
+                oldRotationItem.removalInProgress = true
+                self.updateRotationItemsCollection(rotationItemsCollection: self.rotationItemsCollection!)
+                self.api.deactivateRotationItem(rotationItemID: rotationItemID)
+                .then
+                {
+                    (rotationItemsCollection) -> Void in
+                    self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
+                }
+                .catch
+                {
+                    (error) -> Void in
+                    oldRotationItem.removalInProgress = false
+                    self.updateRotationItemsCollection(rotationItemsCollection: self.rotationItemsCollection!)
+                    reject(error)
+                }
             }
         }
     }

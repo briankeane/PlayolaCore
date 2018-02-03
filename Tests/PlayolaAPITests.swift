@@ -38,20 +38,21 @@ class PlayolaAPITests: QuickSpec
         return nil
     }
     
-    let getMePath                   =        "/api/v1/users/me"
-    let getRotationItemsPath        =        "/api/v1/users/me/rotationItems"
-    let getActiveSessionsCountPath  =        "/api/v1/listeningSessions/activeSessionsCount"
-    let getMyPresetsPath            =        "/api/v1/users/me/presets"
-    let getTopStationsPath          =        "/api/v1/users/topUsers"
-    let updateUserPath              =        "/api/v1/users/me"
-    let findUsersByKeywordsPath     =        "/api/v1/users/findByKeywords"
-    let findSongsByKeywordPath      =        "/api/v1/songs/findByKeywords"
-    let getUsersByAttributesPath    =        "/api/v1/users/getByAttributes"
-    let addSongToBinPath            =        "/api/v1/rotationItems"
-    let changePasswordPath          =        "/api/v1/users/me/changePassword"
-    let resetRotationItemsPath      =        "/api/v1/rotationItems/reset"
-    let startStationPath            =        "/api/v1/users/me/startStation"
-    let createVoiceTrackPath        =        "/api/v1/voiceTracks"
+    let getMePath                           =        "/api/v1/users/me"
+    let getRotationItemsPath                =        "/api/v1/users/me/rotationItems"
+    let getActiveSessionsCountPath          =        "/api/v1/listeningSessions/activeSessionsCount"
+    let getMyPresetsPath                    =        "/api/v1/users/me/presets"
+    let getTopStationsPath                  =        "/api/v1/users/topUsers"
+    let updateUserPath                      =        "/api/v1/users/me"
+    let findUsersByKeywordsPath             =        "/api/v1/users/findByKeywords"
+    let findSongsByKeywordPath              =        "/api/v1/songs/findByKeywords"
+    let getUsersByAttributesPath            =        "/api/v1/users/getByAttributes"
+    let addSongToBinPath                    =        "/api/v1/rotationItems"
+    let changePasswordPath                  =        "/api/v1/users/me/changePassword"
+    let resetRotationItemsPath              =        "/api/v1/rotationItems/reset"
+    let startStationPath                    =        "/api/v1/users/me/startStation"
+    let createVoiceTrackPath                =        "/api/v1/voiceTracks"
+    let removeRotationItemsAndResetPath     =        "/api/v1/rotationItems/removeAndReset"
     
     
     override func spec()
@@ -1361,6 +1362,71 @@ class PlayolaAPITests: QuickSpec
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
                                     done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("RotationItems -- removeAndReset")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getUserRotationItemsSuccess.json",
+                                                  type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.removeRotationItemsAndReset(rotationItemIDs: ["rotationItemID"])
+                        .then
+                        {
+                            (rotationItemsCollection) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.removeRotationItemsAndResetPath))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                            expect((sentBody!["rotationItemIDs"] as! [String])).to(equal(["rotationItemID"]))
+                                
+                            // check response
+                            expect(rotationItemsCollection).toNot(beNil())
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.removeRotationItemsAndReset(rotationItemIDs: ["rotationItemID"])
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
+                            done()
                         }
                     }
                 }

@@ -16,6 +16,7 @@ open class RotationItem
     public var userID:String
     public var history:Array<Dictionary<String,AnyObject>>
     public var id:String
+    public var removalInProgress:Bool = false
     
     //------------------------------------------------------------------------------
     

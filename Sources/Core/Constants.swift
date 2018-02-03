@@ -23,6 +23,7 @@ public struct PlayolaEvents
     public static let currentUserPlaylistAdvanced:Notification.Name! = Notification.Name(rawValue: "kPlayolaCurrentUserPlaylistAdvanced")
     public static let presetsUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaPresetsUpdated")
     public static let rotationItemsCollectionUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaRotationItemsCollectionUpdated")
+    public static let commonUserListUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaCommonUserListUpdated")
     
     // seen by Playola only
     static let getCurrentUserReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaGetMeReceived")

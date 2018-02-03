@@ -1127,7 +1127,7 @@ import PromiseKit
      Updates the current user's info on the playola server.
      
      /// - parameters:
-     ///     - updateInfo: `(Dictionary<String,Any>)` - a dictionary of the properties to update
+     ///     - updateInfo: `([String,Any])` - a dictionary of the properties to update
      
      ### Usage Example: ###
      ````
@@ -1183,32 +1183,89 @@ import PromiseKit
     }
     
     // ----------------------------------------------------------------------------
-    //                          func updateUser
+    //                          func removeRotationItemsAndReset
+    // -----------------------------------------------------------------------------
+    /**
+     Removes the specified rotationItems from rotation and resets the rotationItemsCollection
+     
+     /// - parameters:
+     ///     - rotationItemIDs: `([String])` - an array of the ids of the rotationItems to be removed
+     
+     ### Usage Example: ###
+     ````
+     api.removeRotationItemsAndReset(rotationItemIDs: ["firstRotationItemID", "secondRotationItemID"])
+     .then
+     {
+        (rotationItemsCollection) -> Void in
+        print("rotationItemsCollection updated")
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<RotationItemsCollection>` - a promise that resolves to a rotationItemsCollection
+     * resolves to: RotationItemsCollection
+     * rejects: an APIError
+     */
+    open func removeRotationItemsAndReset(rotationItemIDs:[String]) -> Promise<RotationItemsCollection>
+    {
+        let url = "\(baseURL)/api/v1/rotationItems/removeAndReset"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = ["rotationItemIDs": rotationItemIDs]
+        
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON
+            {
+                (response) -> Void in
+                if let statusCode:Int = response.response?.statusCode
+                {
+                    if (200..<300 ~= statusCode)
+                    {
+                        if let responseDictionary = response.result.value as? [String:Any]
+                        {
+                            let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
+                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                            return fulfill(rotationItemsCollection)
+                        }
+                    }
+                }
+                return reject(APIError(response: response))
+            }
+        }
+    }
+    
+    // ----------------------------------------------------------------------------
+    //                          func changePassword
     // -----------------------------------------------------------------------------
     /**
      Updates the current user's info on the playola server.
      
      /// - parameters:
-     ///     - updateInfo: `(Dictionary<String,Any>)` - a dictionary of the properties to update
+     ///     - oldPassword: `(String)` - duh
+     ///     = newPassword: `(String)` - also duh
      
      ### Usage Example: ###
      ````
-     authService.updateUser(["displayName":""])
+     authService.changePassword(oldPassword: "bobsOldPassword", newPassword: "bobsNewPassword")
      .then
      {
-     (updated) -> Void in
-     print(updatedUser.displayName)
+        (()) -> Void in
+        print("password updated")
      }
      .catch (err)
      {
-     print(err)
+        print(err)
      }
      ````
      
      - returns:
-     `Promise<User>` - a promise
-     * resolves to: an updated user
-     * rejects: an APIError
+     `Promise<Void>` - a promise
      */
     open func changePassword(oldPassword:String, newPassword:String) -> Promise<Void>
     {
@@ -1708,6 +1765,7 @@ import PromiseKit
                             {
                                 let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
                                 let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                                
                                 return fulfill(rotationItemsCollection)
                             }
                         }

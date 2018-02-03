@@ -106,6 +106,20 @@ public struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
+    public func getRotationItem(rotationItemID:String) -> RotationItem?
+    {
+        for item in self.rotationItems
+        {
+            if (item.id == rotationItemID)
+            {
+                return item
+            }
+        }
+        return nil
+    }
+    
+    //------------------------------------------------------------------------------
+    
     public mutating func removeRotationItem(songID:String)
     {
         for i in 0..<self.rotationItems.count
@@ -132,7 +146,7 @@ public struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    public mutating func asList(listOrder:RotationItemsListOrder = .artist) -> [RotationItem]
+    public func asList(listOrder:RotationItemsListOrder = .artist) -> [RotationItem]
     {
         switch listOrder
         {
