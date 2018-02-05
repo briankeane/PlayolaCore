@@ -25,6 +25,7 @@ public struct PlayolaEvents
     public static let rotationItemsCollectionUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaRotationItemsCollectionUpdated")
     public static let commonUserListUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaCommonUserListUpdated")
     public static let stationStarted:Notification.Name! = Notification.Name(rawValue: "kPlayolaStationStarted")
+    public static let playlistViewedAtAirtime:Notification.Name! = Notification.Name(rawValue: "kPlayolaPlaylistViewedAtAirtime")
     
     // seen by Playola only
     static let getCurrentUserReceived:Notification.Name! = Notification.Name(rawValue: "kPlayolaGetMeReceived")

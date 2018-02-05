@@ -45,6 +45,8 @@ import PromiseKit
         }
     }
     
+    open var lastSeenAirtime:Date?
+    
     open var presets:[User]? = nil
     open var rotationItemsCollection:RotationItemsCollection? = nil
     open var presetsRetrievalError:APIError? = nil
@@ -95,6 +97,16 @@ import PromiseKit
                 self.updatePresets(presets: presets, error: nil)
             }
         })
+        
+        // store last viewed airtime if it's latest
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.playlistViewedAtAirtime, object: nil, queue: .main)
+        {
+            (notification) in
+            if let airtime = notification.userInfo?["airtime"] as? Date
+            {
+                self.lastSeenAirtimeReported(airtime: airtime)
+            }
+        })
     }
     
     //------------------------------------------------------------------------------
@@ -143,6 +155,23 @@ import PromiseKit
                 }
             }
         }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    open func lastSeenAirtimeReported(airtime:Date)
+    {
+        // if an airtime exists and it is later than the provided one,
+        // just exit
+        if let oldAirtime = self.lastSeenAirtime
+        {
+            if (oldAirtime > airtime)
+            {
+                return
+            }
+        }
+        self.lastSeenAirtime = airtime
+        puts("new airtime: \(airtime)")
     }
     
     //------------------------------------------------------------------------------
