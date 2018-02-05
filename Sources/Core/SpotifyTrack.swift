@@ -9,7 +9,6 @@ import Alamofire
 import SwiftyJSON
 open class SpotifyTrack:AudioBlock
 {
-    public var spotifyID:String?
     public var artistID:String?
     public var isrc:String?
     public var albumImagesData:JSON?

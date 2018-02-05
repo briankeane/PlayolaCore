@@ -10,18 +10,18 @@ import Foundation
 
 public struct RotationItemsCollection
 {
-    public var rotationItems: Array<RotationItem> = []
+    public var rotationItems: [RotationItem] = Array()
     
     //------------------------------------------------------------------------------
     
-    public init(rawRotationItems: Dictionary<String, Array<Dictionary<String, Any>>>)
+    public init(rawRotationItems: [String:[[String:Any]]])
     {
         self.refresh(rawRotationItems)
     }
     
     //------------------------------------------------------------------------------
     
-    public init(rotationItems:Array<RotationItem>)
+    public init(rotationItems:[RotationItem])
     {
         self.rotationItems = rotationItems
     }
@@ -49,15 +49,47 @@ public struct RotationItemsCollection
     {
         if let _ = id
         {
-            for i in 0..<self.rotationItems.count
+            for rotationItem in rotationItems
             {
-                if (rotationItems[i].song.id == id)
+                if (rotationItem.song.id == id)
                 {
                     return true
                 }
             }
         }
         return false
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func isInRotation(spotifyID:String?) -> Bool
+    {
+        if let spotifyID = spotifyID
+        {
+            for rotationItem in rotationItems
+            {
+                if (rotationItem.song.spotifyID == spotifyID) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func rotationItemFor(spotifyID:String?) -> RotationItem?
+    {
+        if let spotifyID = spotifyID
+        {
+            for rotationItem in rotationItems
+            {
+                if (rotationItem.song.spotifyID == spotifyID) {
+                    return rotationItem
+                }
+            }
+        }
+        return nil
     }
     
     //------------------------------------------------------------------------------

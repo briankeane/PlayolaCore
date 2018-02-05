@@ -29,10 +29,11 @@ open class AudioBlock:NSObject
     public var albumArtworkUrlSmall:URL?
     public var trackViewUrl:URL?
     public var voiceTrackLocalUrl:URL?
+    public var spotifyID:String?
     
     //------------------------------------------------------------------------------
     
-    public init(audioBlockInfo:Dictionary<String,Any> = Dictionary())
+    public init(audioBlockInfo:[String:Any] = Dictionary())
     {
         super.init()
         id = audioBlockInfo["id"] as? String
@@ -54,6 +55,7 @@ open class AudioBlock:NSObject
         albumArtworkUrl = URL(stringOptional: audioBlockInfo["albumArtworkUrl"] as? String)
         albumArtworkUrlSmall = URL(stringOptional: audioBlockInfo["albumArtworkUrlSmall"] as? String)
         trackViewUrl = URL(stringOptional: audioBlockInfo["trackViewUrl"] as? String)
+        spotifyID = audioBlockInfo["spotifyID"] as? String
     }
     
     //------------------------------------------------------------------------------
@@ -78,6 +80,7 @@ open class AudioBlock:NSObject
         self.albumArtworkUrlSmall = original.albumArtworkUrlSmall
         self.trackViewUrl = original.trackViewUrl
         self.audioFileUrl = original.audioFileUrl
+        self.spotifyID = original.spotifyID
     }
     
     //------------------------------------------------------------------------------
@@ -98,7 +101,8 @@ open class AudioBlock:NSObject
          albumArtworkUrl:URL?=nil,
          albumArtworkUrlSmall:URL?=nil,
          trackViewUrl:URL?=nil,
-         voiceTrackLocalUrl:URL?=nil)
+         voiceTrackLocalUrl:URL?=nil,
+         spotifyID:String?=nil)
     {
         super.init()
         self.id = id
@@ -118,6 +122,7 @@ open class AudioBlock:NSObject
         self.albumArtworkUrlSmall = albumArtworkUrlSmall
         self.trackViewUrl = trackViewUrl
         self.voiceTrackLocalUrl = voiceTrackLocalUrl
+        self.spotifyID = spotifyID
     }
     
     //------------------------------------------------------------------------------
@@ -133,7 +138,8 @@ open class AudioBlock:NSObject
                 "albumArtworkUrl": self.albumArtworkUrl as Any,
                 "voiceTrackLocalUrl": self.voiceTrackLocalUrl as Any,
                 "key": self.key as Any,
-                "__t": self.__t as Any
+                "__t": self.__t as Any,
+                "spotifyID": self.spotifyID
                 ]
     }
     

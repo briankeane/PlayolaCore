@@ -227,6 +227,24 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                         expect(userInfoService!.isInPresets(userID: "notInThePresetsID")).to(equal(false))
                     }
                 }
+                
+                describe ("deactivateRotationItem")
+                {
+                    xit ("sets the current ri as .removalInProgress")
+                    {
+                        
+                    }
+                    
+                    xit ("updates on success")
+                    {
+                        
+                    }
+                    
+                    xit ("errors on error and resets .removalInProgress")
+                    {
+                        
+                    }
+                }
             }
         }
     }

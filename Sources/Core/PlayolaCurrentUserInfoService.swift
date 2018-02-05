@@ -128,7 +128,7 @@ import PromiseKit
             {
                 oldRotationItem.removalInProgress = true
                 self.updateRotationItemsCollection(rotationItemsCollection: self.rotationItemsCollection!)
-                self.api.deactivateRotationItem(rotationItemID: rotationItemID)
+                self.api.removeRotationItemsAndReset(rotationItemIDs: [rotationItemID])
                 .then
                 {
                     (rotationItemsCollection) -> Void in
@@ -141,6 +141,28 @@ import PromiseKit
                     self.updateRotationItemsCollection(rotationItemsCollection: self.rotationItemsCollection!)
                     reject(error)
                 }
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    open func createRotationItems(songIDs:[String]) -> Promise<RotationItemsCollection>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            self.api.addSongsToBin(songIDs: songIDs, bin: "light")
+            .then
+            {
+                (rotationItemsCollection) -> Void in
+                self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
+                fulfill(rotationItemsCollection)
+            }
+            .catch
+            {
+                (error) -> Void in
+                reject(error)
             }
         }
     }
@@ -162,6 +184,11 @@ import PromiseKit
                 if (oldUser == nil)
                 {
                     NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo:["user": newCurrentUser as Any])
+                }
+                else if ((oldUser?.program == nil) && (oldUser?.program != nil))
+                {
+                    NotificationCenter.default.post(name: PlayolaEvents.stationStarted, object: nil)
+                    self.getRotationItemsCollection()
                 }
             }
         }

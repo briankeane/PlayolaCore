@@ -1686,7 +1686,7 @@ import PromiseKit
      * resolves to: a RotationItemsCollection
      * rejects: an APIError
      */
-    open func addSongsToBin(songIDs:Array<String>, bin:String) -> Promise<RotationItemsCollection>
+    open func addSongsToBin(songIDs:[String], bin:String) -> Promise<RotationItemsCollection>
     {
         let url = "\(baseURL)/api/v1/rotationItems"
         let headers:HTTPHeaders? = self.headersWithAuth()
@@ -2082,7 +2082,7 @@ import PromiseKit
                             let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
                             var user:User = User(userInfo: rawUser as NSDictionary)
                             user = self.userCache.refresh(user: user)
-                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                             return fulfill(user)
                         }
                     }
