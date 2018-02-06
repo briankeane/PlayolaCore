@@ -207,16 +207,20 @@ class PlayolaAPIMock:PlayolaAPI {
     var getRotationItemsCount:Int = 0
     var getRotationItemsResponse:RotationItemsCollection?
     var getRotationItemsError:APIError?
+    var getRotationItemsShouldNeverReturn:Bool = false
     override func getRotationItems() -> Promise<RotationItemsCollection> {
         self.getRotationItemsCount += 1
         return Promise
         {
             (fulfill, reject) -> Void in
-            if (self.getRotationItemsShouldSucceed)
+            if (!self.getRotationItemsShouldNeverReturn)
             {
-                return fulfill(self.getRotationItemsResponse!)
+                if (self.getRotationItemsShouldSucceed)
+                {
+                    return fulfill(self.getRotationItemsResponse!)
+                }
+                return reject(self.getRotationItemsError!)
             }
-            return reject(self.getRotationItemsError!)
         }
     }
     

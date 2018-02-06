@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */; };
+		4B0CA145202A3785005E4A5F /* APIErrorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0CA144202A3785005E4A5F /* APIErrorMock.swift */; };
+		4B0CA146202A3785005E4A5F /* APIErrorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0CA144202A3785005E4A5F /* APIErrorMock.swift */; };
 		4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */; };
 		4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */; };
 		4B139F4B1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B139F4A1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift */; };
@@ -405,6 +407,7 @@
 		2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.release.xcconfig"; sourceTree = "<group>"; };
 		43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4B0CA144202A3785005E4A5F /* APIErrorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorMock.swift; sourceTree = "<group>"; };
 		4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = songSearchResultsSuccess.json; path = ../Tests/APIJson/songSearchResultsSuccess.json; sourceTree = "<group>"; };
 		4B139F4A1F7BED81007021FA /* StationPlayingAutoUpdatingLabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StationPlayingAutoUpdatingLabelTests.swift; path = ../Tests/StationPlayingAutoUpdatingLabelTests.swift; sourceTree = "<group>"; };
 		4B139F4D1F7C06E6007021FA /* NowPlayingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingLabel.swift; path = ../Sources/Player/NowPlayingLabel.swift; sourceTree = "<group>"; };
@@ -911,6 +914,7 @@
 				4B42C5741F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift */,
 				4BA66CB11F66CA560097F04D /* UserModelMock.swift */,
 				4B2D38B71F7AABA4006F6348 /* PlayolaStationPlayerMock.swift */,
+				4B0CA144202A3785005E4A5F /* APIErrorMock.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -1579,6 +1583,7 @@
 				4B361C101F44B54E00654968 /* SpinModel.swift in Sources */,
 				4BA3DA651F7D53810013491E /* StationPlayingProfileImageView.swift in Sources */,
 				4BF434B71F7ECB4600E79F59 /* AutoUpdatingPlayButtonWithText.swift in Sources */,
+				4B0CA145202A3785005E4A5F /* APIErrorMock.swift in Sources */,
 				4BE007141F4757E40010C420 /* APIErrorTests.swift in Sources */,
 				4B1F658F1F5202F2003CC78A /* PlayolaModelRefreshHandler.swift in Sources */,
 				4B2D38B81F7AABA4006F6348 /* PlayolaStationPlayerMock.swift in Sources */,
@@ -1756,6 +1761,7 @@
 				4B139F511F7C06E6007021FA /* NowPlayingLabel.swift in Sources */,
 				4BA66CB01F65FEA90097F04D /* PlayolaSchedulerTests.swift in Sources */,
 				4B221DDA20051AA000575D6A /* AudioBlockType.swift in Sources */,
+				4B0CA146202A3785005E4A5F /* APIErrorMock.swift in Sources */,
 				4BC1C3051F48E62A00B7415C /* PAPEvents.swift in Sources */,
 				4B361C371F44BAA700654968 /* DateExtensions.swift in Sources */,
 				4B7C90B91FACF308004EBC0B /* Playola.swift in Sources */,

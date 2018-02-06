@@ -100,6 +100,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                         observers.append(observer1)
                         
                         apiMock.getPresetsPresets = presets
+                        apiMock.getRotationItemsResponse = dataMocker.rotationItemsCollection
                         
                         // simulate receiving user
                         NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": updatedUser])
@@ -167,6 +168,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                 {
                     it ("loads presets on .signedIn")
                     {
+                        apiMock.getRotationItemsShouldNeverReturn = true
                         apiMock.getPresetsShouldSucceed = true
                         apiMock.getPresetsPresets = presets
                         NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo: nil)
@@ -311,7 +313,6 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                                     .then
                                     {
                                         (newRotationItemsCollection) -> Void in
-                                        let riIDs = newRotationItemsCollection.rotationItems.map({$0.id})
                                         expect(apiMock.removeRotationItemsAndResetCount).to(equal(1))
                                         expect(apiMock.removeRotationItemsAndResetArgs[0]["rotationItemIDs"] as? [String]).to(equal([riToRemove.id]))
                                         done()
@@ -369,14 +370,63 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                             }
                         }
                         
-                        xit ("updates on success")
+                        describe ("api error")
                         {
+                            var riToRemove:RotationItem!
+                            var responseRotationItemsCollection:RotationItemsCollection!
                             
-                        }
-                        
-                        xit ("errors on error and resets .removalInProgress")
-                        {
+                            beforeEach
+                            {
+                                userInfoService!.rotationItemsCollection = dataMocker.rotationItemsCollection
+                                riToRemove = userInfoService!.rotationItemsCollection!.rotationItems[2]
+                                responseRotationItemsCollection = RotationItemsCollection(rotationItems: userInfoService!.rotationItemsCollection!.rotationItems)
+                                responseRotationItemsCollection.rotationItems.remove(at: 2)
+                                apiMock.removeRotationItemsAndResetShouldSucceed = false
+                                apiMock.removeRotationItemsAndResetError = APIErrorMock(type: APIErrorType.badRequest)
+                            }
                             
+                            it ("resets .removalInProgress")
+                            {
+                                waitUntil
+                                {
+                                    (done) -> Void in
+                                    userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
+                                    .then
+                                    {
+                                        (newRotationItemsCollection) -> Void in
+                                        fail("deactivateRotationItem should not have succeeded")
+                                    }
+                                    .catch
+                                    {
+                                        (error) -> Void in
+                                        let riIDs = userInfoService!.rotationItemsCollection!.rotationItems.map({$0.id})
+                                        expect(riIDs).to(contain(riToRemove.id))
+                                    expect(userInfoService!.rotationItemsCollection!.rotationItems.count).to(equal(dataMocker.rotationItemsCollection.rotationItems.count))
+                                        expect(userInfoService!.rotationItemsCollection!.rotationItemFor(rotationItemID: riToRemove.id)?.removalInProgress).to(equal(false))
+                                        done()
+                                    }
+                                }
+                            }
+                            
+                            it ("passes along the error")
+                            {
+                                waitUntil
+                                {
+                                    (done) -> Void in
+                                    userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
+                                    .then
+                                    {
+                                        (newRotationItemsCollection) -> Void in
+                                        fail("deactivateRotationItem should not have succeeded")
+                                    }
+                                    .catch
+                                    {
+                                        (error) -> Void in
+                                        expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
+                                        done()
+                                    }
+                                }
+                            }
                         }
                     }
                 }
