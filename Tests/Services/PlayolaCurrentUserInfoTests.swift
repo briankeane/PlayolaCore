@@ -228,6 +228,39 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                     }
                 }
                 
+                describe ("lastSeenAirtimeReported")
+                {
+                    it ("initializes as nil")
+                    {
+                        expect(userInfoService!.lastSeenAirtime).to(beNil())
+                    }
+                    
+                    it ("records a later time if starting with nil")
+                    {
+                        userInfoService!.lastSeenAirtime = nil
+                        let newDate = Date.init(dateString: "2016-04-15 13:02:00")
+                        NotificationCenter.default.post(name: PlayolaEvents.playlistViewedAtAirtime, object: nil, userInfo: ["airtime": newDate ])
+                        expect(userInfoService!.lastSeenAirtime).toEventually(equal(newDate))
+                    }
+                    
+                    it ("records a later time if starting with earlier date")
+                    {
+                        let earlierDate = Date.init(dateString: "2016-04-15 13:02:00")
+                        let laterDate = Date.init(dateString: "2016-04-15 14:30:00")
+                        userInfoService!.lastSeenAirtime = earlierDate
+                        NotificationCenter.default.post(name: PlayolaEvents.playlistViewedAtAirtime, object: nil, userInfo: ["airtime": laterDate ])
+                        expect(userInfoService!.lastSeenAirtime).toEventually(equal(laterDate))
+                    }
+                    
+                    it ("does not record an earlier time")
+                    {
+                        userInfoService!.lastSeenAirtime = Date.init(dateString: "2016-04-15 13:02:00")
+                        let earlierDate = Date.init(dateString: "2016-04-15 12:00:00")
+                        NotificationCenter.default.post(name: PlayolaEvents.playlistViewedAtAirtime, object: nil, userInfo: ["airtime": earlierDate ])
+                        expect(userInfoService!.lastSeenAirtime).toNotEventually(equal(earlierDate))
+                    }
+                }
+                
                 describe ("deactivateRotationItem")
                 {
                     xit ("sets the current ri as .removalInProgress")

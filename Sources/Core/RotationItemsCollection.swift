@@ -10,7 +10,30 @@ import Foundation
 
 public struct RotationItemsCollection
 {
-    public var rotationItems: [RotationItem] = Array()
+    public var rotationItems: [RotationItem] = Array() {
+        didSet
+        {
+            // create searchables along with the array
+            self.rotationItemsByID = Dictionary()
+            self.rotationItemsBySpotifyID = Dictionary()
+            for rotationItem in rotationItems
+            {
+                self.rotationItemsByID[rotationItem.id] = rotationItem
+                if let spotifyID = rotationItem.song.spotifyID
+                {
+                    self.rotationItemsBySpotifyID[spotifyID] = rotationItem
+                }
+                if let songID = rotationItem.song.id
+                {
+                    self.rotationItemsBySongID[songID] = rotationItem
+                }
+            }
+        }
+    }
+    
+    public var rotationItemsByID:[String:RotationItem] = Dictionary()
+    public var rotationItemsBySpotifyID:[String:RotationItem] = Dictionary()
+    public var rotationItemsBySongID:[String:RotationItem] = Dictionary()
     
     //------------------------------------------------------------------------------
     
@@ -62,34 +85,49 @@ public struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    public func isInRotation(spotifyID:String?) -> Bool
-    {
-        if let spotifyID = spotifyID
-        {
-            for rotationItem in rotationItems
-            {
-                if (rotationItem.song.spotifyID == spotifyID) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-    
-    //------------------------------------------------------------------------------
-    
     public func rotationItemFor(spotifyID:String?) -> RotationItem?
     {
         if let spotifyID = spotifyID
         {
-            for rotationItem in rotationItems
-            {
-                if (rotationItem.song.spotifyID == spotifyID) {
-                    return rotationItem
-                }
-            }
+            return self.rotationItemsBySpotifyID[spotifyID]
         }
         return nil
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func rotationItemFor(songID:String?) -> RotationItem?
+    {
+        if let songID = songID
+        {
+            return self.rotationItemsBySongID[songID]
+        }
+        return nil
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func rotationItemFor(rotationItemID:String?) -> RotationItem?
+    {
+        if let rotationItemID = rotationItemID
+        {
+            return self.rotationItemsByID[rotationItemID]
+        }
+        return nil
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func isInRotation(songID: String?) -> Bool
+    {
+        return (self.rotationItemFor(songID: songID) != nil)
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func isInRotation(spotifyID:String?) -> Bool
+    {
+        return (self.rotationItemFor(spotifyID: spotifyID) != nil)
     }
     
     //------------------------------------------------------------------------------
