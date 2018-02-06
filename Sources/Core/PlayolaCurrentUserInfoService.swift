@@ -145,6 +145,7 @@ import PromiseKit
                 {
                     (rotationItemsCollection) -> Void in
                     self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
+                    return fulfill(rotationItemsCollection)
                 }
                 .catch
                 {

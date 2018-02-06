@@ -202,4 +202,67 @@ class PlayolaAPIMock:PlayolaAPI {
             return reject(self.requestSongBySpotifyIDError!)
         }
     }
+    
+    var getRotationItemsShouldSucceed:Bool = true
+    var getRotationItemsCount:Int = 0
+    var getRotationItemsResponse:RotationItemsCollection?
+    var getRotationItemsError:APIError?
+    override func getRotationItems() -> Promise<RotationItemsCollection> {
+        self.getRotationItemsCount += 1
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (self.getRotationItemsShouldSucceed)
+            {
+                return fulfill(self.getRotationItemsResponse!)
+            }
+            return reject(self.getRotationItemsError!)
+        }
+    }
+    
+    var deactivateRotationItemShouldSucceed:Bool = true
+    var deactivateRotationItemCount:Int = 0
+    var deactivateRotationItemArgs:[[String:Any]] = Array()
+    var deactivateRotationItemResponse:RotationItemsCollection?
+    var deactivateRotationItemError:APIError?
+    var deactivateRotationItemShouldNeverReturn:Bool = false
+    override func deactivateRotationItem(rotationItemID: String) -> Promise<RotationItemsCollection> {
+        self.deactivateRotationItemCount += 1
+        self.deactivateRotationItemArgs.append(["rotationItemID": rotationItemID])
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (!self.deactivateRotationItemShouldNeverReturn)
+            {
+                if (self.deactivateRotationItemShouldSucceed)
+                {
+                    return fulfill(self.deactivateRotationItemResponse!)
+                }
+                return reject(self.deactivateRotationItemError!)
+            }
+        }
+    }
+    
+    var removeRotationItemsAndResetShouldSucceed:Bool = true
+    var removeRotationItemsAndResetCount:Int = 0
+    var removeRotationItemsAndResetArgs:[[String:Any]] = Array()
+    var removeRotationItemsAndResetResponse:RotationItemsCollection?
+    var removeRotationItemsAndResetError:APIError?
+    var removeRotationItemsAndResetShouldNeverReturn:Bool = false
+    override func removeRotationItemsAndReset(rotationItemIDs: [String]) -> Promise<RotationItemsCollection> {
+        self.removeRotationItemsAndResetCount += 1
+        self.removeRotationItemsAndResetArgs.append(["rotationItemIDs": rotationItemIDs])
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            if (!self.removeRotationItemsAndResetShouldNeverReturn)
+            {
+                if (self.removeRotationItemsAndResetShouldSucceed)
+                {
+                    return fulfill(self.removeRotationItemsAndResetResponse!)
+                }
+                return reject(self.removeRotationItemsAndResetError!)
+            }
+        }
+    }
 }
