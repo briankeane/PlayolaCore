@@ -14,4 +14,8 @@ public enum SongStatus:Int
     case processing = 9203
     case failedToAcquire = 9400
     case notFound = 9404
+    
+    // not backend related
+    case addingToCollection = 20000
+    case removingFromCollection = 20001
 }

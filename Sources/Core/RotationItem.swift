@@ -22,15 +22,15 @@ open class RotationItem
     
     public init(rawDictionary:Dictionary<String,Any>)
     {
-        if let eoi = rawDictionary["eoi"] as! Int?
+        if let eoi = rawDictionary["eoi"] as? Int
         {
             self.eoi = eoi
         }
-        if let eom = rawDictionary["eom"] as! Int?
+        if let eom = rawDictionary["eom"] as? Int
         {
             self.eom = eom
         }
-        if let boo = rawDictionary["boo"] as! Int?
+        if let boo = rawDictionary["boo"] as? Int
         {
             self.boo = boo
         }
@@ -53,5 +53,21 @@ open class RotationItem
         self.userID = userID
         self.history = history
         self.id = id
+    }
+    
+    public func toDictionary() -> [String:Any]
+    {
+        return [
+            "eoi": self.eoi,
+            "eom": self.eom,
+            "boo": self.boo,
+            "bin": self.bin,
+            "song": self.song.toDictionary(),
+            "userID": self.userID,
+            "history": self.history,
+            "id": self.id,
+            "removalInProgress": self.removalInProgress
+        
+        ]
     }
 }

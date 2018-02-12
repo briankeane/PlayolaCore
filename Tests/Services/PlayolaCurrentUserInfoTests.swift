@@ -173,31 +173,31 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                         apiMock.getPresetsPresets = presets
                         NotificationCenter.default.post(name: PlayolaEvents.signedIn, object: nil, userInfo: nil)
                         let presetsIDs = presets.map({$0.id})
-                        expect(userInfoService!.presets?.map({$0.id})).toEventually(equal(presetsIDs))
+                        expect(userInfoService!.favorites?.map({$0.id})).toEventually(equal(presetsIDs))
                     }
                     
                     it ("clears the presets on .signedOut")
                     {
-                        userInfoService!.presets = presets
+                        userInfoService!.favorites = presets
                         NotificationCenter.default.post(name: PlayolaEvents.signedOut, object: nil, userInfo: nil)
-                        expect(userInfoService!.presets).toEventually(beNil())
+                        expect(userInfoService!.favorites).toEventually(beNil())
                     }
                     
                    it ("updates the presets on .currentUserPresetsReceived")
                    {
-                        userInfoService?.presets = presets
+                        userInfoService?.favorites = presets
 
                         NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": replacementPresets])
                         let replacementIDs = replacementPresets.map({$0.id})
-                        expect(userInfoService!.presets?.map({$0.id})).toEventually(equal(replacementIDs))
+                        expect(userInfoService!.favorites?.map({$0.id})).toEventually(equal(replacementIDs))
                     }
                     
                     it ("broadcasts .presetsUpdated when the presets get updated")
                     {
-                        userInfoService?.presets = presets
-                        let updatedNotification = Notification(name: PlayolaEvents.presetsUpdated, object: nil, userInfo: ["presets": replacementPresets])
+                        userInfoService?.favorites = presets
+                        let updatedNotification = Notification(name: PlayolaEvents.favoritesUpdated, object: nil, userInfo: ["favorites": replacementPresets])
                         expect {
-                            NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": replacementPresets])
+                            NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": replacementPresets])
                         }.toEventually(postNotifications(contain(updatedNotification)))
                     }
                 }
@@ -206,26 +206,26 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                 {
                     it ("returns true if the userID is in the presets")
                     {
-                        userInfoService!.presets = presets
+                        userInfoService!.favorites = presets
                         let isPresentID = presets[2].id!
                         expect(userInfoService!.isInPresets(userID: isPresentID)).to(equal(true))
                     }
                     
                     it ("returns false if it is not")
                     {
-                        userInfoService!.presets = presets
+                        userInfoService!.favorites = presets
                         expect(userInfoService!.isInPresets(userID: "notInThePresetsID")).to(equal(false))
                     }
                     
                     it ("returns false if userID is nil")
                     {
-                        userInfoService!.presets = presets
+                        userInfoService!.favorites = presets
                         expect(userInfoService!.isInPresets(userID: nil)).to(equal(false))
                     }
                     
                     it ("returns fals if presets is nil")
                     {
-                        userInfoService!.presets = nil
+                        userInfoService!.favorites = nil
                         expect(userInfoService!.isInPresets(userID: "notInThePresetsID")).to(equal(false))
                     }
                 }
@@ -287,7 +287,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                             let riToRemove = userInfoService!.rotationItemsCollection!.rotationItems[2]
                             apiMock.removeRotationItemsAndResetShouldNeverReturn = true
                             _ = userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
-                            expect(userInfoService!.rotationItemsCollection?.rotationItemFor(rotationItemID: riToRemove.id)?.removalInProgress).toEventually(equal(true))
+                            expect(userInfoService!.rotationItemsCollection?.getRotationItem(rotationItemID: riToRemove.id)?.removalInProgress).toEventually(equal(true))
                         }
                         
                         describe ("api success")
@@ -402,7 +402,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                                         let riIDs = userInfoService!.rotationItemsCollection!.rotationItems.map({$0.id})
                                         expect(riIDs).to(contain(riToRemove.id))
                                     expect(userInfoService!.rotationItemsCollection!.rotationItems.count).to(equal(dataMocker.rotationItemsCollection.rotationItems.count))
-                                        expect(userInfoService!.rotationItemsCollection!.rotationItemFor(rotationItemID: riToRemove.id)?.removalInProgress).to(equal(false))
+                                        expect(userInfoService!.rotationItemsCollection!.getRotationItem(rotationItemID: riToRemove.id)?.removalInProgress).to(equal(false))
                                         done()
                                     }
                                 }

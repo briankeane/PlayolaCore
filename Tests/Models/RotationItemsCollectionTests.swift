@@ -33,21 +33,6 @@ class RotationItemsCollectionModelQuickTests: QuickSpec
                 }
             }
             
-            describe ("isInRotation")
-            {
-                it ("works if it should be true")
-                {
-                    let song:Dictionary<String,AnyObject> = dataMocker.rawRotationItemsCollection["heavy"]![0]["song"]! as! Dictionary<String, AnyObject>
-                    let id = song["id"] as! String
-                    expect(dataMocker.rotationItemsCollection.isInRotation(id)).to(beTrue())
-                }
-                
-                it ("works if it should be false")
-                {
-                    expect(dataMocker.rotationItemsCollection.isInRotation("fakeID")).to(beFalse())
-                }
-            }
-            
             describe("rotationItemIDFromSongID")
             {
                 it ("returns the correct rotationItemID")
@@ -88,6 +73,79 @@ class RotationItemsCollectionModelQuickTests: QuickSpec
                 {
                     let sortedByTitle = rotationItemsCollection.asList(listOrder: .title)
                     expect(sortedByTitle.map({$0.id})).to(equal(["1","2","3","4","6","5"]))
+                }
+            }
+            
+            describe ("getters / existence checkers")
+            {
+                var rotationItemsArray:[RotationItem]!
+                var rotationItemsCollection:RotationItemsCollection!
+                
+                beforeEach
+                {
+                    rotationItemsArray = [
+                        RotationItem(id: "0", song: AudioBlock(id: "audioBlockID0", __t: .song, title: "Apple", artist: "Zebra", spotifyID: "spotifyID0")),
+                        RotationItem(id: "1", song: AudioBlock(id: "audioBlockID1", __t: .song, title: "Banana", artist: "Stone", spotifyID: "spotifyID1")),
+                        RotationItem(id: "2", song: AudioBlock(id: "audioBlockID2", __t: .song, title: "Cherry", artist: "Kaia", spotifyID: "spotifyID2")),
+                        RotationItem(id: "3", song: AudioBlock(id: "audioBlockID3", __t: .song, title: "Cherry", artist: "Ruby", spotifyID: "spotifyID3")),
+                        RotationItem(id: "4", song: AudioBlock(id: "audioBlockID4", __t: .song, title: "Fruitcake", artist: "Ruby", spotifyID: "spotifyID4")),
+                        RotationItem(id: "5", song: AudioBlock(id: "audioBlockID5", __t: .song, title: "Fruitcake", artist: "Amy", spotifyID: "spotifyID5"))
+                    ]
+                    rotationItemsCollection = RotationItemsCollection(rotationItems: rotationItemsArray)
+                }
+                
+                describe ("fetchers")
+                {
+                    it ("by spotifyID")
+                    {
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "spotifyID3")!.id).to(equal(rotationItemsArray[3].id))
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "spotifyID3")!.id).to(equal(rotationItemsArray[3].id))
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "spotifyID3")!.id).to(equal(rotationItemsArray[3].id))
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "wrongID")).to(beNil())
+                    }
+                    
+                    it ("by rotationItemID")
+                    {
+                        expect(rotationItemsCollection.getRotationItem(rotationItemID: "3")!.song.spotifyID).to(equal(rotationItemsArray[3].song.spotifyID))
+                        expect(rotationItemsCollection.getRotationItem(rotationItemID: "4")!.song.spotifyID).to(equal(rotationItemsArray[4].song.spotifyID))
+                        expect(rotationItemsCollection.getRotationItem(rotationItemID: "5")!.song.spotifyID).to(equal(rotationItemsArray[5].song.spotifyID))
+                        expect(rotationItemsCollection.getRotationItem(rotationItemID: "wrongID")).to(beNil())
+                    }
+                    
+                    it ("by songID")
+                    {
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "spotifyID3")!.id).to(equal(rotationItemsArray[3].id))
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "spotifyID3")!.id).to(equal(rotationItemsArray[3].id))
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "spotifyID3")!.id).to(equal(rotationItemsArray[3].id))
+                        expect(rotationItemsCollection.getRotationItem(spotifyID: "wrongID")).to(beNil())
+                    }
+                }
+                
+                describe ("check for existence")
+                {
+                    it ("by spotifyID")
+                    {
+                        expect(rotationItemsCollection.contains(spotifyID: "spotifyID3")).to(equal(true))
+                        expect(rotationItemsCollection.contains(spotifyID: "spotifyID3")).to(equal(true))
+                        expect(rotationItemsCollection.contains(spotifyID: "spotifyID3")).to(equal(true))
+                        expect(rotationItemsCollection.contains(spotifyID: "wrongID")).to(equal(false))
+                    }
+                    
+                    it ("by rotationItemID")
+                    {
+                        expect(rotationItemsCollection.contains(rotationItemID: "3")).to(equal(true))
+                        expect(rotationItemsCollection.contains(rotationItemID: "4")).to(equal(true))
+                        expect(rotationItemsCollection.contains(rotationItemID: "5")).to(equal(true))
+                        expect(rotationItemsCollection.contains(rotationItemID: "wrongID")).to(equal(false))
+                    }
+                    
+                    it ("by songID")
+                    {
+                        expect(rotationItemsCollection.contains(spotifyID: "spotifyID3")).to(equal(true))
+                        expect(rotationItemsCollection.contains(spotifyID: "spotifyID3")).to(equal(true))
+                        expect(rotationItemsCollection.contains(spotifyID: "spotifyID3")).to(equal(true))
+                        expect(rotationItemsCollection.contains(spotifyID: "wrongID")).to(equal(false))
+                    }
                 }
             }
         }

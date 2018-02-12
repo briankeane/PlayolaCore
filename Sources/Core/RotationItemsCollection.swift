@@ -39,14 +39,15 @@ public struct RotationItemsCollection
     
     public init(rawRotationItems: [String:[[String:Any]]])
     {
-        self.refresh(rawRotationItems)
+        // allows didSet to be called
+        defer { self.refresh(rawRotationItems) }
     }
     
     //------------------------------------------------------------------------------
     
     public init(rotationItems:[RotationItem])
     {
-        self.rotationItems = rotationItems
+        defer { self.rotationItems = rotationItems }
     }
     
     //------------------------------------------------------------------------------
@@ -68,24 +69,28 @@ public struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    public func isInRotation(_ id:String?) -> Bool
+    public func contains(rotationItemID:String?) -> Bool
     {
-        if let _ = id
-        {
-            for rotationItem in rotationItems
-            {
-                if (rotationItem.song.id == id)
-                {
-                    return true
-                }
-            }
-        }
-        return false
+        return (self.getRotationItem(rotationItemID: rotationItemID) != nil)
     }
     
     //------------------------------------------------------------------------------
     
-    public func rotationItemFor(spotifyID:String?) -> RotationItem?
+    public func contains(songID:String?) -> Bool
+    {
+        return (self.getRotationItem(songID: songID) != nil)
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func contains(spotifyID:String?) -> Bool
+    {
+        return (self.getRotationItem(spotifyID: spotifyID) != nil)
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func getRotationItem(spotifyID:String?) -> RotationItem?
     {
         if let spotifyID = spotifyID
         {
@@ -96,7 +101,7 @@ public struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    public func rotationItemFor(songID:String?) -> RotationItem?
+    public func getRotationItem(songID:String?) -> RotationItem?
     {
         if let songID = songID
         {
@@ -107,27 +112,13 @@ public struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
-    public func rotationItemFor(rotationItemID:String?) -> RotationItem?
+    public func getRotationItem(rotationItemID:String?) -> RotationItem?
     {
         if let rotationItemID = rotationItemID
         {
             return self.rotationItemsByID[rotationItemID]
         }
         return nil
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    public func isInRotation(songID: String?) -> Bool
-    {
-        return (self.rotationItemFor(songID: songID) != nil)
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    public func isInRotation(spotifyID:String?) -> Bool
-    {
-        return (self.rotationItemFor(spotifyID: spotifyID) != nil)
     }
     
     //------------------------------------------------------------------------------
@@ -155,34 +146,6 @@ public struct RotationItemsCollection
             if self.rotationItems[i].song.id == songID
             {
                 return rotationItems[i].id
-            }
-        }
-        return nil
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    public func getRotationItem(songID:String) -> RotationItem?
-    {
-        for item in self.rotationItems
-        {
-            if (item.song.id == songID)
-            {
-                return item
-            }
-        }
-        return nil
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    public func getRotationItem(rotationItemID:String) -> RotationItem?
-    {
-        for item in self.rotationItems
-        {
-            if (item.id == rotationItemID)
-            {
-                return item
             }
         }
         return nil
@@ -265,6 +228,22 @@ public struct RotationItemsCollection
             }
             return false
         })
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func toRawRotationItemsDictionary() -> [String:[[String:Any]]]
+    {
+        let binList = self.listBins()
+        var rawRotationItemsDict:[String:[[String:Any]]] = Dictionary()
+        for rotationItem in self.rotationItems
+        {
+            if (rawRotationItemsDict[rotationItem.bin] == nil) {
+                rawRotationItemsDict[rotationItem.bin] = Array()
+            }
+            rawRotationItemsDict[rotationItem.bin]?.append(rotationItem.toDictionary())
+        }
+        return rawRotationItemsDict
     }
 }
 

@@ -47,9 +47,9 @@ import PromiseKit
     
     open var lastSeenAirtime:Date?
     
-    open var presets:[User]? = nil
+    open var favorites:[User]? = nil
     open var rotationItemsCollection:RotationItemsCollection? = nil
-    open var presetsRetrievalError:APIError? = nil
+    open var favoritesRetrievalError:APIError? = nil
     fileprivate var observers:[NSObjectProtocol] = Array()
     
     // dependency injections
@@ -77,10 +77,10 @@ import PromiseKit
         {
             (notification) -> Void in
             self.user = nil
-            self.presets = nil
+            self.favorites = nil
         })
         
-        // get the presets on signedIn
+        // get the favorites on signedIn
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedIn, object: nil, queue: .main)
         {
             (notification) -> Void in
@@ -88,13 +88,13 @@ import PromiseKit
             self.getRotationItemsCollection()
         })
         
-        // update the presets when a new version is received
+        // update the favorites when a new version is received
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
         {
             (notification) -> Void in
-            if let presets = notification.userInfo?["presets"] as? [User]
+            if let favorites = notification.userInfo?["favorites"] as? [User]
             {
-                self.updatePresets(presets: presets, error: nil)
+                self.updatePresets(favorites: favorites, error: nil)
             }
         })
         
@@ -231,13 +231,13 @@ import PromiseKit
         self.api.getPresets()
         .then
         {
-            (presets) -> Void in
-            self.updatePresets(presets: presets, error: nil)
+            (favorites) -> Void in
+            self.updatePresets(favorites: favorites, error: nil)
         }
         .catch
         {
             (error) -> Void in
-            self.updatePresets(presets: nil, error: (error as? APIError))
+            self.updatePresets(favorites: nil, error: (error as? APIError))
         }
     }
     
@@ -257,9 +257,9 @@ import PromiseKit
     
     open func isInPresets(userID:String?) -> Bool
     {
-        if let presets = self.presets, let userID = userID
+        if let favorites = self.favorites, let userID = userID
         {
-            for preset in presets
+            for preset in favorites
             {
                 if let id = preset.id
                 {
@@ -275,17 +275,17 @@ import PromiseKit
     
     //------------------------------------------------------------------------------
     
-    private func updatePresets(presets:[User]?, error:APIError?)
+    private func updatePresets(favorites:[User]?, error:APIError?)
     {
         if let error = error
         {
-            self.presetsRetrievalError = error
+            self.favoritesRetrievalError = error
         }
         else
         {
-            self.presetsRetrievalError = nil
-            self.presets = presets
-            NotificationCenter.default.post(name: PlayolaEvents.presetsUpdated, object: nil, userInfo: ["presets": presets as Any])
+            self.favoritesRetrievalError = nil
+            self.favorites = favorites
+            NotificationCenter.default.post(name: PlayolaEvents.favoritesUpdated, object: nil, userInfo: ["favorites": favorites as Any])
         }
     }
     

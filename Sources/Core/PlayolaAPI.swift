@@ -997,19 +997,19 @@ import PromiseKit
     //                          func getPresets
     // -----------------------------------------------------------------------------
     /**
-     Gets a user's presets.  If no userID is provided it gets the current user's
-     presets.
+     Gets a user's favorites.  If no userID is provided it gets the current user's
+     favorites.
      
      - parameters:
-     - userID: `(String?)` - OPTIONAL - the owner of the desired presets.
+     - userID: `(String?)` - OPTIONAL - the owner of the desired favorites.
      
      ### Usage Example: ###
      ````
      authService.getPresets()
      .then
      {
-        (presets) -> Void in
-        for user in presets
+        (favorites) -> Void in
+        for user in favorites
         {
             print(user.name)
         }
@@ -1043,16 +1043,16 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if var presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            if var favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
-                                presets = self.userCache.refresh(users: presets)
+                                favorites = self.userCache.refresh(users: favorites)
                                 
                                 // if this is the current user's then broadcast the update
                                 if (userID == "me")
                                 {
-                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
+                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": favorites])
                                 }
-                                return fulfill(presets)
+                                return fulfill(favorites)
                             }
                         }
                     }
@@ -1307,7 +1307,7 @@ import PromiseKit
      .then
      {
         (updatedPresets) -> Void in
-        self.presets = updatedPresets
+        self.favorites = updatedPresets
      }
      .catch (err)
      {
@@ -1317,7 +1317,7 @@ import PromiseKit
      
      - returns:
      `Promise<Array<User>>` - a promise
-     * resolves to: the updated presets array
+     * resolves to: the updated favorites array
      * rejects: an APIError
      */
     open func follow(broadcasterID:String) -> Promise<Array<User>>
@@ -1337,10 +1337,10 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if let presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            if let favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "favorites")
                             {
-                                let cachedPresets = self.userCache.refresh(users: presets)
-                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": cachedPresets])
+                                let cachedPresets = self.userCache.refresh(users: favorites)
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": cachedPresets])
                                 return fulfill(cachedPresets)
                             }
                         }
@@ -1354,7 +1354,7 @@ import PromiseKit
     //                          func unfollow
     // -----------------------------------------------------------------------------
     /**
-     Removes a user from the currentUser's presets
+     Removes a user from the currentUser's favorites
      
      - parameters:
      - broadcasterID: `(String)` - the id of the user to follow
@@ -1365,7 +1365,7 @@ import PromiseKit
      .then
      {
         (updatedPresets) -> Void in
-        self.presets = updatedPresets
+        self.favorites = updatedPresets
      }
      .catch (err)
      {
@@ -1375,7 +1375,7 @@ import PromiseKit
      
      - returns:
      `Promise<Array<User>>` - a promise
-     * resolves to: the updated presets array
+     * resolves to: the updated favorites array
      * rejects: an APIError
      */
     open func unfollow(broadcasterID:String) -> Promise<Array<User>>
@@ -1395,11 +1395,11 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if var presets = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
+                            if var favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "favorites")
                             {
-                                presets = self.userCache.refresh(users: presets)
-                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["presets": presets])
-                                return fulfill(presets)
+                                favorites = self.userCache.refresh(users: favorites)
+                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": favorites])
+                                return fulfill(favorites)
                             }
                         }
                     }
@@ -1436,7 +1436,7 @@ import PromiseKit
      
      - returns:
      `Promise<Array<User>>` - a promise
-     * resolves to: the updated presets array
+     * resolves to: the updated favorites array
      * rejects: an APIError
      */
     open func findUsersByKeywords(searchString:String) -> Promise<Array<User>>
@@ -1623,7 +1623,7 @@ import PromiseKit
      
      - returns:
      `Promise<Array<User>>` - a promise
-     * resolves to: the updated presets array
+     * resolves to: the updated favorites array
      * rejects: an APIError
      */
     open func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
@@ -1635,7 +1635,7 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters:parameters, headers:headers)
+            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON
                 {
                     (response) -> Void in
@@ -1900,18 +1900,14 @@ import PromiseKit
     }
     
     // ----------------------------------------------------------------------------
-    //                          func insertSpin
+    //                          func shuffleStation
     // -----------------------------------------------------------------------------
     /**
-     Inserts a spin
-     
-     - parameters:
-        - audioBlockID: `(String)` - the id of the audioBlock to insert
-        - playlistPosition: `(Int)` - the desired playlistPosition
+     Shuffles your station
      
      ### Usage Example: ###
      ````
-     api.insertSpin(audioBlockID:"thisIsASpinID", playlistPosition:42)
+     api.shuffleStation()
      .then
      {
         (updatedUser) -> Void in
@@ -1929,16 +1925,16 @@ import PromiseKit
      * resolves to: an updated user
      * rejects: an APIError
      */
-    open func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User>
+    open func shuffleStation() -> Promise<User>
     {
-        let url = "\(baseURL)/api/v1/spins"
+        let url = "\(baseURL)/api/v1/spins/shuffle"
         let headers:HTTPHeaders? = self.headersWithAuth()
-        let parameters:Parameters? = ["audioBlockID": audioBlockID,
-                                      "playlistPosition": playlistPosition]
+        let parameters:Parameters? = nil
+        
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON
                 {
                     (response) -> Void in
@@ -1948,7 +1944,7 @@ import PromiseKit
                         {
                             if let responseData = response.result.value as? [String:Any]
                             {
-                                let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
+                                let rawUser:[String:AnyObject] = (responseData["user"] as? [String:AnyObject])!
                                 var user:User = User(userInfo: rawUser as NSDictionary)
                                 user = self.userCache.refresh(user: user)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
@@ -1957,6 +1953,68 @@ import PromiseKit
                         }
                     }
                     return reject(APIError(response: response))
+                }
+        }
+    }
+    
+    // ----------------------------------------------------------------------------
+    //                          func insertSpin
+    // -----------------------------------------------------------------------------
+    /**
+     Inserts a spin
+     
+     - parameters:
+     - audioBlockID: `(String)` - the id of the audioBlock to insert
+     - playlistPosition: `(Int)` - the desired playlistPosition
+     
+     ### Usage Example: ###
+     ````
+     api.insertSpin(audioBlockID:"thisIsASpinID", playlistPosition:42)
+     .then
+     {
+     (updatedUser) -> Void in
+     print(updatedUser.program?.playlist)
+     }
+     .catch
+     {
+     (error) -> Void in
+     print(error)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: an updated user
+     * rejects: an APIError
+     */
+    open func insertSpin(audioBlockID:String, playlistPosition:Int) -> Promise<User>
+    {
+        let url = "\(baseURL)/api/v1/spins"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = ["audioBlockID": audioBlockID,
+                                      "playlistPosition": playlistPosition]
+        return Promise
+            {
+                (fulfill, reject) -> Void in
+                Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                    .responseJSON
+                    {
+                        (response) -> Void in
+                        if let statusCode = response.response?.statusCode
+                        {
+                            if (200..<300 ~= statusCode)
+                            {
+                                if let responseData = response.result.value as? [String:Any]
+                                {
+                                    let rawUser:Dictionary<String,AnyObject> = (responseData["user"] as? Dictionary<String, AnyObject>)!
+                                    var user:User = User(userInfo: rawUser as NSDictionary)
+                                    user = self.userCache.refresh(user: user)
+                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                                    return fulfill(user)
+                                }
+                            }
+                        }
+                        return reject(APIError(response: response))
                 }
         }
     }

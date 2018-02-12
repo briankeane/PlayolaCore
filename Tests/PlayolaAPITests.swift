@@ -53,6 +53,7 @@ class PlayolaAPITests: QuickSpec
     let startStationPath                    =        "/api/v1/users/me/startStation"
     let createVoiceTrackPath                =        "/api/v1/voiceTracks"
     let removeRotationItemsAndResetPath     =        "/api/v1/rotationItems/removeAndReset"
+    let shuffleStationPath                  =        "/api/v1/spins/shuffle"
     
     
     override func spec()
@@ -1906,6 +1907,79 @@ class PlayolaAPITests: QuickSpec
                             (error) -> Void in
                             let jsonDict = self.readLocalJsonFile("422.json")!
                             
+                            let authError = error as! APIError
+                            expect(authError.message!).to(equal((jsonDict["message"] as! String)))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("shuffleStation")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("updateUserSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.shuffleStation()
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
+                                    
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.shuffleStationPath))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                            
+                            // check response
+                            let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                            let rawID = rawUpdatedUser["id"] as! String
+                            // check response
+                            expect(updatedUser.id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("insertSpin() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.insertSpin(audioBlockID:"thisIsAnAudioBlockID", playlistPosition:42)
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            let jsonDict = self.readLocalJsonFile("422.json")!
+                                    
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()

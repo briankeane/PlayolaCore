@@ -100,7 +100,6 @@ class APIErrorTests: QuickSpec
                     let newErr = APIError(response: response)
                     expect(newErr.type()).to(equal(APIErrorType.passcodeIncorrect))
                 }
-                
             }
         }
     }
