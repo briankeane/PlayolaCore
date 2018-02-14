@@ -347,7 +347,6 @@ class PlayolaAPITests: QuickSpec
                 {
                     var observers:[NSObjectProtocol] = Array()
                     var checkNotificationBlock:((_ notification: Notification) -> ())?
-                    var checkNotificationsFinished:Bool = false
                     
                     beforeEach
                     {

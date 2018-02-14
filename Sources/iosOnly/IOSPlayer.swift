@@ -205,9 +205,7 @@ public class Player: PAPSpinPlayer
         self.storeDuration(file: file)
         
         
-        playerNode.scheduleFile(file, at: nil) {
-            [unowned self] in
-        }
+        playerNode.scheduleFile(file, at: nil)
     }
     
     

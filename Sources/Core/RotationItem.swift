@@ -58,15 +58,15 @@ open class RotationItem
     public func toDictionary() -> [String:Any]
     {
         return [
-            "eoi": self.eoi,
-            "eom": self.eom,
-            "boo": self.boo,
-            "bin": self.bin,
-            "song": self.song.toDictionary(),
-            "userID": self.userID,
-            "history": self.history,
-            "id": self.id,
-            "removalInProgress": self.removalInProgress
+            "eoi": self.eoi as Any,
+            "eom": self.eom as Any,
+            "boo": self.boo as Any,
+            "bin": self.bin as Any,
+            "song": self.song.toDictionary() as Any,
+            "userID": self.userID as Any,
+            "history": self.history as Any,
+            "id": self.id as Any,
+            "removalInProgress": self.removalInProgress as Any
         
         ]
     }

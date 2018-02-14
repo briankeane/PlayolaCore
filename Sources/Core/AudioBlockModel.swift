@@ -139,7 +139,7 @@ open class AudioBlock:NSObject
                 "voiceTrackLocalUrl": self.voiceTrackLocalUrl as Any,
                 "key": self.key as Any,
                 "__t": self.__t as Any,
-                "spotifyID": self.spotifyID
+                "spotifyID": self.spotifyID as Any
                 ]
     }
     

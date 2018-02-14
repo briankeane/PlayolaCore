@@ -923,10 +923,10 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: (response.result.value as? NSDictionary)!["rotationItems"] as! Dictionary<String, Array<Dictionary<String, AnyObject>>>)
-                            {
+                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: (response.result.value as? NSDictionary)!["rotationItems"] as! [String: [[String:AnyObject]]])
+                            
                                 return fulfill(rotationItemsCollection)
-                            }
+                            
                         }
                     }
                     return reject(APIError(response: response))

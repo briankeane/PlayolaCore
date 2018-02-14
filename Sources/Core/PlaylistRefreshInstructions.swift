@@ -58,9 +58,9 @@ open class PlaylistRefreshInstructions: NSObject
             
             if let missingSpinIndex = missingSpinIndex
             {
-                var adjustedOldPlaylist = oldPlaylist!.map({$0.copy()})
+                let adjustedOldPlaylist = oldPlaylist!.map({$0.copy()})
                 
-                var reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: adjustedOldPlaylist)
+                let reloadIndexes = PlaylistRefreshInstructions.differentIndexes(playlist1: newPlaylist!, playlist2: adjustedOldPlaylist)
                 self.init(fullReload: false, removeItemAtIndex: missingSpinIndex, reloadIndexes: reloadIndexes)
             }
             else

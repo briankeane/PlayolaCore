@@ -234,7 +234,6 @@ public struct RotationItemsCollection
     
     public func toRawRotationItemsDictionary() -> [String:[[String:Any]]]
     {
-        let binList = self.listBins()
         var rawRotationItemsDict:[String:[[String:Any]]] = Dictionary()
         for rotationItem in self.rotationItems
         {
