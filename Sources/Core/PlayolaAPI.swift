@@ -1337,7 +1337,7 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if let favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "favorites")
+                            if let favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
                                 let cachedPresets = self.userCache.refresh(users: favorites)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": cachedPresets])
@@ -1395,7 +1395,7 @@ import PromiseKit
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            if var favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "favorites")
+                            if var favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
                             {
                                 favorites = self.userCache.refresh(users: favorites)
                                 NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": favorites])
@@ -1852,15 +1852,14 @@ import PromiseKit
      api.removeSpin(spinID:"thisIsASpinID")
      .then
      {
-     (updatedUser) -> Void in
-     print(updatedUser.program?.playlist)
+        (updatedUser) -> Void in
+        print(updatedUser.program?.playlist)
      }
      .catch
      {
-     (error) -> Void in
-     print(error)
+        (error) -> Void in
+        print(error)
      }
-     
      ````
      
      - returns:
@@ -1946,14 +1945,30 @@ import PromiseKit
                             {
                                 let rawUser:[String:AnyObject] = (responseData["user"] as? [String:AnyObject])!
                                 var user:User = User(userInfo: rawUser as NSDictionary)
+                                if let oldUser = self.userCache.getUser(userID: user.id)
+                                {
+                                    if let oldProgram = oldUser.program
+                                    {
+                                        if let newProgram = user.program
+                                        {
+                                            if let firstDifferentSpin = newProgram.firstDifferentSpin(compareTo: oldProgram)
+                                            {
+
+                                                NotificationCenter.default.post(name: PlayolaEvents.playlistShuffled, object: nil, userInfo: ["firstDifferentSpin": firstDifferentSpin])
+                                                
+                                            }
+                                        }
+                                    }
+                                }
                                 user = self.userCache.refresh(user: user)
-                                NotificationCenter.default.post(name: PlayolaEvents.currentUserUpdated, object: nil, userInfo: ["user": user])
+                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                                 return fulfill(user)
                             }
                         }
                     }
                     return reject(APIError(response: response))
                 }
+        
         }
     }
     

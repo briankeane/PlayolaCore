@@ -277,6 +277,17 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                             expect(apiMock.getRotationItemsCount).toEventually(equal(1))
                             expect(userInfoService!.rotationItemsCollection?.rotationItems.map({$0.id})).toEventually(equal(dataMocker.rotationItemsCollection.rotationItems.map({$0.id})))
                         }
+                        
+                        it ("loads rotationItems on .stationStarted")
+                        {
+                            userInfoService!.rotationItemsCollection = nil
+                            apiMock.getRotationItemsResponse = dataMocker.rotationItemsCollection
+                            apiMock.getPresetsPresets = Array()
+                            
+                            NotificationCenter.default.post(name: PlayolaEvents.stationStarted, object: nil, userInfo: nil)
+                            expect(apiMock.getRotationItemsCount).toEventually(equal(1))
+                            expect(userInfoService!.rotationItemsCollection?.rotationItems.map({$0.id})).toEventually(equal(dataMocker.rotationItemsCollection.rotationItems.map({$0.id})))
+                        }
                     }
                     
                     describe ("deactivation")

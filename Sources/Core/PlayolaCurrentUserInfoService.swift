@@ -46,6 +46,7 @@ import PromiseKit
     }
     
     open var lastSeenAirtime:Date?
+    open var shouldShowSchedule:Bool = false
     
     open var favorites:[User]? = nil
     open var rotationItemsCollection:RotationItemsCollection? = nil
@@ -72,6 +73,20 @@ import PromiseKit
             }
         })
         
+        // change lastSeenAirtime on shuffle
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.playlistShuffled, object: nil, queue: .main)
+        {
+            (notification) -> Void in
+            if let firstDifferentSpin = notification.userInfo?["firstDifferentSpin"] as? Spin
+            {
+                if let airtime = firstDifferentSpin.airtime
+                {
+                    self.lastSeenAirtime = airtime
+                    self.shouldShowSchedule = false
+                }
+            }
+        })
+        
         // Clear on sign out
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedOut, object: nil, queue: .main)
         {
@@ -80,11 +95,18 @@ import PromiseKit
             self.favorites = nil
         })
         
-        // get the favorites on signedIn
+        // get the presets and rotationItems on signedIn
         self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.signedIn, object: nil, queue: .main)
         {
             (notification) -> Void in
             self.getPresets()
+            self.getRotationItemsCollection()
+        })
+        
+        // get rotationItems on .stationStarted
+        self.observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.stationStarted, object: nil, queue: .main)
+        {
+            (notification) -> Void in
             self.getRotationItemsCollection()
         })
         
@@ -171,8 +193,8 @@ import PromiseKit
                 return
             }
         }
+        self.shouldShowSchedule = true
         self.lastSeenAirtime = airtime
-        puts("new airtime: \(airtime)")
     }
     
     //------------------------------------------------------------------------------

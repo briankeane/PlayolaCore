@@ -40,6 +40,15 @@ class UserCache:NSObject
         return users[userID]!
     }
     
+    public func getUser(userID:String?) -> User?
+    {
+        if let userID = userID
+        {
+            return self.users[userID]
+        }
+        return nil
+    }
+    
     public func refresh(users:[User]) -> [User]
     {
         return users.map({self.refresh(user: $0) })

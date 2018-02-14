@@ -384,8 +384,8 @@ class PlayolaAPITests: QuickSpec
                             checkNotificationBlock = {
                                 (notification) -> Void in
                                 let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
-                                let presets = notification.userInfo?["presets"] as! [User]
-                                let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                                let presets = notification.userInfo?["favorites"] as! [User]
+                                let rawPresets = (jsonDict["presets"] as! [NSDictionary])
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
                                 checkNotificationsFinished = true
@@ -696,7 +696,7 @@ class PlayolaAPITests: QuickSpec
                             checkNotificationBlock = {
                                 (notification) -> Void in
                                 let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
-                                let presets = notification.userInfo?["presets"] as! [User]
+                                let presets = notification.userInfo?["favorites"] as! [User]
                                 let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
@@ -859,8 +859,8 @@ class PlayolaAPITests: QuickSpec
                             checkNotificationBlock = {
                                 (notification) -> Void in
                                 let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
-                                let presets = notification.userInfo?["presets"] as! [User]
-                                let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
+                                let presets = notification.userInfo?["favorites"] as! [User]
+                                let rawPresets = (jsonDict["presets"] as! [NSDictionary])
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
                                 checkNotificationsFinished = true
@@ -1183,8 +1183,9 @@ class PlayolaAPITests: QuickSpec
                                     
                                     // check request
                                     expect(sentRequest!.url!.path).to(equal(self.getUsersByAttributesPath))
-                                    expect(sentRequest!.httpMethod).to(equal("GET"))
-                                    expect(sentRequest!.url!.query!).to(equal("displayName=bob&email=bob%40bob.com"))
+                                    expect(sentRequest!.httpMethod).to(equal("POST"))
+                                    expect(sentBody!["displayName"] as! String).to(equal("bob"))
+                                    expect(sentBody!["email"] as! String).to(equal("bob@bob.com"))
                                     
                                     
                                     // check response
