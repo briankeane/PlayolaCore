@@ -15,26 +15,14 @@ public class Player: PAPSpinPlayer
 {
     public var duration: Double = 0
     
-    /// Default properties for the tap
-    enum TapProperties {
-        case `default`
-        
-        /// The amount of samples in each buffer of audio
-        var bufferSize: AVAudioFrameCount {
-            return 512
-        }
-        
-        /// The format of the audio in the tap (desired is float 32, non-interleaved)
-        var format: AVAudioFormat {
-            return AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)!
-        }
-    }
+    // dependencies
+    @objc var playolaMainMixer:PlayolaMainMixer = PlayolaMainMixer.sharedInstance()
     
     /// Namespaced logger
     private static let logger = OSLog(subsystem: "com.ausomeapps", category: "Player")
     
     /// An internal instance of AVAudioEngine
-    private let engine = AVAudioEngine()
+    private let engine:AVAudioEngine! = PlayolaMainMixer.sharedInstance().engine!
     
     /// The node responsible for playing the audio file
     private let playerNode = AVAudioPlayerNode()
@@ -70,9 +58,7 @@ public class Player: PAPSpinPlayer
     
     // MARK: Lifecycle
     
-    deinit {
-        engine.mainMixerNode.removeTap(onBus: 0)
-    }
+    
     
     init(delegate:PlayerDelegate?=nil)
     {
@@ -93,7 +79,7 @@ public class Player: PAPSpinPlayer
         self.delegate = delegate
         /// Make connections
         engine.attach(playerNode)
-        engine.connect(playerNode, to: engine.mainMixerNode, format: TapProperties.default.format)
+        engine.connect(playerNode, to: self.playolaMainMixer.mixerNode, format: TapProperties.default.format)
         engine.prepare()
         
         /// Install tap

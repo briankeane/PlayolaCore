@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
     # s.ios.dependency 'KDCircularProgress', '~> 1.5.2'  # manually include until he fixes cocoapod
 
     
-    s.source_files = 'Sources/**/*.{h,m,swift}'
+    s.source_files = 'Sources/**/*.{h,m,c,swift}'
     s.ios.exclude_files = 'Sources/osxOnly/**/*.{h,m,swift}'
     s.osx.exclude_files = 'Sources/iosOnly/**/*.{h,m,swift}'
     s.resource_bundle = {
