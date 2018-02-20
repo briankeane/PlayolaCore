@@ -16,6 +16,7 @@ public struct PlayolaEvents
     // broadcast by the currentUserInfoService
     /// userInfo: ["user": the current logged in User"]
     public static let signedIn:Notification.Name! = Notification.Name(rawValue: "kPlayolaSignedIn")
+    public static let signInBegan:Notification.Name! = Notification.Name(rawValue: "kPlyaolaSignInBegan")
     public static let currentUserUpdated:Notification.Name! = Notification.Name("kPlayolaCurrentUserUpdated")
     public static let userUpdated:Notification.Name! = Notification.Name(rawValue: "kPlayolaUserUpdated")
     public static let schedulerRefreshedPlaylist:Notification.Name! = Notification.Name(rawValue: "kPlayolaSchedulerRefreshedPlaylist")

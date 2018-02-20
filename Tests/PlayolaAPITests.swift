@@ -67,6 +67,7 @@ class PlayolaAPITests: QuickSpec
             
             afterEach
             {
+                api.operationQueue.cancelAllOperations()
                 OHHTTPStubs.removeAllStubs()
             }
             
@@ -106,14 +107,14 @@ class PlayolaAPITests: QuickSpec
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
-                                    fileAtPath: OHPathForFile("getUserSuccess.json", type(of: self))!,
+                                    fileAtPath: OHPathForFile("updateUserSuccess.json", type(of: self))!,
                                     statusCode: 200,
                                     headers: ["Content-Type":"application/json"]
                     )
                     waitUntil()
                     {
                         (done) in
-                        let jsonDict = self.readLocalJsonFile("getUserSuccess.json")!
+                        let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
                     
                         api.getMe()
                         .then
@@ -124,7 +125,7 @@ class PlayolaAPITests: QuickSpec
                             expect(sentRequest!.httpMethod).to(equal("GET"))
                             
                             // check response
-                            expect(user.id).to(equal(jsonDict["id"] as? String))
+                            expect(user.id).to(equal(((jsonDict["user"] as! [String:Any])["id"] as! String)))
                             done()
                         }
                         .catch
@@ -350,7 +351,6 @@ class PlayolaAPITests: QuickSpec
                     
                     beforeEach
                     {
-                        checkNotificationsFinished = false
                         observers = Array()
                         observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
                         {
@@ -387,7 +387,6 @@ class PlayolaAPITests: QuickSpec
                                 let rawPresets = (jsonDict["presets"] as! [NSDictionary])
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
-                                checkNotificationsFinished = true
                                 done()
                             }
                             
@@ -1088,13 +1087,13 @@ class PlayolaAPITests: QuickSpec
             
             //------------------------------------------------------------------------------
             
-            describe("getUser")
+            describe("getUser()")
             {
                 it ("works")
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
-                        fileAtPath: OHPathForFile("getUserSuccess.json", type(of: self))!,
+                        fileAtPath: OHPathForFile("updateUserSuccess.json", type(of: self))!,
                         statusCode: 200,
                         headers: ["Content-Type":"application/json"]
                     )
@@ -1105,7 +1104,7 @@ class PlayolaAPITests: QuickSpec
                         .then
                         {
                             (user) -> Void in
-                            let jsonDict = self.readLocalJsonFile("getUserSuccess.json")!
+                            let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
                                     
                             // check request
                             expect(sentRequest!.httpMethod).to(equal("GET"))
@@ -1113,7 +1112,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             let userResult = (jsonDict as NSDictionary)
-                            let rawID = userResult["id"] as! String
+                            let rawID = (userResult["user"] as! [String:Any])["id"] as! String
                                     
                             // check response
                             expect(user.id!).to(equal(rawID))
@@ -1122,7 +1121,7 @@ class PlayolaAPITests: QuickSpec
                         .catch
                         {
                             (error) -> Void in
-                            fail("getRotationItems() should not have errored")
+                            fail("getUser() should not have errored")
                             done()
                         }
                     }
@@ -1170,36 +1169,36 @@ class PlayolaAPITests: QuickSpec
                         headers: ["Content-Type":"application/json"]
                     )
                     waitUntil()
+                    {
+                        (done) in
+                        api.getUsersByAttributes(attributes: ["displayName": "bob",
+                                                              "email": "bob@bob.com"
+                        ])
+                        .then
                         {
-                            (done) in
-                            api.getUsersByAttributes(attributes: ["displayName": "bob",
-                                                                     "email": "bob@bob.com"
-                                ])
-                                .then
-                                {
-                                    (searchResults) -> Void in
-                                    let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
+                            (searchResults) -> Void in
+                            let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
                                     
-                                    // check request
-                                    expect(sentRequest!.url!.path).to(equal(self.getUsersByAttributesPath))
-                                    expect(sentRequest!.httpMethod).to(equal("POST"))
-                                    expect(sentBody!["displayName"] as! String).to(equal("bob"))
-                                    expect(sentBody!["email"] as! String).to(equal("bob@bob.com"))
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.getUsersByAttributesPath))
+                            expect(sentRequest!.httpMethod).to(equal("POST"))
+                            expect((sentBody!["displayName"] as! String)).to(equal("bob"))
+                            expect((sentBody!["email"] as! String)).to(equal("bob@bob.com"))
                                     
                                     
-                                    // check response
-                                    let rawUpdatedUser = (jsonDict["searchResults"] as! Array<NSDictionary>)[0]
-                                    let rawID = rawUpdatedUser["id"] as! String
-                                    // check response
-                                    expect(searchResults[0].id!).to(equal(rawID))
-                                    done()
-                                }
-                                .catch
-                                {
-                                    (error) -> Void in
-                                    print(error)
-                                    fail("getUserByAttributes() should not have errored")
-                            }
+                            // check response
+                            let rawUpdatedUser = (jsonDict["searchResults"] as! Array<NSDictionary>)[0]
+                            let rawID = rawUpdatedUser["id"] as! String
+                            // check response
+                            expect(searchResults[0].id!).to(equal(rawID))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getUserByAttributes() should not have errored")
+                        }
                     }
                 }
                 

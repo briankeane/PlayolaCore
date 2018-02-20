@@ -93,6 +93,7 @@ import PromiseKit
             (notification) -> Void in
             self.user = nil
             self.favorites = nil
+            self.lastSeenAirtime = nil
         })
         
         // get the presets and rotationItems on signedIn

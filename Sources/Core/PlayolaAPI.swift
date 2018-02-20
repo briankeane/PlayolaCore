@@ -21,6 +21,15 @@ import PromiseKit
     
     let userCache:UserCache = UserCache.sharedInstance()
     
+    private var _signInPending:Bool = false
+    
+    var operationQueue:OperationQueue = OperationQueue()
+    
+    open func signInPending() -> Bool
+    {
+        return self._signInPending
+    }
+    
     /// use to set your own development Playola server or to
     open func setBaseURL(baseURL:String)
     {
@@ -72,17 +81,20 @@ import PromiseKit
         if let accessToken = defaults.string(forKey: "playolaAccessToken")
         {
             self.accessToken = accessToken
-            
+            NotificationCenter.default.post(name: PlayolaEvents.signInBegan, object: nil)
+            self._signInPending = true
             // trigger update of current user
             self.getMe()
             .then
             {
                 (user) -> Void in
-                
+                self._signInPending = false
             }
             .catch
             {
                 (error) -> Void in
+                self._signInPending = false
+                self.signOut()
             }
         }
     }
@@ -109,9 +121,35 @@ import PromiseKit
         return modifiedHeaders
     }
     
+    private func performAPIOperations(apiCallOp:APIRequestOperation, parsingOp:ParsingOperation, priority:Operation.QueuePriority = .normal) -> Promise<Void>
+    {
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            let dataPasser = BlockOperation()
+            {
+                [unowned parsingOp, unowned apiCallOp] in
+                parsingOp.response = apiCallOp.response
+            }
+            dataPasser.addDependency(apiCallOp)
+            parsingOp.addDependency(dataPasser)
+            parsingOp.completionBlock =
+            {
+                return fulfill(())
+            }
+            
+            apiCallOp.queuePriority = priority
+            dataPasser.queuePriority = priority
+            parsingOp.queuePriority = priority
+            
+            self.operationQueue.addOperations([apiCallOp, dataPasser, parsingOp], waitUntilFinished: false)
+        }
+    }
+    
     deinit
     {
         self.removeObservers()
+        self.operationQueue.cancelAllOperations()
     }
     
     private func removeObservers()
@@ -154,53 +192,49 @@ import PromiseKit
      * rejects: an APIError
      */
     
-    open func loginViaFacebook(accessTokenString:String) -> Promise<(User)>
+    open func loginViaFacebook(accessTokenString:String, priority:Operation.QueuePriority = .normal) -> Promise<User>
     {
+        let method:HTTPMethod = .post
+        let url = "\(baseURL)/auth/facebook/mobile"
+        let parameters:Parameters = ["accessToken":accessTokenString]
+        let headers:HTTPHeaders? = nil
+        
         return Promise
         {
             (fulfill, reject) -> Void in
-            let parameters:Parameters = ["accessToken":accessTokenString]
-            let url = "\(baseURL)/auth/facebook/mobile"
-                
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers:[:])
-            .responseJSON
+            
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseSignInResponseOperation()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
             {
-                (response) -> Void in
-                if let statusCode = response.response?.statusCode
+                () -> Void in
+                if let token = parsingOp.token
                 {
-                    if (200..<300 ~= statusCode)
-                    {
-                        
-                        if let foundUserData = response.result.value as? [String:Any]
-                        {
-                            if let receivedToken = foundUserData["token"] as? String
-                            {
-                                self.setAccessToken(tokenValue: receivedToken)
-                                NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                            }
-                            if let userData = foundUserData["user"] as? NSDictionary
-                            {
-                                var user = User(userInfo: userData)
-                                user = self.userCache.refresh(user: user)
-                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                return fulfill(user)
-                            }
-                        }
-                    }
+                    self.setAccessToken(tokenValue: token)
+                    NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": token])
                 }
-                return reject(APIError(response: response))
+                if var user = parsingOp.user
+                {
+                    user = self.userCache.refresh(user: user)
+                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                    return fulfill(user)
+                }
+                return reject(parsingOp.apiError!)
             }
         }
     }
     
     // -----------------------------------------------------------------------------
-    //                          func loginViaFacebook
+    //                          func loginViaGoogle
     // -----------------------------------------------------------------------------
     /**
-     Logs the user into the playolaServer via the accessToken they received from facebook.
+     Logs the user into the playolaServer via the accessToken they received from google.
      
      - parameters:
-     - accessTokenString: `(String)` - the facebook accessTokenString
+     - accessTokenString: `(String)` - the google accessTokenString
+     - refreshTokenString:`(String)` - the google refreshTokenString
      
      - returns:
      `Promise<User>` - a promise that resolves to the current User
@@ -226,38 +260,35 @@ import PromiseKit
      */
     open func loginViaGoogle(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
     {
+        let method:HTTPMethod = .post
+        let url = "\(baseURL)/auth/google/mobile"
+        let parameters:Parameters = [ "accessToken": accessTokenString,
+                                     "refreshToken": refreshTokenString ]
+        let headers:HTTPHeaders? = nil
+        
         return Promise
         {
             (fulfill, reject) -> Void in
-            let url = "\(baseURL)/auth/google/mobile"
             
-            Alamofire.request(url, method: .post, parameters: ["accessToken":accessTokenString,
-                                                                "refreshToken": refreshTokenString], encoding: JSONEncoding.default)
-            .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseSignInResponseOperation()
+        
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp)
+            .then
             {
-                (response) -> Void in
-                if let statusCode = response.response?.statusCode
+                () -> Void in
+                if let token = parsingOp.token
                 {
-                    if (200..<300 ~= statusCode)
-                    {
-                        if let foundUserData = response.result.value as? [String:Any]
-                        {
-                            if let receivedToken = foundUserData["token"] as? String
-                            {
-                                self.setAccessToken(tokenValue: receivedToken)
-                                NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                            }
-                            if let userData = foundUserData["user"] as? NSDictionary
-                            {
-                                var user = User(userInfo: userData)
-                                user = self.userCache.refresh(user: user)
-                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                return fulfill(user)
-                            }
-                        }
-                    }
+                    self.setAccessToken(tokenValue: token)
+                    NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": token])
                 }
-                return reject(APIError(response: response))
+                if var user = parsingOp.user
+                {
+                    user = self.userCache.refresh(user: user)
+                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                    return fulfill(user)
+                }
+                return reject(parsingOp.apiError!)
             }
         }
     }
@@ -295,41 +326,36 @@ import PromiseKit
      * resolves to: a User
      * rejects: an APIError
      */
-    open func loginLocal(email:String, password:String) -> Promise<User>
+    open func loginLocal(email:String, password:String, priority:Operation.QueuePriority = .normal) -> Promise<User>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/auth/local"
         let parameters:Parameters = ["email": email, "password": password]
+        let headers:HTTPHeaders? = nil
         
         return Promise
         {
-            (fulfill, reject) in
-                
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
-            .responseJSON
+            (fulfill, reject) -> Void in
+            
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseSignInResponseOperation()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
             {
-                (response) -> Void in
-                if let statusCode = response.response?.statusCode
+                () -> Void in
+                if let token = parsingOp.token
                 {
-                    if (200..<300 ~= statusCode)
-                    {
-                        if let foundUserData = response.result.value as? [String:Any]
-                        {
-                            if let receivedToken = foundUserData["token"] as? String
-                            {
-                            self.setAccessToken(tokenValue: receivedToken)
-                            NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                            }
-                            if let userData = foundUserData["user"] as? NSDictionary
-                            {
-                                var user = User(userInfo: userData)
-                                user = self.userCache.refresh(user: user)
-                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                return fulfill(user)
-                            }
-                        }
-                    }
+                    self.setAccessToken(tokenValue: token)
+                    NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": token])
                 }
-                return reject(APIError(response: response))
+                if var user = parsingOp.user
+                {
+                    user = self.userCache.refresh(user: user)
+                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                    return fulfill(user)
+                }
+                return reject(parsingOp.apiError!)
             }
         }
     }
@@ -365,40 +391,28 @@ import PromiseKit
      * resolves to: a User
      * rejects: an APIError
      */
-    open func requestSongBySpotifyID(spotifyID:String) -> Promise<(songStatus:SongStatus, song:AudioBlock?)>
+    open func requestSongBySpotifyID(spotifyID:String, priority:Operation.QueuePriority = .normal) -> Promise<(songStatus:SongStatus, song:AudioBlock?)>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/songs/requestViaSpotifyID/\(spotifyID)"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
+        
         return Promise
         {
             (fulfill, reject) in
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseRequestSongBySpotifyIDOperation()
             
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
             {
-                (response) -> Void in
-                if let resultDict = response.result.value as? [String:Any?]
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    if let songStatusInt = (resultDict["songStatus"] as? [String:Any?])?["code"] as? Int
-                    {
-                        if let songStatus = SongStatus(rawValue: songStatusInt)
-                        {
-                            var song:AudioBlock?
-                            
-                            // add the song if it has been included
-                            if (songStatus == .songExists)
-                            {
-                                if let songDict = resultDict["song"] as? [String:Any]
-                                {
-                                    song = AudioBlock(audioBlockInfo: songDict)
-                                }
-                            }
-                            return fulfill((songStatus: songStatus, song: song))
-                        }
-                    }
+                    return reject(err)
                 }
-                return reject(APIError(response: response))
+                return fulfill((songStatus: parsingOp.songStatus!, song: parsingOp.song))
             }
         }
     }
@@ -437,40 +451,28 @@ import PromiseKit
      * that resolves to: a User
      * rejects: an APIError
      */
-    open func createVoiceTrack(voiceTrackURL:String) -> Promise<(voiceTrackStatus:VoiceTrackStatus, voiceTrack:AudioBlock?)>
+    open func createVoiceTrack(voiceTrackURL:String, priority:Operation.QueuePriority = .normal) -> Promise<(voiceTrackStatus:VoiceTrackStatus, voiceTrack:AudioBlock?)>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/voiceTracks/"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = [ "url": voiceTrackURL ]
+        
         return Promise
         {
             (fulfill, reject) in
-                
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseCreateVoiceTrackOperation()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
             {
-                (response) -> Void in
-                if let resultDict = response.result.value as? [String:Any?]
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    if let voiceTrackStatusInt = (resultDict["voiceTrackStatus"] as? [String:Any?])?["code"] as? Int
-                    {
-                        if let voiceTrackStatus = VoiceTrackStatus(rawValue: voiceTrackStatusInt)
-                        {
-                            var voiceTrack:AudioBlock?
-                            
-                            // add the song if it has been included
-                            if (voiceTrackStatus == .completed)
-                            {
-                                if let voiceTrackDict = resultDict["voiceTrack"] as? [String:Any]
-                                {
-                                    voiceTrack = AudioBlock(audioBlockInfo: voiceTrackDict)
-                                }
-                            }
-                            return fulfill((voiceTrackStatus: voiceTrackStatus, voiceTrack: voiceTrack))
-                        }
-                    }
+                    return reject(err)
                 }
-                return reject(APIError(response: response))
+                return fulfill((voiceTrackStatus: parsingOp.voiceTrackStatus!, voiceTrack: parsingOp.voiceTrack))
             }
         }
     }
@@ -509,43 +511,36 @@ import PromiseKit
      * resolves to: a User
      * rejects: an APIError
      */
-    open func createUser(emailConfirmationID:String, passcode:String) -> Promise<User>
+    open func createUser(emailConfirmationID:String, passcode:String, priority:Operation.QueuePriority = .veryHigh) -> Promise<User>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/users"
         let parameters:Parameters = ["emailConfirmationID": emailConfirmationID, "passcode": passcode]
+        let headers:HTTPHeaders? = nil
         
         return Promise
         {
             (fulfill, reject) in
-                
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseSignInResponseOperation()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if let token = parsingOp.token
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let foundUserData = response.result.value as? [String:Any]
-                            {
-                        
-                                if let receivedToken = foundUserData["token"] as? String
-                                {
-                                    self.setAccessToken(tokenValue: receivedToken)
-                                    NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": receivedToken])
-                                }
-                                if let userData = foundUserData["user"] as? NSDictionary
-                                {
-                                    var user = User(userInfo: userData)
-                                    user = self.userCache.refresh(user: user)
-                                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                    return fulfill(user)
-                                }
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    self.setAccessToken(tokenValue: token)
+                    NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": token])
                 }
+                if var user = parsingOp.user
+                {
+                    user = self.userCache.refresh(user: user)
+                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                    return fulfill(user)
+                }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -640,36 +635,9 @@ import PromiseKit
             * resolves to: a User
             * rejects: an APIError
      */
-    open func getMe() -> Promise<User>
+    open func getMe(priority:Operation.QueuePriority = .normal) -> Promise<User>
     {
-        let url = "\(self.baseURL)/api/v1/users/me"
-        let headers:HTTPHeaders? = self.headersWithAuth()
-        let parameters:Parameters? = nil
-        
-        return Promise
-        {
-            (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters:parameters, headers: headers)
-                .responseJSON
-                {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let userData = response.result.value as? [String:Any]
-                            {
-                                var user = User(userInfo: userData as NSDictionary)
-                                user = self.userCache.refresh(user: user)
-                            
-                                NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                return fulfill(user)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
-                }
-        }
+        return self.getUser(userID: "me", priority: priority)
     }
     
     // -----------------------------------------------------------------------------
@@ -698,8 +666,9 @@ import PromiseKit
      * resolves to: the raw response dictionary from the server
      * rejects: an APIError
      */
-    open func reportListeningSession(broadcasterID:String) -> Promise<Dictionary<String,Any>>
+    open func reportListeningSession(broadcasterID:String, priority:Operation.QueuePriority = .low) -> Promise<[String:Any]>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/listeningSessions"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["userBeingListenedToID":broadcasterID]
@@ -707,22 +676,19 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseResponseAsDictionary()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let foundUserData = response.result.value as? [String:Any]
-                            {
-                                return fulfill(foundUserData)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    return reject(err)
                 }
+                return fulfill(parsingOp.responseDict!)
+            }
         }
     }
     
@@ -755,6 +721,7 @@ import PromiseKit
      */
     open func reportAnonymousListeningSession(broadcasterID:String, deviceID:String) -> Promise<Dictionary<String,Any>>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/listeningSessions/anonymous"
         let headers:HTTPHeaders? = nil
         let parameters:Parameters? = [
@@ -765,22 +732,19 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseResponseAsDictionary()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp)
+            .then
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let foundUserData = response.result.value as? [String:Any]
-                            {
-                                return fulfill(foundUserData)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    return reject(err)
                 }
+                return fulfill(parsingOp.responseDict!)
+            }
         }
     }
 
@@ -811,8 +775,9 @@ import PromiseKit
      * resolves to: the raw response dictionary from the server
      * rejects: an APIError
      */
-    open func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
+    open func reportEndOfListeningSession(priority:Operation.QueuePriority = .low) -> Promise<[String:Any]>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/listeningSessions/endSession"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
@@ -820,22 +785,19 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseResponseAsDictionary()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let foundUserData = response.result.value as? [String:Any]
-                            {
-                                return fulfill(foundUserData)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    return reject(err)
                 }
+                return fulfill(parsingOp.responseDict!)
+            }
         }
     }
     
@@ -851,8 +813,9 @@ import PromiseKit
     ///                                              message body
     ///
     /// ----------------------------------------------------------------------------
-    open func reportEndOfAnonymousListeningSession(deviceID:String) -> Promise<Dictionary<String,Any>>
+    open func reportEndOfAnonymousListeningSession(deviceID:String, priority:Operation.QueuePriority = .low) -> Promise<[String:Any]>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/listeningSessions/endAnonymous"
         let headers:HTTPHeaders? = nil
         let parameters:Parameters? = ["deviceID":deviceID]
@@ -860,22 +823,19 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseResponseAsDictionary()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let foundUserData = response.result.value as? [String:Any]
-                            {
-                                return fulfill(foundUserData)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    return reject(err)
                 }
+                return fulfill(parsingOp.responseDict!)
+            }
         }
     }
     
@@ -905,8 +865,9 @@ import PromiseKit
             * resolves to: a RotationItemsCollection
             * rejects: an APIError
      */
-    open func getRotationItems() -> Promise<RotationItemsCollection>
+    open func getRotationItems(priority:Operation.QueuePriority = .normal) -> Promise<RotationItemsCollection>
     {
+        let method:HTTPMethod = .get
         let url = "\(baseURL)/api/v1/users/me/rotationItems"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
@@ -914,23 +875,19 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters: parameters, headers: headers)
-                .validate(statusCode: 200..<300)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseRotationItemsCollection()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: (response.result.value as? NSDictionary)!["rotationItems"] as! [String: [[String:AnyObject]]])
-                            
-                                return fulfill(rotationItemsCollection)
-                            
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    return reject(err)
                 }
+                return fulfill(parsingOp.rotationItemsCollection!)
+            }
         }
     }
     
@@ -963,33 +920,28 @@ import PromiseKit
      * rejects: an APIError
      */
     
-    open func getActiveSessionsCount(broadcasterID:String) -> Promise<Int>
+    open func getActiveSessionsCount(broadcasterID:String, priority:Operation.QueuePriority = .normal) -> Promise<Int>
     {
+        let method:HTTPMethod = .get
         let url = "\(baseURL)/api/v1/listeningSessions/activeSessionsCount"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["broadcasterID" : broadcasterID]
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters:parameters, headers:headers)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseCountOperation()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let responseDict = response.result.value as? [String:Any]
-                            {
-                                if let count = responseDict["count"] as? Int
-                                {
-                                    return fulfill(count)
-                                }
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    return reject(err)
                 }
+                return fulfill(parsingOp.count!)
+            }
         }
     }
     
@@ -1021,12 +973,13 @@ import PromiseKit
      ````
      
      - returns:
-     `Promise<Array<User>>` - a promise
+     `Promise<[User]>` - a promise
      * resolves to: an array of Users
      * rejects: an APIError
      */
-    open func getPresets(userID:String="me") -> Promise<[User]>
+    open func getPresets(userID:String="me", priority:Operation.QueuePriority = .normal) -> Promise<[User]>
     {
+        let method:HTTPMethod = .get
         let url = "\(baseURL)/api/v1/users/\(userID)/presets"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
@@ -1034,30 +987,24 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters: parameters, headers: headers)
-                .validate(statusCode: 200..<300)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseMultipleUsersResponseOperation(key: "presets")
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var users = parsingOp.users
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
+                    users = self.userCache.refresh(users: users)
+                    if (userID == "me")
                     {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if var favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
-                            {
-                                favorites = self.userCache.refresh(users: favorites)
-                                
-                                // if this is the current user's then broadcast the update
-                                if (userID == "me")
-                                {
-                                    NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": favorites])
-                                }
-                                return fulfill(favorites)
-                            }
-                        }
+                         NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": users])
                     }
-                    return reject(APIError(response: response))
+                    return fulfill(users)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -1089,8 +1036,9 @@ import PromiseKit
      * resolves to: an array of Users
      * rejects: an APIError
      */
-    open func getTopStations() -> Promise<[User]>
+    open func getTopStations(priority:Operation.QueuePriority = .normal) -> Promise<[User]>
     {
+        let method:HTTPMethod = .get
         let url = "\(baseURL)/api/v1/users/topUsers"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
@@ -1098,25 +1046,20 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters:parameters, headers:headers)
-                .validate(statusCode: 200..<300)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseMultipleUsersResponseOperation(key: "topUsers")
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var users = parsingOp.users
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-
-                            if var users = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "topUsers")
-                            {
-                                users = self.userCache.refresh(users: users)
-                                return fulfill(users)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    users = self.userCache.refresh(users: users)
+                    return fulfill(users)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -1148,8 +1091,9 @@ import PromiseKit
      * resolves to: an updated user
      * rejects: an APIError
      */
-    open func updateUser(_ updateInfo:Dictionary<String, Any>) -> Promise<User>
+    open func updateUser(_ updateInfo:[String:Any], priority:Operation.QueuePriority = .normal) -> Promise<User>
     {
+        let method:HTTPMethod = .put
         let url = "\(baseURL)/api/v1/users/me"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = updateInfo
@@ -1157,28 +1101,21 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseSingleUserResponseOperation()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var user = parsingOp.user
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let responseDict = response.result.value as? [String:Any]
-                            {
-                                if let rawUser = responseDict["user"] as? [String:AnyObject]
-                                {
-                                    var user = User(userInfo: rawUser as NSDictionary)
-                                    user = self.userCache.refresh(user: user)
-                                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                    return fulfill(user)
-                                }
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    user = self.userCache.refresh(user: user)
+                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                    return fulfill(user)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -1210,8 +1147,9 @@ import PromiseKit
      * resolves to: RotationItemsCollection
      * rejects: an APIError
      */
-    open func removeRotationItemsAndReset(rotationItemIDs:[String]) -> Promise<RotationItemsCollection>
+    open func removeRotationItemsAndReset(rotationItemIDs:[String], priority:Operation.QueuePriority = .normal) -> Promise<RotationItemsCollection>
     {
+        let method:HTTPMethod = .put
         let url = "\(baseURL)/api/v1/rotationItems/removeAndReset"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["rotationItemIDs": rotationItemIDs]
@@ -1219,23 +1157,18 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseRotationItemsCollection()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
             {
-                (response) -> Void in
-                if let statusCode:Int = response.response?.statusCode
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    if (200..<300 ~= statusCode)
-                    {
-                        if let responseDictionary = response.result.value as? [String:Any]
-                        {
-                            let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
-                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
-                            return fulfill(rotationItemsCollection)
-                        }
-                    }
+                    return reject(err)
                 }
-                return reject(APIError(response: response))
+                return fulfill(parsingOp.rotationItemsCollection!)
             }
         }
     }
@@ -1320,33 +1253,31 @@ import PromiseKit
      * resolves to: the updated favorites array
      * rejects: an APIError
      */
-    open func follow(broadcasterID:String) -> Promise<Array<User>>
+    open func follow(broadcasterID:String, priority:Operation.QueuePriority = .normal) -> Promise<[User]>
     {
+        let method:HTTPMethod = .put
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/follow"
         let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = nil
         
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .put, encoding: JSONEncoding.default, headers: headers)
-                //.validate(statusCode: 200..<300)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseMultipleUsersResponseOperation(key: "presets")
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var users = parsingOp.users
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
-                            {
-                                let cachedPresets = self.userCache.refresh(users: favorites)
-                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": cachedPresets])
-                                return fulfill(cachedPresets)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    users = self.userCache.refresh(users: users)
+                    NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": users])
+                    return fulfill(users)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -1378,33 +1309,31 @@ import PromiseKit
      * resolves to: the updated favorites array
      * rejects: an APIError
      */
-    open func unfollow(broadcasterID:String) -> Promise<Array<User>>
+    open func unfollow(broadcasterID:String, priority:Operation.QueuePriority = .normal) -> Promise<[User]>
     {
+        let method:HTTPMethod = .put
         let url = "\(baseURL)/api/v1/users/\(broadcasterID)/unfollow"
         let headers:HTTPHeaders? = self.headersWithAuth()
+        let parameters:Parameters? = nil
         
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .put, encoding: JSONEncoding.default, headers: headers)
-                //.validate(statusCode: 200..<300)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseMultipleUsersResponseOperation(key: "presets")
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var users = parsingOp.users
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if var favorites = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "presets")
-                            {
-                                favorites = self.userCache.refresh(users: favorites)
-                                NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": favorites])
-                                return fulfill(favorites)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    users = self.userCache.refresh(users: users)
+                    NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": users])
+                    return fulfill(users)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -1435,12 +1364,13 @@ import PromiseKit
      ````
      
      - returns:
-     `Promise<Array<User>>` - a promise
+     `Promise<[User]>` - a promise
      * resolves to: the updated favorites array
      * rejects: an APIError
      */
-    open func findUsersByKeywords(searchString:String) -> Promise<Array<User>>
+        open func findUsersByKeywords(searchString:String, priority:Operation.QueuePriority = .normal) -> Promise<[User]>
     {
+        let method:HTTPMethod = .get
         let url = "\(baseURL)/api/v1/users/findByKeywords"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["searchString": searchString]
@@ -1449,24 +1379,20 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters:parameters, headers:headers)
-                .validate(statusCode: 200..<300)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseMultipleUsersResponseOperation(key: "searchResults")
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var users = parsingOp.users
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if var foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
-                            {
-                                foundUsers = self.userCache.refresh(users: foundUsers)
-                                return fulfill(foundUsers)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    users = self.userCache.refresh(users: users)
+                    return fulfill(users)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -1501,8 +1427,9 @@ import PromiseKit
      * resolves to: an array of the found AudioBlocks
      * rejects: an APIError
      */
-    open func findSongsByKeywords(searchString:String) -> Promise<Array<AudioBlock>>
+    open func findSongsByKeywords(searchString:String) -> Promise<[AudioBlock]>
     {
+        let method:HTTPMethod = .get
         let url = "\(baseURL)/api/v1/songs/findByKeywords"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["searchString": searchString]
@@ -1532,7 +1459,7 @@ import PromiseKit
 
     
     // ----------------------------------------------------------------------------
-    //                          func e
+    //                          func getUser()
     // -----------------------------------------------------------------------------
     /**
      Takes a userID and gets the user's info from the server
@@ -1559,35 +1486,35 @@ import PromiseKit
      * resolves to: an up-to-date User object
      * rejects: an APIError
      */
-    open func getUser(userID:String) -> Promise<User>
+    open func getUser(userID:String, priority:Operation.QueuePriority = .normal) -> Promise<User>
     {
+        let method:HTTPMethod = .get
         let url = "\(baseURL)/api/v1/users/\(userID)"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = [:]
         
-        
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, parameters:parameters, headers:headers)
-                .validate(statusCode: 200..<300)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseSingleUserResponseOperation()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var user = parsingOp.user
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
+                    user = self.userCache.refresh(user: user)
+                    
+                    if (userID == "me")
                     {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let foundUserData = response.result.value as? NSDictionary
-                            {
-                                var user = User(userInfo: foundUserData)
-                                user = self.userCache.refresh(user: user)
-                                return fulfill(user)
-                            }
-                        }
+                        NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                     }
-                    return reject(APIError(response: response))
+                    return fulfill(user)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
     
@@ -1626,32 +1553,31 @@ import PromiseKit
      * resolves to: the updated favorites array
      * rejects: an APIError
      */
-    open func getUsersByAttributes(attributes:Dictionary<String,Any>) -> Promise<Array<User>>
+    open func getUsersByAttributes(attributes:[String:Any], priority:Operation.QueuePriority = .normal) -> Promise<[User]>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/users/getByAttributes"
         let headers:HTTPHeaders? = self.headersWithAuth()
-        let parameters = attributes
+        let parameters:Parameters? = attributes
         
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON
+            
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseMultipleUsersResponseOperation(key: "searchResults")
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if var users = parsingOp.users
                 {
-                    (response) -> Void in
-                    if let statusCode = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if var foundUsers = arrayOfUsersFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
-                            {
-                                foundUsers = self.userCache.refresh(users: foundUsers)
-                                return fulfill(foundUsers)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    users = self.userCache.refresh(users: users)
+                    return fulfill(users)
                 }
+                return reject(parsingOp.apiError!)
+            }
         }
     }
 
@@ -1686,32 +1612,28 @@ import PromiseKit
      * resolves to: a RotationItemsCollection
      * rejects: an APIError
      */
-    open func addSongsToBin(songIDs:[String], bin:String) -> Promise<RotationItemsCollection>
+    open func addSongsToBin(songIDs:[String], bin:String, priority:Operation.QueuePriority = .normal) -> Promise<RotationItemsCollection>
     {
+        let method:HTTPMethod = .post
         let url = "\(baseURL)/api/v1/rotationItems"
         let headers:HTTPHeaders? = self.headersWithAuth()
-        let parameters:Parameters? = ["songIDs":songIDs, "bin":bin]
+        let parameters:Parameters? = ["songIDs":songIDs, "bin": bin]
         
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseRotationItemsCollection()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
             {
-                (response) -> Void in
-                if let statusCode:Int = response.response?.statusCode
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    if (200..<300 ~= statusCode)
-                    {
-                        if let responseDictionary = response.result.value as? [String:Any]
-                        {
-                            let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
-                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
-                            return fulfill(rotationItemsCollection)
-                        }
-                    }
+                    return reject(err)
                 }
-                return reject(APIError(response: response))
+                return fulfill(parsingOp.rotationItemsCollection!)
             }
         }
     }
@@ -1744,8 +1666,9 @@ import PromiseKit
      * resolves to: a RotationItemsCollection
      * rejects: an APIError
      */
-    open func deactivateRotationItem(rotationItemID:String) -> Promise<RotationItemsCollection>
+    open func deactivateRotationItem(rotationItemID:String, priority:Operation.QueuePriority = .normal) -> Promise<RotationItemsCollection>
     {
+        let method:HTTPMethod = .delete
         let url = "\(baseURL)/api/v1/rotationItems/\(rotationItemID)"
         let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = nil
@@ -1753,25 +1676,19 @@ import PromiseKit
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .delete, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-                .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseRotationItemsCollection()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    (response) -> Void in
-                    if let statusCode:Int = response.response?.statusCode
-                    {
-                        if (200..<300 ~= statusCode)
-                        {
-                            if let responseDictionary = response.result.value as? [String:Any]
-                            {
-                                let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
-                                let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
-                                
-                                return fulfill(rotationItemsCollection)
-                            }
-                        }
-                    }
-                    return reject(APIError(response: response))
+                    return reject(err)
                 }
+                return fulfill(parsingOp.rotationItemsCollection!)
+            }
         }
     }
     
@@ -2071,35 +1988,31 @@ import PromiseKit
      * resolves to: a tuple containing the updated user and rotationItemsCollection
      * rejects: an APIError
      */
-    open func resetRotationItems(items:[(songID:String, bin:String)]) -> Promise<RotationItemsCollection>
+    open func resetRotationItems(items:[(songID:String, bin:String)], priority:Operation.QueuePriority = .normal)    -> Promise<RotationItemsCollection>
     {
+        let method:HTTPMethod = .put
+        let url = "\(baseURL)/api/v1/rotationItems/reset"
+        let headers:HTTPHeaders? = self.headersWithAuth()
         let itemsDict = items.map { (tuple) -> [String:String] in
             return ["songID": tuple.songID, "bin": tuple.bin]
         }
-        let url = "\(baseURL)/api/v1/rotationItems/reset"
-        let headers:HTTPHeaders? = self.headersWithAuth()
         let parameters:Parameters? = ["items": itemsDict]
         
         return Promise
         {
             (fulfill, reject) -> Void in
-            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseRotationItemsCollection()
+            
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .then
             {
-                (response) -> Void in
-                if let statusCode:Int = response.response?.statusCode
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    if (200..<300 ~= statusCode)
-                    {
-                        if let responseDictionary = response.result.value as? [String:Any]
-                        {
-                            let rawRotationItems:Dictionary<String, Array<Dictionary<String, AnyObject>>> = (responseDictionary["rotationItems"] as? Dictionary<String, Array<Dictionary<String, AnyObject>>>)!
-                            let rotationItemsCollection:RotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
-                            return fulfill(rotationItemsCollection)
-                        }
-                    }
+                    return reject(err)
                 }
-                return reject(APIError(response: response))
+                return fulfill(parsingOp.rotationItemsCollection!)
             }
         }
     }

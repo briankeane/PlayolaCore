@@ -19,7 +19,7 @@ public class Player: PAPSpinPlayer
     @objc var playolaMainMixer:PlayolaMainMixer = PlayolaMainMixer.sharedInstance()
     
     /// Namespaced logger
-    private static let logger = OSLog(subsystem: "com.ausomeapps", category: "Player")
+    private static let logger = OSLog(subsystem: "fm.playola.playolaCore", category: "Player")
     
     /// An internal instance of AVAudioEngine
     private let engine:AVAudioEngine! = PlayolaMainMixer.sharedInstance().engine!

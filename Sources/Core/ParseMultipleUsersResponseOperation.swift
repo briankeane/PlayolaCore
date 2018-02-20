@@ -1,16 +1,23 @@
 //
-//  ParseSingleUserResponseOperation.swift
+//  ParseMultipleUsersResponseOperation.swift
 //  PlayolaCore
 //
-//  Created by Brian D Keane on 2/17/18.
+//  Created by Brian D Keane on 2/18/18.
 //  Copyright © 2018 Brian D Keane. All rights reserved.
 //
 
-import SwiftyJSON
 import Alamofire
+import SwiftyJSON
 
-class ParseSingleUserResponseOperation: ParsingOperation {
-    var user:User?
+class ParseMultipleUsersResponseOperation: ParsingOperation
+{
+    var key:String?
+    var users:[User]?
+    
+    init(key:String? = nil) {
+        super.init()
+        self.key = key
+    }
     
     override func main() {
         guard (self.isCancelled == false) else {
@@ -19,6 +26,7 @@ class ParseSingleUserResponseOperation: ParsingOperation {
         }
         
         self.executing(true)
+        
         guard let response = response else {
             executing(false)
             finish(true)
@@ -32,11 +40,14 @@ class ParseSingleUserResponseOperation: ParsingOperation {
                 if let rawValue = response.result.value
                 {
                     let dataJSON = JSON(rawValue)
-                    self.user = User(json: dataJSON["user"])
+                    
+                    // if there is a key, use it
+                    let jsonArray:[JSON] = (self.key != nil) ? dataJSON[self.key!].arrayValue : dataJSON.arrayValue
+                    self.users = jsonArray.map({User(json: $0)})
                 }
             }
         }
-        if (self.user == nil)
+        if (self.users == nil)
         {
             self.apiError = APIError(response: self.response!)
         }

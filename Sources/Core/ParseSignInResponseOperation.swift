@@ -1,15 +1,17 @@
 //
-//  ParseSingleUserResponseOperation.swift
+//  ParseSignInResponseOperation.swift
 //  PlayolaCore
 //
-//  Created by Brian D Keane on 2/17/18.
+//  Created by Brian D Keane on 2/18/18.
 //  Copyright © 2018 Brian D Keane. All rights reserved.
 //
 
-import SwiftyJSON
 import Alamofire
+import SwiftyJSON
 
-class ParseSingleUserResponseOperation: ParsingOperation {
+class ParseSignInResponseOperation: ParsingOperation
+{
+    var token:String?
     var user:User?
     
     override func main() {
@@ -19,6 +21,7 @@ class ParseSingleUserResponseOperation: ParsingOperation {
         }
         
         self.executing(true)
+        
         guard let response = response else {
             executing(false)
             finish(true)
@@ -32,6 +35,7 @@ class ParseSingleUserResponseOperation: ParsingOperation {
                 if let rawValue = response.result.value
                 {
                     let dataJSON = JSON(rawValue)
+                    self.token = dataJSON["token"].string
                     self.user = User(json: dataJSON["user"])
                 }
             }

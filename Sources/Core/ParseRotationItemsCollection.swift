@@ -1,16 +1,14 @@
 //
-//  ParseSingleUserResponseOperation.swift
+//  ParseRotationItemsCollection.swift
 //  PlayolaCore
 //
-//  Created by Brian D Keane on 2/17/18.
+//  Created by Brian D Keane on 2/18/18.
 //  Copyright © 2018 Brian D Keane. All rights reserved.
 //
 
-import SwiftyJSON
-import Alamofire
 
-class ParseSingleUserResponseOperation: ParsingOperation {
-    var user:User?
+class ParseRotationItemsCollection: ParsingOperation {
+    var rotationItemsCollection:RotationItemsCollection?
     
     override func main() {
         guard (self.isCancelled == false) else {
@@ -29,16 +27,19 @@ class ParseSingleUserResponseOperation: ParsingOperation {
         {
             if (200..<300 ~= statusCode)
             {
-                if let rawValue = response.result.value
+                if let rawResponse = response.result.value as? [String:Any]
                 {
-                    let dataJSON = JSON(rawValue)
-                    self.user = User(json: dataJSON["user"])
+                    if let rawRotationItems = rawResponse["rotationItems"] as? [String: [[String:Any]]]
+                    {
+                        self.rotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
+                    }
                 }
             }
         }
-        if (self.user == nil)
+        
+        if (self.rotationItemsCollection == nil)
         {
-            self.apiError = APIError(response: self.response!)
+            self.apiError = APIError(response: response)
         }
         executing(false)
         finish(true)

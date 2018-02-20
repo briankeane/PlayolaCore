@@ -1,16 +1,14 @@
 //
-//  ParseSingleUserResponseOperation.swift
+//  ParseResponseAsDictionary.swift
 //  PlayolaCore
 //
-//  Created by Brian D Keane on 2/17/18.
+//  Created by Brian D Keane on 2/18/18.
 //  Copyright © 2018 Brian D Keane. All rights reserved.
 //
 
-import SwiftyJSON
-import Alamofire
-
-class ParseSingleUserResponseOperation: ParsingOperation {
-    var user:User?
+class ParseResponseAsDictionary: ParsingOperation
+{
+    var responseDict:[String:Any]?
     
     override func main() {
         guard (self.isCancelled == false) else {
@@ -29,18 +27,18 @@ class ParseSingleUserResponseOperation: ParsingOperation {
         {
             if (200..<300 ~= statusCode)
             {
-                if let rawValue = response.result.value
+                if let rawValue = response.result.value as? [String:Any]
                 {
-                    let dataJSON = JSON(rawValue)
-                    self.user = User(json: dataJSON["user"])
+                    self.responseDict = rawValue
                 }
             }
         }
-        if (self.user == nil)
+        if (self.responseDict == nil)
         {
-            self.apiError = APIError(response: self.response!)
+            self.apiError = APIError(response: response)
         }
         executing(false)
         finish(true)
     }
+                    
 }

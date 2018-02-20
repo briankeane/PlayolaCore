@@ -9,6 +9,7 @@
 import Foundation
 import PromiseKit
 import Alamofire
+import SwiftyJSON
 
 open class AudioBlock:NSObject
 {
@@ -30,6 +31,7 @@ open class AudioBlock:NSObject
     public var trackViewUrl:URL?
     public var voiceTrackLocalUrl:URL?
     public var spotifyID:String?
+    public var localVoiceTrackStatus:LocalVoiceTrackStatus?
     
     //------------------------------------------------------------------------------
     
@@ -56,6 +58,31 @@ open class AudioBlock:NSObject
         albumArtworkUrlSmall = URL(stringOptional: audioBlockInfo["albumArtworkUrlSmall"] as? String)
         trackViewUrl = URL(stringOptional: audioBlockInfo["trackViewUrl"] as? String)
         spotifyID = audioBlockInfo["spotifyID"] as? String
+    }
+    
+    public init(json:JSON)
+    {
+        super.init()
+        id = json["id"].string
+        if let __tString = json["__t"].string
+        {
+            __t = AudioBlockType(rawValue: __tString)
+        }
+        duration = json["duration"].int
+        echonestID = json["echonestID"].string
+        itunesID = json["itunesID"].string
+        boo = json["boo"].int
+        eoi = json["eoi"].int
+        eom = json["eom"].int
+        title = json["title"].string
+        artist = json["artist"].string
+        album = json["album"].string
+        audioFileUrl = URL(stringOptional: self.addSchemeIfNecessaryTo(urlString: json["audioFileUrl"].string))
+        key = json["key"].string
+        albumArtworkUrl = URL(stringOptional: json["albumArtworkUrl"].string)
+        albumArtworkUrlSmall = URL(stringOptional: json["albumArtworkUrlSmall"].string)
+        trackViewUrl = URL(stringOptional: json["trackViewUrl"].string)
+        spotifyID = json["spotifyID"].string
     }
     
     //------------------------------------------------------------------------------

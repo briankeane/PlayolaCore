@@ -28,7 +28,6 @@ class UserCache:NSObject
                 guard let user = user, let userID = user.id else {
                     return
                 }
-                puts("----------------------  nowPlaying advanced userID: \(userID) --------------")
                 NotificationCenter.default.post(name: PlayolaEvents.nowPlayingAdvanced, object: nil, userInfo: ["userID": userID,
                                                                                                                 "user": user ])
             }

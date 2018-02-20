@@ -16,7 +16,7 @@ class PlayolaAPIMock:PlayolaAPI {
     var getUserSuccessUser:User?
     var getUserFailureError:APIError?
     
-    override public func getUser(userID: String) -> Promise<User>
+    override func getUser(userID: String, priority: Operation.QueuePriority) -> Promise<User>
     {
         self.getUserCallCount += 1
         self.getUserArgs.append(userID)
@@ -41,7 +41,7 @@ class PlayolaAPIMock:PlayolaAPI {
     var reportListeningSessionSuccessDict = ["message": "success"]
     var reportListeningSessionFailureError:APIError?
     
-    override public func reportListeningSession(broadcasterID: String) -> Promise<Dictionary<String,Any>>
+    override func reportListeningSession(broadcasterID: String, priority: Operation.QueuePriority) -> Promise<[String : Any]>
     {
         self.reportListeningSessionCallCount += 1
         self.reportListeningSessionArgs.append(broadcasterID)
@@ -65,7 +65,7 @@ class PlayolaAPIMock:PlayolaAPI {
     var reportEndOfListeningSessionSuccessDict = ["message": "success"]
     var reportEndOfListeningSessionFailureError:APIError?
     
-    override public func reportEndOfListeningSession() -> Promise<Dictionary<String,Any>>
+    override func reportEndOfListeningSession(priority: Operation.QueuePriority) -> Promise<[String : Any]>
     {
         self.reportEndOfListeningSessionCallCount += 1
         
@@ -114,7 +114,7 @@ class PlayolaAPIMock:PlayolaAPI {
     var reportEndOfAnonymousListeningSessionSuccessDict = ["message": "success"]
     var reportEndOfAnonymousListeningSessionFailureError:APIError?
     
-    override public func reportEndOfAnonymousListeningSession(deviceID: String) -> Promise<Dictionary<String,Any>>
+    override func reportEndOfAnonymousListeningSession(deviceID: String, priority: Operation.QueuePriority) -> Promise<[String : Any]>
     {
         self.reportEndOfAnonymousListeningSessionCallCount += 1
         self.reportEndOfAnonymousListeningSessionArgs.append(deviceID)
@@ -167,7 +167,7 @@ class PlayolaAPIMock:PlayolaAPI {
     var getPresetsArgs:[[String:Any?]] = Array()
     var getPresetsPresets:[User]?
     var getPresetsError:APIError?
-    override func getPresets(userID: String) -> Promise<[User]>
+    override func getPresets(userID: String, priority: Operation.QueuePriority) -> Promise<[User]>
     {
         self.getPresetsCallCount += 1
         self.getPresetsArgs.append(["userID": userID])
@@ -188,7 +188,7 @@ class PlayolaAPIMock:PlayolaAPI {
     var requestSongBySpotifyIDSongStatus:SongStatus? = nil
     var requestSongBySpotifyIDError:APIError?
     var requestSongBySpotifyIDArgs:[[String:Any]] = Array()
-    override func requestSongBySpotifyID(spotifyID: String) -> Promise<(songStatus: SongStatus, song: AudioBlock?)>
+    override func requestSongBySpotifyID(spotifyID: String, priority: Operation.QueuePriority) -> Promise<(songStatus: SongStatus, song: AudioBlock?)>
     {
         self.requestSongBySpotifyIDCount += 1
         self.requestSongBySpotifyIDArgs.append(["spotifyID": spotifyID])
@@ -208,7 +208,8 @@ class PlayolaAPIMock:PlayolaAPI {
     var getRotationItemsResponse:RotationItemsCollection?
     var getRotationItemsError:APIError?
     var getRotationItemsShouldNeverReturn:Bool = false
-    override func getRotationItems() -> Promise<RotationItemsCollection> {
+    override func getRotationItems(priority: Operation.QueuePriority) -> Promise<RotationItemsCollection>
+    {
         self.getRotationItemsCount += 1
         return Promise
         {
@@ -230,7 +231,9 @@ class PlayolaAPIMock:PlayolaAPI {
     var deactivateRotationItemResponse:RotationItemsCollection?
     var deactivateRotationItemError:APIError?
     var deactivateRotationItemShouldNeverReturn:Bool = false
-    override func deactivateRotationItem(rotationItemID: String) -> Promise<RotationItemsCollection> {
+
+    override func deactivateRotationItem(rotationItemID: String, priority: Operation.QueuePriority = .normal) -> Promise<RotationItemsCollection>
+    {
         self.deactivateRotationItemCount += 1
         self.deactivateRotationItemArgs.append(["rotationItemID": rotationItemID])
         return Promise
@@ -253,7 +256,8 @@ class PlayolaAPIMock:PlayolaAPI {
     var removeRotationItemsAndResetResponse:RotationItemsCollection?
     var removeRotationItemsAndResetError:APIError?
     var removeRotationItemsAndResetShouldNeverReturn:Bool = false
-    override func removeRotationItemsAndReset(rotationItemIDs: [String]) -> Promise<RotationItemsCollection> {
+    override func removeRotationItemsAndReset(rotationItemIDs: [String], priority: Operation.QueuePriority) -> Promise<RotationItemsCollection>
+    {
         self.removeRotationItemsAndResetCount += 1
         self.removeRotationItemsAndResetArgs.append(["rotationItemIDs": rotationItemIDs])
         return Promise

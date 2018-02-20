@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 public class User
 {
@@ -21,7 +22,7 @@ public class User
     public var zipcode:String?
     public var timezone:String?
     var role:PlayolaUserRole?
-    public var lastCommercial:NSMutableDictionary?
+    public var lastCommercial:[String:Any]?
     public var profileImageUrl:URL?
     public var profileImageUrlSmall:URL?
     public var id:String?
@@ -40,6 +41,7 @@ public class User
     public var stationStatus:String?
     public var updatedAt:Date?
     public var spotifyPlaylistID:String?
+    public var shouldFollowMostPlayedTracks:Bool?
     
     var refresher:PlayolaProgramRefresher?
     var advancer:PlayolaProgramAutoAdvancer?
@@ -65,10 +67,7 @@ public class User
         passwordExists = userInfo["passwordExists"] as? Bool
         stationStatus = userInfo["stationStatus"] as? String
         
-        if let rawDictionary = userInfo["lastCommercial"] as? NSDictionary
-        {
-            lastCommercial = NSMutableDictionary(dictionary: rawDictionary)
-        }
+        self.lastCommercial = userInfo["lastCommercial"] as? [String:Any]
         
         // default minListeners is 1
         if let minListeners = userInfo["minListenersToReport"] as? Int
@@ -101,6 +100,7 @@ public class User
         dailyListenTimeCalculationDate = userInfo["dailyListenTimeCalculationDate"] as? Date
         deviceID = userInfo["deviceID"] as? String
         spotifyPlaylistID = userInfo["spotifyPlaylistID"] as? String
+        shouldFollowMostPlayedTracks = userInfo["shouldFollowMostPlayedTracks"] as? Bool
         
         if let rawPlaylist = userInfo["playlist"] as? Array<Dictionary<String,AnyObject>>
         {
@@ -114,6 +114,67 @@ public class User
         {
             self.warnings = warnings
         }
+    }
+    
+    public init(json:JSON)
+    {
+        displayName = json["displayName"].string
+        twitterUID = json["twitterUID"].string
+        facebookUID = json["facebookUID"].string
+        googleUID = json["googleUID"].string
+        instagramUID = json["instagramUID"].string
+        email = json["email"].string
+        birthYear = json["birthYear"].string
+        gender = json["gender"].string
+        zipcode = json["zipcode"].string
+        timezone = json["timezone"].string
+        self.setRole(json["role"].string)
+        deepLink = json["deepLink"].string
+        bio = json["bio"].string
+        passwordExists = json["passwordExists"].bool
+        stationStatus = json["stationStatus"].string
+        
+        self.lastCommercial = json["lastCommercial"].dictionaryObject
+        
+        // default minListeners is 1
+        self.minListenersToReport = json["minListenersToReport"].int
+        
+        if let updatedAtString = json["updatedAt"].string
+        {
+            self.updatedAt = Date(isoString: updatedAtString)
+        }
+        
+        profileImageKey = json["profileImageKey"].string
+        
+        //adjust profileImageUrl for no scheme included
+        if var profileImageString = json["profileImageUrl"].string
+        {
+            if (String(profileImageString.prefix(2)) == "//")
+            {
+                profileImageString = "https:" + profileImageString
+            }
+            self.profileImageUrl = URL(string: profileImageString)
+        }
+        
+        
+        profileImageUrlSmall = URL(stringOptional: json["profileImageUrlSmall"].string)
+        id = json["id"].string
+        secsOfCommercialPerHour = json["secsOfCommercialPerHour"].int
+        dailyListenTimeMS = json["dailyListenTimeMS"].int
+        dailyListenTimeCalculationDate = json["dailyListenTimeCalculationDate"] as? Date
+        deviceID = json["deviceID"].string
+        spotifyPlaylistID = json["spotifyPlaylistID"].string
+        shouldFollowMostPlayedTracks = json["shouldFollowMostPlayedTracks"].bool
+        
+        if let rawPlaylist = json["playlist"].array?.map({$0.dictionaryObject!})
+        {
+            if (rawPlaylist.count > 0)
+            {
+                program = Program(rawPlaylist: rawPlaylist )
+            }
+        }
+        
+        self.warnings = json["warnings"].array?.map({$0.stringValue})
     }
     
     public init(original:User)
@@ -145,6 +206,7 @@ public class User
         self.deviceID = original.deviceID
         self.stationStatus = original.stationStatus
         self.spotifyPlaylistID = original.spotifyPlaylistID
+        self.shouldFollowMostPlayedTracks = original.shouldFollowMostPlayedTracks
         if let minListeners = original.minListenersToReport
         {
             self.minListenersToReport = minListeners
@@ -164,7 +226,7 @@ public class User
                 zipcode:String?=nil,
                 timezone:String?=nil,
                 role:PlayolaUserRole?=nil,
-                lastCommercial:NSMutableDictionary?=nil,
+                lastCommercial:[String:Any]?=nil,
                 profileImageUrl:URL?=nil,
                 profileImageUrlSmall:URL?=nil,
                 secsOfCommercialPerHour:Int?=nil,
@@ -181,6 +243,7 @@ public class User
                 deviceID:String?=nil,
                 stationStatus:String?=nil,
                 spotifyPlaylistID:String?=nil,
+                shouldFollowMostPlayedTracks:Bool?=nil,
                 updatedAt:Date?=nil)
     {
         self.id = id
@@ -211,6 +274,7 @@ public class User
         self.stationStatus = stationStatus
         self.spotifyPlaylistID = spotifyPlaylistID
         self.minListenersToReport = minListenersToReport
+        self.shouldFollowMostPlayedTracks = shouldFollowMostPlayedTracks
         self.program = program
     }
     
@@ -244,6 +308,7 @@ public class User
         self.stationStatus = updatedUser.stationStatus
         self.minListenersToReport = updatedUser.minListenersToReport
         self.spotifyPlaylistID = updatedUser.spotifyPlaylistID
+        self.shouldFollowMostPlayedTracks = updatedUser.shouldFollowMostPlayedTracks
         self.program = updatedUser.program
         
         // (program autoAdvancer and program refresher should be retained)

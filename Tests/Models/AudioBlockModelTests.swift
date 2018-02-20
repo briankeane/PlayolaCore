@@ -10,6 +10,7 @@ import Foundation
 import XCTest
 import Quick
 import Nimble
+import SwiftyJSON
 
 class AudioBlockModelTests: QuickSpec
 {
@@ -17,7 +18,7 @@ class AudioBlockModelTests: QuickSpec
     {
         describe("AudioBlock Model Tests")
         {
-            var audioBlockInfo:Dictionary<String, Any> = Dictionary()
+            var audioBlockInfo:[String:Any] = Dictionary()
             
             beforeEach
             {
@@ -43,6 +44,28 @@ class AudioBlockModelTests: QuickSpec
             it ("can be initialized with a Dictionary")
             {
                 let song = AudioBlock(audioBlockInfo: audioBlockInfo)
+                expect(song.title).to(equal("aTitle"))
+                expect(song.artist).to(equal("bob"))
+                expect(song.duration).to(equal(65))
+                expect(song.__t).to(equal(AudioBlockType.song))
+                expect(song.echonestID).to(equal("echonestIDPlaceholder"))
+                expect(song.itunesID).to(equal("itunesIDPlaceholder"))
+                expect(song.boo).to(equal(50))
+                expect(song.eom).to(equal(100))
+                expect(song.eoi).to(equal(10))
+                expect(song.album).to(equal("bobsAlbum"))
+                expect(song.audioFileUrl!.path).to(equal("/audioFileUrlPlaceholder"))
+                expect(song.key).to(equal("keyPlaceholder"))
+                expect(song.id).to(equal("audioBlockID"))
+                expect(song.albumArtworkUrl).to(equal(URL(string: "albumArtworkUrl")))
+                expect(song.albumArtworkUrlSmall).to(equal(URL(string: "albumArtworkUrlSmall")))
+                expect(song.trackViewUrl).to(equal(URL(string:"trackViewUrlSample")))
+            }
+            
+            it ("can be initialized with a JSON")
+            {
+                let json = JSON(audioBlockInfo)
+                let song = AudioBlock(json: json)
                 expect(song.title).to(equal("aTitle"))
                 expect(song.artist).to(equal("bob"))
                 expect(song.duration).to(equal(65))
