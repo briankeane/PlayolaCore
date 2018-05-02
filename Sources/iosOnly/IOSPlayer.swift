@@ -83,7 +83,7 @@ public class Player: PAPSpinPlayer
         engine.prepare()
         
         /// Install tap
-        playerNode.installTap(onBus: 0, bufferSize: TapProperties.default.bufferSize, format: TapProperties.default.format, block: onTap(_:_:))
+//        playerNode.installTap(onBus: 0, bufferSize: TapProperties.default.bufferSize, format: TapProperties.default.format, block: onTap(_:_:))
     }
     
     // MARK: Playback

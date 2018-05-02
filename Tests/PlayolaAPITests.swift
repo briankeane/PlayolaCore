@@ -54,6 +54,7 @@ class PlayolaAPITests: QuickSpec
     let createVoiceTrackPath                =        "/api/v1/voiceTracks"
     let removeRotationItemsAndResetPath     =        "/api/v1/rotationItems/removeAndReset"
     let shuffleStationPath                  =        "/api/v1/spins/shuffle"
+    let registerSpotifyCredentialsPath      =        "/api/v1/users/me/spotifyCredentials"
     
     
     override func spec()
@@ -170,7 +171,7 @@ class PlayolaAPITests: QuickSpec
             
             describe("getRotationItems()")
             {
-                it ("works")
+                it ("works with old api")
                 {
                     // setup
                     stubbedResponse = OHHTTPStubsResponse(
@@ -198,6 +199,39 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("works with new api")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getUserRotationItemsSuccessNew.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.getRotationItems()
+                        .then
+                        {
+                            (rotationItemsCollection) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.getRotationItemsPath))
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                                    
+                            // check response
+                            expect(rotationItemsCollection).toNot(beNil())
+                            expect(rotationItemsCollection.rotationItems.count).to(equal(3))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error.localizedDescription)
                             fail("getRotationItems() should not have errored")
                         }
                     }
@@ -605,6 +639,76 @@ class PlayolaAPITests: QuickSpec
                             (error) -> Void in
                             let jsonDict = self.readLocalJsonFile("422.json")!
                             
+                            let authError = error as! APIError
+                            expect(authError.message!).to(equal((jsonDict["message"] as! String)))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("registerSpotifyCredentials")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("updateUserSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.registerSpotifyCredentials(refreshToken: "aRefreshToken", accessToken: "anAccessToken")
+                        .then
+                        {
+                            (updatedUser) -> Void in
+                            
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.registerSpotifyCredentialsPath))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                            expect((sentBody!["refreshToken"] as! String)).to(equal("aRefreshToken"))
+                            expect((sentBody!["accessToken"] as! String)).to(equal("anAccessToken"))
+                                    
+                            // check response
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("updateUser() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.registerSpotifyCredentials(refreshToken: "aRefreshToken", accessToken: "anAccessToken")
+                        .then
+                        {
+                            (topUsers) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            let jsonDict = self.readLocalJsonFile("422.json")!
+                                    
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
                             done()
@@ -2646,6 +2750,70 @@ class PlayolaAPITests: QuickSpec
                     {
                         (done) in
                         api.createEmailConfirmation(email: "bob@bob.com", displayName: "Bob", password: "bobsSecurePassword")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+           describe("requestPasswordReset")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("passwordResetSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                        api.requestPasswordReset()
+                        .then
+                        {
+                            () -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal("/api/v1/users/me/changePassword"))
+                            expect(sentRequest!.httpMethod).to(equal("PUT"))
+                                
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("createUserConfirmation() should not have errored")
+                            done()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.requestPasswordReset()
                         .then
                         {
                             (user) -> Void in

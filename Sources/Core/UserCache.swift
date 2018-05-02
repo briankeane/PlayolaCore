@@ -12,6 +12,20 @@ class UserCache:NSObject
 {
     var users:[String:User] = Dictionary()
     
+    override init() {
+        super.init()
+        self.setupListeners()
+    }
+    
+    func setupListeners()
+    {
+        NotificationCenter.default.addObserver(forName: PlayolaEvents.signedOut, object: nil, queue: .main)
+        {
+            (notification) in
+            self.clear()
+        }
+    }
+    
     public func refresh(user:User) -> User
     {
         guard let userID = user.id else {
@@ -46,6 +60,11 @@ class UserCache:NSObject
             return self.users[userID]
         }
         return nil
+    }
+    
+    public func clear()
+    {
+        self.users = Dictionary()
     }
     
     public func refresh(users:[User]) -> [User]

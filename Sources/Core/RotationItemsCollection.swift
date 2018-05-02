@@ -52,6 +52,14 @@ public struct RotationItemsCollection
     
     //------------------------------------------------------------------------------
     
+    public init(rawRotationItemsArray: [[String:Any]])
+    {
+        defer { self.rotationItems = rawRotationItemsArray.map({ RotationItem(rawDictionary: $0) })
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
    public func listBins () -> [String]
     {
         var binNamesArray:Array<String> = []

@@ -29,10 +29,15 @@ class ParseRotationItemsCollection: ParsingOperation {
             {
                 if let rawResponse = response.result.value as? [String:Any]
                 {
+                    // old api --- remove after backend updated
                     if let rawRotationItems = rawResponse["rotationItems"] as? [String: [[String:Any]]]
                     {
                         self.rotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItems)
                     }
+                }
+                else if let rawResponse = response.result.value as? [[String:Any]]
+                {
+                    self.rotationItemsCollection = RotationItemsCollection(rawRotationItemsArray: rawResponse)
                 }
             }
         }

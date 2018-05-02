@@ -66,6 +66,8 @@
 		4B1690121FFAAD8600C2EDBF /* UserCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B16900E1FFAAD8600C2EDBF /* UserCache.swift */; };
 		4B1690161FFD8A0100C2EDBF /* OSXPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */; };
 		4B1690171FFD8A0100C2EDBF /* OSXPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */; };
+		4B173A6E204859C400598E97 /* passwordResetSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B173A6D204859C400598E97 /* passwordResetSuccess.json */; };
+		4B173A6F204859C400598E97 /* passwordResetSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B173A6D204859C400598E97 /* passwordResetSuccess.json */; };
 		4B1A112B1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
 		4B1A112C1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
 		4B1A112D1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
@@ -240,6 +242,8 @@
 		4B37BDEB1FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B37BDE91FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift */; };
 		4B37BDEC1FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B37BDE91FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift */; };
 		4B37BDED1FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B37BDE91FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift */; };
+		4B3A66B2209918B400CD62BD /* getUserRotationItemsSuccessNew.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B3A66B1209918B400CD62BD /* getUserRotationItemsSuccessNew.json */; };
+		4B3A66B3209918B400CD62BD /* getUserRotationItemsSuccessNew.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B3A66B1209918B400CD62BD /* getUserRotationItemsSuccessNew.json */; };
 		4B42C56D1F58625100E11538 /* PlayolaListeningSessionReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C56C1F58625100E11538 /* PlayolaListeningSessionReporter.swift */; };
 		4B42C56E1F58625100E11538 /* PlayolaListeningSessionReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C56C1F58625100E11538 /* PlayolaListeningSessionReporter.swift */; };
 		4B42C56F1F58625100E11538 /* PlayolaListeningSessionReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C56C1F58625100E11538 /* PlayolaListeningSessionReporter.swift */; };
@@ -252,6 +256,10 @@
 		4B42C5781F58710800E11538 /* PlayolaCurrentUserInfoMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C5741F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift */; };
 		4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B42C5791F59C13F00E11538 /* genericSuccess200.json */; };
 		4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B42C5791F59C13F00E11538 /* genericSuccess200.json */; };
+		4B51B23120926AE500FE8CCF /* ParseEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B51B23020926AE500FE8CCF /* ParseEmpty.swift */; };
+		4B51B23220926AE500FE8CCF /* ParseEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B51B23020926AE500FE8CCF /* ParseEmpty.swift */; };
+		4B51B23320926AE500FE8CCF /* ParseEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B51B23020926AE500FE8CCF /* ParseEmpty.swift */; };
+		4B51B23420926AE500FE8CCF /* ParseEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B51B23020926AE500FE8CCF /* ParseEmpty.swift */; };
 		4B737B8D1FB4A25E00EBFEDA /* incorrectPasscode.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B737B8B1FB4A25600EBFEDA /* incorrectPasscode.json */; };
 		4B737B8E1FB4A26000EBFEDA /* incorrectPasscode.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B737B8B1FB4A25600EBFEDA /* incorrectPasscode.json */; };
 		4B737B911FB4B36600EBFEDA /* emailConfirmationSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B737B8F1FB4B10E00EBFEDA /* emailConfirmationSuccess.json */; };
@@ -514,6 +522,7 @@
 		4B139F5A1F7C1930007021FA /* IOSAutoUpdatingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IOSAutoUpdatingImageView.swift; path = ../Sources/iosOnly/IOSAutoUpdatingImageView.swift; sourceTree = "<group>"; };
 		4B16900E1FFAAD8600C2EDBF /* UserCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserCache.swift; path = ../Sources/Core/UserCache.swift; sourceTree = "<group>"; };
 		4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OSXPlayer.swift; path = ../Sources/osxOnly/OSXPlayer.swift; sourceTree = "<group>"; };
+		4B173A6D204859C400598E97 /* passwordResetSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = passwordResetSuccess.json; path = ../Tests/APIJson/passwordResetSuccess.json; sourceTree = "<group>"; };
 		4B1A112A1FD70D3100F357CE /* SongStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SongStatus.swift; path = ../Sources/Core/SongStatus.swift; sourceTree = "<group>"; };
 		4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = requestSongBySpotifyIDSongExists.json; path = ../Tests/APIJson/requestSongBySpotifyIDSongExists.json; sourceTree = "<group>"; };
 		4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = requestSongBySpotifyIDSongProcessing.json; sourceTree = "<group>"; };
@@ -581,10 +590,12 @@
 		4B361C6D1F44D58400654968 /* DataMocker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataMocker.swift; path = ../Tests/Helpers/DataMocker.swift; sourceTree = "<group>"; };
 		4B361C7A1F45E20A00654968 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIError.swift; path = ../Sources/Core/APIError.swift; sourceTree = "<group>"; };
 		4B37BDE91FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PAPSpinPlayerProtocol.swift; path = ../Sources/Core/PAPSpinPlayerProtocol.swift; sourceTree = "<group>"; };
+		4B3A66B1209918B400CD62BD /* getUserRotationItemsSuccessNew.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = getUserRotationItemsSuccessNew.json; path = ../Tests/APIJson/getUserRotationItemsSuccessNew.json; sourceTree = "<group>"; };
 		4B42C56C1F58625100E11538 /* PlayolaListeningSessionReporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaListeningSessionReporter.swift; path = ../Sources/Player/PlayolaListeningSessionReporter.swift; sourceTree = "<group>"; };
 		4B42C5711F586F0900E11538 /* PlayolaListeningSessionReporterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaListeningSessionReporterTests.swift; path = ../Tests/Services/AudioPlayer/PlayolaListeningSessionReporterTests.swift; sourceTree = "<group>"; };
 		4B42C5741F5870F300E11538 /* PlayolaCurrentUserInfoMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaCurrentUserInfoMock.swift; path = ../Tests/Mocks/PlayolaCurrentUserInfoMock.swift; sourceTree = "<group>"; };
 		4B42C5791F59C13F00E11538 /* genericSuccess200.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = genericSuccess200.json; path = ../Tests/APIJson/genericSuccess200.json; sourceTree = "<group>"; };
+		4B51B23020926AE500FE8CCF /* ParseEmpty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ParseEmpty.swift; path = ../Sources/Core/ParseEmpty.swift; sourceTree = "<group>"; };
 		4B737B8B1FB4A25600EBFEDA /* incorrectPasscode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = incorrectPasscode.json; path = ../Tests/APIJson/incorrectPasscode.json; sourceTree = "<group>"; };
 		4B737B8F1FB4B10E00EBFEDA /* emailConfirmationSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = emailConfirmationSuccess.json; path = ../Tests/APIJson/emailConfirmationSuccess.json; sourceTree = "<group>"; };
 		4B7C60591F7C42A400806F30 /* NowPlayingAlbumArtworkImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingAlbumArtworkImageView.swift; path = ../Sources/Player/NowPlayingAlbumArtworkImageView.swift; sourceTree = "<group>"; };
@@ -1018,6 +1029,7 @@
 		4B361C741F45CE6400654968 /* APIJson */ = {
 			isa = PBXGroup;
 			children = (
+				4B3A66B1209918B400CD62BD /* getUserRotationItemsSuccessNew.json */,
 				4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */,
 				4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */,
 				4BE006FD1F472CDE0010C420 /* getPresetsSuccess.json */,
@@ -1039,6 +1051,8 @@
 				4BDDE7BC1FE4329E00342B33 /* startStationSuccess.json */,
 				4B221DCB2003E64200575D6A /* createVoiceTrackProcessing.json */,
 				4B221DCE2003FFDB00575D6A /* createVoiceTrackExists.json */,
+				4B173A6D204859C400598E97 /* passwordResetSuccess.json */,
+				4B51B23020926AE500FE8CCF /* ParseEmpty.swift */,
 			);
 			name = APIJson;
 			sourceTree = "<group>";
@@ -1381,6 +1395,7 @@
 				4BDDE7BD1FE4329E00342B33 /* startStationSuccess.json in Resources */,
 				4B737B911FB4B36600EBFEDA /* emailConfirmationSuccess.json in Resources */,
 				4B1A11331FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json in Resources */,
+				4B173A6E204859C400598E97 /* passwordResetSuccess.json in Resources */,
 				4BF10AAE1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
@@ -1389,6 +1404,7 @@
 				4B1A11301FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */,
 				4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4B221DCF2003FFDB00575D6A /* createVoiceTrackExists.json in Resources */,
+				4B3A66B2209918B400CD62BD /* getUserRotationItemsSuccessNew.json in Resources */,
 				4BE007011F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B737B8D1FB4A25E00EBFEDA /* incorrectPasscode.json in Resources */,
 				4B9358951F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
@@ -1418,6 +1434,7 @@
 				4BDDE7BE1FE4329E00342B33 /* startStationSuccess.json in Resources */,
 				4B737B921FB4B36A00EBFEDA /* emailConfirmationSuccess.json in Resources */,
 				4B1A11341FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json in Resources */,
+				4B173A6F204859C400598E97 /* passwordResetSuccess.json in Resources */,
 				4BF10AAF1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
 				4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
@@ -1426,6 +1443,7 @@
 				4B1A11311FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */,
 				4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4B221DD02003FFDB00575D6A /* createVoiceTrackExists.json in Resources */,
+				4B3A66B3209918B400CD62BD /* getUserRotationItemsSuccessNew.json in Resources */,
 				4BE007021F472CDE0010C420 /* getPresetsSuccess.json in Resources */,
 				4B737B8E1FB4A26000EBFEDA /* incorrectPasscode.json in Resources */,
 				4B9358961F47788A0038C327 /* userSearchResultsSuccess.json in Resources */,
@@ -1726,6 +1744,7 @@
 				4B01DBAB203619C40031B417 /* LocalVoiceTrackStatus.swift in Sources */,
 				4BB6ED642034EFE700046EA6 /* EZAudioDisplayLink.m in Sources */,
 				4BC1C30C1F4A1D7000B7415C /* PlayolaStationPlayer.swift in Sources */,
+				4B51B23120926AE500FE8CCF /* ParseEmpty.swift in Sources */,
 				4BF434C41F7ECD6600E79F59 /* PlayButtonUpdater.swift in Sources */,
 				4B065BBD203A1AF800D4FA9C /* ParseSignInResponseOperation.swift in Sources */,
 				4BB6ED702034EFE700046EA6 /* EZAudioUtilities.m in Sources */,
@@ -1756,6 +1775,7 @@
 				4B065BCD203A2E5300D4FA9C /* ParseCreateVoiceTrackOperation.swift in Sources */,
 				4B2D38C71F7AD4A2006F6348 /* NowPlayingTitleLabel.swift in Sources */,
 				4B1F658B1F508203003CC78A /* CommercialBlockProviderTests.swift in Sources */,
+				4B51B23220926AE500FE8CCF /* ParseEmpty.swift in Sources */,
 				4BA3DA6A1F7D53F30013491E /* StationPlayingImageViewUpdater.swift in Sources */,
 				4B065BB9203A025100D4FA9C /* ParseMultipleUsersResponseOperation.swift in Sources */,
 				4B2E97C51FF58AA100C85CCC /* PlayerDelegate.swift in Sources */,
@@ -1899,6 +1919,7 @@
 				4BEDCFB1203932A100ED4A4D /* APIRequestOperation.swift in Sources */,
 				4B2E97B41FF1437100C85CCC /* PlaylistRefreshInstructions.swift in Sources */,
 				4B065BBA203A025100D4FA9C /* ParseMultipleUsersResponseOperation.swift in Sources */,
+				4B51B23320926AE500FE8CCF /* ParseEmpty.swift in Sources */,
 				4BA3DA6B1F7D53F30013491E /* StationPlayingImageViewUpdater.swift in Sources */,
 				4BEDCFAC20392EEB00ED4A4D /* PlayolaOperation.swift in Sources */,
 				4B91A5291F8058B500B1CF83 /* AutoUpdatingPlayButtonWithImage.swift in Sources */,
@@ -1990,6 +2011,7 @@
 				4B2D38D01F7ADAC4006F6348 /* NowPlayingArtistLabel.swift in Sources */,
 				4B93593B1F48D4750038C327 /* PlayolaAudioPlayerTests.swift in Sources */,
 				4B361C431F44BD1C00654968 /* Constants.swift in Sources */,
+				4B51B23420926AE500FE8CCF /* ParseEmpty.swift in Sources */,
 				4BE0071B1F4769680010C420 /* APIErrorType.swift in Sources */,
 				4B065BD9203A390600D4FA9C /* ParseRotationItemsCollection.swift in Sources */,
 				4B361C691F44C91E00654968 /* RotationItem.swift in Sources */,

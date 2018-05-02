@@ -161,7 +161,10 @@ public class User
         id = json["id"].string
         secsOfCommercialPerHour = json["secsOfCommercialPerHour"].int
         dailyListenTimeMS = json["dailyListenTimeMS"].int
-        dailyListenTimeCalculationDate = json["dailyListenTimeCalculationDate"] as? Date
+        if let dailyListenTimeCalculationDateString = json["dailyListenTimeCalculationDate"].string
+        {
+            self.dailyListenTimeCalculationDate = Date(isoString: dailyListenTimeCalculationDateString)
+        }
         deviceID = json["deviceID"].string
         spotifyPlaylistID = json["spotifyPlaylistID"].string
         shouldFollowMostPlayedTracks = json["shouldFollowMostPlayedTracks"].bool

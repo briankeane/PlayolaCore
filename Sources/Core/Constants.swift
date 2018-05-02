@@ -46,36 +46,68 @@ public enum PlayolaUserRole:Int {
     case admin = 2
 }
 
-public struct PlayolaConstants {
-    #if (arch(i386) || arch(x86_64)) && os(iOS)  // simulator
+public enum EnvironmentType:String {
+    case development = "local"
+    case staging = "staging"
+    case production = "production"
+}
+
+public class PlayolaConstants {
+    public static var environment:EnvironmentType {
+        get {
+            // default environments:
+            // if in simulator: .development
+            // otherwise:
+            if (UserDefaults.standard.string(forKey: "playolaEnvironment")  == nil)
+            {
+                // default to development in simulator
+                #if (arch(i386) || arch(x86_64)) && os(iOS)   // simulator
+                    UserDefaults.standard.set(EnvironmentType.development.rawValue, forKey: "playolaEnvironment")
+                #else
+                    UserDefaults.standard.set(EnvironmentType.production.rawValue, forKey: "playolaEnvironment")
+                #endif
+            }
+            return EnvironmentType(rawValue: UserDefaults.standard.string(forKey: "playolaEnvironment")!)!
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: "playolaEnvironment")
+        }
+    }
     
-//    // --------- USE THESE FOR DEV SERVER --------  //
-    public static let HOST_NAME = "127.0.0.1:9000"
-    public static let BASE_URL = "http://\(HOST_NAME)"
-    public static let S3_SONGS_BUCKET = "playolasongsdevelopment"
-    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
-    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongsdevelopment"
-    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimagesdevelopment"
-    
-//     --------- USE THESE FOR PRODUCTION SERVER --------  //
-//    public static let HOST_NAME = "api.playola.fm"
-//    public static let S3_SONGS_BUCKET = "playolasongs"
-//    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongs"
-//    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
-//    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimages"
-//    public static let BASE_URL = "https://\(HOST_NAME)"
-    
-    
-    #else
-    // device
-    public static let HOST_NAME = "api.playola.fm"
-    public static let S3_SONGS_BUCKET = "playolasongs"
-    public static let S3_PROCESSED_SONGS_BUCKET = "playolaprocessedsongs"
-    public static let S3_COMMERCIAL_BLOCKS_BUCKET = "playolacommercialblocks"
-    public static let S3_PROFILE_IMAGES_BUCKET = "playolaprofileimages"
-    public static let BASE_URL = "https://\(HOST_NAME)"
-    #endif
-    
+    public static var HOST_NAME:String {
+        get {
+            switch PlayolaConstants.environment {
+            case .production:
+                return "api.playola.fm"
+            case .development:
+                return "127.0.0.1:10111"
+            case .staging:
+                return "api-staging.playola.fm"
+            }
+        }
+    }
+    public static var BASE_URL:String {
+        get {
+            switch PlayolaConstants.environment {
+            case .production, .staging:
+                return "https://\(HOST_NAME)"
+            case .development:
+                return "http://\(HOST_NAME)"
+            }
+        }
+    }
+    public static var S3_PROFILE_IMAGES_BUCKET:String {
+        get {
+            switch PlayolaConstants.environment {
+            case .production:
+                return "playolaprofileimages"
+            case .staging:
+                return "playolaprofileimages"
+            case .development:
+                return "playolaprofileimagesdevelopment"
+            }
+        }
+    }
     
     /// song bin minimums
     public static let SONG_BIN_MINIMUMS:[String:Int] = ["heavy": 20,

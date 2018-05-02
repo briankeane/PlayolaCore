@@ -20,7 +20,7 @@ open class RotationItem
     
     //------------------------------------------------------------------------------
     
-    public init(rawDictionary:Dictionary<String,Any>)
+    public init(rawDictionary:[String:Any])
     {
         if let eoi = rawDictionary["eoi"] as? Int
         {
