@@ -6,7 +6,7 @@
 //  Copyright © 2017 Brian D Keane. All rights reserved.
 //
 
-open class RotationItem
+open class RotationItem: Hashable
 {
     public var eoi:Int?
     public var eom:Int?
@@ -19,6 +19,14 @@ open class RotationItem
     public var removalInProgress:Bool = false
     
     //------------------------------------------------------------------------------
+    
+    public var hashValue:Int {
+        return id.hashValue
+    }
+    
+    public static func == (lhs: RotationItem, rhs: RotationItem) -> Bool {
+        return lhs.id == rhs.id && lhs.id == rhs.id
+    }
     
     public init(rawDictionary:[String:Any])
     {

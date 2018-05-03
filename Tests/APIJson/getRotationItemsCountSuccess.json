@@ -1,0 +1,10 @@
+{
+    "binCounts": {
+        "light": 60,
+        "medium": 40,
+        "heavy": 20
+    },
+    "inactive": 6,
+    "processing": 5,
+    "stationMinimum": 100
+}

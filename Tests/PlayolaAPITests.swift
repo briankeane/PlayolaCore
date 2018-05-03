@@ -13,6 +13,7 @@ import Nimble
 import Alamofire
 import OHHTTPStubs
 import OHHTTPStubs.NSURLRequest_HTTPBodyTesting
+import SwiftyJSON
 
 class PlayolaAPITests: QuickSpec
 {
@@ -55,6 +56,7 @@ class PlayolaAPITests: QuickSpec
     let removeRotationItemsAndResetPath     =        "/api/v1/rotationItems/removeAndReset"
     let shuffleStationPath                  =        "/api/v1/spins/shuffle"
     let registerSpotifyCredentialsPath      =        "/api/v1/users/me/spotifyCredentials"
+    let getRotationItemsCountPath           =        "/api/v1/users/me/rotationItems/counts"
     
     
     override func spec()
@@ -318,6 +320,73 @@ class PlayolaAPITests: QuickSpec
                     {
                         (done) in
                         api.getActiveSessionsCount(broadcasterID: "aBroadcasterID")
+                        .then
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
+                            done()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("getRotationItemsCount()")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("getRotationItemsCountSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                    {
+                        (done) in
+                            
+                        api.getRotationItemsCount()
+                        .then
+                        {
+                            (counts) -> Void in
+                            // check request
+                            expect(sentRequest!.url!.path).to(equal(self.getRotationItemsCountPath))
+                            expect(sentRequest!.httpMethod).to(equal("GET"))
+                            
+                            // check response
+                            let jsonDict = self.readLocalJsonFile("getRotationItemsCountSuccess.json")!
+                            expect(counts["binCounts"]["light"].int!).to(equal((jsonDict["binCounts"] as! [String:Int])["light"]))
+                            done()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("getRotationItems() should not have errored")
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("404.json", type(of: self))!,
+                        statusCode: 404,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (done) in
+                        api.getRotationItemsCount()
                         .then
                         {
                             (user) -> Void in

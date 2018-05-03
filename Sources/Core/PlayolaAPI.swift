@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import PromiseKit
+import SwiftyJSON
 
 @objc open class PlayolaAPI:NSObject
 {
@@ -1021,6 +1022,59 @@ import PromiseKit
                 }
                 return fulfill(parsingOp.count!)
             }
+        }
+    }
+    
+    // -----------------------------------------------------------------------------
+    //                          func getActiveSessionsCount
+    // -----------------------------------------------------------------------------
+    /**
+     Gets the current number of listeners for a station
+     
+     - parameters:
+     - broadcasterID: `(String)` - the id of the station
+     
+     ### Usage Example: ###
+     ````
+     authService.getActiveSessionsCount()
+     .then
+     {
+     (count) -> Void in
+     print(count)
+     }
+     .catch (err)
+     {
+     print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<Int>` - a promise
+     * resolves to: an integer
+     * rejects: an APIError
+     */
+    
+    open func getRotationItemsCount(priority:Operation.QueuePriority = .normal) -> Promise<JSON>
+    {
+        let method:HTTPMethod = .get
+        let url = "\(baseURL)/api/v1/users/me/rotationItems/counts"
+        let headers:HTTPHeaders? = self.headersWithAuth()
+        return Promise
+        {
+            (fulfill, reject) -> Void in
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers)
+            let parsingOp = ParseRotationItemsCount()
+                
+                self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+                .then
+                {
+                    () -> Void in
+                    if let err = parsingOp.apiError
+                    {
+                        return reject(err)
+                    }
+                    return fulfill(parsingOp.rotationItemsCount!)
+                }
         }
     }
     

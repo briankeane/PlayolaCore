@@ -328,6 +328,12 @@
 		4BA3DA6A1F7D53F30013491E /* StationPlayingImageViewUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3DA681F7D53F30013491E /* StationPlayingImageViewUpdater.swift */; };
 		4BA3DA6B1F7D53F30013491E /* StationPlayingImageViewUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3DA681F7D53F30013491E /* StationPlayingImageViewUpdater.swift */; };
 		4BA3DA6C1F7D53F30013491E /* StationPlayingImageViewUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3DA681F7D53F30013491E /* StationPlayingImageViewUpdater.swift */; };
+		4BA4B83B209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4B83A209B55A900E9839F /* ParseRotationItemsCount.swift */; };
+		4BA4B83C209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4B83A209B55A900E9839F /* ParseRotationItemsCount.swift */; };
+		4BA4B83D209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4B83A209B55A900E9839F /* ParseRotationItemsCount.swift */; };
+		4BA4B83E209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4B83A209B55A900E9839F /* ParseRotationItemsCount.swift */; };
+		4BA4B840209B61AF00E9839F /* getRotationItemsCountSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BA4B83F209B61AF00E9839F /* getRotationItemsCountSuccess.json */; };
+		4BA4B841209B61AF00E9839F /* getRotationItemsCountSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = 4BA4B83F209B61AF00E9839F /* getRotationItemsCountSuccess.json */; };
 		4BA66CAA1F65FE8D0097F04D /* PlayolaScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA66CA91F65FE8D0097F04D /* PlayolaScheduler.swift */; };
 		4BA66CAB1F65FE8D0097F04D /* PlayolaScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA66CA91F65FE8D0097F04D /* PlayolaScheduler.swift */; };
 		4BA66CAC1F65FE8D0097F04D /* PlayolaScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA66CA91F65FE8D0097F04D /* PlayolaScheduler.swift */; };
@@ -618,6 +624,8 @@
 		4BA3DA601F7D4D0C0013491E /* NowPlayingImageUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingImageUpdaterTests.swift; path = ../Tests/NowPlayingImageUpdaterTests.swift; sourceTree = "<group>"; };
 		4BA3DA631F7D53810013491E /* StationPlayingProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StationPlayingProfileImageView.swift; path = ../Sources/Player/StationPlayingProfileImageView.swift; sourceTree = "<group>"; };
 		4BA3DA681F7D53F30013491E /* StationPlayingImageViewUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StationPlayingImageViewUpdater.swift; path = ../Sources/Player/StationPlayingImageViewUpdater.swift; sourceTree = "<group>"; };
+		4BA4B83A209B55A900E9839F /* ParseRotationItemsCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ParseRotationItemsCount.swift; path = ../Sources/Core/ParseRotationItemsCount.swift; sourceTree = "<group>"; };
+		4BA4B83F209B61AF00E9839F /* getRotationItemsCountSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = getRotationItemsCountSuccess.json; path = ../Tests/APIJson/getRotationItemsCountSuccess.json; sourceTree = "<group>"; };
 		4BA66CA91F65FE8D0097F04D /* PlayolaScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaScheduler.swift; path = ../Sources/StationEditor/PlayolaScheduler.swift; sourceTree = "<group>"; };
 		4BA66CAE1F65FEA90097F04D /* PlayolaSchedulerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaSchedulerTests.swift; path = ../Tests/Services/PlayolaSchedulerTests.swift; sourceTree = "<group>"; };
 		4BA66CB11F66CA560097F04D /* UserModelMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserModelMock.swift; path = ../Tests/Mocks/UserModelMock.swift; sourceTree = "<group>"; };
@@ -879,6 +887,7 @@
 		4B361BB51F44676B00654968 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4BA4B83A209B55A900E9839F /* ParseRotationItemsCount.swift */,
 				4BB6ED902035006000046EA6 /* PlayolaMainMixer.swift */,
 				4B065BD5203A390600D4FA9C /* ParseRotationItemsCollection.swift */,
 				4B065BDA203A3AAA00D4FA9C /* ParseCountOperation.swift */,
@@ -1029,6 +1038,7 @@
 		4B361C741F45CE6400654968 /* APIJson */ = {
 			isa = PBXGroup;
 			children = (
+				4BA4B83F209B61AF00E9839F /* getRotationItemsCountSuccess.json */,
 				4B3A66B1209918B400CD62BD /* getUserRotationItemsSuccessNew.json */,
 				4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */,
 				4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */,
@@ -1398,6 +1408,7 @@
 				4B173A6E204859C400598E97 /* passwordResetSuccess.json in Resources */,
 				4BF10AAE1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
+				4BA4B840209B61AF00E9839F /* getRotationItemsCountSuccess.json in Resources */,
 				4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007061F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
 				4B221DCC2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */,
@@ -1437,6 +1448,7 @@
 				4B173A6F204859C400598E97 /* passwordResetSuccess.json in Resources */,
 				4BF10AAF1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
+				4BA4B841209B61AF00E9839F /* getRotationItemsCountSuccess.json in Resources */,
 				4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007071F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
 				4B221DCD2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */,
@@ -1721,6 +1733,7 @@
 				4B361BF41F44AF1700654968 /* PlayolaAPI.swift in Sources */,
 				4B7C605A1F7C42A400806F30 /* NowPlayingAlbumArtworkImageView.swift in Sources */,
 				4B065BCC203A2E5300D4FA9C /* ParseCreateVoiceTrackOperation.swift in Sources */,
+				4BA4B83B209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */,
 				4B065BC7203A24D600D4FA9C /* ParseRequestSongBySpotifyIDOperation.swift in Sources */,
 				4BE0070E1F4756450010C420 /* APIError.swift in Sources */,
 				4BB6ED7C2034EFE800046EA6 /* EZAudioFloatConverter.m in Sources */,
@@ -1802,6 +1815,7 @@
 				4B1DFC381FDC517D0081674D /* SpotifyTrackTests.swift in Sources */,
 				4B361C681F44C91E00654968 /* RotationItem.swift in Sources */,
 				4B221DD820051AA000575D6A /* AudioBlockType.swift in Sources */,
+				4BA4B83C209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */,
 				4BEDCFB52039363900ED4A4D /* ParseSingleUserResponseOperation.swift in Sources */,
 				4BF434C51F7ECD6600E79F59 /* PlayButtonUpdater.swift in Sources */,
 				4B7C60651F7C437600806F30 /* NowPlayingImageViewUpdater.swift in Sources */,
@@ -1899,6 +1913,7 @@
 				4BB6ED862034F00C00046EA6 /* TPCircularBuffer.c in Sources */,
 				4B1F65901F5202F2003CC78A /* PlayolaModelRefreshHandler.swift in Sources */,
 				4B065BD8203A390600D4FA9C /* ParseRotationItemsCollection.swift in Sources */,
+				4BA4B83D209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */,
 				4BA66CAC1F65FE8D0097F04D /* PlayolaScheduler.swift in Sources */,
 				4B37BDEC1FF94B0C000A4CF0 /* PAPSpinPlayerProtocol.swift in Sources */,
 				4B065BC4203A1F0900D4FA9C /* ParsingOperation.swift in Sources */,
@@ -2087,6 +2102,7 @@
 				4B7C90B91FACF308004EBC0B /* Playola.swift in Sources */,
 				4B2E97C71FF58AA100C85CCC /* PlayerDelegate.swift in Sources */,
 				4B7C605D1F7C42A400806F30 /* NowPlayingAlbumArtworkImageView.swift in Sources */,
+				4BA4B83E209B55A900E9839F /* ParseRotationItemsCount.swift in Sources */,
 				4BF4CF171F743DCB0011C117 /* PlayolaErrorType.swift in Sources */,
 				4B361C221F44B69C00654968 /* ProgramModelTests.swift in Sources */,
 				4B2E97BD1FF5876600C85CCC /* PlayolaAVAudioPlayer.swift in Sources */,
