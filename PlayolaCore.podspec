@@ -22,11 +22,11 @@ Pod::Spec.new do |s|
     # s.osx.frameworks = 'AudioToolbox','AudioUnit','CoreAudio','QuartzCore','OpenGL','GLKit', 'Accelerate'
     # s.requires_arc = true;
     # s.default_subspec = 'Full'
-    s.dependency 'Alamofire', '~> 4.5.0'
-    s.dependency 'PromiseKit', '~> 4.0'
-    s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
+    s.dependency 'Alamofire', '~> 4.7.3'
+    s.dependency 'PromiseKit', '~> 6.5.0'
+    s.dependency 'SwiftRemoteFileCache', '~> 0.1'
     s.dependency 'Kingfisher', '~> 4.10.0'
-    s.dependency 'SwiftyJSON', '~> 4.0.0'
+    s.dependency 'SwiftyJSON', '~> 4.2.0'
 
     # s.ios.dependency 'KDCircularProgress', '~> 1.5.2'  # manually include until he fixes cocoapod
 
