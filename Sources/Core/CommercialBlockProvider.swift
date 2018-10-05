@@ -55,7 +55,7 @@ public class CommercialBlockProviderService:NSObject
                                                          "boo": (duration - 1000) as AnyObject,
                                                          "eom": (duration - 1000) as AnyObject,
                                                          "title":"Commercial Block" as AnyObject,
-                                                         "id":"commercialBlock\(nextID)" as AnyObject,
+                                                         "id":"commercialBlock\(nextID ?? 1)" as AnyObject,
                                                          "key":"\(String(format: "%04d", arguments: [nextID]))_commercial_block.mp3" as AnyObject,
                                                          "isCommercialBlock":true as AnyObject])
             commercialBlocks.append(audioBlock)

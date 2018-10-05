@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.5.0)
+  - Alamofire (4.7.3)
   - Kingfisher (4.10.0)
   - Nimble (7.3.1)
   - OHHTTPStubs (6.1.0):
@@ -17,32 +17,30 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (6.1.0)
   - OHHTTPStubs/Swift (6.1.0):
     - OHHTTPStubs/Default
-  - PromiseKit (4.5.2):
-    - PromiseKit/Foundation (= 4.5.2)
-    - PromiseKit/QuartzCore (= 4.5.2)
-    - PromiseKit/UIKit (= 4.5.2)
-  - PromiseKit/CorePromise (4.5.2)
-  - PromiseKit/Foundation (4.5.2):
+  - PromiseKit (6.5.0):
+    - PromiseKit/CorePromise (= 6.5.0)
+    - PromiseKit/Foundation (= 6.5.0)
+    - PromiseKit/UIKit (= 6.5.0)
+  - PromiseKit/CorePromise (6.5.0)
+  - PromiseKit/Foundation (6.5.0):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.5.2):
-    - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.5.2):
+  - PromiseKit/UIKit (6.5.0):
     - PromiseKit/CorePromise
   - Quick (1.3.2)
-  - SwiftRemoteFileCache (0.0.8):
-    - Alamofire (= 4.5.0)
+  - SwiftRemoteFileCache (0.1):
+    - Alamofire (= 4.7.3)
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
-  - Alamofire (= 4.5.0)
-  - Kingfisher (~> 4.10)
+  - Alamofire (= 4.7.3)
+  - Kingfisher (~> 4.10.0)
   - Nimble
   - OHHTTPStubs
   - OHHTTPStubs/Swift
-  - PromiseKit (~> 4.0)
+  - PromiseKit (~> 6.5.0)
   - Quick
   - SwiftRemoteFileCache
-  - SwiftyJSON
+  - SwiftyJSON (~> 4.2.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -56,15 +54,15 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
-  PromiseKit: 743e497a5f505a470d3bbbf4ce0663c1268af0a4
+  PromiseKit: 54ed7e56768b7e8d29072afe9384101c64a2b7ff
   Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
-  SwiftRemoteFileCache: e9d8a1204c4441386638f85fb543e17130c51b84
+  SwiftRemoteFileCache: f83730a2b7ba8d878a5af59c9c473db10489a6ac
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 63927239f7187d08455bd6bb528c4fd3d615505e
+PODFILE CHECKSUM: 8ec7e7300346b79cb624c1d8ef86dbfa12ff9111
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.5.3

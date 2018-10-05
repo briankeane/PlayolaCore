@@ -65,7 +65,7 @@ public class PlayolaConstants {
             if (UserDefaults.standard.string(forKey: "playolaEnvironment")  == nil)
             {
                 // default to development in simulator
-                #if (arch(i386) || arch(x86_64)) && os(iOS)   // simulator
+                #if targetEnvironment(simulator)   // simulator
                     UserDefaults.standard.set(EnvironmentType.development.rawValue, forKey: "playolaEnvironment")
                 #else
                     UserDefaults.standard.set(EnvironmentType.production.rawValue, forKey: "playolaEnvironment")

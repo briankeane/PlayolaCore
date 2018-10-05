@@ -126,7 +126,7 @@ class PlayolaSchedulerTests: QuickSpec
                     let toPlaylistPosition = scheduler.user.program!.playlist![6].playlistPosition!
                     apiMock.moveSpinShouldPause = true
                     scheduler.moveSpin(fromPlaylistPosition: fromPlaylistPosition, toPlaylistPosition: toPlaylistPosition)
-                    .then
+                    .done
                     {
                         (playlist) -> Void in
                     }

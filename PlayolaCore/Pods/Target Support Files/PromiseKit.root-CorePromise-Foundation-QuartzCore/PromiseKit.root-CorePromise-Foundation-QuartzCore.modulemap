@@ -1,6 +1,0 @@
-framework module PromiseKit {
-  umbrella header "PromiseKit.root-CorePromise-Foundation-QuartzCore-umbrella.h"
-
-  export *
-  module * { export * }
-}

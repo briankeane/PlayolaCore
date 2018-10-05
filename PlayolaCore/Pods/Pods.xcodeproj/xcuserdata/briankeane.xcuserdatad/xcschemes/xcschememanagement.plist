@@ -64,12 +64,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PromiseKit.default-CorePromise.xcscheme</key>
+		<key>PromiseKit.root-CorePromise-Foundation.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PromiseKit.root-CorePromise-Foundation-QuartzCore.xcscheme</key>
+		<key>PromiseKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

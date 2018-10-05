@@ -1,8 +1,8 @@
 CODE_SIGN_IDENTITY =
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire-macOS" "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher-macOS" "${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftRemoteFileCache-macOS" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON-macOS"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire-macOS" "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher-macOS" "${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit.root-CorePromise-Foundation" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftRemoteFileCache-macOS" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON-macOS"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/../Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire-macOS/Alamofire.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher-macOS/Kingfisher.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore/PromiseKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON-macOS/SwiftyJSON.framework/Headers"
+OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire-macOS/Alamofire.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher-macOS/Kingfisher.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit.root-CorePromise-Foundation/PromiseKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON-macOS/SwiftyJSON.framework/Headers"
 OTHER_LDFLAGS = $(inherited) -framework "Alamofire" -framework "Kingfisher" -framework "PromiseKit" -framework "SwiftRemoteFileCache" -framework "SwiftyJSON"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_BUILD_DIR = ${BUILD_DIR}

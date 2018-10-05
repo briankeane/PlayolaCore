@@ -116,11 +116,11 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
                     
                         api.getMe()
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             // check request
@@ -129,7 +129,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect(user.id).to(equal(((jsonDict["user"] as! [String:Any])["id"] as! String)))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -152,9 +152,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getMe()
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -163,7 +163,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -183,10 +183,10 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         
                         api.getRotationItems()
-                        .then
+                        .done
                         {
                             (rotationItemsCollection) -> Void in
                             // check request
@@ -195,7 +195,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect(rotationItemsCollection).toNot(beNil())
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -216,9 +216,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getRotationItems()
-                        .then
+                        .done
                         {
                             (rotationItemsCollection) -> Void in
                             // check request
@@ -228,7 +228,7 @@ class PlayolaAPITests: QuickSpec
                             // check response
                             expect(rotationItemsCollection).toNot(beNil())
                             expect(rotationItemsCollection.rotationItems.count).to(equal(3))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -251,9 +251,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getRotationItems()
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -262,7 +262,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -282,10 +282,10 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                             
                         api.getActiveSessionsCount(broadcasterID:"aBroadcasterID")
-                        .then
+                        .done
                         {
                             (count) -> Void in
                             // check request
@@ -295,7 +295,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect(count).to(equal(42))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -318,9 +318,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getActiveSessionsCount(broadcasterID: "aBroadcasterID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -329,7 +329,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -349,10 +349,10 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                             
                         api.getRotationItemsCount()
-                        .then
+                        .done
                         {
                             (counts) -> Void in
                             // check request
@@ -362,7 +362,7 @@ class PlayolaAPITests: QuickSpec
                             // check response
                             let jsonDict = self.readLocalJsonFile("getRotationItemsCountSuccess.json")!
                             expect(counts["binCounts"]["light"].int!).to(equal((jsonDict["binCounts"] as! [String:Int])["light"]))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -385,9 +385,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getRotationItemsCount()
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -396,7 +396,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -416,10 +416,10 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                             
                         api.getPresets()
-                        .then
+                        .done
                         {
                             (presets) -> Void in
                             let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
@@ -436,7 +436,7 @@ class PlayolaAPITests: QuickSpec
                             // check response
                             print(rawID)
                             expect(presets[0].id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -481,7 +481,7 @@ class PlayolaAPITests: QuickSpec
                         )
                         waitUntil()
                         {
-                            (done) in
+                            (finished) in
                             
                             checkNotificationBlock = {
                                 (notification) -> Void in
@@ -490,16 +490,16 @@ class PlayolaAPITests: QuickSpec
                                 let rawPresets = (jsonDict["presets"] as! [NSDictionary])
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
-                                done()
+                                finished()
                             }
                             
                             api.getPresets()
-                            .then
+                            .done
                             {
                                 (presets) -> Void in
                                 // wait for checkNotificationsBlock to execute
 //                                expect(checkNotificationsFinished).toEventually(equal(true))
-//                                done()
+//                                finished()
                             }
                             .catch
                             {
@@ -521,13 +521,13 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getPresets(userID: "aUserID")
-                        .then
+                        .done
                         {
                             (presets) -> Void in
                             expect(sentRequest!.url!.path).to(equal("/api/v1/users/aUserID/presets"))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -550,9 +550,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getPresets()
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -561,7 +561,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -581,9 +581,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getTopStations()
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             let jsonDict = self.readLocalJsonFile("getTopStationsSuccess.json")!
@@ -597,7 +597,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawTopUsers[0]["id"] as! String
                             // check response
                             expect(topUsers[0].id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -620,9 +620,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getTopStations()
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             fail("there should have been an error")
@@ -631,7 +631,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -651,11 +651,11 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.updateUser(["displayName": "bob",
                                                                  "email": "bob@bob.com"
                                                                 ])
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -671,7 +671,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -694,11 +694,11 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.updateUser(["displayName": "bob",
                                                                  "email": "bob@bob.com"
                                                                 ])
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             fail("there should have been an error")
@@ -710,7 +710,7 @@ class PlayolaAPITests: QuickSpec
                             
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -730,9 +730,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.registerSpotifyCredentials(refreshToken: "aRefreshToken", accessToken: "anAccessToken")
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             
@@ -743,7 +743,7 @@ class PlayolaAPITests: QuickSpec
                             expect((sentBody!["accessToken"] as! String)).to(equal("anAccessToken"))
                                     
                             // check response
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -766,9 +766,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.registerSpotifyCredentials(refreshToken: "aRefreshToken", accessToken: "anAccessToken")
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             fail("there should have been an error")
@@ -780,7 +780,7 @@ class PlayolaAPITests: QuickSpec
                                     
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -800,9 +800,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.follow(broadcasterID:"aBroadcasterID")
-                        .then
+                        .done
                         {
                             (presets) -> Void in
                             let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
@@ -816,7 +816,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawPresets[0]["id"] as! String
                             // check response
                             expect(presets[0].id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -834,10 +834,11 @@ class PlayolaAPITests: QuickSpec
                     var checkNotificationsFinished:Bool = false
                     
                     beforeEach
-                        {
-                            checkNotificationsFinished = false
-                            observers = Array()
-                            observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
+                    {
+                        checkNotificationsFinished = false
+                        observers = Array()
+                        observers.append(NotificationCenter.default.addObserver(forName:
+                            PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
                             {
                                 (notification) -> Void in
                                 checkNotificationBlock?(notification)
@@ -845,11 +846,11 @@ class PlayolaAPITests: QuickSpec
                     }
                     
                     afterEach
+                    {
+                        for observer in observers
                         {
-                            for observer in observers
-                            {
-                                NotificationCenter.default.removeObserver(observer)
-                            }
+                            NotificationCenter.default.removeObserver(observer)
+                        }
                     }
                     
                     
@@ -863,7 +864,7 @@ class PlayolaAPITests: QuickSpec
                         )
                         waitUntil()
                         {
-                            (done) in
+                            (finished) in
                             checkNotificationBlock = {
                                 (notification) -> Void in
                                 let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
@@ -872,11 +873,11 @@ class PlayolaAPITests: QuickSpec
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
                                 checkNotificationsFinished = true
-                                done()
+                                finished()
                             }
                             
                             api.follow(broadcasterID: "aBroadcasterID")
-                            .then
+                            .done
                             {
                                 (presets) -> Void in
                                 // tests are in async block above
@@ -902,13 +903,13 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.follow(broadcasterID: "aUserID")
-                        .then
+                        .done
                         {
                             (presets) -> Void in
                             expect(sentRequest!.url!.path).to(equal("/api/v1/users/aUserID/follow"))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -931,9 +932,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.follow(broadcasterID:"aBroadcasterID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -942,7 +943,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -962,9 +963,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.unfollow(broadcasterID:"aBroadcasterID")
-                        .then
+                        .done
                         {
                             (presets) -> Void in
                             let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
@@ -979,7 +980,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect(presets[0].id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1026,7 +1027,7 @@ class PlayolaAPITests: QuickSpec
                         )
                         waitUntil()
                         {
-                            (done) in
+                            (finished) in
                             checkNotificationBlock = {
                                 (notification) -> Void in
                                 let jsonDict = self.readLocalJsonFile("getPresetsSuccess.json")!
@@ -1035,11 +1036,11 @@ class PlayolaAPITests: QuickSpec
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
                                 checkNotificationsFinished = true
-                                done()
+                                finished()
                             }
                                 
                             api.unfollow(broadcasterID: "aBroadcasterID")
-                            .then
+                            .done
                             {
                                 (presets) -> Void in
                                 // tests are in async block above
@@ -1065,13 +1066,13 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.unfollow(broadcasterID: "aUserID")
-                        .then
+                        .done
                         {
                             (presets) -> Void in
                             expect(sentRequest!.url!.path).to(equal("/api/v1/users/aUserID/unfollow"))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1094,9 +1095,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.unfollow(broadcasterID:"aBroadcasterID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1105,7 +1106,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1125,9 +1126,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.findUsersByKeywords(searchString:"Bob")
-                        .then
+                        .done
                         {
                             (presets) -> Void in
                             let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
@@ -1143,14 +1144,14 @@ class PlayolaAPITests: QuickSpec
                                 
                             // check response
                             expect(presets[0].id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("getRotationItems() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1167,9 +1168,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.findUsersByKeywords(searchString:"Bob")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1178,7 +1179,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1198,9 +1199,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.findSongsByKeywords(searchString:"Bob")
-                        .then
+                        .done
                         {
                             (songs) -> Void in
                             let jsonDict = self.readLocalJsonFile("songSearchResultsSuccess.json")!
@@ -1216,14 +1217,14 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect(songs[0].id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("findSongsByKeywords() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1240,9 +1241,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.findSongsByKeywords(searchString:"Bob")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1251,7 +1252,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1272,9 +1273,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getUser(userID: "userOneID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -1289,13 +1290,13 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect(user.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             fail("getUser() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1312,9 +1313,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getUser(userID: "userOneID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1323,7 +1324,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1343,11 +1344,11 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getUsersByAttributes(attributes: ["displayName": "bob",
                                                               "email": "bob@bob.com"
                         ])
-                        .then
+                        .done
                         {
                             (searchResults) -> Void in
                             let jsonDict = self.readLocalJsonFile("userSearchResultsSuccess.json")!
@@ -1364,7 +1365,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
                             expect(searchResults[0].id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1387,15 +1388,15 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.getUsersByAttributes(attributes: ["displayName": "bob",
                                                                      "email": "bob@bob.com"
                                 ])
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             fail("there should have been an error")
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1403,7 +1404,7 @@ class PlayolaAPITests: QuickSpec
                             let jsonDict = self.readLocalJsonFile("422.json")!
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1423,9 +1424,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.addSongsToBin(songIDs: ["songOneID", "songTwoID"], bin: "heavy")
-                        .then
+                        .done
                         {
                             (rotationItemsCollection) -> Void in
                             // check request
@@ -1436,7 +1437,7 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect(rotationItemsCollection).toNot(beNil())
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1459,9 +1460,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.addSongsToBin(songIDs:["songOneID", "songTwoID"], bin: "heavy")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1470,7 +1471,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1491,9 +1492,9 @@ class PlayolaAPITests: QuickSpec
                                                   )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.deactivateRotationItem(rotationItemID: "rotationItemID")
-                        .then
+                        .done
                         {
                             (rotationItemsCollection) -> Void in
                             // check request
@@ -1502,7 +1503,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect(rotationItemsCollection).toNot(beNil())
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1523,9 +1524,9 @@ class PlayolaAPITests: QuickSpec
                                         )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.deactivateRotationItem(rotationItemID:"rotationItemID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1534,7 +1535,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                                    done()
+                                    finished()
                         }
                     }
                 }
@@ -1555,9 +1556,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.removeRotationItemsAndReset(rotationItemIDs: ["rotationItemID"])
-                        .then
+                        .done
                         {
                             (rotationItemsCollection) -> Void in
                             // check request
@@ -1567,7 +1568,7 @@ class PlayolaAPITests: QuickSpec
                                 
                             // check response
                             expect(rotationItemsCollection).toNot(beNil())
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1588,9 +1589,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.removeRotationItemsAndReset(rotationItemIDs: ["rotationItemID"])
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1599,7 +1600,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1620,9 +1621,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.reportListeningSession(broadcasterID: "aBroadcastersID")
-                        .then
+                        .done
                         {
                             (responseDict) -> Void in
                             // check request
@@ -1632,7 +1633,7 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect((responseDict["message"] as! String)).to(equal("success"))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1653,9 +1654,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.reportListeningSession(broadcasterID: "aBroadcastersID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1664,7 +1665,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1685,9 +1686,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.reportAnonymousListeningSession(broadcasterID: "aBroadcastersID", deviceID: "aUniqueDeviceID")
-                        .then
+                        .done
                         {
                             (responseDict) -> Void in
                             // check request
@@ -1698,7 +1699,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect((responseDict["message"] as! String)).to(equal("success"))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1719,9 +1720,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.reportAnonymousListeningSession(broadcasterID: "aBroadcastersID", deviceID: "aUniqueDeviceID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1730,7 +1731,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1751,9 +1752,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.reportEndOfListeningSession()
-                        .then
+                        .done
                         {
                             (responseDict) -> Void in
                             // check request
@@ -1762,7 +1763,7 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect((responseDict["message"] as! String)).to(equal("success"))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1783,9 +1784,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                         {
-                            (done) in
+                            (finished) in
                             api.reportEndOfListeningSession()
-                                .then
+                                .done
                                 {
                                     (user) -> Void in
                                     fail("there should have been an error")
@@ -1794,7 +1795,7 @@ class PlayolaAPITests: QuickSpec
                                 {
                                     (error) -> Void in
                                     expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                                    done()
+                                    finished()
                             }
                     }
                 }
@@ -1815,9 +1816,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                         {
-                            (done) in
+                            (finished) in
                             api.reportEndOfAnonymousListeningSession(deviceID: "aUniqueDeviceID")
-                            .then
+                            .done
                             {
                                 (responseDict) -> Void in
                                 // check request
@@ -1827,7 +1828,7 @@ class PlayolaAPITests: QuickSpec
                                     
                                 // check response
                                 expect((responseDict["message"] as! String)).to(equal("success"))
-                                done()
+                                finished()
                             }
                             .catch
                             {
@@ -1848,9 +1849,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.reportEndOfAnonymousListeningSession(deviceID: "aUniqueDeviceID")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -1859,7 +1860,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1879,9 +1880,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.moveSpin(spinID:"thisIsASpinID", newPlaylistPosition:42)
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -1896,7 +1897,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1919,9 +1920,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.moveSpin(spinID:"thisIsASpinID", newPlaylistPosition:42)
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             fail("there should have been an error")
@@ -1933,7 +1934,7 @@ class PlayolaAPITests: QuickSpec
                                     
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -1953,9 +1954,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.removeSpin(spinID:"thisIsASpinID")
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -1969,7 +1970,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -1992,9 +1993,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.removeSpin(spinID:"thisIsASpinID")
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             fail("there should have been an error")
@@ -2006,7 +2007,7 @@ class PlayolaAPITests: QuickSpec
                                     
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2026,9 +2027,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.insertSpin(audioBlockID:"thisIsAnAudioBlockID", playlistPosition:42)
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -2044,7 +2045,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -2067,9 +2068,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.insertSpin(audioBlockID:"thisIsAnAudioBlockID", playlistPosition:42)
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             fail("there should have been an error")
@@ -2081,7 +2082,7 @@ class PlayolaAPITests: QuickSpec
                             
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2101,9 +2102,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.shuffleStation()
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -2117,7 +2118,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -2140,9 +2141,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.insertSpin(audioBlockID:"thisIsAnAudioBlockID", playlistPosition:42)
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             fail("there should have been an error")
@@ -2154,7 +2155,7 @@ class PlayolaAPITests: QuickSpec
                                     
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2174,9 +2175,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginViaFacebook(accessTokenString: "someFacebookTokenString")
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
@@ -2192,14 +2193,14 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("loginViaFacebook() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2216,9 +2217,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginViaFacebook(accessTokenString: "someFacebookTokenString")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2227,7 +2228,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2247,9 +2248,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
@@ -2266,14 +2267,14 @@ class PlayolaAPITests: QuickSpec
                                     
                                     // check response
                                     expect(updatedUser.id!).to(equal(rawID))
-                                    done()
+                                    finished()
                                 }
                                 .catch
                                 {
                                     (error) -> Void in
                                     print(error)
                                     fail("loginViaGoogle() should not have errored")
-                                    done()
+                                    finished()
                             }
                     }
                 }
@@ -2290,9 +2291,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2301,7 +2302,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2321,9 +2322,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
@@ -2340,14 +2341,14 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("loginLocak() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2364,9 +2365,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2375,7 +2376,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2392,9 +2393,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2403,7 +2404,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.emailNotFound))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2420,9 +2421,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2431,7 +2432,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.passwordIncorrect))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2451,9 +2452,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
-                        .then
+                        .done
                         {
                             (createdUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
@@ -2470,14 +2471,14 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect(createdUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("createUser() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2494,9 +2495,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2505,7 +2506,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2522,9 +2523,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2533,7 +2534,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.passcodeIncorrect))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2555,9 +2556,9 @@ class PlayolaAPITests: QuickSpec
                         )
                         waitUntil()
                             {
-                                (done) in
+                                (finished) in
                                 api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                                    .then
+                                    .done
                                     {
                                         (songStatus, song) -> Void in
                                         let jsonDict = self.readLocalJsonFile("requestSongBySpotifyIDSongExistsOldAPI.json")!
@@ -2573,14 +2574,14 @@ class PlayolaAPITests: QuickSpec
                                         // check response
                                         expect(songStatus).to(equal(SongStatus.songExists))
                                         expect(song?.id).to(equal(rawID))
-                                        done()
+                                        finished()
                                     }
                                     .catch
                                     {
                                         (error) -> Void in
                                         print(error)
                                         fail("requestSongBySong() should not have errored")
-                                        done()
+                                        finished()
                                 }
                         }
                     }
@@ -2595,9 +2596,9 @@ class PlayolaAPITests: QuickSpec
                         )
                         waitUntil()
                             {
-                                (done) in
+                                (finished) in
                                 api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                                    .then
+                                    .done
                                     {
                                         (songStatus, song) -> Void in
                                         
@@ -2608,14 +2609,14 @@ class PlayolaAPITests: QuickSpec
                                         // check response
                                         expect(songStatus).to(equal(SongStatus.processing))
                                         expect(song).to(beNil())
-                                        done()
+                                        finished()
                                     }
                                     .catch
                                     {
                                         (error) -> Void in
                                         print(error)
                                         fail("requestSongBySong() should not have errored")
-                                        done()
+                                        finished()
                                 }
                         }
                     }
@@ -2633,9 +2634,9 @@ class PlayolaAPITests: QuickSpec
                         )
                         waitUntil()
                         {
-                            (done) in
+                            (finished) in
                             api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                            .then
+                            .done
                             {
                                 (songStatus, song) -> Void in
                                 let jsonDict = self.readLocalJsonFile("requestSongBySpotifyIDSongExists.json")!
@@ -2651,14 +2652,14 @@ class PlayolaAPITests: QuickSpec
                                 // check response
                                 expect(songStatus).to(equal(SongStatus.songExists))
                                 expect(song?.id).to(equal(rawID))
-                                done()
+                                finished()
                             }
                             .catch
                             {
                                 (error) -> Void in
                                 print(error)
                                 fail("requestSongBySong() should not have errored")
-                                done()
+                                finished()
                             }
                         }
                     }
@@ -2673,9 +2674,9 @@ class PlayolaAPITests: QuickSpec
                         )
                         waitUntil()
                         {
-                            (done) in
+                            (finished) in
                             api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                            .then
+                            .done
                             {
                                 (songStatus, song) -> Void in
                                 
@@ -2686,14 +2687,14 @@ class PlayolaAPITests: QuickSpec
                                 // check response
                                 expect(songStatus).to(equal(SongStatus.processing))
                                 expect(song).to(beNil())
-                                done()
+                                finished()
                             }
                             .catch
                             {
                                 (error) -> Void in
                                 print(error)
                                 fail("requestSongBySong() should not have errored")
-                                done()
+                                finished()
                             }
                         }
                     }
@@ -2710,9 +2711,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                        .then
+                        .done
                         {
                             (songStatus, song) -> Void in
                             fail("there should have been an error")
@@ -2721,7 +2722,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2743,9 +2744,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.createVoiceTrack(voiceTrackURL: myVoiceTrackURL)
-                        .then
+                        .done
                         {
                             (voiceTrackStatus, voiceTrack) -> Void in
                             let jsonDict = self.readLocalJsonFile("createVoiceTrackExists.json")!
@@ -2763,14 +2764,14 @@ class PlayolaAPITests: QuickSpec
                             // check response
                             expect(voiceTrackStatus).to(equal(VoiceTrackStatus.completed))
                             expect(voiceTrack?.id).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("createVoiceTrack() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2785,10 +2786,10 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         
                         api.createVoiceTrack(voiceTrackURL: myVoiceTrackURL)
-                        .then
+                        .done
                         {
                             (voiceTrackStatus, voiceTrack) -> Void in
                                     
@@ -2799,14 +2800,14 @@ class PlayolaAPITests: QuickSpec
                             // check response
                             expect(voiceTrackStatus).to(equal(VoiceTrackStatus.processing))
                             expect(voiceTrack).to(beNil())
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("requestSongBySong() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2823,9 +2824,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.createVoiceTrack(voiceTrackURL: myVoiceTrackURL)
-                        .then
+                        .done
                         {
                             (voiceTrackStatus, voiceTrack) -> Void in
                             fail("there should have been an error")
@@ -2834,7 +2835,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2854,9 +2855,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.createEmailConfirmation(email: "bob@bob.com", displayName: "Bob", password: "bobsSecurePassword")
-                        .then
+                        .done
                         {
                             (confirmationID) -> Void in
                             let jsonDict = self.readLocalJsonFile("emailConfirmationSuccess.json")!
@@ -2873,14 +2874,14 @@ class PlayolaAPITests: QuickSpec
                                     
                             // check response
                             expect(confirmationID).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("createUserConfirmation() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2897,9 +2898,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.createEmailConfirmation(email: "bob@bob.com", displayName: "Bob", password: "bobsSecurePassword")
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2908,7 +2909,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2928,23 +2929,23 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.requestPasswordReset()
-                        .then
+                        .done
                         {
                             () -> Void in
                             // check request
                             expect(sentRequest!.url!.path).to(equal("/api/v1/users/me/changePassword"))
                             expect(sentRequest!.httpMethod).to(equal("PUT"))
                                 
-                            done()
+                            finished()
                         }
                         .catch
                         {
                             (error) -> Void in
                             print(error)
                             fail("createUserConfirmation() should not have errored")
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2961,9 +2962,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.requestPasswordReset()
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -2972,7 +2973,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -2992,10 +2993,10 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.changePassword(oldPassword: "oldPasswordExample",
                                            newPassword: "newPasswordExample")
-                        .then
+                        .done
                         {
                             () -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -3007,7 +3008,7 @@ class PlayolaAPITests: QuickSpec
                             expect((sentBody!["newPassword"] as! String)).to(equal("newPasswordExample"))
                             
                             // check response
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -3030,10 +3031,10 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.changePassword(oldPassword: "oldPasswordExample",
                                            newPassword: "newPasswordExample")
-                        .then
+                        .done
                         {
                             (topUsers) -> Void in
                             fail("there should have been an error")
@@ -3042,7 +3043,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.passwordIncorrect))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -3062,12 +3063,12 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.resetRotationItems(items:[(songID:"song1ID", bin: "heavy"),
                                                       (songID:"song2ID", bin: "medium"),
                                                       (songID:"song3ID", bin: "light")
                                                ])
-                        .then
+                        .done
                         {
                             (rotationItemsCollection) -> Void in
                             // check request
@@ -3083,7 +3084,7 @@ class PlayolaAPITests: QuickSpec
                             
                             // check response
                             expect(rotationItemsCollection).toNot(beNil())
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -3106,11 +3107,11 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.resetRotationItems(items:[(songID:"song1ID", bin: "heavy"),
                                                       (songID:"song2ID", bin: "medium"),
                                                       (songID:"song3ID", bin: "light")])
-                        .then
+                        .done
                         {
                             (user) -> Void in
                             fail("there should have been an error")
@@ -3119,7 +3120,7 @@ class PlayolaAPITests: QuickSpec
                         {
                             (error) -> Void in
                             expect((error as! APIError).type()).to(equal(APIErrorType.rotationItemMinimumsNotMet))
-                            done()
+                            finished()
                         }
                     }
                 }
@@ -3139,9 +3140,9 @@ class PlayolaAPITests: QuickSpec
                     )
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.startStation()
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
@@ -3155,7 +3156,7 @@ class PlayolaAPITests: QuickSpec
                             let rawID = rawUpdatedUser["id"] as! String
                             // check response
                             expect(updatedUser.id!).to(equal(rawID))
-                            done()
+                            finished()
                         }
                         .catch
                         {
@@ -3178,9 +3179,9 @@ class PlayolaAPITests: QuickSpec
                     // test
                     waitUntil()
                     {
-                        (done) in
+                        (finished) in
                         api.startStation()
-                        .then
+                        .done
                         {
                             (updatedUser) -> Void in
                             fail("there should have been an error")
@@ -3192,7 +3193,7 @@ class PlayolaAPITests: QuickSpec
                             
                             let authError = error as! APIError
                             expect(authError.message!).to(equal((jsonDict["message"] as! String)))
-                            done()
+                            finished()
                         }
                     }
                 }

@@ -156,7 +156,7 @@ open class PlayolaScheduler:NSObject
      ### Usage Example ###
      ```
      scheduler.moveSpin(fromPlaylistPosition: 23, toPlaylistPosition:26)
-     .then
+     .done
      {
         (playlist) -> Void in
         print(playlist)
@@ -177,12 +177,12 @@ open class PlayolaScheduler:NSObject
     {
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             
             // check that playlistInit has already occured
             if (self.user.program == nil)
             {
-                return reject(PlayolaErrorType.playlistInitRequired)
+                return seal.reject(PlayolaErrorType.playlistInitRequired)
             }
             
             if let spinID = self.getSpin(playlistPosition: fromPlaylistPosition)?.id
@@ -193,29 +193,29 @@ open class PlayolaScheduler:NSObject
                     self.performTemporaryMoveSpin(fromPlaylistPosition: fromPlaylistPosition, toPlaylistPosition: toPlaylistPosition)
                     
                     api.moveSpin(spinID:spinID, newPlaylistPosition:toPlaylistPosition)
-                    .then
+                    .done
                     {
                         (user) -> Void in
                         if let playlist = user.program?.playlist
                         {
                             self.updatePlaylist(playlist: playlist)
                         }
-                        fulfill(user)
+                        seal.fulfill(user)
                     }
                     .catch
                     {
                         (error) -> Void in
-                        reject(error)
+                        seal.reject(error)
                     }
                 }
                 else
                 {
-                    reject(SchedulerError(type: .invalidPlaylistPosition))
+                    seal.reject(SchedulerError(type: .invalidPlaylistPosition))
                 }
             }
             else
             {
-                reject(SchedulerError(type: .spinNotFound))
+                seal.reject(SchedulerError(type: .spinNotFound))
             }
         }
     }
@@ -232,7 +232,7 @@ open class PlayolaScheduler:NSObject
      ### Usage Example ###
      ```
      scheduler.removeSpin(atPlaylistPosition: 24)
-     .then
+     .done
      {
         (playlist) -> Void in
         print(playlist)
@@ -253,12 +253,12 @@ open class PlayolaScheduler:NSObject
     {
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
            
             // check that playlist init has already occured
             if (self.user.program == nil)
             {
-                return reject(PlayolaErrorType.playlistInitRequired)
+                return seal.reject(PlayolaErrorType.playlistInitRequired)
             }
             
             if let spinID = self.getSpin(playlistPosition: atPlaylistPosition)?.id
@@ -269,30 +269,30 @@ open class PlayolaScheduler:NSObject
                     self.performTemporaryRemoveSpin(atPlaylistPosition: atPlaylistPosition)
                     
                     api.removeSpin(spinID: spinID)
-                    .then
+                    .done
                     {
                         (user) -> Void in
                         if let playlist = user.program?.playlist
                         {
                             self.updatePlaylist(playlist: playlist)
                         }
-                        fulfill(user)
+                        seal.fulfill(user)
                     }
                     .catch
                     {
                         (error) -> Void in
                         self.restorePlaylist()
-                        reject(error)
+                        seal.reject(error)
                     }
                 }
                 else
                 {
-                    reject(SchedulerError(type: .invalidPlaylistPosition))
+                    seal.reject(SchedulerError(type: .invalidPlaylistPosition))
                 }
             }
             else
             {
-                reject(SchedulerError(type: .spinNotFound))
+                seal.reject(SchedulerError(type: .spinNotFound))
             }
         }
     }
@@ -310,7 +310,7 @@ open class PlayolaScheduler:NSObject
      ### Usage Example ###
      ```
      scheduler.insertAudioBlock(audioBlock:song, atPlaylistPosition: 24)
-     .then
+     .done
      {
         (playlist) -> Void in
         print(playlist)
@@ -340,10 +340,10 @@ open class PlayolaScheduler:NSObject
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             
             api.insertSpin(audioBlockID: audioBlock.id!, playlistPosition: atPlaylistPosition)
-            .then
+            .done
             {
                 (updatedUser) -> Void in
                 if let playlist = updatedUser.program?.playlist
@@ -355,7 +355,7 @@ open class PlayolaScheduler:NSObject
             {
                 (error) -> Void in
                 self.restorePlaylist()
-                reject(error)
+                seal.reject(error)
             }
         }
     }
@@ -577,7 +577,7 @@ open class PlayolaScheduler:NSObject
     //------------------------------------------------------------------------------
     
     private static var _instance:PlayolaScheduler?
-    open static func sharedInstance() -> PlayolaScheduler
+    public static func sharedInstance() -> PlayolaScheduler
     {
         if let instance = self._instance
         {
@@ -587,7 +587,7 @@ open class PlayolaScheduler:NSObject
         return self._instance!
     }
     
-    open static func replaceSharedInstance(instance:PlayolaScheduler)
+    public static func replaceSharedInstance(instance:PlayolaScheduler)
     {
         self._instance = instance
     }

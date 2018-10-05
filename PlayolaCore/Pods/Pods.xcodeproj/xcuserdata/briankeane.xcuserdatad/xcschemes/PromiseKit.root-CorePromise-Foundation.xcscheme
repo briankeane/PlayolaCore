@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6EFABA3916F5AF6FE21A23049CE519D2"
+               BlueprintIdentifier = "9A5003BC663776FA224F9D53A8B31D42"
                BuildableName = "PromiseKit.framework"
-               BlueprintName = "PromiseKit.root-CorePromise-Foundation-QuartzCore"
+               BlueprintName = "PromiseKit.root-CorePromise-Foundation"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6EFABA3916F5AF6FE21A23049CE519D2"
+            BlueprintIdentifier = "9A5003BC663776FA224F9D53A8B31D42"
             BuildableName = "PromiseKit.framework"
-            BlueprintName = "PromiseKit.root-CorePromise-Foundation-QuartzCore"
+            BlueprintName = "PromiseKit.root-CorePromise-Foundation"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

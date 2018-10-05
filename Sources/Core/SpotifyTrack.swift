@@ -92,7 +92,7 @@ open class SpotifyTrack:AudioBlock
         }
     }
     
-    open static func removeDuplicatesFromList(tracks:[SpotifyTrack]) -> [SpotifyTrack]
+    public static func removeDuplicatesFromList(tracks:[SpotifyTrack]) -> [SpotifyTrack]
     {
         var exists = Set<String>()
         var uniqueTracks:Array<SpotifyTrack> = Array()

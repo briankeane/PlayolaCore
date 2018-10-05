@@ -148,7 +148,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore/PromiseKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation/PromiseKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON-macOS/SwiftyJSON.framework"
 fi
@@ -158,7 +158,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore/PromiseKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation/PromiseKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON-macOS/SwiftyJSON.framework"
 fi

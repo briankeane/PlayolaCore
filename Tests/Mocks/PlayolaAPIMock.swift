@@ -23,14 +23,14 @@ class PlayolaAPIMock:PlayolaAPI {
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.getUserShouldSucceed)
             {
-                fulfill(self.getUserSuccessUser!)
+                seal.fulfill(self.getUserSuccessUser!)
             }
             else
             {
-                reject(self.getUserFailureError!)
+                seal.reject(self.getUserFailureError!)
             }
         }
     }
@@ -48,14 +48,14 @@ class PlayolaAPIMock:PlayolaAPI {
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.reportListeningSessionShouldSucceed)
             {
-                fulfill(self.reportListeningSessionSuccessDict)
+                seal.fulfill(self.reportListeningSessionSuccessDict)
             }
             else
             {
-                reject(self.reportListeningSessionFailureError!)
+                seal.reject(self.reportListeningSessionFailureError!)
             }
         }
     }
@@ -71,14 +71,14 @@ class PlayolaAPIMock:PlayolaAPI {
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.reportEndOfListeningSessionShouldSucceed)
             {
-                fulfill(self.reportEndOfListeningSessionSuccessDict)
+                seal.fulfill(self.reportEndOfListeningSessionSuccessDict)
             }
             else
             {
-                reject(self.reportEndOfListeningSessionFailureError!)
+                seal.reject(self.reportEndOfListeningSessionFailureError!)
             }
         }
     }
@@ -96,14 +96,14 @@ class PlayolaAPIMock:PlayolaAPI {
                                                 "deviceID": deviceID])
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.reportAnonymousListeningSessionShouldSucceed)
             {
-                fulfill(self.reportListeningSessionSuccessDict)
+                seal.fulfill(self.reportListeningSessionSuccessDict)
             }
             else
             {
-                reject(self.reportAnonymousListeningSessionFailureError!)
+                seal.reject(self.reportAnonymousListeningSessionFailureError!)
             }
         }
     }
@@ -120,14 +120,14 @@ class PlayolaAPIMock:PlayolaAPI {
         self.reportEndOfAnonymousListeningSessionArgs.append(deviceID)
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.reportEndOfAnonymousListeningSessionShouldSucceed)
             {
-                fulfill(self.reportEndOfListeningSessionSuccessDict)
+                seal.fulfill(self.reportEndOfListeningSessionSuccessDict)
             }
             else
             {
-                reject(self.reportEndOfAnonymousListeningSessionFailureError!)
+                seal.reject(self.reportEndOfAnonymousListeningSessionFailureError!)
             }
         }
     }
@@ -146,18 +146,18 @@ class PlayolaAPIMock:PlayolaAPI {
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.moveSpinShouldPause)
             {
                 return
             }
             else if (self.moveSpinShouldSucceed)
             {
-                fulfill(moveSpinSuccessUser!)
+                seal.fulfill(moveSpinSuccessUser!)
             }
             else if (!self.moveSpinShouldPause)
             {
-                reject(moveSpinFailureError!)
+                seal.reject(moveSpinFailureError!)
             }
         }
     }
@@ -173,12 +173,12 @@ class PlayolaAPIMock:PlayolaAPI {
         self.getPresetsArgs.append(["userID": userID])
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.getPresetsShouldSucceed)
             {
-                return fulfill(self.getPresetsPresets!)
+                return seal.fulfill(self.getPresetsPresets!)
             }
-            return reject(self.getPresetsError!)
+            return seal.reject(self.getPresetsError!)
         }
     }
     
@@ -194,12 +194,12 @@ class PlayolaAPIMock:PlayolaAPI {
         self.requestSongBySpotifyIDArgs.append(["spotifyID": spotifyID])
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (self.requestSongBySpotifyIDShouldSucceed)
             {
-                return fulfill(self.requestSongBySpotifyIDResponses!.removeFirst())
+                return seal.fulfill(self.requestSongBySpotifyIDResponses!.removeFirst())
             }
-            return reject(self.requestSongBySpotifyIDError!)
+            return seal.reject(self.requestSongBySpotifyIDError!)
         }
     }
     
@@ -213,14 +213,14 @@ class PlayolaAPIMock:PlayolaAPI {
         self.getRotationItemsCount += 1
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (!self.getRotationItemsShouldNeverReturn)
             {
                 if (self.getRotationItemsShouldSucceed)
                 {
-                    return fulfill(self.getRotationItemsResponse!)
+                    return seal.fulfill(self.getRotationItemsResponse!)
                 }
-                return reject(self.getRotationItemsError!)
+                return seal.reject(self.getRotationItemsError!)
             }
         }
     }
@@ -238,14 +238,14 @@ class PlayolaAPIMock:PlayolaAPI {
         self.deactivateRotationItemArgs.append(["rotationItemID": rotationItemID])
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (!self.deactivateRotationItemShouldNeverReturn)
             {
                 if (self.deactivateRotationItemShouldSucceed)
                 {
-                    return fulfill(self.deactivateRotationItemResponse!)
+                    return seal.fulfill(self.deactivateRotationItemResponse!)
                 }
-                return reject(self.deactivateRotationItemError!)
+                return seal.reject(self.deactivateRotationItemError!)
             }
         }
     }
@@ -262,14 +262,14 @@ class PlayolaAPIMock:PlayolaAPI {
         self.removeRotationItemsAndResetArgs.append(["rotationItemIDs": rotationItemIDs])
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if (!self.removeRotationItemsAndResetShouldNeverReturn)
             {
                 if (self.removeRotationItemsAndResetShouldSucceed)
                 {
-                    return fulfill(self.removeRotationItemsAndResetResponse!)
+                    return seal.fulfill(self.removeRotationItemsAndResetResponse!)
                 }
-                return reject(self.removeRotationItemsAndResetError!)
+                return seal.reject(self.removeRotationItemsAndResetError!)
             }
         }
     }

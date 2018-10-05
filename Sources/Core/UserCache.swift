@@ -85,7 +85,7 @@ class UserCache:NSObject
     ///    `PlayolaStationPlayer` - the central UserCache instance
     ///
     /// ----------------------------------------------------------------------------
-    open static func sharedInstance() -> UserCache
+    public static func sharedInstance() -> UserCache
     {
         if (self._instance == nil)
         {

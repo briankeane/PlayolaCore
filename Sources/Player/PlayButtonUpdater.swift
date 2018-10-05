@@ -75,7 +75,7 @@ class PlayButtonUpdater:NSObject
                 if let userID = textPlayButton.userID
                 {
                     self.stationPlayer.loadUserAndPlay(userID: userID)
-                    .then
+                    .done
                     {
                         print("playing")
                     }
@@ -101,7 +101,7 @@ class PlayButtonUpdater:NSObject
                 if let userID = imageButton.userID
                 {
                     self.stationPlayer.loadUserAndPlay(userID: userID)
-                    .then
+                    .done
                     {
                         print("playing")
                     }

@@ -109,7 +109,7 @@ import SwiftyJSON
             self._signInPending = true
             // trigger update of current user
             self.getMe()
-            .then
+            .done
             {
                 (user) -> Void in
                 self._signInPending = false
@@ -149,7 +149,7 @@ import SwiftyJSON
     {
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let dataPasser = BlockOperation()
             {
                 [unowned parsingOp, unowned apiCallOp] in
@@ -159,7 +159,7 @@ import SwiftyJSON
             parsingOp.addDependency(dataPasser)
             parsingOp.completionBlock =
             {
-                return fulfill(())
+                return seal.fulfill(())
             }
             
             apiCallOp.queuePriority = priority
@@ -206,7 +206,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.loginViaFacebook(accessTokenString: "theTokenStringReceivedFromFacebook")
-     .then
+     .done
      {
         (user) -> Void in
         print(user.name)
@@ -232,13 +232,13 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSignInResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let token = parsingOp.token
@@ -250,9 +250,14 @@ import SwiftyJSON
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -273,7 +278,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.loginViaGoogle(accessTokenString: "theTokenStringReceivedFromGoogle", refreshTokenString: "refreshTokenStringFromGoogle")
-     .then
+     .done
      {
         (user) -> Void in
         print(user.name)
@@ -299,13 +304,13 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSignInResponseOperation()
         
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp)
-            .then
+            .done
             {
                 () -> Void in
                 if let token = parsingOp.token
@@ -317,9 +322,14 @@ import SwiftyJSON
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -340,7 +350,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.loginLocal(email: "bob@bob.com", password: "bobsPassword")
-     .then
+     .done
      {
         (user) -> Void in
         print(user.name)
@@ -366,13 +376,13 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSignInResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let token = parsingOp.token
@@ -385,9 +395,14 @@ import SwiftyJSON
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                     
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -407,7 +422,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.requestSongBySpotifyID(spotifyID: "aSpotifyID")
-     .then
+     .done
      {
         (result) -> Void in
      }
@@ -432,19 +447,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) in
+            (seal) in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseRequestSongBySpotifyIDOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill((songStatus: parsingOp.songStatus!, song: parsingOp.song))
+                return seal.fulfill((songStatus: parsingOp.songStatus!, song: parsingOp.song))
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -465,7 +485,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.createVoiceTrack(url: "https://www.briankeane.com/myVoiceTrack.m4a")
-     .then
+     .done
      {
         (result) -> Void in
         print(result.voiceTrackStatus)
@@ -492,19 +512,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) in
+            (seal) in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseCreateVoiceTrackOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill((voiceTrackStatus: parsingOp.voiceTrackStatus!, voiceTrack: parsingOp.voiceTrack))
+                return seal.fulfill((voiceTrackStatus: parsingOp.voiceTrackStatus!, voiceTrack: parsingOp.voiceTrack))
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -526,7 +551,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.createUser(emailConfirmationID: "anEmailConfirmationID", passcode: "1234)
-     .then
+     .done
      {
         (user) -> Void in
         print(user.name)
@@ -552,12 +577,12 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) in
+            (seal) in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSignInResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if let token = parsingOp.token
@@ -569,9 +594,14 @@ import SwiftyJSON
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -594,7 +624,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.createEmailConfirmation(email:"bob@bob.com", displayName: "Bob", password:"BobsSuperSecretPassword")
-     .then
+     .done
      {
         (emailConfirmationID) -> Void in
         print(emailConfirmationID)
@@ -618,7 +648,7 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) in
+            (seal) in
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
                 .responseJSON
                 {
@@ -631,12 +661,12 @@ import SwiftyJSON
                             {
                                 if let emailConfirmationID = foundUserData["id"] as? String
                                 {
-                                    return fulfill(emailConfirmationID)
+                                    return seal.fulfill(emailConfirmationID)
                                 }
                             }
                         }
                     }
-                    return reject(APIError(response: response))
+                    return seal.reject(APIError(response: response))
                 }
         }
     }
@@ -660,11 +690,11 @@ import SwiftyJSON
     open func requestPasswordReset() -> Promise<Void>
     {
         let url = "\(baseURL)/api/v1/users/me/changePassword"
-        let headers:HTTPHeaders? = ["Authorization": "Bearer \(self.accessToken)"]
+        let headers:HTTPHeaders? = ["Authorization": "Bearer \(String(describing: self.accessToken))"]
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             Alamofire.request(url, method: .put, encoding: JSONEncoding.default, headers: headers)
             .responseJSON
             {
@@ -672,18 +702,18 @@ import SwiftyJSON
                 switch response.result
                 {
                 case .success(let JSON):
-                    let responseData = JSON as! NSDictionary
+                    _ = JSON as! NSDictionary
                     if let statusCode:Int = response.response?.statusCode
                     {
                         if (200..<300 ~= statusCode)
                         {
-                            return fulfill(())
+                            return seal.fulfill(())
                         }
                     }
-                case .failure(let error):
-                    return reject(APIError(response: response))
+                case .failure( _):
+                    return seal.reject(APIError(response: response))
                 }
-                return reject(APIError(response: response))
+                return seal.reject(APIError(response: response))
             }
         }
     }
@@ -698,7 +728,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getMe()
-     .then
+     .done
      {
         (user) -> Void in
         print(user.name)
@@ -729,7 +759,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.reportListeningSession(broadcasterID: "someBroadcasterID")
-     .then
+     .done
      {
         (responseDict) -> Void in
         print(responseDict)
@@ -755,19 +785,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseResponseAsDictionary()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.responseDict!)
+                return seal.fulfill(parsingOp.responseDict!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -782,7 +817,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.reportAnonymousListeningSession(broadcasterID: "someBroadcasterID", deviceID: "usersUniqueDeviceID")
-     .then
+     .done
      {
         (responseDict) -> Void in
         print(responseDict)
@@ -811,19 +846,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseResponseAsDictionary()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.responseDict!)
+                return seal.fulfill(parsingOp.responseDict!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -838,7 +878,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.reportEndOfListeningSession()
-     .then
+     .done
      {
         (responseDict) -> Void in
         print(responseDict)
@@ -864,19 +904,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseResponseAsDictionary()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.responseDict!)
+                return seal.fulfill(parsingOp.responseDict!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -902,19 +947,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseResponseAsDictionary()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.responseDict!)
+                return seal.fulfill(parsingOp.responseDict!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -928,7 +978,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getRotationItems()
-     .then
+     .done
      {
         (rotationItemsCollection) -> Void in
         print(rotationItemsCollection.listBins())
@@ -954,19 +1004,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseRotationItemsCollection()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.rotationItemsCollection!)
+                return seal.fulfill(parsingOp.rotationItemsCollection!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -983,7 +1038,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getActiveSessionsCount()
-     .then
+     .done
      {
         (count) -> Void in
         print(count)
@@ -1008,19 +1063,24 @@ import SwiftyJSON
         let parameters:Parameters? = ["broadcasterID" : broadcasterID]
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseCountOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.count!)
+                return seal.fulfill(parsingOp.count!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1037,7 +1097,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getActiveSessionsCount()
-     .then
+     .done
      {
      (count) -> Void in
      print(count)
@@ -1061,20 +1121,25 @@ import SwiftyJSON
         let headers:HTTPHeaders? = self.headersWithAuth()
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers)
             let parsingOp = ParseRotationItemsCount()
                 
-                self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-                .then
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
+            .done
+            {
+                () -> Void in
+                if let err = parsingOp.apiError
                 {
-                    () -> Void in
-                    if let err = parsingOp.apiError
-                    {
-                        return reject(err)
-                    }
-                    return fulfill(parsingOp.rotationItemsCount!)
+                    return seal.reject(err)
                 }
+                return seal.fulfill(parsingOp.rotationItemsCount!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
+            }
         }
     }
     
@@ -1091,7 +1156,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getPresets()
-     .then
+     .done
      {
         (favorites) -> Void in
         for user in favorites
@@ -1119,12 +1184,12 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseMultipleUsersResponseOperation(key: "presets")
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if var users = parsingOp.users
@@ -1134,9 +1199,14 @@ import SwiftyJSON
                     {
                          NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": users])
                     }
-                    return fulfill(users)
+                    return seal.fulfill(users)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1150,7 +1220,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getTopUsers()
-     .then
+     .done
      {
         (topUsers) -> Void in
         for user in topUsers
@@ -1178,20 +1248,25 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseMultipleUsersResponseOperation(key: "topUsers")
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if var users = parsingOp.users
                 {
                     users = self.userCache.refresh(users: users)
-                    return fulfill(users)
+                    return seal.fulfill(users)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1208,7 +1283,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.updateUser(["displayName":""])
-     .then
+     .done
      {
         (updated) -> Void in
         print(updatedUser.displayName)
@@ -1233,21 +1308,26 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSingleUserResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var user = parsingOp.user
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1267,7 +1347,7 @@ import SwiftyJSON
      ````
      api.registerSpotifyCredentials(refreshToken: "myRefreshToken",
                                     accessToken: "myAccessToken")
-     .then
+     .done
      {
         (updated) -> Void in
         print(updatedUser.displayName)
@@ -1293,19 +1373,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseEmpty()
                 
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
-                if var error = parsingOp.apiError
+                if let unwrappedError = parsingOp.apiError
                 {
-                    return reject(parsingOp.apiError!)
+                    return seal.reject(unwrappedError)
                 }
-                return fulfill(())
+                return seal.fulfill(())
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1322,7 +1407,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.removeRotationItemsAndReset(rotationItemIDs: ["firstRotationItemID", "secondRotationItemID"])
-     .then
+     .done
      {
         (rotationItemsCollection) -> Void in
         print("rotationItemsCollection updated")
@@ -1347,19 +1432,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseRotationItemsCollection()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.rotationItemsCollection!)
+                return seal.fulfill(parsingOp.rotationItemsCollection!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1377,7 +1467,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.changePassword(oldPassword: "bobsOldPassword", newPassword: "bobsNewPassword")
-     .then
+     .done
      {
         (()) -> Void in
         print("password updated")
@@ -1399,7 +1489,7 @@ import SwiftyJSON
     
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON
             {
@@ -1408,10 +1498,10 @@ import SwiftyJSON
                 {
                     if (200..<300 ~= statusCode)
                     {
-                        fulfill(())
+                        seal.fulfill(())
                     }
                 }
-                return reject(APIError(response: response))
+                return seal.reject(APIError(response: response))
             }
         }
     }
@@ -1428,7 +1518,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.follow(["thisIsAUserID")
-     .then
+     .done
      {
         (updatedPresets) -> Void in
         self.favorites = updatedPresets
@@ -1453,21 +1543,26 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseMultipleUsersResponseOperation(key: "presets")
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var users = parsingOp.users
                 {
                     users = self.userCache.refresh(users: users)
                     NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": users])
-                    return fulfill(users)
+                    return seal.fulfill(users)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1484,7 +1579,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.unfollow(["thisIsAUserID")
-     .then
+     .done
      {
         (updatedPresets) -> Void in
         self.favorites = updatedPresets
@@ -1509,21 +1604,26 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseMultipleUsersResponseOperation(key: "presets")
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var users = parsingOp.users
                 {
                     users = self.userCache.refresh(users: users)
                     NotificationCenter.default.post(name: PlayolaEvents.currentUserPresetsReceived, object: nil, userInfo: ["favorites": users])
-                    return fulfill(users)
+                    return seal.fulfill(users)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1540,7 +1640,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.findUsersByKeywords("Bob")
-     .then
+     .done
      {
         (searchResults) -> Void in
         for user in searchResults
@@ -1569,20 +1669,25 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseMultipleUsersResponseOperation(key: "searchResults")
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var users = parsingOp.users
                 {
                     users = self.userCache.refresh(users: users)
-                    return fulfill(users)
+                    return seal.fulfill(users)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1599,7 +1704,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.findSongsByKeywords("Bob")
-     .then
+     .done
      {
         (searchResults) -> Void in
         for audioBlock in searchResults
@@ -1626,7 +1731,7 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             Alamofire.request(url, parameters:parameters, headers:headers)
                 .validate(statusCode: 200..<300)
                 .responseJSON
@@ -1638,11 +1743,11 @@ import SwiftyJSON
                         {
                             if let foundSongs = arrayOfSongsFromResultValue(resultValue: response.result.value, propertyName: "searchResults")
                             {
-                                return fulfill(foundSongs)
+                                return seal.fulfill(foundSongs)
                             }
                         }
                     }
-                    return reject(APIError(response: response))
+                    return seal.reject(APIError(response: response))
                 }
         }
     }
@@ -1660,7 +1765,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getUser(userID: users[0].id)
-     .then
+     .done
      {
         (updatedUser) -> Void in
         print(user.displayName)
@@ -1685,12 +1790,12 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSingleUserResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if var user = parsingOp.user
@@ -1701,9 +1806,14 @@ import SwiftyJSON
                     {
                         NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
                     }
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1724,7 +1834,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.getUsersByAttributes(attributes: [ "email": "bob@bob.com" ])
-     .then
+     .done
      {
         (searchResults) -> Void in
         for user in searchResults
@@ -1752,21 +1862,26 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseMultipleUsersResponseOperation(key: "searchResults")
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var users = parsingOp.users
                 {
                     users = self.userCache.refresh(users: users)
-                    return fulfill(users)
+                    return seal.fulfill(users)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1785,7 +1900,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.addSongsToBin(songIDs: ["thisIsASongID"], bin:"heavy")
-     .then
+     .done
      {
         (updatedRotationItemsCollection) -> Void in
         print(updatedRotationItemsCollection.listBins())
@@ -1811,19 +1926,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseRotationItemsCollection()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.rotationItemsCollection!)
+                return seal.fulfill(parsingOp.rotationItemsCollection!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1840,7 +1960,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.deactivateRotationItem(rotationItemID: "thisIsASongID")
-     .then
+     .done
      {
         (updatedRotationItemsCollection) -> Void in
         print(updatedRotationItemsCollection.listBins())
@@ -1865,19 +1985,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseRotationItemsCollection()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.rotationItemsCollection!)
+                return seal.fulfill(parsingOp.rotationItemsCollection!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1895,7 +2020,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.moveSpin(spinID:"thisIsASpinID", newPlaylistPosition:42)
-     .then
+     .done
      {
         (updatedUser) -> Void in
         print(updatedUser.program?.playlist)
@@ -1922,21 +2047,26 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSingleUserResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: .veryHigh, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var user = parsingOp.user
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                            return fulfill(user)
+                            return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -1953,7 +2083,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.removeSpin(spinID:"thisIsASpinID")
-     .then
+     .done
      {
         (updatedUser) -> Void in
         print(updatedUser.program?.playlist)
@@ -1979,21 +2109,26 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSingleUserResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: .veryHigh, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var user = parsingOp.user
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -2007,7 +2142,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.shuffleStation()
-     .then
+     .done
      {
         (updatedUser) -> Void in
         print(updatedUser.program?.playlist)
@@ -2032,7 +2167,7 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON
                 {
@@ -2062,11 +2197,11 @@ import SwiftyJSON
                                 }
                                 user = self.userCache.refresh(user: user)
                                 NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                                return fulfill(user)
+                                return seal.fulfill(user)
                             }
                         }
                     }
-                    return reject(APIError(response: response))
+                    return seal.reject(APIError(response: response))
                 }
         
         }
@@ -2085,7 +2220,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.insertSpin(audioBlockID:"thisIsASpinID", playlistPosition:42)
-     .then
+     .done
      {
      (updatedUser) -> Void in
      print(updatedUser.program?.playlist)
@@ -2111,21 +2246,26 @@ import SwiftyJSON
                                       "playlistPosition": playlistPosition]
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSingleUserResponseOperation()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: .veryHigh, queue: self.userInitiatedOperationQueue)
-            .then
+            .done
             {
                 () -> Void in
                 if var user = parsingOp.user
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -2149,7 +2289,7 @@ import SwiftyJSON
                                         (songID: "playolaSongID2", bin: "medium"),
                                         (songID: "playolaSongID3", bin: "light")
                                       ])
-     .then
+     .done
      {
         (user, updatedRotationItemsCollection) -> Void in
         print(updatedRotationItemsCollection.listBins())
@@ -2179,19 +2319,24 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseRotationItemsCollection()
             
             self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: priority)
-            .then
+            .done
             {
                 () -> Void in
                 if let err = parsingOp.apiError
                 {
-                    return reject(err)
+                    return seal.reject(err)
                 }
-                return fulfill(parsingOp.rotationItemsCollection!)
+                return seal.fulfill(parsingOp.rotationItemsCollection!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -2209,7 +2354,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      api.insertSpin(audioBlockID:"thisIsASpinID", playlistPosition:42)
-     .then
+     .done
      {
      (updatedUser) -> Void in
      print(updatedUser.program?.playlist)
@@ -2235,21 +2380,26 @@ import SwiftyJSON
         
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
             let parsingOp = ParseSingleUserResponseOperation()
             
-            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: .veryHigh, queue: self.userInitiatedOperationQueue)
-            .then
+           self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp, priority: .veryHigh, queue: self.userInitiatedOperationQueue)
+            .done
             {
                 () -> Void in
                 if var user = parsingOp.user
                 {
                     user = self.userCache.refresh(user: user)
                     NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
-                    return fulfill(user)
+                    return seal.fulfill(user)
                 }
-                return reject(parsingOp.apiError!)
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
             }
         }
     }
@@ -2267,7 +2417,7 @@ import SwiftyJSON
      ### Usage Example: ###
      ````
      authService.deactivateRotationItem(rotationItemID: "thisIsASongID")
-     .then
+     .done
      {
         (updatedRotationItemsCollection) -> Void in
         print(updatedRotationItemsCollection.listBins())

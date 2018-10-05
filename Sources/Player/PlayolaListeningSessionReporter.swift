@@ -56,7 +56,7 @@ class PlayolaListeningSessionReporter:NSObject
         if let _ = listenerID
         {
             self.api.reportListeningSession(broadcasterID: broadcasterID)
-            .then
+            .done
             {
                 (responseDict) -> Void in
             }
@@ -68,7 +68,7 @@ class PlayolaListeningSessionReporter:NSObject
         else if let deviceID = deviceID
         {
             self.api.reportAnonymousListeningSession(broadcasterID: broadcasterID, deviceID: deviceID)
-            .then
+            .done
             {
                 (responseDict) -> Void in
             }
@@ -86,7 +86,7 @@ class PlayolaListeningSessionReporter:NSObject
         if let _ = listenerID
         {
             self.api.reportEndOfListeningSession()
-            .then
+            .done
             {
                 (responseDict) -> Void in
                 
@@ -99,7 +99,7 @@ class PlayolaListeningSessionReporter:NSObject
         else if let deviceID = deviceID
         {
             self.api.reportEndOfAnonymousListeningSession(deviceID: deviceID)
-            .then
+            .done
             {
                 (responseDict) -> Void in
             }

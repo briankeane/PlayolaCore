@@ -321,7 +321,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                                 {
                                     (done) -> Void in
                                     userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
-                                    .then
+                                    .done
                                     {
                                         (newRotationItemsCollection) -> Void in
                                         expect(apiMock.removeRotationItemsAndResetCount).to(equal(1))
@@ -342,7 +342,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                                 {
                                     (done) -> Void in
                                     userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
-                                    .then
+                                    .done
                                     {
                                         (newRotationItemsCollection) -> Void in
                                         let riIDs = newRotationItemsCollection.rotationItems.map({$0.id})
@@ -364,7 +364,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                                 {
                                     (done) -> Void in
                                     userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
-                                    .then
+                                    .done
                                     {
                                         (newRotationItemsCollection) -> Void in
                                         let riIDs = userInfoService!.rotationItemsCollection!.rotationItems.map({$0.id})
@@ -402,7 +402,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                                 {
                                     (done) -> Void in
                                     userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
-                                    .then
+                                    .done
                                     {
                                         (newRotationItemsCollection) -> Void in
                                         fail("deactivateRotationItem should not have succeeded")
@@ -425,7 +425,7 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                                 {
                                     (done) -> Void in
                                     userInfoService!.deactivateRotationItem(rotationItemID: riToRemove.id)
-                                    .then
+                                    .done
                                     {
                                         (newRotationItemsCollection) -> Void in
                                         fail("deactivateRotationItem should not have succeeded")

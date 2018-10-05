@@ -34,7 +34,7 @@ public class PlayolaModelRefreshHandler:NSObject
     func updateUser(userID:String)
     {
         self.api.getUser(userID: userID)
-        .then
+        .done
         {
             (user) -> Void in
             NotificationCenter.default.post(name: PlayolaEvents.userUpdated, object: nil, userInfo: ["user": user])

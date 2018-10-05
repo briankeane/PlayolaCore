@@ -53,18 +53,18 @@ import PromiseKit
     {
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             self.api.getUser(userID: userID)
-            .then
+            .done
             {
                 (user) -> Void in
                 self.loadUserAndPlay(user: user)
-                fulfill(())
+                seal.fulfill(())
             }
             .catch
             {
                 (error) -> Void in
-                reject(error)
+                seal.reject(error)
             }
         }
     }
@@ -318,7 +318,7 @@ import PromiseKit
     ///    `PlayolaStationPlayer` - the central PlayolaStationPlayer instance
     ///
     /// ----------------------------------------------------------------------------
-    open static func sharedInstance() -> PlayolaStationPlayer
+    public static func sharedInstance() -> PlayolaStationPlayer
     {
         if (self._instance == nil)
         {

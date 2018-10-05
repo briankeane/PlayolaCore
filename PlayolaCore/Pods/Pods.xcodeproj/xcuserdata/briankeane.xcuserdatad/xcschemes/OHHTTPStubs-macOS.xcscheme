@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5761B7D6C15213E122D4F5ECF1DD20F1"
+               BlueprintIdentifier = "32753054126D35B1D5B2C89E410F5447"
                BuildableName = "OHHTTPStubs.framework"
                BlueprintName = "OHHTTPStubs-macOS"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5761B7D6C15213E122D4F5ECF1DD20F1"
+            BlueprintIdentifier = "32753054126D35B1D5B2C89E410F5447"
             BuildableName = "OHHTTPStubs.framework"
             BlueprintName = "OHHTTPStubs-macOS"
             ReferencedContainer = "container:Pods.xcodeproj">

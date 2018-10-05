@@ -163,7 +163,7 @@ import SwiftyJSON
         if (self.api.isSignedIn())
         {
             self.api.getMe()
-            .then
+            .done
             {
                 (user) -> Void in
                 self.updateCurrentUser(user)
@@ -182,24 +182,24 @@ import SwiftyJSON
     {
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             if let oldRotationItem = self.rotationItemsCollection?.getRotationItem(rotationItemID: rotationItemID)
             {
                 oldRotationItem.removalInProgress = true
                 self.updateRotationItemsCollection(rotationItemsCollection: self.rotationItemsCollection!)
                 self.api.removeRotationItemsAndReset(rotationItemIDs: [rotationItemID])
-                .then
+                .done
                 {
                     (rotationItemsCollection) -> Void in
                     self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
-                    return fulfill(rotationItemsCollection)
+                    return seal.fulfill(rotationItemsCollection)
                 }
                 .catch
                 {
                     (error) -> Void in
                     oldRotationItem.removalInProgress = false
                     self.updateRotationItemsCollection(rotationItemsCollection: self.rotationItemsCollection!)
-                    reject(error)
+                    seal.reject(error)
                 }
             }
         }
@@ -228,18 +228,18 @@ import SwiftyJSON
     {
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             self.api.addSongsToBin(songIDs: songIDs, bin: "light")
-            .then
+            .done
             {
                 (rotationItemsCollection) -> Void in
                 self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
-                fulfill(rotationItemsCollection)
+                seal.fulfill(rotationItemsCollection)
             }
             .catch
             {
                 (error) -> Void in
-                reject(error)
+                seal.reject(error)
             }
         }
     }
@@ -276,7 +276,7 @@ import SwiftyJSON
     func getPresets()
     {
         self.api.getPresets()
-        .then
+        .done
         {
             (favorites) -> Void in
             self.updatePresets(favorites: favorites, error: nil)
@@ -294,18 +294,18 @@ import SwiftyJSON
     {
         return Promise
         {
-            (fulfill, reject) -> Void in
+            (seal) -> Void in
             self.api.getRotationItems()
-            .then
+            .done
             {
                 (rotationItemsCollection) -> Void in
                 self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
-                fulfill(())
+                seal.fulfill(())
             }
             .catch
             {
                 (error) -> Void in
-                reject(error)
+                seal.reject(error)
             }
         }
     }
@@ -392,7 +392,7 @@ import SwiftyJSON
         switch self.stationStatus {
         case .findingSongs:
             self.api.getRotationItemsCount()
-            .then
+            .done
             {
                 (newCounts) -> Void in
                 if (newCounts["stationMinimum"].int != nil && newCounts["stationMinimum"].int! != self.minimumSongsNeeded) {
@@ -414,7 +414,7 @@ import SwiftyJSON
             }
         case .generatingSchedule:
             self.api.getMe()
-            .then
+            .done
             {
                 (user) -> Void in
                 var shouldContinueMonitoring = true
@@ -431,6 +431,11 @@ import SwiftyJSON
                         self.monitorStationStatus()
                     }
                 }
+            }
+            .catch
+            {
+                (error) -> Void in
+                print(error)
             }
         default:
             break
