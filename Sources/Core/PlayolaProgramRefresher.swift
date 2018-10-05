@@ -59,7 +59,7 @@ public class PlayolaProgramRefresher:NSObject
         }
         
         #if os(iOS)
-        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification , object: nil, queue: .main)
+        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main)
         {
             (notification) -> Void in
             self.requestUpdate()

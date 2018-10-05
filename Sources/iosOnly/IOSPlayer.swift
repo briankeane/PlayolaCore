@@ -66,7 +66,7 @@ public class Player: PAPSpinPlayer
         {
             let session = AVAudioSession()
             try
-                session.setCategory(.playAndRecord, mode: AVAudioSession.Mode.default, options: [
+                session.setCategory(AVAudioSession.Category(rawValue: convertFromAVAudioSessionCategory(AVAudioSession.Category.playAndRecord)), mode: AVAudioSession.Mode.default, options: [
                     .allowBluetoothA2DP,
                     .defaultToSpeaker
                     ])
