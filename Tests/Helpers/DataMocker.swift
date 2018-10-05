@@ -75,9 +75,9 @@ class DataMocker
     
     func generateUsers (_ count:Int) -> [User] {
         let rawUsers = self.getRawServerUsers(count)
-        return rawUsers.map({ (rawUser) -> User! in
+        return rawUsers.map({ (rawUser) -> User? in
             return User(userInfo: rawUser as NSDictionary)
-        })
+        }) as! [User]
     }
     
     func generateRawPlaylist (_ userID : String?) -> Array<Dictionary<String,Any>>
@@ -140,10 +140,10 @@ class DataMocker
     
     func generateRawSongs (_ count:Int) -> Array<Dictionary<String,Any>>
     {
-        let key = generateRandomKey(6)
         var songs:Array<Dictionary<String,Any>> = []
         for _ in 0..<count
         {
+            let key = generateRandomKey(6)
             songs.append([ "artist":"artist\(key)",
                 "title":"title\(key)",
                 "id":"id\(key)",

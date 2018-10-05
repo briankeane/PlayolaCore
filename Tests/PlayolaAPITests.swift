@@ -1847,20 +1847,20 @@ class PlayolaAPITests: QuickSpec
                         headers: [:]
                     )
                     waitUntil()
+                    {
+                        (done) in
+                        api.reportEndOfAnonymousListeningSession(deviceID: "aUniqueDeviceID")
+                        .then
                         {
-                            (done) in
-                            api.reportEndOfAnonymousListeningSession(deviceID: "aUniqueDeviceID")
-                                .then
-                                {
-                                    (user) -> Void in
-                                    fail("there should have been an error")
-                                }
-                                .catch
-                                {
-                                    (error) -> Void in
-                                    expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
-                                    done()
-                            }
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.notFound))
+                            done()
+                        }
                     }
                 }
             }
@@ -2543,81 +2543,161 @@ class PlayolaAPITests: QuickSpec
             
             describe("requestSongFromSpotifyID")
             {
-                it ("works when song exists")
+                describe ("old api")
                 {
-                    // setup
-                    stubbedResponse = OHHTTPStubsResponse(
-                        fileAtPath: OHPathForFile("requestSongBySpotifyIDSongExists.json", type(of: self))!,
-                        statusCode: 200,
-                        headers: ["Content-Type":"application/json"]
-                    )
-                    waitUntil()
+                    it ("works when song exists")
                     {
-                        (done) in
-                        api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                        .then
-                        {
-                            (songStatus, song) -> Void in
-                            let jsonDict = self.readLocalJsonFile("requestSongBySpotifyIDSongExists.json")!
-                            
-                            // check request
-                            expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
-                            expect(sentRequest!.httpMethod).to(equal("POST"))
-                            
-                            // check response
-                            let rawSong = jsonDict["song"] as! NSDictionary
-                            let rawID = rawSong["id"] as! String
-                            
-                            // check response
-                            expect(songStatus).to(equal(SongStatus.songExists))
-                            expect(song?.id).to(equal(rawID))
-                            done()
+                        // setup
+                        stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("requestSongBySpotifyIDSongExistsOldAPI.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                        waitUntil()
+                            {
+                                (done) in
+                                api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                                    .then
+                                    {
+                                        (songStatus, song) -> Void in
+                                        let jsonDict = self.readLocalJsonFile("requestSongBySpotifyIDSongExistsOldAPI.json")!
+                                        
+                                        // check request
+                                        expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
+                                        expect(sentRequest!.httpMethod).to(equal("POST"))
+                                        
+                                        // check response
+                                        let rawSong = jsonDict["song"] as! NSDictionary
+                                        let rawID = rawSong["id"] as! String
+                                        
+                                        // check response
+                                        expect(songStatus).to(equal(SongStatus.songExists))
+                                        expect(song?.id).to(equal(rawID))
+                                        done()
+                                    }
+                                    .catch
+                                    {
+                                        (error) -> Void in
+                                        print(error)
+                                        fail("requestSongBySong() should not have errored")
+                                        done()
+                                }
                         }
-                        .catch
-                        {
-                            (error) -> Void in
-                            print(error)
-                            fail("requestSongBySong() should not have errored")
-                            done()
+                    }
+                    
+                    it ("works when song is processing")
+                    {
+                        // setup
+                        stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("requestSongBySpotifyIDSongProcessingOldAPI.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                        waitUntil()
+                            {
+                                (done) in
+                                api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                                    .then
+                                    {
+                                        (songStatus, song) -> Void in
+                                        
+                                        // check request
+                                        expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
+                                        expect(sentRequest!.httpMethod).to(equal("POST"))
+                                        
+                                        // check response
+                                        expect(songStatus).to(equal(SongStatus.processing))
+                                        expect(song).to(beNil())
+                                        done()
+                                    }
+                                    .catch
+                                    {
+                                        (error) -> Void in
+                                        print(error)
+                                        fail("requestSongBySong() should not have errored")
+                                        done()
+                                }
                         }
                     }
                 }
                 
-                it ("works when song is processing")
+                describe ("new api")
                 {
-                    // setup
-                    stubbedResponse = OHHTTPStubsResponse(
-                        fileAtPath: OHPathForFile("requestSongBySpotifyIDSongProcessing.json", type(of: self))!,
-                        statusCode: 200,
-                        headers: ["Content-Type":"application/json"]
-                    )
-                    waitUntil()
+                    it ("works when song exists")
                     {
-                        (done) in
-                        api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
-                        .then
+                        // setup
+                        stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("requestSongBySpotifyIDSongExists.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                        waitUntil()
                         {
-                            (songStatus, song) -> Void in
-                            
-                            // check request
-                            expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
-                            expect(sentRequest!.httpMethod).to(equal("POST"))
-                                    
-                            // check response
-                            expect(songStatus).to(equal(SongStatus.processing))
-                            expect(song).to(beNil())
-                            done()
+                            (done) in
+                            api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                            .then
+                            {
+                                (songStatus, song) -> Void in
+                                let jsonDict = self.readLocalJsonFile("requestSongBySpotifyIDSongExists.json")!
+                                        
+                                // check request
+                                expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
+                                expect(sentRequest!.httpMethod).to(equal("POST"))
+                                
+                                // check response
+                                let rawSong = jsonDict["song"] as! NSDictionary
+                                let rawID = rawSong["id"] as! String
+                                
+                                // check response
+                                expect(songStatus).to(equal(SongStatus.songExists))
+                                expect(song?.id).to(equal(rawID))
+                                done()
+                            }
+                            .catch
+                            {
+                                (error) -> Void in
+                                print(error)
+                                fail("requestSongBySong() should not have errored")
+                                done()
+                            }
                         }
-                        .catch
+                    }
+                    
+                    it ("works when song is processing")
+                    {
+                        // setup
+                        stubbedResponse = OHHTTPStubsResponse(
+                            fileAtPath: OHPathForFile("requestSongBySpotifyIDSongProcessing.json", type(of: self))!,
+                            statusCode: 200,
+                            headers: ["Content-Type":"application/json"]
+                        )
+                        waitUntil()
                         {
-                            (error) -> Void in
-                            print(error)
-                            fail("requestSongBySong() should not have errored")
-                            done()
+                            (done) in
+                            api.requestSongBySpotifyID(spotifyID: "bobsSpotifyID")
+                            .then
+                            {
+                                (songStatus, song) -> Void in
+                                
+                                // check request
+                                expect(sentRequest!.url!.path).to(equal("/api/v1/songs/requestViaSpotifyID/bobsSpotifyID"))
+                                expect(sentRequest!.httpMethod).to(equal("POST"))
+                                        
+                                // check response
+                                expect(songStatus).to(equal(SongStatus.processing))
+                                expect(song).to(beNil())
+                                done()
+                            }
+                            .catch
+                            {
+                                (error) -> Void in
+                                print(error)
+                                fail("requestSongBySong() should not have errored")
+                                done()
+                            }
                         }
                     }
                 }
-                
                 it ("properly returns an error")
                 {
                     // setup

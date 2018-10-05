@@ -34,15 +34,38 @@ class ParseRequestSongBySpotifyIDOperation: ParsingOperation
                 if let rawValue = response.result.value
                 {
                     let dataJSON = JSON(rawValue)
-                    if (dataJSON["songStatus"]["code"].exists())
+                    
+                    // old v1  -- THIS branch can be erased after
+                    // update
+                    if (dataJSON["songStatus"].exists())
                     {
-                        self.songStatus = SongStatus(rawValue: dataJSON["songStatus"]["code"].intValue)
-                    }
-                    if (self.songStatus == .songExists)
-                    {
-                        if (dataJSON["song"].exists())
+                        if (dataJSON["songStatus"]["code"].exists())
                         {
+                            self.songStatus = SongStatus(rawValue: dataJSON["songStatus"]["code"].intValue)
+                        }
+                        if (self.songStatus == .songExists)
+                        {
+                            if (dataJSON["song"].exists())
+                            {
+                                self.song = AudioBlock(json: dataJSON["song"])
+                            }
+                        }
+                    } else {
+                        if (dataJSON["status"].stringValue == "The song has been processed")
+                        {
+                            self.songStatus = .songExists
                             self.song = AudioBlock(json: dataJSON["song"])
+                        }
+                        else
+                        {
+                            if (dataJSON["is_processing"].bool != true)
+                            {
+                                self.songStatus = .failedToAcquire
+                            }
+                            else
+                            {
+                                self.songStatus = SongStatus.processing
+                            }
                         }
                     }
                 }

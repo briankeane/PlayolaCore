@@ -1,10 +1,7 @@
 PODS:
   - Alamofire (4.5.0)
-  - AudioKit (4.0.4):
-    - AudioKit/UI (= 4.0.4)
-  - AudioKit/UI (4.0.4)
-  - Kingfisher (4.5.0)
-  - Nimble (7.0.3)
+  - Kingfisher (4.10.0)
+  - Nimble (7.3.1)
   - OHHTTPStubs (6.1.0):
     - OHHTTPStubs/Default (= 6.1.0)
   - OHHTTPStubs/Core (6.1.0)
@@ -20,26 +17,25 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (6.1.0)
   - OHHTTPStubs/Swift (6.1.0):
     - OHHTTPStubs/Default
-  - PromiseKit (4.5.0):
-    - PromiseKit/Foundation (= 4.5.0)
-    - PromiseKit/QuartzCore (= 4.5.0)
-    - PromiseKit/UIKit (= 4.5.0)
-  - PromiseKit/CorePromise (4.5.0)
-  - PromiseKit/Foundation (4.5.0):
+  - PromiseKit (4.5.2):
+    - PromiseKit/Foundation (= 4.5.2)
+    - PromiseKit/QuartzCore (= 4.5.2)
+    - PromiseKit/UIKit (= 4.5.2)
+  - PromiseKit/CorePromise (4.5.2)
+  - PromiseKit/Foundation (4.5.2):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.5.0):
+  - PromiseKit/QuartzCore (4.5.2):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.5.0):
+  - PromiseKit/UIKit (4.5.2):
     - PromiseKit/CorePromise
-  - Quick (1.2.0)
+  - Quick (1.3.2)
   - SwiftRemoteFileCache (0.0.8):
     - Alamofire (= 4.5.0)
-  - SwiftyJSON (4.0.0)
+  - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
   - Alamofire (= 4.5.0)
-  - AudioKit (~> 4.0)
-  - Kingfisher (~> 4.2)
+  - Kingfisher (~> 4.10)
   - Nimble
   - OHHTTPStubs
   - OHHTTPStubs/Swift
@@ -48,17 +44,27 @@ DEPENDENCIES:
   - SwiftRemoteFileCache
   - SwiftyJSON
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Kingfisher
+    - Nimble
+    - OHHTTPStubs
+    - PromiseKit
+    - Quick
+    - SwiftRemoteFileCache
+    - SwiftyJSON
+
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  AudioKit: 647145c0462dc9dc8a8582998cd6db5f2e1ea848
-  Kingfisher: 26ae0473102b77b575da51960c932431e3745407
-  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
+  Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
   OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
-  PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
-  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
+  PromiseKit: 743e497a5f505a470d3bbbf4ce0663c1268af0a4
+  Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
   SwiftRemoteFileCache: e9d8a1204c4441386638f85fb543e17130c51b84
-  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 8947a43fa9ce0ed44faacf89b46f914294248171
+PODFILE CHECKSUM: 63927239f7187d08455bd6bb528c4fd3d615505e
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.2

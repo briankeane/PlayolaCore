@@ -38,6 +38,10 @@ public struct PlayolaEvents
     
     public static let nowPlayingAdvanced:Notification.Name! = Notification.Name("kNotification.Name")
     
+    
+    // Station Acuqired Song
+    public static let usersStationAcquiredSong = Notification.Name("kPlayolaStationAcquiredSong")
+    public static let usersStationStatusChanged = Notification.Name("kPlayolaUserStationStatusChanged")
 }
 
 public enum PlayolaUserRole:Int {

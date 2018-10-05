@@ -228,7 +228,7 @@ open class PlayolaAVAudioPlayer: NSObject, PlayolaAudioPlayer
         papSpin.fadeOutTimer?.invalidate()
         
         papSpin.fadeOutTimer = Timer(timeInterval: papSpin.beginFadeOutTime.timeIntervalSinceNow, target: self, selector: #selector(self.handleFadeOutTimerFired(_:)), userInfo: ["papSpin":papSpin as AnyObject] , repeats: false)
-        RunLoop.main.add(papSpin.fadeOutTimer!, forMode: RunLoopMode.defaultRunLoopMode)
+        RunLoop.main.add(papSpin.fadeOutTimer!, forMode: RunLoop.Mode.default)
     }
     
     // -----------------------------------------------------------------------------

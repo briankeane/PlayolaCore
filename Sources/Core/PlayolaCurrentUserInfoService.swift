@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import SwiftyJSON
 
 #if os(OSX)
     import Cocoa
@@ -42,6 +43,7 @@ import PromiseKit
                 (user) in
                 self.nowPlayingAdvanced()
             }
+            self.setStationStatus()
         }
     }
     
@@ -52,6 +54,27 @@ import PromiseKit
     open var rotationItemsCollection:RotationItemsCollection? = nil
     open var favoritesRetrievalError:APIError? = nil
     fileprivate var observers:[NSObjectProtocol] = Array()
+    
+    // stationStatus monitoring
+    open var minimumSongsNeeded:Int = 90
+    var addedSongs:[String:AudioBlock] = Dictionary() {
+        didSet {
+            self.broadcastSongsAcquired()
+        }
+    }
+    var songIDsAlreadyBroadcast:Set<String> = Set()
+    var counts:JSON?
+    var _previousStationStatus:StationStatus?
+    open var stationStatus:StationStatus {
+        get {
+            return self.calculateStationStatus()
+        }
+    }
+    open var completedSongCount:Int {
+        get {
+            return self.songIDsAlreadyBroadcast.count
+        }
+    }
     
     // dependency injections
     @objc var api:PlayolaAPI = PlayolaAPI.sharedInstance()
@@ -92,6 +115,7 @@ import PromiseKit
         {
             (notification) -> Void in
             self.user = nil
+            self._user = nil
             self.favorites = nil
             self.lastSeenAirtime = nil
         })
@@ -265,14 +289,24 @@ import PromiseKit
     }
     
     //------------------------------------------------------------------------------
-    
-    func getRotationItemsCollection()
+    @discardableResult
+    func getRotationItemsCollection() -> Promise<Void>
     {
-        self.api.getRotationItems()
-        .then
+        return Promise
         {
-            (rotationItemsCollection) -> Void in
-            self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
+            (fulfill, reject) -> Void in
+            self.api.getRotationItems()
+            .then
+            {
+                (rotationItemsCollection) -> Void in
+                self.updateRotationItemsCollection(rotationItemsCollection: rotationItemsCollection)
+                fulfill(())
+            }
+            .catch
+            {
+                (error) -> Void in
+                reject(error)
+            }
         }
     }
     
@@ -316,15 +350,24 @@ import PromiseKit
     
     private func updateRotationItemsCollection(rotationItemsCollection:RotationItemsCollection)
     {
+        // update addedSongs
+        self.addedSongs = rotationItemsCollection.rotationItems.reduce(into: [String:AudioBlock]()) { $0[$1.song.id!] = $1.song }
         self.rotationItemsCollection = rotationItemsCollection
         NotificationCenter.default.post(name: PlayolaEvents.rotationItemsCollectionUpdated, object: nil, userInfo: ["rotationItemsCollection": rotationItemsCollection])
+        self.setStationStatus()
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    public func setStationStatus() {
+        let _ = self.stationStatus
     }
     
     //------------------------------------------------------------------------------
     
     open func hasRunningStation() -> Bool
     {
-        return (self.user?.program?.playlist != nil)    
+        return ((self.user?.program?.playlist != nil) && (self.user!.program!.playlist!.count > 0))
     }
     
     //------------------------------------------------------------------------------
@@ -339,6 +382,128 @@ import PromiseKit
     public func getDeviceID() -> String?
     {
         return uniqueIdentifier()
+    }
+    
+    //------------------------------------------------------------------------------
+    //
+    // station Status stuff
+    //
+    open func monitorStationStatus() {
+        switch self.stationStatus {
+        case .findingSongs:
+            self.api.getRotationItemsCount()
+            .then
+            {
+                (newCounts) -> Void in
+                if (newCounts["stationMinimum"].int != nil && newCounts["stationMinimum"].int! != self.minimumSongsNeeded) {
+                    self.minimumSongsNeeded = newCounts["stationMinimum"].int!
+                }
+                
+                if (self.countsAreDifferent(count1: self.counts, count2: newCounts)) {
+                    self.getRotationItemsCollection()
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0)
+                {
+                    self.monitorStationStatus()
+                }
+            }
+            .catch
+            {
+                (err) -> Void in
+            }
+        case .generatingSchedule:
+            self.api.getMe()
+            .then
+            {
+                (user) -> Void in
+                var shouldContinueMonitoring = true
+                if let playlist = user.program?.playlist {
+                    if (playlist.count > 0) {
+                        self.setStationStatus()
+                        self.getRotationItemsCollection()
+                        shouldContinueMonitoring = false
+                    }
+                }
+                if (shouldContinueMonitoring) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0)
+                    {
+                        self.monitorStationStatus()
+                    }
+                }
+            }
+        default:
+            break
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    private func countsAreDifferent(count1:JSON?, count2:JSON) -> Bool {
+        if (count1 == nil) {
+            return true
+        }
+        
+        if (count1?["inactive"].int != count2["inactive"].int) {
+            return true
+        }
+        if (count1?["active"].int != count2["active"].int) {
+            return true
+        }
+        return false
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    private func calculateStationStatus() -> StationStatus
+    {
+        var newValue:StationStatus = .generatingSchedule
+        if (self.user?.program?.playlist != nil) {
+            newValue = .completed
+        } else if (self.completedSongCount <= self.minimumSongsNeeded) {
+            newValue = .findingSongs
+        }
+        if (newValue != self._previousStationStatus) {
+            self._previousStationStatus = newValue
+            NotificationCenter.default.post(name: PlayolaEvents.usersStationStatusChanged, object: nil)
+        }
+        return newValue
+    }
+    
+    private func percentageSongsCompleted() -> Float {
+        let percentageComplete = Float(self.completedSongCount)/Float(self.minimumSongsNeeded)
+        return min(percentageComplete, 1.0)
+    }
+    
+    open func stationCompletionPercentage() -> Float
+    {
+        switch self.stationStatus {
+        case .completed:
+            return 1.0
+        case .findingSongs:
+            return 0.9 * self.percentageSongsCompleted()
+        default:
+            return 0.95
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func broadcastSongsAcquired(spacingInterval:TimeInterval = 0.1)
+    {
+        let idsLeftToBeBroadcast:Set<String> = Set(self.addedSongs.keys).subtracting(self.songIDsAlreadyBroadcast)
+        if (idsLeftToBeBroadcast.count > 0) {
+            let songToBroadcast:AudioBlock = self.addedSongs[idsLeftToBeBroadcast.first!]!
+            
+            NotificationCenter.default.post(name: PlayolaEvents.usersStationAcquiredSong, object: nil, userInfo: ["song": songToBroadcast])
+            self.songIDsAlreadyBroadcast.insert(songToBroadcast.id!)
+            if (idsLeftToBeBroadcast.count > 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + spacingInterval)
+                {
+                    self.broadcastSongsAcquired(spacingInterval: spacingInterval)
+                }
+            }
+        }
     }
     
     //------------------------------------------------------------------------------
@@ -432,3 +597,12 @@ import PromiseKit
     }
 #endif
 fileprivate let createInstance = PlayolaCurrentUserInfoService.sharedInstance()
+
+
+public enum StationStatus:String
+{
+    case findingSongs = "Finding those songs in Playola"
+    case generatingSchedule = "Generating schedule and starting station..."
+    case completed = "Finished! Your new radio station has started."
+}
+

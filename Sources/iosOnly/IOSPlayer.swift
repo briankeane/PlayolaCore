@@ -65,10 +65,11 @@ public class Player: PAPSpinPlayer
         do
         {
             let session = AVAudioSession()
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [
-                .allowBluetoothA2DP,
-                .defaultToSpeaker
-                ])
+            try
+                session.setCategory(.playAndRecord, mode: AVAudioSession.Mode.default, options: [
+                    .allowBluetoothA2DP,
+                    .defaultToSpeaker
+                    ])
         }
         catch
         {
@@ -230,4 +231,9 @@ public class Player: PAPSpinPlayer
         let currentTime = TimeInterval(playerTime.sampleTime) / playerTime.sampleRate
         delegate?.player(self, didPlayFile: file, atTime: currentTime, withBuffer: buffer)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
 }

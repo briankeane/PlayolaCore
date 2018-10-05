@@ -72,10 +72,10 @@
 		4B1A112C1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
 		4B1A112D1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
 		4B1A112E1FD70D3100F357CE /* SongStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1A112A1FD70D3100F357CE /* SongStatus.swift */; };
-		4B1A11301FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json */; };
-		4B1A11311FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json */; };
-		4B1A11331FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */; };
-		4B1A11341FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */; };
+		4B1A11301FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json */; };
+		4B1A11311FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json */; };
+		4B1A11331FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json */; };
+		4B1A11341FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json */; };
 		4B1DFC331FDC506D0081674D /* SpotifyTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1DFC321FDC506D0081674D /* SpotifyTrack.swift */; };
 		4B1DFC341FDC506D0081674D /* SpotifyTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1DFC321FDC506D0081674D /* SpotifyTrack.swift */; };
 		4B1DFC351FDC506D0081674D /* SpotifyTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1DFC321FDC506D0081674D /* SpotifyTrack.swift */; };
@@ -122,6 +122,10 @@
 		4B221DDA20051AA000575D6A /* AudioBlockType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B221DD620051AA000575D6A /* AudioBlockType.swift */; };
 		4B2318B01F801EF1000B354A /* PlayButtonUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2318AE1F801EF1000B354A /* PlayButtonUpdaterTests.swift */; };
 		4B2318B21F801EF1000B354A /* PlayButtonUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2318AE1F801EF1000B354A /* PlayButtonUpdaterTests.swift */; };
+		4B24F8D720ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B24F8D620ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json */; };
+		4B24F8D820ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B24F8D620ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json */; };
+		4B24F8DA20ADB291002EF082 /* requestSongBySpotifyIDSongExists.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B24F8D920ADB291002EF082 /* requestSongBySpotifyIDSongExists.json */; };
+		4B24F8DB20ADB291002EF082 /* requestSongBySpotifyIDSongExists.json in Resources */ = {isa = PBXBuildFile; fileRef = 4B24F8D920ADB291002EF082 /* requestSongBySpotifyIDSongExists.json */; };
 		4B2D38AD1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2D38AC1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift */; };
 		4B2D38AE1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2D38AC1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift */; };
 		4B2D38B01F7AA247006F6348 /* NowPlayingLabelUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2D38AF1F7AA247006F6348 /* NowPlayingLabelUpdater.swift */; };
@@ -530,8 +534,8 @@
 		4B1690131FFD8A0100C2EDBF /* OSXPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OSXPlayer.swift; path = ../Sources/osxOnly/OSXPlayer.swift; sourceTree = "<group>"; };
 		4B173A6D204859C400598E97 /* passwordResetSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = passwordResetSuccess.json; path = ../Tests/APIJson/passwordResetSuccess.json; sourceTree = "<group>"; };
 		4B1A112A1FD70D3100F357CE /* SongStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SongStatus.swift; path = ../Sources/Core/SongStatus.swift; sourceTree = "<group>"; };
-		4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = requestSongBySpotifyIDSongExists.json; path = ../Tests/APIJson/requestSongBySpotifyIDSongExists.json; sourceTree = "<group>"; };
-		4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = requestSongBySpotifyIDSongProcessing.json; sourceTree = "<group>"; };
+		4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = requestSongBySpotifyIDSongExistsOldAPI.json; path = ../Tests/APIJson/requestSongBySpotifyIDSongExistsOldAPI.json; sourceTree = "<group>"; };
+		4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = requestSongBySpotifyIDSongProcessingOldAPI.json; sourceTree = "<group>"; };
 		4B1DFC321FDC506D0081674D /* SpotifyTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyTrack.swift; sourceTree = "<group>"; };
 		4B1DFC371FDC517D0081674D /* SpotifyTrackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpotifyTrackTests.swift; path = ../Tests/Models/SpotifyTrackTests.swift; sourceTree = "<group>"; };
 		4B1DFC3A1FDDA67A0081674D /* CollectionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollectionHandler.swift; path = ../Sources/StationEditor/CollectionHandler.swift; sourceTree = "<group>"; };
@@ -550,6 +554,8 @@
 		4B221DD1200400BD00575D6A /* VoiceTrackStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VoiceTrackStatus.swift; path = ../Sources/Core/VoiceTrackStatus.swift; sourceTree = "<group>"; };
 		4B221DD620051AA000575D6A /* AudioBlockType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBlockType.swift; sourceTree = "<group>"; };
 		4B2318AE1F801EF1000B354A /* PlayButtonUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayButtonUpdaterTests.swift; path = ../Tests/PlayButtonUpdaterTests.swift; sourceTree = "<group>"; };
+		4B24F8D620ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = requestSongBySpotifyIDSongProcessing.json; path = ../Tests/APIJson/requestSongBySpotifyIDSongProcessing.json; sourceTree = "<group>"; };
+		4B24F8D920ADB291002EF082 /* requestSongBySpotifyIDSongExists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = requestSongBySpotifyIDSongExists.json; path = ../Tests/APIJson/requestSongBySpotifyIDSongExists.json; sourceTree = "<group>"; };
 		4B2D38AC1F7AA1F4006F6348 /* NowPlayingArtistLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingArtistLabel.swift; path = ../Sources/Player/NowPlayingArtistLabel.swift; sourceTree = "<group>"; };
 		4B2D38AF1F7AA247006F6348 /* NowPlayingLabelUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingLabelUpdater.swift; path = ../Sources/Player/NowPlayingLabelUpdater.swift; sourceTree = "<group>"; };
 		4B2D38B41F7AA6EA006F6348 /* NowPlayingLabelUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingLabelUpdaterTests.swift; path = ../Tests/iosOnly/NowPlayingLabelUpdaterTests.swift; sourceTree = "<group>"; };
@@ -1040,7 +1046,8 @@
 			children = (
 				4BA4B83F209B61AF00E9839F /* getRotationItemsCountSuccess.json */,
 				4B3A66B1209918B400CD62BD /* getUserRotationItemsSuccessNew.json */,
-				4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json */,
+				4B1A11321FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json */,
+				4B24F8D620ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json */,
 				4BE006FC1F472CDE0010C420 /* getActiveSessionsCountSuccess.json */,
 				4BE006FD1F472CDE0010C420 /* getPresetsSuccess.json */,
 				4BE006FE1F472CDE0010C420 /* getUserRotationItemsSuccess.json */,
@@ -1056,7 +1063,8 @@
 				4B11A0831F99268D00F0F6AB /* songSearchResultsSuccess.json */,
 				4B737B8B1FB4A25600EBFEDA /* incorrectPasscode.json */,
 				4B737B8F1FB4B10E00EBFEDA /* emailConfirmationSuccess.json */,
-				4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json */,
+				4B1A112F1FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json */,
+				4B24F8D920ADB291002EF082 /* requestSongBySpotifyIDSongExists.json */,
 				4B1DFC421FE054330081674D /* binMinimums.json */,
 				4BDDE7BC1FE4329E00342B33 /* startStationSuccess.json */,
 				4B221DCB2003E64200575D6A /* createVoiceTrackProcessing.json */,
@@ -1257,7 +1265,6 @@
 				4B361B7E1F44663D00654968 /* Frameworks */,
 				4B361B7F1F44663D00654968 /* Headers */,
 				4B361B801F44663D00654968 /* Resources */,
-				94C6C09F0ED416562909CDC9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1277,7 +1284,6 @@
 				4B361B871F44663D00654968 /* Frameworks */,
 				4B361B881F44663D00654968 /* Resources */,
 				636227E4C788BDCBFB998DB9 /* [CP] Embed Pods Frameworks */,
-				3064FB190118801FB060C5AB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1298,7 +1304,6 @@
 				4B361B9A1F44664B00654968 /* Frameworks */,
 				4B361B9B1F44664B00654968 /* Headers */,
 				4B361B9C1F44664B00654968 /* Resources */,
-				E9973C8DF411BA369B277400 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1318,7 +1323,6 @@
 				4B361BA31F44664B00654968 /* Frameworks */,
 				4B361BA41F44664B00654968 /* Resources */,
 				8B7152DFD907BC7A09B76356 /* [CP] Embed Pods Frameworks */,
-				BD00ABEB1BFFFFCC9A3290E2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1343,13 +1347,13 @@
 					4B361B811F44663D00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					4B361B891F44663D00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					4B361B9D1F44664B00654968 = {
@@ -1404,15 +1408,16 @@
 				4B91A5321F81364400B1CF83 /* PlayolaAssets.xcassets in Resources */,
 				4BDDE7BD1FE4329E00342B33 /* startStationSuccess.json in Resources */,
 				4B737B911FB4B36600EBFEDA /* emailConfirmationSuccess.json in Resources */,
-				4B1A11331FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json in Resources */,
+				4B1A11331FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json in Resources */,
 				4B173A6E204859C400598E97 /* passwordResetSuccess.json in Resources */,
 				4BF10AAE1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE007091F473BEB0010C420 /* updateUserSuccess.json in Resources */,
+				4B24F8D720ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json in Resources */,
 				4BA4B840209B61AF00E9839F /* getRotationItemsCountSuccess.json in Resources */,
 				4B11A0841F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007061F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
 				4B221DCC2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */,
-				4B1A11301FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */,
+				4B1A11301FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json in Resources */,
 				4B42C57A1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4B221DCF2003FFDB00575D6A /* createVoiceTrackExists.json in Resources */,
 				4B3A66B2209918B400CD62BD /* getUserRotationItemsSuccessNew.json in Resources */,
@@ -1424,6 +1429,7 @@
 				4B1DFC431FE054330081674D /* binMinimums.json in Resources */,
 				4BE007031F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE006FF1F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */,
+				4B24F8DA20ADB291002EF082 /* requestSongBySpotifyIDSongExists.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1444,15 +1450,16 @@
 				4B91A5341F81364400B1CF83 /* PlayolaAssets.xcassets in Resources */,
 				4BDDE7BE1FE4329E00342B33 /* startStationSuccess.json in Resources */,
 				4B737B921FB4B36A00EBFEDA /* emailConfirmationSuccess.json in Resources */,
-				4B1A11341FD7167800F357CE /* requestSongBySpotifyIDSongProcessing.json in Resources */,
+				4B1A11341FD7167800F357CE /* requestSongBySpotifyIDSongProcessingOldAPI.json in Resources */,
 				4B173A6F204859C400598E97 /* passwordResetSuccess.json in Resources */,
 				4BF10AAF1F70302900D8B8B0 /* passwordIncorrect.json in Resources */,
 				4BE0070A1F473BEB0010C420 /* updateUserSuccess.json in Resources */,
+				4B24F8D820ADB222002EF082 /* requestSongBySpotifyIDSongProcessing.json in Resources */,
 				4BA4B841209B61AF00E9839F /* getRotationItemsCountSuccess.json in Resources */,
 				4B11A0851F99268D00F0F6AB /* songSearchResultsSuccess.json in Resources */,
 				4BE007071F47326D0010C420 /* getTopStationsSuccess.json in Resources */,
 				4B221DCD2003E64200575D6A /* createVoiceTrackProcessing.json in Resources */,
-				4B1A11311FD7120F00F357CE /* requestSongBySpotifyIDSongExists.json in Resources */,
+				4B1A11311FD7120F00F357CE /* requestSongBySpotifyIDSongExistsOldAPI.json in Resources */,
 				4B42C57B1F59C13F00E11538 /* genericSuccess200.json in Resources */,
 				4B221DD02003FFDB00575D6A /* createVoiceTrackExists.json in Resources */,
 				4B3A66B3209918B400CD62BD /* getUserRotationItemsSuccessNew.json in Resources */,
@@ -1464,6 +1471,7 @@
 				4B1DFC441FE054330081674D /* binMinimums.json in Resources */,
 				4BE007041F472CDE0010C420 /* getUserRotationItemsSuccess.json in Resources */,
 				4BE007001F472CDE0010C420 /* getActiveSessionsCountSuccess.json in Resources */,
+				4B24F8DB20ADB291002EF082 /* requestSongBySpotifyIDSongExists.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1488,21 +1496,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3064FB190118801FB060C5AB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		636227E4C788BDCBFB998DB9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1514,8 +1507,6 @@
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs-iOS/OHHTTPStubs.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick-iOS/Quick.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework",
-				"${PODS_ROOT}/AudioKit/iOS/AudioKit.framework",
-				"${PODS_ROOT}/AudioKit/iOS/AudioKitUI.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher-iOS/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit.default-CorePromise/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-iOS/SwiftRemoteFileCache.framework",
@@ -1527,8 +1518,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKitUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
@@ -1568,8 +1557,6 @@
 				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs-macOS/OHHTTPStubs.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework",
-				"${PODS_ROOT}/AudioKit/macOS/AudioKit.framework",
-				"${PODS_ROOT}/AudioKit/macOS/AudioKitUI.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation-QuartzCore/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework",
@@ -1581,8 +1568,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioKitUI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
@@ -1591,36 +1576,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		94C6C09F0ED416562909CDC9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BD00ABEB1BFFFFCC9A3290E2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CB74D5FDA2EECB1EA24598AC /* [CP] Check Pods Manifest.lock */ = {
@@ -1657,21 +1612,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E9973C8DF411BA369B277400 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2261,7 +2201,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -2283,7 +2223,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -2300,7 +2240,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PlayolaCoreIOSTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -2316,7 +2256,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PlayolaCoreIOSTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

@@ -6,7 +6,7 @@ def pods
     pod 'Alamofire', '4.5.0'
     pod 'PromiseKit', '~> 4.0'
     pod 'SwiftRemoteFileCache'
-    pod 'Kingfisher', '~> 4.2'
+    pod 'Kingfisher', '~> 4.10'
     pod 'SwiftyJSON'
 end
 

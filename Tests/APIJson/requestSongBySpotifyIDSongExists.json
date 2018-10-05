@@ -1,4 +1,13 @@
 {
+    "id": 42,
+    "spotify_id": "1TFwAAdsmaH92b8g3dTec2",
+    "spotify_info": {
+        "name": "Fade To Gray"
+    },
+    "key": "sugar.m4a",
+    "status": "The song has been processed",
+    "is_processing": false,
+    "completed": true,
     "song": {
         "id": "5531636b4b1f7e86214235cc",
         "title": "Fade to Gray",
@@ -15,9 +24,5 @@
         "eom": 160000,
         "boo": 155000,
         "eoi": 8000
-    },
-    "songStatus": {
-        "description": "string",
-        "code": 9001
     }
 }

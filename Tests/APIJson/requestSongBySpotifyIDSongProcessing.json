@@ -1,0 +1,14 @@
+{
+    "id": 42,
+    "spotify_id": "1TFwAAdsmaH92b8g3dTec2",
+    "spotify_info": {
+        "name": "Metallica"
+    },
+    "spotify_info_error": "track not found",
+    "youtube_matches": "no matches found",
+    "key": "sugar.m4a",
+    "download_error": "conversion failed",
+    "status": "The audio is being retreived",
+    "is_processing": true,
+    "completed": false
+}

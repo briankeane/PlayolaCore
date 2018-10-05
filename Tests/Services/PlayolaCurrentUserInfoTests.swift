@@ -442,6 +442,92 @@ class PlayolaCurrentUserInfoTests: QuickSpec
                     }
                 }
             }
+            
+            //------------------------------------------------------------------------------
+            
+            describe ("StationStatus stuff")
+            {
+                var dataMocker:DataMocker!
+                var user:User!
+                var currentUserInfo:PlayolaCurrentUserInfoService!
+                var apiMock:PlayolaAPIMock!
+                
+                func setupService()
+                {
+                    dataMocker = DataMocker()
+                    user = dataMocker.generateUsers(1)[0]
+                    currentUserInfo = PlayolaCurrentUserInfoService()
+                    currentUserInfo.user = user
+                    apiMock = PlayolaAPIMock()
+                    
+                    currentUserInfo.setValuesForKeys([
+                        "api": apiMock
+                    ])
+                }
+                
+                beforeEach
+                {
+                    setupService()
+                }
+                
+                describe ("status")
+                {
+                    
+                    it ("shows completed if currentUser has a schedule")
+                    {
+                        expect(currentUserInfo.stationStatus).to(equal(StationStatus.completed))
+                    }
+                    
+                    it ("shows finding songs if songs are being gathered")
+                    {
+                        currentUserInfo.user!.program = nil
+                        expect(currentUserInfo.stationStatus).to(equal(StationStatus.findingSongs))
+                    }
+                }
+                
+                describe ("percentComplete")
+                {
+                    it ("is 1.0 if currentUser has a schedule")
+                    {
+                        expect(currentUserInfo.stationCompletionPercentage()).to(equal(1.0))
+                    }
+                    it ("is 0.95 if songs have been gathered")
+                    {
+                        currentUserInfo.user!.program = nil
+                        currentUserInfo.songIDsAlreadyBroadcast = Set(dataMocker.generateSongs(40).map({$0.id!}))
+                        currentUserInfo.minimumSongsNeeded = 39
+                        expect(currentUserInfo.stationCompletionPercentage()).to(equal(0.95))
+                    }
+                    it ("works incorporates finished songs")
+                    {
+                        currentUserInfo.user!.program = nil
+                        currentUserInfo.songIDsAlreadyBroadcast = Set(dataMocker.generateSongs(40).map({$0.id!}))
+                        currentUserInfo.minimumSongsNeeded = 80
+                        expect(currentUserInfo.stationCompletionPercentage()).to(equal(0.45))
+                    }
+                }
+                
+                describe ("broadcasts each song Completed")
+                {
+                    it ("broadcasts a couple songs")
+                    {
+                        currentUserInfo.user!.program = nil
+                        var songs = dataMocker.generateSongs(20)
+                        var songsDict:[String:AudioBlock] = Dictionary()
+                        for song in songs {
+                            songsDict[song.id!] = song
+                        }
+                        currentUserInfo.songIDsAlreadyBroadcast = Set(Array(songs.prefix(17)).map({$0.id!}))
+                        expect {
+                            currentUserInfo.addedSongs = songsDict
+                        }.toEventually(postNotifications(contain(
+                                Notification(name: PlayolaEvents.usersStationAcquiredSong, object: nil, userInfo: ["song": songs[17]]),
+                                Notification(name: PlayolaEvents.usersStationAcquiredSong, object: nil, userInfo: ["song": songs[18]]),
+                            Notification(name: PlayolaEvents.usersStationAcquiredSong, object: nil, userInfo: ["song": songs[19]])
+                        )))
+                    }
+                }
+            }
         }
     }
 }

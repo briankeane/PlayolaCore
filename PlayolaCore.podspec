@@ -8,11 +8,11 @@
 
 Pod::Spec.new do |s|
     s.name         = "PlayolaCore"
-    s.version      = "0.1.0"
+    s.version      = "0.2.0"
     s.summary      = "Basic Playola Communication and Models."
     s.homepage     = "https://github.com/briankeane/PlayolaCore.git"
     s.license      = { :type => 'MIT' }
-    s.pod_target_xcconfig = { "SWIFT_VERSION" => "4.0" }
+    s.pod_target_xcconfig = { "SWIFT_VERSION" => "4.2" }
     s.author       = { "Brian Keane" => "brian@playola.fm" }
     s.ios.deployment_target = '10.3'
     s.osx.deployment_target = '10.12'
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
     s.dependency 'Alamofire', '~> 4.5.0'
     s.dependency 'PromiseKit', '~> 4.0'
     s.dependency 'SwiftRemoteFileCache', '~> 0.0.8'
-    s.dependency 'Kingfisher', '~> 4.2.0'
+    s.dependency 'Kingfisher', '~> 4.10.0'
     s.dependency 'SwiftyJSON', '~> 4.0.0'
 
     # s.ios.dependency 'KDCircularProgress', '~> 1.5.2'  # manually include until he fixes cocoapod

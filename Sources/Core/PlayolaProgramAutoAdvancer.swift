@@ -44,7 +44,7 @@ public class PlayolaProgramAutoAdvancer:NSObject
                             (timer) -> Void in
                             self.handleAdvanceFired()
                         }
-                        RunLoop.main.add(self.advanceTimer!, forMode: RunLoopMode.defaultRunLoopMode)
+                        RunLoop.main.add(self.advanceTimer!, forMode: RunLoop.Mode.default)
                     }
                 }
             }
