@@ -831,11 +831,9 @@ class PlayolaAPITests: QuickSpec
                 {
                     var observers:[NSObjectProtocol] = Array()
                     var checkNotificationBlock:((_ notification: Notification) -> ())?
-                    var checkNotificationsFinished:Bool = false
                     
                     beforeEach
                     {
-                        checkNotificationsFinished = false
                         observers = Array()
                         observers.append(NotificationCenter.default.addObserver(forName:
                             PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
@@ -872,7 +870,6 @@ class PlayolaAPITests: QuickSpec
                                 let rawPresets = (jsonDict["presets"] as! Array<NSDictionary>)
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
-                                checkNotificationsFinished = true
                                 finished()
                             }
                             
@@ -995,11 +992,9 @@ class PlayolaAPITests: QuickSpec
                 {
                     var observers:[NSObjectProtocol] = Array()
                     var checkNotificationBlock:((_ notification: Notification) -> ())?
-                    var checkNotificationsFinished:Bool = false
                     
                     beforeEach
                     {
-                        checkNotificationsFinished = false
                         observers = Array()
                         observers.append(NotificationCenter.default.addObserver(forName: PlayolaEvents.currentUserPresetsReceived, object: nil, queue: .main)
                         {
@@ -1035,7 +1030,6 @@ class PlayolaAPITests: QuickSpec
                                 let rawPresets = (jsonDict["presets"] as! [NSDictionary])
                                 let rawID = rawPresets[0]["id"] as! String
                                 expect(presets[0].id!).to(equal(rawID))
-                                checkNotificationsFinished = true
                                 finished()
                             }
                                 
@@ -3074,7 +3068,6 @@ class PlayolaAPITests: QuickSpec
                         .done
                         {
                             () -> Void in
-                            let jsonDict = self.readLocalJsonFile("updateUserSuccess.json")!
                             
                             // check request
                             expect(sentRequest!.url!.path).to(equal(self.changePasswordPath))

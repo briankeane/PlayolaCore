@@ -90,7 +90,7 @@ class PlaylistRefreshInstructionsTests: QuickSpec
                 it ("properly works for a removed spin")
                 {
                     var newProgram = oldProgram.copy()
-                    let removedSpin = newProgram.playlist!.remove(at: 4)
+                    newProgram.playlist!.remove(at: 4)
                     for index in 4..<newProgram.playlist!.count
                     {
                         newProgram.playlist![index].airtime = nil

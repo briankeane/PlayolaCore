@@ -69,8 +69,6 @@ open class APIError:NSObject, Error
                         return .badRequest
                     case 3101:
                         return .zipcodeNotFound
-                    case 3001:
-                        return .notFound
                     case 5001:
                         return .rotationItemMinimumsNotMet
                     default:

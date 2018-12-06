@@ -33,9 +33,9 @@ class DataMocker
     {
         self.rawUsers = self.getRawServerUsers(10)
         self.users = rawUsers.map
-            {
-                (rawUser) -> User! in
-                return User(userInfo: rawUser as NSDictionary)
+        {
+            (rawUser) -> User in
+            return User(userInfo: rawUser as NSDictionary)
         }
         self.rawRotationItemsCollection = self.generateRawRotationItemsObject()
         self.rotationItemsCollection = RotationItemsCollection(rawRotationItems: rawRotationItemsCollection)
