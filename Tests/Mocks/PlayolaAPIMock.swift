@@ -10,6 +10,14 @@ import Foundation
 import PromiseKit
 
 class PlayolaAPIMock:PlayolaAPI {
+    //
+    // Override checkForAccessToken since we don't need
+    // the overarching user
+    //
+    override func checkForAccessToken() {
+        return
+    }
+    
     var getUserCallCount:Int = 0
     var getUserArgs:Array<String> = Array()
     var getUserShouldSucceed:Bool = true

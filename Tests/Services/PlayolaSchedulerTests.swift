@@ -21,9 +21,9 @@ class PlayolaSchedulerTests: QuickSpec
         describe("PlayolaSchedulerTests")
         {
             var dataMocker:DataMocker!
-            var dateMocker:DateHandlerMock! = DateHandlerMock()
+            var dateMocker:DateHandlerMock!
             var user:UserMock!
-            var apiMock:PlayolaAPIMock! = PlayolaAPIMock()
+            var apiMock:PlayolaAPIMock!
             var scheduler:PlayolaScheduler!
             
             beforeEach

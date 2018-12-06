@@ -2236,7 +2236,7 @@ class PlayolaAPITests: QuickSpec
             
             //------------------------------------------------------------------------------
             
-            describe("loginViaGoogle")
+           describe("loginViaSpotify")
             {
                 it ("works")
                 {
@@ -2249,17 +2249,91 @@ class PlayolaAPITests: QuickSpec
                     waitUntil()
                     {
                         (finished) in
-                        api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
+                        api.loginViaSpotify(accessTokenString: "someSpotifyTokenString", refreshTokenString: "someSpotifyRefreshTokenString")
                         .done
                         {
                             (updatedUser) -> Void in
                             let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
                                     
                             // check request
-                            expect(sentRequest!.url!.path).to(equal("/auth/google/mobile"))
+                            expect(sentRequest!.url!.path).to(equal("/auth/spotify/mobile"))
                             expect(sentRequest!.httpMethod).to(equal("POST"))
-                            expect((sentBody!["accessToken"] as! String)).to(equal("someGoogleTokenString"))
-                            expect((sentBody!["refreshToken"] as! String)).to(equal("someGoogleRefreshTokenString"))
+                            expect((sentBody!["accessToken"] as! String)).to(equal("someSpotifyTokenString"))
+                            expect((sentBody!["refreshToken"] as! String)).to(equal("someSpotifyRefreshTokenString"))
+                                    
+                            // check response
+                            let rawUpdatedUser = jsonDict["user"] as! NSDictionary
+                            let rawID = rawUpdatedUser["id"] as! String
+                                    
+                            // check response
+                            expect(updatedUser.id!).to(equal(rawID))
+                            finished()
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            print(error)
+                            fail("loginViaSpotify() should not have errored")
+                            finished()
+                        }
+                    }
+                }
+                
+                it ("properly returns an error")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("422.json", type(of: self))!,
+                        statusCode: 422,
+                        headers: [:]
+                    )
+                    
+                    // test
+                    waitUntil()
+                    {
+                        (finished) in
+                        api.loginViaSpotify(accessTokenString: "someSpotifyTokenString", refreshTokenString: "someSpotifyRefreshTokenString")
+                        .done
+                        {
+                            (user) -> Void in
+                            fail("there should have been an error")
+                        }
+                        .catch
+                        {
+                            (error) -> Void in
+                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
+                            finished()
+                        }
+                    }
+                }
+            }
+            
+            //------------------------------------------------------------------------------
+            
+            describe("loginViaGoogle")
+            {
+                it ("works")
+                {
+                    // setup
+                    stubbedResponse = OHHTTPStubsResponse(
+                        fileAtPath: OHPathForFile("loginSuccess.json", type(of: self))!,
+                        statusCode: 200,
+                        headers: ["Content-Type":"application/json"]
+                    )
+                    waitUntil()
+                        {
+                            (finished) in
+                            api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
+                                .done
+                                {
+                                    (updatedUser) -> Void in
+                                    let jsonDict = self.readLocalJsonFile("loginSuccess.json")!
+                                    
+                                    // check request
+                                    expect(sentRequest!.url!.path).to(equal("/auth/google/mobile"))
+                                    expect(sentRequest!.httpMethod).to(equal("POST"))
+                                    expect((sentBody!["accessToken"] as! String)).to(equal("someGoogleTokenString"))
+                                    expect((sentBody!["refreshToken"] as! String)).to(equal("someGoogleRefreshTokenString"))
                                     
                                     // check response
                                     let rawUpdatedUser = jsonDict["user"] as! NSDictionary
@@ -2290,23 +2364,24 @@ class PlayolaAPITests: QuickSpec
                     
                     // test
                     waitUntil()
-                    {
-                        (finished) in
-                        api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
-                        .done
                         {
-                            (user) -> Void in
-                            fail("there should have been an error")
-                        }
-                        .catch
-                        {
-                            (error) -> Void in
-                            expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
-                            finished()
-                        }
+                            (finished) in
+                            api.loginViaGoogle(accessTokenString: "someGoogleTokenString", refreshTokenString: "someGoogleRefreshTokenString")
+                                .done
+                                {
+                                    (user) -> Void in
+                                    fail("there should have been an error")
+                                }
+                                .catch
+                                {
+                                    (error) -> Void in
+                                    expect((error as! APIError).type()).to(equal(APIErrorType.badRequest))
+                                    finished()
+                            }
                     }
                 }
             }
+
 
             //------------------------------------------------------------------------------
             

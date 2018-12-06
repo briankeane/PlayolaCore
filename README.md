@@ -18,7 +18,7 @@ import PlayolaCore
 function playStation() {
    let player = PlayolaStationPlayer().sharedInstance()
    player.loadUserAndPlay(userID: "59508b2eac42570400cdb67d")
-      .then { (void) -> Void in
+      .done { (void) -> Void in
          print("starting!")
       }.catch { (error) -> Void in
         print("there was an error starting your station.")

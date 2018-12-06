@@ -18,7 +18,7 @@
 //    {
 //        return Promise
 //        {
-//            (fulfill, reject) -> Void in
+//            (seal) -> Void in
 //
 //        }
 //    }
@@ -26,7 +26,7 @@
 //    {
 //        return Promise
 //        {
-//            (fulfill, reject) -> Void in
+//            (seal) -> Void in
 //
 //        }
 //    }

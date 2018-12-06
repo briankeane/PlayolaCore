@@ -100,7 +100,7 @@ import SwiftyJSON
         }
     }
     
-    private func checkForAccessToken()
+    func checkForAccessToken()
     {
         if let accessToken = defaults.string(forKey: "playolaAccessToken")
         {
@@ -333,6 +333,79 @@ import SwiftyJSON
             }
         }
     }
+    
+    // -----------------------------------------------------------------------------
+    //                          func loginViaSpotify
+    // -----------------------------------------------------------------------------
+    /**
+     Logs the user into the playolaServer via the accessToken & refreshToken they received from soitufy.
+     
+     - parameters:
+     - accessTokenString: `(String)` - the spotify accessTokenString
+     - refreshTokenString: `(String)` - the spotify refreshTokenString
+     
+     - returns:
+     `Promise<User>` - a promise that resolves to the current User
+     
+     ### Usage Example: ###
+     ````
+     api.loginViaSpotify(accessTokenString: "theTokenStringReceivedFromSpotify", refreshTokenString: "theRefreshStringReceivedFromSpotify")
+     .done
+     {
+        (user) -> Void in
+        print(user.name)
+     }
+     .catch (err)
+     {
+        print(err)
+     }
+     ````
+     
+     - returns:
+     `Promise<User>` - a promise
+     * resolves to: a User
+     * rejects: an APIError
+     */
+    open func loginViaSpotify(accessTokenString:String, refreshTokenString:String) -> Promise<(User)>
+    {
+        let method:HTTPMethod = .post
+        let url = "\(baseURL)/auth/spotify/mobile"
+        let parameters:Parameters = [ "accessToken": accessTokenString,
+                                      "refreshToken": refreshTokenString ]
+        let headers:HTTPHeaders? = nil
+        
+        return Promise
+        {
+            (seal) -> Void in
+                
+            let apiCallOp = APIRequestOperation(urlString: url, method: method, headers: headers, parameters: parameters)
+            let parsingOp = ParseSignInResponseOperation()
+                
+            self.performAPIOperations(apiCallOp: apiCallOp, parsingOp: parsingOp)
+            .done
+            {
+                () -> Void in
+                if let token = parsingOp.token
+                {
+                    self.setAccessToken(tokenValue: token)
+                    NotificationCenter.default.post(name: PlayolaEvents.accessTokenReceived, object: nil, userInfo: ["accessToken": token])
+                }
+                if var user = parsingOp.user
+                {
+                    user = self.userCache.refresh(user: user)
+                    NotificationCenter.default.post(name: PlayolaEvents.getCurrentUserReceived, object: nil, userInfo: ["user": user])
+                        return seal.fulfill(user)
+                }
+                return seal.reject(parsingOp.apiError!)
+            }
+            .catch
+            {
+                (error) -> Void in
+                seal.reject(error)
+            }
+        }
+    }
+    
     
     // -----------------------------------------------------------------------------
     //                          func loginLocal
