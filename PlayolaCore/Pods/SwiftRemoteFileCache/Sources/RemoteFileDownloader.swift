@@ -15,8 +15,7 @@ import Alamofire
 // notification constants
 let kAudioFileFinishedLoading:String = "audioFileFinishedLoading"
 
-public class RemoteFileDownloader
-{
+public class RemoteFileDownloader {
     var request:Alamofire.Request?
     public var downloadProgress:Double = 0.0
     public var remoteURL:URL
@@ -43,8 +42,7 @@ public class RemoteFileDownloader
     
     @discardableResult func checkForFileExistence() -> Bool
     {
-        if (self.completeFileExists())
-        {
+        if (self.completeFileExists()) {
             self.downloadProgress = 1.0
             return true
         }
@@ -62,8 +60,7 @@ public class RemoteFileDownloader
     /// - returns:
     ///    `Bool` - returns true if the file exists
     /// ----------------------------------------------------------------------------
-    public func completeFileExists() -> Bool
-    {
+    public func completeFileExists() -> Bool {
         return FileManager.default.fileExists(atPath: self.localURL.path)
     }
     
@@ -80,8 +77,7 @@ public class RemoteFileDownloader
     ///                             block is passed the AudioCacheObject that completed
     ///
     /// ----------------------------------------------------------------------------
-    @discardableResult public func onCompletion(_ onCompletionBlock:((RemoteFileDownloader)->Void)!) -> RemoteFileDownloader
-    {
+    @discardableResult public func onCompletion(_ onCompletionBlock:((RemoteFileDownloader)->Void)!) -> RemoteFileDownloader {
         self.onCompletionBlocks.append(onCompletionBlock)
         
         // go ahead and execute this one immediately if it's already complete
@@ -104,8 +100,7 @@ public class RemoteFileDownloader
     ///                          block is passed the AudioCacheObject that progressed
     ///
     /// ----------------------------------------------------------------------------
-    @discardableResult public func onProgress(_ onProgressBlock:((RemoteFileDownloader)->Void)!) -> RemoteFileDownloader
-    {
+    @discardableResult public func onProgress(_ onProgressBlock:((RemoteFileDownloader)->Void)!) -> RemoteFileDownloader {
         self.onProgressBlocks.append(onProgressBlock)
         return self
     }
@@ -123,18 +118,15 @@ public class RemoteFileDownloader
     ///
     /// ----------------------------------------------------------------------------
     
-    @discardableResult public func onError(_ onErrorBlock:((NSError)->Void)!) -> RemoteFileDownloader
-    {
+    @discardableResult public func onError(_ onErrorBlock:((NSError)->Void)!) -> RemoteFileDownloader {
         self.onErrorBlocks.append(onErrorBlock)
         return self
     }
     
     //------------------------------------------------------------------------------
     
-    fileprivate func executeOnProgressBlocks()
-    {
-        for block in self.onProgressBlocks
-        {
+    fileprivate func executeOnProgressBlocks() {
+        for block in self.onProgressBlocks {
             block(self)
         }
     }
@@ -143,55 +135,43 @@ public class RemoteFileDownloader
     
     fileprivate func executeOnErrorBlocks(_ error:NSError)
     {
-        for block in self.onErrorBlocks
-        {
+        for block in self.onErrorBlocks {
             block(error)
         }
     }
     
     //------------------------------------------------------------------------------
     
-    fileprivate func executeOnCompletionBlocks()
-    {
-        for block in self.onCompletionBlocks
-        {
+    fileprivate func executeOnCompletionBlocks() {
+        for block in self.onCompletionBlocks {
             block(self)
         }
     }
     
     //------------------------------------------------------------------------------
     
-    public func beginDownload()
-    {
-        if (self.checkForFileExistence())
-        {
+    public func beginDownload() {
+        if (self.checkForFileExistence()) {
             self.executeOnCompletionBlocks()
-        }
-        else
-        {
+        } else {
             let destination:DownloadRequest.DownloadFileDestination = { _, _ in return (self.localURL, []) }
             
             self.request = Alamofire.download(self.remoteURL, method: .get, to: destination)
-                .downloadProgress
-                {
+                .downloadProgress {
                     (progress) -> Void in
                     self.downloadProgress = progress.fractionCompleted
                     self.updatedAt = Date()
                     self.executeOnProgressBlocks()
-                }
-                .response
-                {
+                }.response {
                     (response) -> Void in
-                    if let error = response.error
-                    {
+                    if let error = response.error {
                         print("download error")
                         print(error)
                         self.request?.cancel()
                         self.request = nil
                         self.executeOnErrorBlocks(error as NSError)
-                    }
-                    else
-                    {
+                        
+                    } else {
                         self.executeOnCompletionBlocks()
                     }
                 }
@@ -200,12 +180,9 @@ public class RemoteFileDownloader
     
     //------------------------------------------------------------------------------
     
-    public func pauseDownload()
-    {
-        if let _ = self.request
-        {
-            if (self.downloadProgress < 1.0) && !self.suspended
-            {
+    public func pauseDownload() {
+        if let _ = self.request {
+            if (self.downloadProgress < 1.0) && !self.suspended {
                 self.request?.suspend()
                 self.suspended = true
             }
@@ -214,24 +191,19 @@ public class RemoteFileDownloader
     
     //------------------------------------------------------------------------------
     
-    public func resumeDownload()
-    {
+    public func resumeDownload() {
         // IF there's already a request
-        if let _ = self.request
-        {
+        if let _ = self.request {
             self.suspended = false
             self.request?.resume()
-        }
-        else if (self.downloadProgress < 1.0)
-        {
+        } else if (self.downloadProgress < 1.0) {
             self.beginDownload()
         }
     }
     
     //------------------------------------------------------------------------------
     
-    public func cancelDownload()
-    {
+    public func cancelDownload() {
         self.request?.cancel()
     }
 }

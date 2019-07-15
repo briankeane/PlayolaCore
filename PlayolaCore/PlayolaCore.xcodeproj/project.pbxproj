@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */; };
 		4B01DBAB203619C40031B417 /* LocalVoiceTrackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B01DBAA203619C40031B417 /* LocalVoiceTrackStatus.swift */; };
 		4B01DBAC203619C40031B417 /* LocalVoiceTrackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B01DBAA203619C40031B417 /* LocalVoiceTrackStatus.swift */; };
 		4B01DBAD203619C40031B417 /* LocalVoiceTrackStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B01DBAA203619C40031B417 /* LocalVoiceTrackStatus.swift */; };
@@ -488,9 +487,10 @@
 		4BF4CF151F743DCB0011C117 /* PlayolaErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4CF131F743DCB0011C117 /* PlayolaErrorType.swift */; };
 		4BF4CF161F743DCB0011C117 /* PlayolaErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4CF131F743DCB0011C117 /* PlayolaErrorType.swift */; };
 		4BF4CF171F743DCB0011C117 /* PlayolaErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4CF131F743DCB0011C117 /* PlayolaErrorType.swift */; };
-		4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */; };
-		8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */; };
-		B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */; };
+		989B4F0B2F64C55FDE4CB7A7 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3B8FBD249075290CEE71F3 /* Pods_PlayolaCoreIOSTests.framework */; };
+		A7603534AC383425C8151B0B /* Pods_PlayolaCoreIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF84DFBC47B64FEEBD964BE2 /* Pods_PlayolaCoreIOS.framework */; };
+		C23E585C97A809AD448B20AC /* Pods_PlayolaCoreOSXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 370195C4F2650DEF5054B284 /* Pods_PlayolaCoreOSXTests.framework */; };
+		E0013D656E8B853FE350EC17 /* Pods_PlayolaCoreOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F684D5738566F5129C166731 /* Pods_PlayolaCoreOSX.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -511,10 +511,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		012DB980C9EC63C62555145D /* Pods-PlayolaCoreIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.release.xcconfig"; sourceTree = "<group>"; };
-		43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		370195C4F2650DEF5054B284 /* Pods_PlayolaCoreOSXTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreOSXTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		393468B2B1F54D99D699F143 /* Pods-PlayolaCoreOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.release.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.release.xcconfig"; sourceTree = "<group>"; };
+		3AE41D7852D9C115EF1A0C79 /* Pods-PlayolaCoreIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.release.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		491A3B2727918E96A0AF02AA /* Pods-PlayolaCoreOSXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.debug.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4B01AAE822DCBA72008B9699 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B01DBAA203619C40031B417 /* LocalVoiceTrackStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVoiceTrackStatus.swift; sourceTree = "<group>"; };
 		4B065BB7203A025100D4FA9C /* ParseMultipleUsersResponseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ParseMultipleUsersResponseOperation.swift; path = ../Sources/Core/ParseMultipleUsersResponseOperation.swift; sourceTree = "<group>"; };
 		4B065BBC203A1AF800D4FA9C /* ParseSignInResponseOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ParseSignInResponseOperation.swift; path = ../Sources/Core/ParseSignInResponseOperation.swift; sourceTree = "<group>"; };
@@ -706,14 +707,14 @@
 		4BF434C01F7ECC9A00E79F59 /* IOSAutoUpdatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IOSAutoUpdatingButton.swift; path = ../Sources/iosOnly/IOSAutoUpdatingButton.swift; sourceTree = "<group>"; };
 		4BF434C31F7ECD6600E79F59 /* PlayButtonUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayButtonUpdater.swift; path = ../Sources/Player/PlayButtonUpdater.swift; sourceTree = "<group>"; };
 		4BF4CF131F743DCB0011C117 /* PlayolaErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayolaErrorType.swift; path = ../Sources/Core/PlayolaErrorType.swift; sourceTree = "<group>"; };
-		79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
-		8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
-		BB8D2BD2B70914F0D783C26E /* Pods-PlayolaCoreIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.debug.xcconfig"; sourceTree = "<group>"; };
-		CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreOSXTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D907DE16E56F2E4F4D68C322 /* Pods-PlayolaCoreOSXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.release.xcconfig"; sourceTree = "<group>"; };
-		E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52388F50B95F81572CFCC9BE /* Pods-PlayolaCoreIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.debug.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.debug.xcconfig"; sourceTree = "<group>"; };
+		6B3B8FBD249075290CEE71F3 /* Pods_PlayolaCoreIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7069AB5BC2A853661475DFC /* Pods-PlayolaCoreIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOSTests.debug.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A7B8AE623A524EA983A45447 /* Pods-PlayolaCoreOSXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSXTests.release.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests.release.xcconfig"; sourceTree = "<group>"; };
+		B56A6CC67F4CD5A5674F0849 /* Pods-PlayolaCoreIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreIOS.release.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreIOS/Pods-PlayolaCoreIOS.release.xcconfig"; sourceTree = "<group>"; };
+		CF84DFBC47B64FEEBD964BE2 /* Pods_PlayolaCoreIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4E9512CF86865ABBDEA0DF6 /* Pods-PlayolaCoreOSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlayolaCoreOSX.debug.xcconfig"; path = "Target Support Files/Pods-PlayolaCoreOSX/Pods-PlayolaCoreOSX.debug.xcconfig"; sourceTree = "<group>"; };
+		F684D5738566F5129C166731 /* Pods_PlayolaCoreOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlayolaCoreOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -721,7 +722,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C4FBEA255DD264DA208C1CD /* Pods_PlayolaCoreIOS.framework in Frameworks */,
+				A7603534AC383425C8151B0B /* Pods_PlayolaCoreIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,7 +731,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B361B8B1F44663D00654968 /* PlayolaCoreIOS.framework in Frameworks */,
-				4EEAE5CA594C900961F8B9C0 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */,
+				989B4F0B2F64C55FDE4CB7A7 /* Pods_PlayolaCoreIOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,7 +739,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6D0F5334A0405DA04A87671 /* Pods_PlayolaCoreOSX.framework in Frameworks */,
+				E0013D656E8B853FE350EC17 /* Pods_PlayolaCoreOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,24 +748,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B361BA71F44664B00654968 /* PlayolaCoreOSX.framework in Frameworks */,
-				8B352D8458875151EA3B6427 /* Pods_PlayolaCoreOSXTests.framework in Frameworks */,
+				C23E585C97A809AD448B20AC /* Pods_PlayolaCoreOSXTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03BD8008700CDB5A9CF46102 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E20AE50233491E153AA5BEF3 /* Pods_PlayolaCoreIOS.framework */,
-				8D88574362D551E0EF87768D /* Pods_PlayolaCoreIOSTests.framework */,
-				EDEA962412E4A08CA23B8F88 /* Pods_PlayolaCoreOSX.framework */,
-				CBF8A2938A12447E667A706A /* Pods_PlayolaCoreOSXTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		4B1F65921F5202F6003CC78A /* PlayolaModelRefreshHandler */ = {
 			isa = PBXGroup;
 			children = (
@@ -840,8 +830,8 @@
 				4B361B9F1F44664B00654968 /* PlayolaCoreOSX */,
 				4B361BAA1F44664B00654968 /* PlayolaCoreOSXTests */,
 				4B361B641F44661A00654968 /* Products */,
-				AAE24683FD508079C36DEDDD /* Pods */,
-				03BD8008700CDB5A9CF46102 /* Frameworks */,
+				DFAEF46C2429C4D0A4564621 /* Pods */,
+				6033E2EA3625B29A07A8BDD0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1205,19 +1195,31 @@
 			name = PlayolaCurrentUserInfo;
 			sourceTree = "<group>";
 		};
-		AAE24683FD508079C36DEDDD /* Pods */ = {
+		6033E2EA3625B29A07A8BDD0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BB8D2BD2B70914F0D783C26E /* Pods-PlayolaCoreIOS.debug.xcconfig */,
-				A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */,
-				43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */,
-				012DB980C9EC63C62555145D /* Pods-PlayolaCoreIOSTests.release.xcconfig */,
-				79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */,
-				2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */,
-				2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */,
-				D907DE16E56F2E4F4D68C322 /* Pods-PlayolaCoreOSXTests.release.xcconfig */,
+				4B01AAE822DCBA72008B9699 /* Alamofire.framework */,
+				CF84DFBC47B64FEEBD964BE2 /* Pods_PlayolaCoreIOS.framework */,
+				6B3B8FBD249075290CEE71F3 /* Pods_PlayolaCoreIOSTests.framework */,
+				F684D5738566F5129C166731 /* Pods_PlayolaCoreOSX.framework */,
+				370195C4F2650DEF5054B284 /* Pods_PlayolaCoreOSXTests.framework */,
 			);
-			name = Pods;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DFAEF46C2429C4D0A4564621 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				52388F50B95F81572CFCC9BE /* Pods-PlayolaCoreIOS.debug.xcconfig */,
+				B56A6CC67F4CD5A5674F0849 /* Pods-PlayolaCoreIOS.release.xcconfig */,
+				A7069AB5BC2A853661475DFC /* Pods-PlayolaCoreIOSTests.debug.xcconfig */,
+				3AE41D7852D9C115EF1A0C79 /* Pods-PlayolaCoreIOSTests.release.xcconfig */,
+				F4E9512CF86865ABBDEA0DF6 /* Pods-PlayolaCoreOSX.debug.xcconfig */,
+				393468B2B1F54D99D699F143 /* Pods-PlayolaCoreOSX.release.xcconfig */,
+				491A3B2727918E96A0AF02AA /* Pods-PlayolaCoreOSXTests.debug.xcconfig */,
+				A7B8AE623A524EA983A45447 /* Pods-PlayolaCoreOSXTests.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1260,7 +1262,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361B931F44663D00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreIOS" */;
 			buildPhases = (
-				0E427BE043D0E20714B3FE83 /* [CP] Check Pods Manifest.lock */,
+				572474C73E57C41F8C96B4C0 /* [CP] Check Pods Manifest.lock */,
 				4B361B7D1F44663D00654968 /* Sources */,
 				4B361B7E1F44663D00654968 /* Frameworks */,
 				4B361B7F1F44663D00654968 /* Headers */,
@@ -1279,11 +1281,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361B961F44663D00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreIOSTests" */;
 			buildPhases = (
-				666F8F9B06025D0CF3E1893E /* [CP] Check Pods Manifest.lock */,
+				B5CEDAD6132063759B1A4CC2 /* [CP] Check Pods Manifest.lock */,
 				4B361B861F44663D00654968 /* Sources */,
 				4B361B871F44663D00654968 /* Frameworks */,
 				4B361B881F44663D00654968 /* Resources */,
-				636227E4C788BDCBFB998DB9 /* [CP] Embed Pods Frameworks */,
+				DDA9EF4EEFD420F3687933BB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1299,7 +1301,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361BAF1F44664B00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreOSX" */;
 			buildPhases = (
-				CB74D5FDA2EECB1EA24598AC /* [CP] Check Pods Manifest.lock */,
+				6EBB470C7DBFD3614167824D /* [CP] Check Pods Manifest.lock */,
 				4B361B991F44664B00654968 /* Sources */,
 				4B361B9A1F44664B00654968 /* Frameworks */,
 				4B361B9B1F44664B00654968 /* Headers */,
@@ -1318,11 +1320,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B361BB21F44664B00654968 /* Build configuration list for PBXNativeTarget "PlayolaCoreOSXTests" */;
 			buildPhases = (
-				D984E74CA874E385A627AE3A /* [CP] Check Pods Manifest.lock */,
+				598997964299A9524D4F8A1B /* [CP] Check Pods Manifest.lock */,
 				4B361BA21F44664B00654968 /* Sources */,
 				4B361BA31F44664B00654968 /* Frameworks */,
 				4B361BA41F44664B00654968 /* Resources */,
-				8B7152DFD907BC7A09B76356 /* [CP] Embed Pods Frameworks */,
+				256AD3115E135A2237EDBF48 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1347,25 +1349,25 @@
 					4B361B811F44663D00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					4B361B891F44663D00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					4B361B9D1F44664B00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					4B361BA51F44664B00654968 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = FSRSPV9N9Q;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1375,6 +1377,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 4B361B591F44661A00654968;
@@ -1478,16 +1481,42 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E427BE043D0E20714B3FE83 /* [CP] Check Pods Manifest.lock */ = {
+		256AD3115E135A2237EDBF48 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		572474C73E57C41F8C96B4C0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreIOS-checkManifestLockResult.txt",
 			);
@@ -1496,98 +1525,42 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		636227E4C788BDCBFB998DB9 /* [CP] Embed Pods Frameworks */ = {
+		598997964299A9524D4F8A1B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Nimble-iOS/Nimble.framework",
-				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs-iOS/OHHTTPStubs.framework",
-				"${BUILT_PRODUCTS_DIR}/Quick-iOS/Quick.framework",
-				"${BUILT_PRODUCTS_DIR}/Alamofire-iOS/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher-iOS/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-iOS/SwiftRemoteFileCache.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON-iOS/SwiftyJSON.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		666F8F9B06025D0CF3E1893E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreIOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreOSXTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8B7152DFD907BC7A09B76356 /* [CP] Embed Pods Frameworks */ = {
+		6EBB470C7DBFD3614167824D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Nimble-macOS/Nimble.framework",
-				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs-macOS/OHHTTPStubs.framework",
-				"${BUILT_PRODUCTS_DIR}/Quick-macOS/Quick.framework",
-				"${BUILT_PRODUCTS_DIR}/Alamofire-macOS/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher-macOS/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/PromiseKit.root-CorePromise-Foundation/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftRemoteFileCache-macOS/SwiftRemoteFileCache.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON-macOS/SwiftyJSON.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftRemoteFileCache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlayolaCoreOSXTests/Pods-PlayolaCoreOSXTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CB74D5FDA2EECB1EA24598AC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreOSX-checkManifestLockResult.txt",
 			);
@@ -1596,22 +1569,50 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D984E74CA874E385A627AE3A /* [CP] Check Pods Manifest.lock */ = {
+		B5CEDAD6132063759B1A4CC2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreOSXTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PlayolaCoreIOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDA9EF4EEFD420F3687933BB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+				"$(BUILT_PRODUCTS_DIR)/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PlayolaCoreIOSTests/Pods-PlayolaCoreIOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2184,7 +2185,7 @@
 		};
 		4B361B941F44663D00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB8D2BD2B70914F0D783C26E /* Pods-PlayolaCoreIOS.debug.xcconfig */;
+			baseConfigurationReference = 52388F50B95F81572CFCC9BE /* Pods-PlayolaCoreIOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2201,13 +2202,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		4B361B951F44663D00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A5206BFFDE0117D4350994FD /* Pods-PlayolaCoreIOS.release.xcconfig */;
+			baseConfigurationReference = B56A6CC67F4CD5A5674F0849 /* Pods-PlayolaCoreIOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2223,15 +2224,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		4B361B971F44663D00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43C55B6D58D87270D3D701C2 /* Pods-PlayolaCoreIOSTests.debug.xcconfig */;
+			baseConfigurationReference = A7069AB5BC2A853661475DFC /* Pods-PlayolaCoreIOSTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
 				INFOPLIST_FILE = PlayolaCoreIOSTests/Info.plist;
@@ -2240,15 +2241,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PlayolaCoreIOSTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		4B361B981F44663D00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 012DB980C9EC63C62555145D /* Pods-PlayolaCoreIOSTests.release.xcconfig */;
+			baseConfigurationReference = 3AE41D7852D9C115EF1A0C79 /* Pods-PlayolaCoreIOSTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = FSRSPV9N9Q;
 				INFOPLIST_FILE = PlayolaCoreIOSTests/Info.plist;
@@ -2256,13 +2257,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fm.playola.PlayolaCoreIOSTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PlayolaCoreIOSTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		4B361BB01F44664B00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79A14DE083431C03EBB42D3C /* Pods-PlayolaCoreOSX.debug.xcconfig */;
+			baseConfigurationReference = F4E9512CF86865ABBDEA0DF6 /* Pods-PlayolaCoreOSX.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -2282,13 +2283,13 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		4B361BB11F44664B00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E52893CA0026F9699BE7FE6 /* Pods-PlayolaCoreOSX.release.xcconfig */;
+			baseConfigurationReference = 393468B2B1F54D99D699F143 /* Pods-PlayolaCoreOSX.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -2307,15 +2308,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 		4B361BB31F44664B00654968 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2AA22055B54A89F6B44E4BA2 /* Pods-PlayolaCoreOSXTests.debug.xcconfig */;
+			baseConfigurationReference = 491A3B2727918E96A0AF02AA /* Pods-PlayolaCoreOSXTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2328,15 +2329,15 @@
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "PlayolaCoreOSXTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		4B361BB41F44664B00654968 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D907DE16E56F2E4F4D68C322 /* Pods-PlayolaCoreOSXTests.release.xcconfig */;
+			baseConfigurationReference = A7B8AE623A524EA983A45447 /* Pods-PlayolaCoreOSXTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2348,7 +2349,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "PlayolaCoreOSXTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

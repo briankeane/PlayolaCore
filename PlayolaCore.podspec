@@ -19,6 +19,7 @@ Pod::Spec.new do |s|
     s.osx.deployment_target = '10.12'
     s.source       = { :git => "https://github.com/briankeane/PlayolaCore.git", :tag => s.version }
     s.exclude_files = []
+    s.swift_version = "5.0"
     # s.ios.frameworks = 'AudioToolbox','AVFoundation','GLKit', 'Accelerate'
     # s.osx.frameworks = 'AudioToolbox','AudioUnit','CoreAudio','QuartzCore','OpenGL','GLKit', 'Accelerate'
     # s.requires_arc = true;
