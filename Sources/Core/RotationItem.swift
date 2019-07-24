@@ -20,8 +20,8 @@ open class RotationItem: Hashable
     
     //------------------------------------------------------------------------------
     
-    public var hashValue:Int {
-        return id.hashValue
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     
     public static func == (lhs: RotationItem, rhs: RotationItem) -> Bool {
