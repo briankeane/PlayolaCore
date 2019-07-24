@@ -8,12 +8,12 @@
 
 Pod::Spec.new do |s|
     s.name         = "PlayolaCore"
-    s.version      = "0.2.5"
+    s.version      = "0.3.0"
     s.summary      = "Basic Playola Communication and Models."
     s.homepage     = "https://github.com/briankeane/PlayolaCore.git"
     s.license      = { :type => 'MIT' }
     s.swift_version = "4.2"
-    s.pod_target_xcconfig = { "SWIFT_VERSION" => "4.2" }
+    s.pod_target_xcconfig = { "SWIFT_VERSION" => "5.0" }
     s.author       = { "Brian Keane" => "brian@playola.fm" }
     s.ios.deployment_target = '10.3'
     s.osx.deployment_target = '10.12'
